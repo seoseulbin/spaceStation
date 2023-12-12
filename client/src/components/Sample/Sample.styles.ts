@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.main};
   font-size: ${({ theme }) => theme.size.md}px;
-  max-width: calc(${({ theme }) => theme.size.maxWidth} - 10) px;
+  max-width: calc(${({ theme }) => theme.size.maxWidth}px - 10px);
   &:hover {
     background-color: green;
   }

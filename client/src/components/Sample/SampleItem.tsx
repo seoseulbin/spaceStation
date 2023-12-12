@@ -5,7 +5,7 @@ import { SampleType } from "./Sample.type";
 export default function SampleItem({ item }: { item: SampleType }) {
   return (
     <>
-      <S.Container>{item.age}</S.Container>
+      <S.Container>{item.content}</S.Container>
     </>
   );
 }

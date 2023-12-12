@@ -3,7 +3,7 @@ import axios from "axios";
 import { SampleType } from "./Sample.type";
 
 const instance = axios.create({
-  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/sample`,
+  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/samples`,
 });
 
 const sampleAPI = {
@@ -11,7 +11,8 @@ const sampleAPI = {
     const res = await instance.get<SampleType[]>(`/`);
     return res.data;
   },
-  async postSample(props: SampleType) {
+
+  async postSample(props: { content: SampleType["content"] }) {
     return instance.post(`/`, props);
   },
 };

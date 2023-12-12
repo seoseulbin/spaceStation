@@ -3,6 +3,8 @@ import { useMutation, useQuery } from "react-query";
 import { queryClient, queryKeys } from "@/global/reactQeury";
 import { SampleType } from "./Sample.type";
 import sampleAPI from "./Sample.api";
+import toast from "react-hot-toast";
+import { AxiosError } from "axios";
 
 /**
  * 샘플 훅
@@ -22,6 +24,9 @@ export const useSample = () => {
   const postSample = useMutation({
     mutationFn: sampleAPI.postSample,
     onSuccess: invalidateSampleQuery,
+    onError: (err) => {
+      toast.error(err instanceof AxiosError ? err.message : "unknown error");
+    },
   }).mutateAsync;
 
   return { samples, postSample, ...rest };
