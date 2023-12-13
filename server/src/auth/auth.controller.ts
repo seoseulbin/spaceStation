@@ -3,9 +3,10 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
 import axios, { AxiosResponse } from "axios";
 import express, { Response, } from "express";
+import authService from "./auth.service.js";
 
 
-const kakaoGetUserInflURL = "https://kapi.kakao.com/v2/user/me";
+const kakaoGetUserInfoURL = "https://kapi.kakao.com/v2/user/me";
 const kakaoGetTokenURL = "https://kauth.kakao.com/oauth/token";
 
 const authController = {
@@ -18,13 +19,24 @@ const authController = {
         
     const userInfo = await getUserInfo(accessToken);
 
-    res.json(userInfo);
+    const isNewUser = await authService.searchUsers(userInfo.id);
+
     
-    //res.redirect(`/api/auth/kakao?code=${code}`);
-  }),
-  handleAccountValidation: asyncHandler(async (req:express.Request, res:Response) => {
-    res.json("계정이 존재하는 지 검증");
-  }),
+    if(isNewUser.length === 0) {
+      throw new CustomError({
+        status: 400,
+        message: "가입 정보가 존재하지 않습니다.",
+      });
+    }
+   
+    res.status(200)
+      .json({
+        message: "가입 정보가 존재합니다.",
+        user: isNewUser,
+      });
+    return;
+
+    }),
 };
 
 export default authController;
@@ -76,11 +88,18 @@ async function getUserInfo(accessToken:string):Promise<any> {
     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
     "Authorization": `Bearer ${accessToken}`,
   };
-
-  const result: AxiosResponse<any> = await axios.get(kakaoGetUserInflURL, {headers: header})
-  return {
-    id : result.data.id, 
-    nickname : result.data.kakao_account.profile.nickname,
-    profile: result.data.kakao_account.profile.thumbnail_image_url,
+  
+  try {
+    const result: AxiosResponse<any> = await axios.get(kakaoGetUserInfoURL, {headers: header})
+    return {
+      id : result.data.id, 
+      nickname : result.data.kakao_account.profile.nickname,
+      profile: result.data.kakao_account.profile.thumbnail_image_url,
+    }
+  } catch (error) {
+    throw new CustomError({
+      status: 500,
+      message: "Internal Server Error",
+    });
   }
 }
