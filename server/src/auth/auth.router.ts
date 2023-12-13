@@ -3,6 +3,9 @@ import authController from "./auth.controller.js";
 
 const authRouter = Router();
 
-authRouter.get("/kakao", authController.getKakaoAppkey);
+authRouter.get("/oauth", 
+  authController.handleKakaoOAuthProcess);
+authRouter.get("/", 
+  authController.handleAccountValidation);
 
 export default authRouter;
