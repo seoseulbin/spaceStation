@@ -49,7 +49,6 @@ const feedController = {
         message: "요청에 필요한 정보가 부족합니다.",
       });
     }
-
     feedService.deleteFeed({ id });
     res.status(204).end();
   }),

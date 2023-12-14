@@ -1,5 +1,5 @@
 import FeedModel from "./feed.model.js";
-
+import mongoose from "mongoose";
 const feedService = {
   async createFeed({
     userId,
@@ -34,7 +34,9 @@ const feedService = {
   },
 
   async deleteFeed({ id }: { id: string }) {
-    return FeedModel.deleteOne({ id });
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    return FeedModel.deleteOne({ _id: objectId });
   },
 };
 
