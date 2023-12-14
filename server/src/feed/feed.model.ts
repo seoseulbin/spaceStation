@@ -16,14 +16,17 @@ const FeedSchema = new Schema<FeedSchemaType>(
   {
     userId: {
       type: Schema.Types.ObjectId,
+      ref: "user",
       required: true,
     },
     comments: {
       type: [Schema.Types.ObjectId],
+      ref: "comment",
       default: [],
     },
     category: {
       type: Schema.Types.ObjectId,
+      ref: "category",
       required: true,
     },
     imgUrls: {
