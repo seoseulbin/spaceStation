@@ -14,7 +14,7 @@ const authController = {
   handleKakaoOAuthProcess: asyncHandler(async (req:express.Request, res:Response) => {
     
     const code = await validateKakaoOAuthCode(req.query.code as string);
-  
+
     const { accessToken }:{ accessToken: string } = await getKakaoAccessToken(code);
         
     const userInfo = await getUserInfo(accessToken);
@@ -33,6 +33,7 @@ const authController = {
       .json({
         message: "가입 정보가 존재합니다.",
         user: isNewUser,
+        userInfo : userInfo,
       });
     return;
 
@@ -77,29 +78,30 @@ async function getKakaoAccessToken(code: string):Promise<{ accessToken: string }
   } catch (error) {
     throw new CustomError({
       status: 500,
-      message: "Internal Server Error",
+      message: "엑세스 토큰 발급에 실패했습니다.",
     });
   }
 }
 
 // 발급된 액세스 토큰으로 유저 정보를 반환하는 함수
 async function getUserInfo(accessToken:string):Promise<any> {
-  const header = {
+  const headers = {
     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
     "Authorization": `Bearer ${accessToken}`,
   };
   
   try {
-    const result: AxiosResponse<any> = await axios.get(kakaoGetUserInfoURL, {headers: header})
+    const result: AxiosResponse<any> = await axios.get(kakaoGetUserInfoURL, { headers });
+    const { nickname, thumbnail_image_url } = result.data.kakao_account.profile;
     return {
       id : result.data.id, 
-      nickname : result.data.kakao_account.profile.nickname,
-      profile: result.data.kakao_account.profile.thumbnail_image_url,
+      nickname : nickname ? nickname : null,
+      profile: thumbnail_image_url ? thumbnail_image_url : null,
     }
   } catch (error) {
     throw new CustomError({
       status: 500,
-      message: "Internal Server Error",
+      message: "카카오 회원 정보 조회에 실패했습니다.",
     });
   }
 }
