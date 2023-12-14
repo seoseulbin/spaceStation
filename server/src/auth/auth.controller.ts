@@ -19,20 +19,14 @@ const authController = {
       const userInfo = await getUserInfo(data.accessToken);
 
       const isNewUser = await userService.searchUsers(userInfo.id);
+      const action = isNewUser.length === 0 ? "join" : "login";
 
-      if (isNewUser.length === 0) {
-        // 회원 정보가 존재하지 않을 경우
-        console.log("가입 정보가 존재하지 않습니다.");
-        const result = await handleUser(userInfo, "join");
-        const token = generateJWT(result.user._id, result.user.nickname);
-        console.log(result, token);
-        res.cookie("service_token", token, { httpOnly: true });
-        res.redirect(`${process.env.FRONTEND_URL}`);
-        return;
-      }
-
-      console.log("가입 정보가 존재합니다.");
-      const result = await handleUser(userInfo, "login");
+      console.log(
+        `가입 정보가 ${
+          action === "join" ? "존재하지 않습니다." : "존재합니다."
+        }`,
+      );
+      const result = await handleAuthUser(userInfo, action);
       const token = generateJWT(result.user._id, result.user.nickname);
       console.log(result, token);
       res.cookie("service_token", token, { httpOnly: true });
@@ -42,22 +36,31 @@ const authController = {
   handleLogin: asyncHandler(async (req: express.Request, res: Response) => {
     const snsId = req.body.snsId;
     const result = await userService.signIn(snsId);
-    if (result !== null) {
-      res.status(200).json({
-        message: "로그인에 성공했습니다.",
-        user: result,
+    if (!result) {
+      res.status(400).json({
+        message: "존재하지 않는 id입니다.",
       });
+      return;
     }
+
+    res.status(200).json({
+      message: "로그인에 성공했습니다.",
+      user: result,
+    });
   }),
   handleJoin: asyncHandler(async (req: express.Request, res: Response) => {
     const snsId = req.body.snsId;
     const result = await userService.signUp(snsId);
-    if (result !== null) {
-      res.status(200).json({
-        message: "회원 가입에 성공했습니다.",
-        user: result,
+    if (!result) {
+      res.status(400).json({
+        message: "회원 가입에 실패했습니다.",
       });
+      return;
     }
+    res.status(200).json({
+      message: "회원 가입에 성공했습니다.",
+      user: result,
+    });
   }),
 };
 
@@ -145,7 +148,7 @@ function generateJWT(userId: string, nickname: string): string {
 }
 
 // /api/auth/join API를 호출하여 결과를 반환하는 함수
-async function handleUser(userInfo: { id: string }, api: string) {
+async function handleAuthUser(userInfo: { id: string }, api: string) {
   const data = {
     snsId: userInfo.id,
   };
