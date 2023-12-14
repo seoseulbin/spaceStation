@@ -1,56 +1,60 @@
 import "dotenv/config";
 import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
-import axios, { AxiosResponse } from "axios";
-import express, { Response, } from "express";
-import authService from "./auth.service.js";
-
+import express, { Response } from "express";
+import authService from "./auth.authService.js";
+import userService from "./auth.userService.js";
 
 const kakaoGetUserInfoURL = "https://kapi.kakao.com/v2/user/me";
 const kakaoGetTokenURL = "https://kauth.kakao.com/oauth/token";
 
 const authController = {
+  handleKakaoOAuthProcess: asyncHandler(
+    async (req: express.Request, res: Response) => {
+      const code = await validateKakaoOAuthCode(req.query.code as string);
 
-  handleKakaoOAuthProcess: asyncHandler(async (req:express.Request, res:Response) => {
-    
-    const code = await validateKakaoOAuthCode(req.query.code as string);
+      const data = await getKakaoAccessToken(code);
+      //console.log("access_token", data.accessToken);
+      const userInfo = await getUserInfo(data.accessToken);
 
-    const { accessToken }:{ accessToken: string } = await getKakaoAccessToken(code);
-        
-    const userInfo = await getUserInfo(accessToken);
+      const isNewUser = await authService.searchUsers(userInfo.id);
 
-    const isNewUser = await authService.searchUsers(userInfo.id);
+      if (isNewUser.length === 0) {
+        console.log("가입 정보가 존재하지 않습니다.");
+        const result = await userService.signUp(userInfo.id);
+        if (result !== null) {
+          res.redirect(`${process.env.FRONTEND_URL}`);
+          return;
+        }
+      }
 
-    
-    if(isNewUser.length === 0) {
-      res.status(200)
-        .json({
-          message: "가입 정보가 존재하지 않습니다.",
-          user: isNewUser,
-          userInfo : userInfo,
-      });
-    }
-   
-    res.status(200)
-      .json({
+      res.status(200).json({
         message: "가입 정보가 존재합니다.",
         user: isNewUser,
-        userInfo : userInfo,
+        userInfo: userInfo,
       });
-    return;
-
-    }),
+    },
+  ),
+  handleLogin: asyncHandler(async () => {
+    return await userService.signIn();
+  }),
+  handleJoin: asyncHandler(async (req: express.Request, res: Response) => {
+    const snsId = req.body.snsId;
+    const result = await userService.signUp(snsId);
+    if (result !== null) {
+      res.status(200).json({
+        message: "회원 가입에 성공했습니다.",
+        user: result,
+      });
+    }
+  }),
 };
 
 export default authController;
 
-
-
 // 인가 코드 검증하는 함수
-export async function validateKakaoOAuthCode (
-  code:string 
-) {
-  if (typeof code === 'undefined') {
+export async function validateKakaoOAuthCode(code: string) {
+  if (typeof code === "undefined") {
     throw new CustomError({
       status: 400,
       message: "Authorized Code가 존재하지 않습니다.",
@@ -60,23 +64,32 @@ export async function validateKakaoOAuthCode (
 }
 
 // 인가 코드를 사용하여 카카오 액세스 토큰을 발급받아 리턴하는 함수
-async function getKakaoAccessToken(code: string):Promise<{ accessToken: string }> {
+async function getKakaoAccessToken(
+  code: string,
+): Promise<{ accessToken: string }> {
   const REST_API_KEY: string | undefined = process.env.REST_API_KEY as string;
-  const FRONTEND_URL: string | undefined = process.env.FRONTEND_URL as string;
+  const BACKEND_URL: string | undefined = process.env.BACKEND_URL as string;
 
   const headers = {
     "Content-Type": "application/x-www-form-urlencoded",
   };
 
-  const data = new URLSearchParams();
-  data.append("grant_type", "authorization_code");
-  data.append("client_id", REST_API_KEY);
-  data.append("redirect_uri", `${FRONTEND_URL}/login?oauth=kakao`);
-  data.append("code", code);
+  const data = {
+    grant_type: "authorization_code",
+    client_id: REST_API_KEY,
+    redirect_uri: `${BACKEND_URL}/api/auth/oauth`,
+    code: code,
+  };
+  //console.log(data);
 
   try {
-    const response: AxiosResponse<any> = await axios.post(kakaoGetTokenURL, data, { headers });
-    return { accessToken:response.data.access_token };
+    const response = await fetch(kakaoGetTokenURL, {
+      method: "POST",
+      headers: headers,
+      body: new URLSearchParams(data),
+    });
+    const result = await response.json();
+    return { accessToken: result.access_token };
   } catch (error) {
     throw new CustomError({
       status: 500,
@@ -86,20 +99,17 @@ async function getKakaoAccessToken(code: string):Promise<{ accessToken: string }
 }
 
 // 발급된 액세스 토큰으로 유저 정보를 반환하는 함수
-async function getUserInfo(accessToken:string):Promise<any> {
+async function getUserInfo(accessToken: string): Promise<any> {
   const headers = {
     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-    "Authorization": `Bearer ${accessToken}`,
+    Authorization: "Bearer " + accessToken,
   };
-  
+  //console.log(headers);
+
   try {
-    const result: AxiosResponse<any> = await axios.get(kakaoGetUserInfoURL, { headers });
-    const { nickname, thumbnail_image_url } = result.data.kakao_account.profile;
-    return {
-      snsId : result.data.id, 
-      nickname : nickname ? nickname : null,
-      profileImgUrl: thumbnail_image_url ? thumbnail_image_url : null,
-    }
+    const response = await fetch(kakaoGetUserInfoURL, { headers });
+    const result = await response.json();
+    return result;
   } catch (error) {
     throw new CustomError({
       status: 500,
