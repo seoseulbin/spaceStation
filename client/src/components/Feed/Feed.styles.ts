@@ -2,4 +2,5 @@ import styled from "styled-components";
 
 export const ImageContainer = styled.div`
   display: flex;
+  height: 20rem;
 `;

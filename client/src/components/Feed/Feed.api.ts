@@ -11,7 +11,7 @@ const feedAPI = {
       `/?cursor=${cursor}&limit=${limit}`,
     );
 
-    return { data, nextCursor: cursor + 3 };
+    return { data, nextCursor: cursor + limit };
   },
 };
 

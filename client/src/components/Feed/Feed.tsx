@@ -3,7 +3,7 @@ import { useFeed } from "./Feed.hooks";
 import * as S from "./Feed.styles";
 
 export default function Feed() {
-  const { data, fetchNextPage, isLoading, isError, error } = useFeed();
+  const { data, isLoading, isError, error, setTarget } = useFeed();
 
   if (isLoading) return "loading...";
   if (isError) return error.message;
@@ -22,7 +22,7 @@ export default function Feed() {
           </Fragment>
         )),
       )}
-      <button onClick={() => fetchNextPage()}>next</button>
+      <div ref={setTarget}></div>
     </>
   );
 }

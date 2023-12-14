@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { queryKeys } from "@/config/reactQeury";
 import feedAPI from "./Feed.api";
+import { useIntersectionObserver } from "../common/hooks/useIntersectionObserver";
 
 export const useFeed = () => {
   const results = useInfiniteQuery({
@@ -11,5 +12,10 @@ export const useFeed = () => {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
-  return results;
+  const { setTarget } = useIntersectionObserver({
+    onIntersect: results.fetchNextPage,
+    shouldBeBlocked: !results.hasNextPage || results.isError,
+  });
+
+  return { ...results, setTarget };
 };
