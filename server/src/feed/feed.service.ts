@@ -15,9 +15,27 @@ const feedService = {
     return FeedModel.create({ userId, category, content, imgUrls });
   },
 
-  //   async updateFeed() {},
+  async updateFeed({
+    id,
+    category,
+    content,
+    imgUrls,
+  }: {
+    id: string;
+    category: string;
+    content: string;
+    imgUrls: string[];
+  }) {
+    return FeedModel.findByIdAndUpdate(id, {
+      category,
+      content,
+      imgUrls,
+    });
+  },
 
-  //   async deleteFeed() {},
+  async deleteFeed({ id }: { id: string }) {
+    return FeedModel.deleteOne({ id });
+  },
 };
 
 export default feedService;
