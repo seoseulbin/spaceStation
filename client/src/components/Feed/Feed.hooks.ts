@@ -1,13 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { queryKeys } from "@/config/reactQeury";
-import { FeedType } from "./Feed.type";
 import feedAPI from "./Feed.api";
 
 export const useFeed = () => {
-  const { data: feeds, ...rest } = useQuery<FeedType[], Error>({
+  const results = useInfiniteQuery({
     queryKey: [queryKeys.feed],
-    queryFn: feedAPI.getFeeds,
+    queryFn: ({ pageParam }) =>
+      feedAPI.getFeeds({ cursor: pageParam, limit: 3 }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
-  return { feeds, ...rest };
+  return results;
 };

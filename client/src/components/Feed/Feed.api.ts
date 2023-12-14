@@ -6,10 +6,12 @@ const instance = axios.create({
 });
 
 const feedAPI = {
-  async getFeeds() {
-    const res = await instance.get<FeedType[]>(`/`);
+  async getFeeds({ cursor, limit }: { cursor: number; limit: number }) {
+    const { data } = await instance.get<FeedType[]>(
+      `/?cursor=${cursor}&limit=${limit}`,
+    );
 
-    return res.data;
+    return { data, nextCursor: cursor + 3 };
   },
 };
 
