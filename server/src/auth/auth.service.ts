@@ -1,13 +1,9 @@
-//import jwt from "jsonwebtoken";
 import UserModel from "../user/user.model.js";
 
-// export type userType = {
-//   snsId: string;
-//   nickname: string ;
-//   profileImgUrl: string ;
-// };
-
 const userService = {
+  async searchUsers(snsId: string) {
+    return await UserModel.find({ snsId: snsId });
+  },
   async signUp(snsId: string) {
     const user = {
       snsId,
@@ -19,7 +15,9 @@ const userService = {
 
     return await UserModel.create(user);
   },
-  async signIn() {},
+  async signIn(snsId: string) {
+    return await UserModel.findOne({ snsId: snsId });
+  },
 };
 
 export default userService;

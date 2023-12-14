@@ -1,9 +1,10 @@
+import jwt from "jsonwebtoken";
 import "dotenv/config";
 import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
 import express, { Response } from "express";
-import authService from "./auth.authService.js";
-import userService from "./auth.userService.js";
+//import authService from "./auth.authService.js";
+import userService from "./auth.service.js";
 
 const kakaoGetUserInfoURL = "https://kapi.kakao.com/v2/user/me";
 const kakaoGetTokenURL = "https://kauth.kakao.com/oauth/token";
@@ -17,26 +18,36 @@ const authController = {
       //console.log("access_token", data.accessToken);
       const userInfo = await getUserInfo(data.accessToken);
 
-      const isNewUser = await authService.searchUsers(userInfo.id);
+      const isNewUser = await userService.searchUsers(userInfo.id);
 
       if (isNewUser.length === 0) {
+        // 회원 정보가 존재하지 않을 경우
         console.log("가입 정보가 존재하지 않습니다.");
-        const result = await userService.signUp(userInfo.id);
-        if (result !== null) {
-          res.redirect(`${process.env.FRONTEND_URL}`);
-          return;
-        }
+        const result = await handleUser(userInfo, "join");
+        const token = generateJWT(result.user._id, result.user.nickname);
+        console.log(result, token);
+        res.cookie("service_token", token, { httpOnly: true });
+        res.redirect(`${process.env.FRONTEND_URL}`);
+        return;
       }
 
-      res.status(200).json({
-        message: "가입 정보가 존재합니다.",
-        user: isNewUser,
-        userInfo: userInfo,
-      });
+      console.log("가입 정보가 존재합니다.");
+      const result = await handleUser(userInfo, "login");
+      const token = generateJWT(result.user._id, result.user.nickname);
+      console.log(result, token);
+      res.cookie("service_token", token, { httpOnly: true });
+      res.redirect(`${process.env.FRONTEND_URL}`);
     },
   ),
-  handleLogin: asyncHandler(async () => {
-    return await userService.signIn();
+  handleLogin: asyncHandler(async (req: express.Request, res: Response) => {
+    const snsId = req.body.snsId;
+    const result = await userService.signIn(snsId);
+    if (result !== null) {
+      res.status(200).json({
+        message: "로그인에 성공했습니다.",
+        user: result,
+      });
+    }
   }),
   handleJoin: asyncHandler(async (req: express.Request, res: Response) => {
     const snsId = req.body.snsId;
@@ -116,4 +127,42 @@ async function getUserInfo(accessToken: string): Promise<any> {
       message: "카카오 회원 정보 조회에 실패했습니다.",
     });
   }
+}
+
+// JWT 토큰 생성하고 반환하는 함수
+function generateJWT(userId: string, nickname: string): string {
+  const expirationTime = Math.floor(Date.now() / 1000) + 60 * 60 * 24; // 현재시간 + @, e.g. 60*60 = 1시간 후 만료
+  const payload = {
+    user_id: userId,
+    nickname: nickname,
+    exp: expirationTime,
+  };
+
+  const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
+  const token = jwt.sign(payload, secretKey);
+
+  return token;
+}
+
+// /api/auth/join API를 호출하여 결과를 반환하는 함수
+async function handleUser(userInfo: { id: string }, api: string) {
+  const data = {
+    snsId: userInfo.id,
+  };
+  const response = await fetch(`${process.env.BACKEND_URL}/api/auth/${api}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  const result = await response.json();
+  if (!result) {
+    throw new CustomError({
+      status: 500,
+      message:
+        api && "join" ? "회원 가입에 실패했습니다." : "로그인에 실패했습니다.",
+    });
+  }
+  return result;
 }
