@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import "dotenv/config";
 import sampleRouter from "./sample/sample.router.js";
+import commentRouter from "./comments/comments.router.js";
 import errorHandler from "./middleware/errorHandler.js";
 import feedRouter from "./feed/feed.router.js";
 
@@ -29,6 +30,7 @@ app.use(
 
 app.use("/api/samples", sampleRouter);
 app.use("/api/feeds", feedRouter);
+app.use("/api/comments", commentRouter);
 
 app.use(errorHandler);
 
