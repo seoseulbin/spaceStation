@@ -1,6 +1,6 @@
 //import styled from "styled-components";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 export default function Auth() {
@@ -12,7 +12,7 @@ export default function Auth() {
   const searchParams = new URLSearchParams(location.search);
   const authCode: string | null = searchParams.get('code');
   
-  const [ currentUser, setCurrentUser ] = useState({});
+  //const [ currentUser, setCurrentUser ] = useState({});
 
   useEffect( () => {
     const params = {
@@ -21,14 +21,18 @@ export default function Auth() {
     axios.get(KAKAO_ACCOUNT_INFO_URL, { params })
     .then(response => {
       const currentUser = response.data.user;
-      console.log(currentUser);
-      if(response.data.user.length === 0) {
+      const { snsId, nickname, profileImgUrl } = response.data.userInfo;
+        const data = {
+          snsId,  nickname, profileImgUrl
+        }
+      //console.log(currentUser);
+      if(currentUser.length === 0) {
         console.log("계정을 찾을 수 없습니다. 신규 가입!");
-        axios.post(JOIN_URL, { currentUser })
+        axios.post(JOIN_URL, data)
           .then(response => console.log(response.data));
       } else {
         console.log("계정을 찾았습니다. 로그인!");
-        axios.post(LOGIN_URL, { currentUser })
+        axios.post(LOGIN_URL, data)
           .then(response => console.log(response.data));
       }
     })

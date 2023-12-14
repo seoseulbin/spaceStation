@@ -23,9 +23,11 @@ const authController = {
 
     
     if(isNewUser.length === 0) {
-      throw new CustomError({
-        status: 400,
-        message: "가입 정보가 존재하지 않습니다.",
+      res.status(200)
+        .json({
+          message: "가입 정보가 존재하지 않습니다.",
+          user: isNewUser,
+          userInfo : userInfo,
       });
     }
    
@@ -94,9 +96,9 @@ async function getUserInfo(accessToken:string):Promise<any> {
     const result: AxiosResponse<any> = await axios.get(kakaoGetUserInfoURL, { headers });
     const { nickname, thumbnail_image_url } = result.data.kakao_account.profile;
     return {
-      id : result.data.id, 
+      snsId : result.data.id, 
       nickname : nickname ? nickname : null,
-      profile: thumbnail_image_url ? thumbnail_image_url : null,
+      profileImgUrl: thumbnail_image_url ? thumbnail_image_url : null,
     }
   } catch (error) {
     throw new CustomError({

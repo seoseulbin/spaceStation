@@ -1,8 +1,8 @@
 import UserModel from "../user/user.model.js";
 
 type searchProps = {
-    id: string;
-  };
+  id: string;
+};
 
 const authService = {
   async searchUsers (id:searchProps) {
