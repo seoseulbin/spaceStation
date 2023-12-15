@@ -1,20 +1,23 @@
 import FollowModel from "./follow.model.js";
 
+type FollowPostType = {
+  follower: string;
+  following: string;
+};
+
 const followService = {
-  async getFollows() {
-    return FollowModel.find({});
+  async getFollows(userid: string) {
+    const followingList = await FollowModel.find({ following: userid });
+    const followerList = await FollowModel.find({ follower: userid });
+
+    return { following: followingList, follower: followerList };
   },
-  async postFollow({
-    follower,
-    following,
-  }: {
-    follower: string;
-    following: string;
-  }) {
+
+  async postFollow({ follower, following }: FollowPostType) {
     return FollowModel.create({ follower, following });
   },
-  async deleteFollow(_id: string) {
-    return FollowModel.deleteOne({ _id });
+  async deleteFollow(follower: string) {
+    return FollowModel.deleteOne({ follower });
   },
 };
 

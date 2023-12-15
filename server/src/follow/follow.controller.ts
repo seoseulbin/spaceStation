@@ -4,8 +4,16 @@ import { CustomError } from "../middleware/errorHandler.js";
 import followService from "./follow.service.js";
 
 const followController = {
-  getFollows: asyncHandler(async (req, res) => {
-    const follows = await followService.getFollows();
+  getFollows: asyncHandler(async (req: Request<{ userid?: string }>, res) => {
+    const { userid } = req.params;
+    if (!userid)
+      //TODO: follower ID 검증
+      throw new CustomError({
+        status: 400,
+        message: "유효하지 않은 ID입니다.",
+      });
+
+    const follows = await followService.getFollows(userid);
     res.json(follows);
   }),
 
@@ -26,14 +34,15 @@ const followController = {
     },
   ),
   deleteFollow: asyncHandler(
-    async (req: Request<{ followid?: string }>, res) => {
-      const { followid } = req.params;
-      if (!followid)
+    async (req: Request<{ follower?: string }>, res) => {
+      const { follower } = req.params;
+      if (!follower)
+        //TODO: follower ID 검증
         throw new CustomError({
           status: 400,
           message: "유효하지 않은 ID입니다.",
         });
-      await followService.deleteFollow(followid);
+      await followService.deleteFollow(follower);
       res.status(200).end();
     },
   ),

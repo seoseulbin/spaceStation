@@ -7,8 +7,10 @@ const followRouter = Router();
 // followRouter.post("/",isAuth,followController.postFollow);
 // followRouter.delete("/:followid",isAuth,followController.deleteFollow);
 
-followRouter.get("/", followController.getFollows);
+//followRouter.get("/", followController.getFollows);
+followRouter.get("/:userid", followController.getFollows);
+
 followRouter.post("/", followController.postFollow);
-followRouter.delete("/:followid", followController.deleteFollow);
+followRouter.delete("/:follower", followController.deleteFollow);
 
 export default followRouter;

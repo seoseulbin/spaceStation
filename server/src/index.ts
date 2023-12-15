@@ -5,6 +5,8 @@ import "dotenv/config";
 import sampleRouter from "./sample/sample.router.js";
 import errorHandler from "./middleware/errorHandler.js";
 import feedRouter from "./feed/feed.router.js";
+import followRouter from "./follow/follow.router.js";
+import userRouter from "./user/user.router.js";
 
 const { PORT, MONGODB_URL, FRONTEND_URL } = process.env;
 if (!PORT || !MONGODB_URL || !FRONTEND_URL) {
@@ -29,7 +31,8 @@ app.use(
 
 app.use("/api/samples", sampleRouter);
 app.use("/api/feeds", feedRouter);
-
+app.use("/api/follows", followRouter);
+app.use("/api/users", userRouter);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
