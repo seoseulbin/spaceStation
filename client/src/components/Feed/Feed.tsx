@@ -17,7 +17,7 @@ export default function Feed() {
           </Fragment>
         )),
       )}
-      <div ref={setTarget}></div>
+      <div ref={setTarget}>loading ...</div>
     </>
   );
 }

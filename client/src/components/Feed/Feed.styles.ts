@@ -64,3 +64,11 @@ export const MoreReadButton = styled.button`
 
   line-height: 14px;
 `;
+
+export const GridFeedItem = styled.div<{ $column: number }>`
+  display: grid;
+  grid-template-columns: repeat(${({ $column }) => $column}, 1fr);
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+`;

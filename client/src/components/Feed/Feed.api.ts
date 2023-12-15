@@ -13,6 +13,28 @@ const feedAPI = {
 
     return { data, nextCursor: cursor + limit };
   },
+
+  async getUserFeeds(props: { userId: string; cursor: number; limit: number }) {
+    const { userId, cursor, limit } = props;
+    const { data } = await instance.get<FeedType[]>(
+      `/?userId=${userId}&cursor=${cursor}&limit=${limit}`,
+    );
+
+    return { data, nextCursor: cursor + limit };
+  },
+
+  async getCategoryFeeds(props: {
+    category: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { category, cursor, limit } = props;
+    const { data } = await instance.get<FeedType[]>(
+      `/?category=${category}&cursor=${cursor}&limit=${limit}`,
+    );
+
+    return { data, nextCursor: cursor + limit };
+  },
 };
 
 export default feedAPI;
