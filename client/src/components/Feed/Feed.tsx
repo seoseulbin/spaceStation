@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { useFeed } from "./Feed.hooks";
-import FeedImageContainer from "./FeedImageContainer";
+import FeedItem from "./FeedItem";
 
 export default function Feed() {
   const { data, isLoading, isError, error, setTarget } = useFeed();
@@ -13,8 +13,7 @@ export default function Feed() {
       {data!.pages.map(({ data: feeds }) =>
         feeds.map((feed) => (
           <Fragment key={feed._id}>
-            <FeedImageContainer imgUrls={feed.imgUrls} />
-            <div>{feed.content}</div>
+            <FeedItem {...feed} />
           </Fragment>
         )),
       )}
