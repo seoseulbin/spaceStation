@@ -17,7 +17,7 @@ const followService = {
     return FollowModel.create({ follower, following });
   },
   async deleteFollow(follower: string) {
-    return FollowModel.deleteOne({ follower });
+    return FollowModel.deleteOne({ follower: follower });
   },
 };
 

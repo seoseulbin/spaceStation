@@ -33,6 +33,7 @@ const followController = {
       res.status(200).end();
     },
   ),
+
   deleteFollow: asyncHandler(
     async (req: Request<{ follower?: string }>, res) => {
       const { follower } = req.params;

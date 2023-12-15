@@ -3,10 +3,6 @@ import followController from "./follow.controller.js";
 
 const followRouter = Router();
 
-// followRouter.get("/",isAuth ,followController.getFollows);
-// followRouter.post("/",isAuth,followController.postFollow);
-// followRouter.delete("/:followid",isAuth,followController.deleteFollow);
-
 //followRouter.get("/", followController.getFollows);
 followRouter.get("/:userid", followController.getFollows);
 
