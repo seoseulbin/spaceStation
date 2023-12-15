@@ -37,7 +37,7 @@ const authController = {
     const snsId = req.body.snsId;
     const result = await userService.signIn(snsId);
     if (!result) {
-      res.status(400).json({
+      res.status(404).json({
         message: "존재하지 않는 id입니다.",
       });
       return;
@@ -57,7 +57,7 @@ const authController = {
       });
       return;
     }
-    res.status(200).json({
+    res.status(201).json({
       message: "회원 가입에 성공했습니다.",
       user: result,
     });
