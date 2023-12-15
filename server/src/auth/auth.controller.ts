@@ -29,7 +29,7 @@ const authController = {
       const result = await handleAuthUser(userInfo, action);
       const token = generateJWT(result.user._id, result.user.nickname);
       console.log(result, token);
-      res.cookie("service_token", token, { httpOnly: true });
+      res.cookie("service_token", token, { path: "/", httpOnly: true });
       res.redirect(`${process.env.FRONTEND_URL}`);
     },
   ),
@@ -61,6 +61,10 @@ const authController = {
       message: "회원 가입에 성공했습니다.",
       user: result,
     });
+  }),
+  handleLogout: asyncHandler(async (req: express.Request, res: Response) => {
+    res.clearCookie("service_token", { path: "/" });
+    res.status(204).redirect(`${process.env.FRONTEND_URL}`);
   }),
 };
 
