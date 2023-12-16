@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import AnchorButton from "@/components/Button/AnchorButton/AnchorButton";
-import { theme } from "../global/styles/theme";
 
 export default function LoginPage() {
   const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;

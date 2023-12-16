@@ -3,17 +3,24 @@ import * as S from "./AnchorButton.styles.ts";
 export default function AnchorButton({
   label,
   url,
-  bgColor,
-  textColor,
+  bgcolor,
+  textcolor,
+  onClick,
 }: {
   label: string;
-  url: string;
-  bgColor: string;
-  textColor: string;
+  url: string | undefined;
+  bgcolor: string;
+  textcolor: string;
+  onClick: () => void;
 }) {
   return (
     <>
-      <S.AnchorButton href={url} bgColor={bgColor} textColor={textColor}>
+      <S.AnchorButton
+        href={url}
+        onClick={onClick}
+        bgcolor={bgcolor}
+        textcolor={textcolor}
+      >
         {label}
       </S.AnchorButton>
     </>
