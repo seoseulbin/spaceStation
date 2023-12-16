@@ -6,6 +6,10 @@ import sampleRouter from "./sample/sample.router.js";
 import commentRouter from "./comments/comments.router.js";
 import errorHandler from "./middleware/errorHandler.js";
 import feedRouter from "./feed/feed.router.js";
+import followRouter from "./follow/follow.router.js";
+import userRouter from "./user/user.router.js";
+import authRouter from "./auth/auth.router.js";
+import cookieParser from "cookie-parser";
 
 const { PORT, MONGODB_URL, FRONTEND_URL } = process.env;
 if (!PORT || !MONGODB_URL || !FRONTEND_URL) {
@@ -27,10 +31,14 @@ app.use(
     credentials: true,
   }),
 );
+app.use(cookieParser());
 
 app.use("/api/samples", sampleRouter);
 app.use("/api/feeds", feedRouter);
 app.use("/api/comments", commentRouter);
+app.use("/api/follows", followRouter);
+app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
 
 app.use(errorHandler);
 
