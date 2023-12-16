@@ -1,5 +1,6 @@
 import FeedModel from "./feed.model.js";
 import mongoose from "mongoose";
+
 const feedService = {
   async createFeed({
     userId,
@@ -26,11 +27,16 @@ const feedService = {
     content: string;
     imgUrls: string[];
   }) {
-    return FeedModel.findByIdAndUpdate(id, {
-      category,
-      content,
-      imgUrls,
-    });
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    return FeedModel.findByIdAndUpdate(
+      { _id: objectId },
+      {
+        category,
+        content,
+        imgUrls,
+      },
+    );
   },
 
   async deleteFeed({ id }: { id: string }) {
