@@ -31,7 +31,9 @@ const authController = {
         result.user.nickname,
       );
       res.cookie("service_token", token, { path: "/", httpOnly: true });
-      res.redirect(`${process.env.FRONTEND_URL}`);
+      res.redirect(
+        `${process.env.FRONTEND_URL}/login?id=${result.user._id}&nickname=${result.user.nickname}`,
+      );
     },
   ),
   handleLogin: asyncHandler(async (req: express.Request, res: Response) => {
