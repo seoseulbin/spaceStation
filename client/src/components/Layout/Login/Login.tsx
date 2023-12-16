@@ -18,26 +18,47 @@ export default function Login() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const [nickname, setNickname] = useState("");
+  const [currentNickname, setCurrentNickname] = useState("");
   const [currentUserId, setCurrentUserId] = useState("");
 
   useEffect(() => {
+    const localUserData = localStorage.getItem("currentUser");
     const id = searchParams.get("id");
     const nickname = searchParams.get("nickname");
-    setCurrentUserId(id as string);
-    setNickname(nickname as string);
-    navigate(location.pathname);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  useEffect(() => {
-    if (nickname) {
+    if (localUserData != null) {
+      const currentUser = JSON.parse(localUserData as string);
+      setCurrentUserId(currentUser.userId);
+      setCurrentNickname(currentUser.nickname);
+    }
+    if (id && nickname) {
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify({
+          userId: id,
+          nickname: nickname,
+        }),
+      );
+      setCurrentUserId(id as string);
+      setCurrentNickname(nickname as string);
+    }
+
+    if (currentNickname) {
       toast.success(
-        `"${nickname}(${currentUserId.slice(0, 5)}...)"(으)로 로그인 했습니다.`,
+        `"${currentNickname}(${currentUserId.slice(
+          0,
+          5,
+        )}...)"(으)로 로그인 했습니다.`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nickname]);
+    navigate(location.pathname);
+  }, [
+    location.pathname,
+    currentUserId,
+    searchParams,
+    navigate,
+    currentNickname,
+  ]);
 
   function handleWithdraw() {
     const data = {};
@@ -47,8 +68,9 @@ export default function Login() {
       })
       .then((response) => {
         setCurrentUserId("");
-        setNickname("");
+        setCurrentNickname("");
         toast.success(response.data.message);
+        delete localStorage.currentUser;
       });
   }
 
@@ -60,14 +82,15 @@ export default function Login() {
       })
       .then(() => {
         setCurrentUserId("");
-        setNickname("");
+        setCurrentNickname("");
         toast.success("로그아웃 되었습니다.");
+        delete localStorage.currentUser;
       });
   }
 
   return (
     <S.Container>
-      {!currentUserId && (
+      {!localStorage.getItem("currentUser") && (
         <AnchorButton
           bgcolor="#fde433"
           textcolor="#333"
@@ -76,7 +99,7 @@ export default function Login() {
           label="카카오 계정으로 로그인"
         />
       )}
-      {currentUserId && (
+      {localStorage.getItem("currentUser") && (
         <>
           <AnchorButton
             bgcolor={subColor}
