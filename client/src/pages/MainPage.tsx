@@ -1,9 +1,9 @@
-import Sample from "@/components/Sample/Sample";
+import Feed from "@/components/Feed/Feed";
 
 export default function MainPage() {
   return (
     <>
-      <Sample />
+      <Feed />
     </>
   );
 }

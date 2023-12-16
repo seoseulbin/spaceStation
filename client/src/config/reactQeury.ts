@@ -13,4 +13,7 @@ export const queryKeys = {
   sample: "SAMPLE",
   follow: "FOLLOW",
   user: "USER",
+  feed: "FEED",
+  feedUser: "FEED_USER",
+  feedCategory: "FEED_CATEGORY",
 };

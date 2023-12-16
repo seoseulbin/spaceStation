@@ -3,7 +3,7 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
 import followService from "./follow.service.js";
 
-const userId = "657c89bb7e02fb18144b1dc0"; //쿠키를 통해 받아오는 userid middleware에서 처리 필요
+const userId = "657c89bb7e02fb18144b1dc0"; //TODO: 쿠키를 통해 받아오는 userid middleware에서 처리 필요
 
 const followController = {
   getFollows: asyncHandler(async (req: Request<{ userid?: string }>, res) => {

@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { RequestHandler } from "express";
 
-const asyncHandler = (requestHandler: RequestHandler) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+const asyncHandler = (requestHandler: RequestHandler): RequestHandler => {
+  return async (req, res, next) => {
     try {
       await requestHandler(req, res, next);
     } catch (error) {

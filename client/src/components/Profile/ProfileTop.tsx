@@ -5,7 +5,7 @@ import * as S from "./Profile.styles";
 let temp = 0; //임시 변수
 //TODO: 내 프로필인지 다른 사람 프로필인지, 팔언팔 상태에 대한 분기 처리 필요
 
-const userid = "657ae3e09566ca0e802a2676"; //쿼리스트링으로 받아와야 하는 값
+const userid = "657ae3e09566ca0e802a2676"; //TODO: 쿼리스트링으로 받아와야 하는 값
 //TODO: 테스트 ui 컴포넌트 분리 필요
 
 export default function ProfileTop() {

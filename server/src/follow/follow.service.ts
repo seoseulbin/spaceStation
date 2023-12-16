@@ -40,10 +40,6 @@ const followService = {
   async deleteFollowById(_id: string) {
     return FollowModel.deleteOne({ _id });
   },
-
-  async checkFollow() {
-    return {}; //해당 유저를 팔로우했는지, 본인인지..?확인하는 분기..?
-  },
 };
 
 export default followService;
