@@ -18,7 +18,7 @@ interface CommentProps {
 export default function Comment({ feedIds }: CommentProps) {
   //선택한 피드를 추적 / 선택된 피드가 없으면 null
   const [selectedFeedId, setSelectedFeedId] = useState<string | null>(
-    feedIds && feedIds.length > 0 ? feedIds[0] : null,
+    feedIds && feedIds.length ? feedIds[0] : null,
   );
 
   const { comments, postComment, deleteComment, isLoading, isError, error } =
