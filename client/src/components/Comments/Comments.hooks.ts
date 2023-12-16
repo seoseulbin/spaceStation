@@ -5,9 +5,6 @@ import commentAPI from "./Comments.api";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
-/**
- * 샘플 훅
- */
 export const useComment = (feedId: string | null) => {
   const { data: comments, ...rest } = useQuery<CommentType[], Error>({
     queryKey: [queryKeys.comment, feedId],
@@ -42,12 +39,10 @@ export const useComment = (feedId: string | null) => {
       return commentAPI.postComment({ content, userId, feedId });
     },
     onSuccess: () => {
-      // console.log("포스트 성공!");
       toast.success("포스트 성공!");
       invalidateCommentQuery();
     },
     onError: (err) => {
-      // console.error("에러: ", err);
       toast.error(err instanceof AxiosError ? err.message : "에러다 에러");
     },
   }).mutateAsync;
@@ -57,7 +52,6 @@ export const useComment = (feedId: string | null) => {
       return commentAPI.deleteComment(commentId);
     },
     onSuccess: () => {
-      // console.log("삭제 성공!");
       toast.success("Comment deleted successfully");
       invalidateCommentQuery();
     },

@@ -4,7 +4,6 @@ export const Container = styled.div`
   background-color: none;
   font-size: ${({ theme }) => theme.size.md}px;
   max-width: calc(${({ theme }) => theme.size.maxWidth}px - 10px);
-  max-height: 870px;
   &:hover {
     background-color: lightgray;
   }

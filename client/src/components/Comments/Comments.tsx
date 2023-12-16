@@ -1,15 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useComment } from "./Comments.hooks";
 import CommentItem from "./CommentItems";
-import {
-  FeedContainer,
-  CommentWindowContainer,
-  InputWrapper,
-  InputField,
-  SubmitButton,
-  FeedCommentButton,
-  CancelButton,
-} from "./Comments.styles";
+import * as S from "./Comments.styles";
 
 interface CommentProps {
   feedIds: string[];
@@ -47,9 +39,6 @@ export default function Comment({ feedIds }: CommentProps) {
         return;
       }
 
-      //피드아이디1 => 657bbb1f59008937d6e424b8
-      //피드아이디2 => 657ad9c4b22e76aea1ff6bf4
-
       //댓글 내용 불러오기
       await postComment({
         content: comment,
@@ -57,7 +46,6 @@ export default function Comment({ feedIds }: CommentProps) {
         feedId: selectedFeedId,
         createdAt: new Date(),
       });
-      //console.log(comment);
 
       //게시한 후 비워주기
       setComment("");
@@ -86,16 +74,20 @@ export default function Comment({ feedIds }: CommentProps) {
   if (isError) return error.message;
 
   return (
-    <FeedContainer>
+    <S.FeedContainer>
+      {/*나중에 feed와 연결하면 지울 버튼 로직입니다*/}
       {feedIds &&
         feedIds.map((feedId) => (
-          <FeedCommentButton key={feedId} onClick={() => selectFeedId(feedId)}>
+          <S.FeedCommentButton
+            key={feedId}
+            onClick={() => selectFeedId(feedId)}
+          >
             feed:{feedId} 댓글모음
-          </FeedCommentButton>
+          </S.FeedCommentButton>
         ))}
 
       {showCommentInput && (
-        <CommentWindowContainer>
+        <S.CommentWindowContainer>
           {comments &&
             comments.map((comment) => (
               <CommentItem
@@ -104,8 +96,8 @@ export default function Comment({ feedIds }: CommentProps) {
                 onDelete={onDeleteComment}
               />
             ))}
-          <InputWrapper onSubmit={onSubmit}>
-            <InputField
+          <S.InputWrapper onSubmit={onSubmit}>
+            <S.InputField
               type="text"
               placeholder="댓글달기..."
               name="contentInfo"
@@ -113,11 +105,11 @@ export default function Comment({ feedIds }: CommentProps) {
               onChange={onChange}
             />
 
-            {comment && <SubmitButton type="submit">SEND</SubmitButton>}
-          </InputWrapper>
-          <CancelButton onClick={onCancel}>취소</CancelButton>
-        </CommentWindowContainer>
+            {comment && <S.SubmitButton type="submit">SEND</S.SubmitButton>}
+          </S.InputWrapper>
+          <S.CancelButton onClick={onCancel}>취소</S.CancelButton>
+        </S.CommentWindowContainer>
       )}
-    </FeedContainer>
+    </S.FeedContainer>
   );
 }

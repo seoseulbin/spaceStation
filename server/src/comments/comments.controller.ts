@@ -6,7 +6,6 @@ import commentService from "./comments.service.js";
 const commentController = {
   getComment: asyncHandler(async (req, res) => {
     const feedId = req.params.feedId;
-    //console.log("받은 피드 아이디:", feedId);
 
     if (!feedId) {
       //일단 아이디 없으면 에러
