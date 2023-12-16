@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import "dotenv/config";
 import { CustomError } from "../middleware/errorHandler.js";
 import UserModel from "../user/user.model.js";
@@ -21,6 +21,20 @@ export const userService = {
   },
   async signIn(snsId: string) {
     return await UserModel.findOne({ snsId: snsId });
+  },
+  async withdrawUser(userId: string) {
+    return await UserModel.findOneAndUpdate(
+      { _id: userId },
+      { deletedAt: new Date() },
+      { new: true },
+    );
+  },
+  async revertDeletedUser(snsId: string) {
+    return await UserModel.findOneAndUpdate(
+      { snsId: snsId },
+      { deletedAt: null },
+      { new: true },
+    );
   },
 };
 
@@ -102,6 +116,12 @@ export const authService = {
     const token = jwt.sign(payload, secretKey);
 
     return token;
+  },
+  extractDataFromToken(userToken: string, key: string) {
+    const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
+    const jwtDecoded = jwt.verify(userToken, secretKey) as JwtPayload;
+
+    return jwtDecoded[key];
   },
   async handleAuthUser(userInfo: { id: string }, api: string) {
     const data = {
