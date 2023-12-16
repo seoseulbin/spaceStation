@@ -22,6 +22,14 @@ const followService = {
   },
 
   async postFollow({ follower, following }: FollowPostType) {
+    const existingUser = await FollowModel.findOne({
+      follower: follower,
+      following: following,
+    });
+
+    if (existingUser) {
+      return { status: 400, message: "이미 팔로우 상태입니다." };
+    }
     return FollowModel.create({ follower, following });
   },
 
