@@ -3,9 +3,8 @@ import AnchorButton from "@/components/Button/AnchorButton/AnchorButton";
 import { theme } from "../global/styles/theme";
 
 export default function LoginPage() {
-  const REST_API_KEY = import.meta.env.VITE_REST_API_KEY;
+  const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
   const REDIRECT_URI = `${import.meta.env.VITE_BACKEND_URL}/api/auth/oauth`;
-  //console.log(REST_API_KEY, REDIRECT_URI);
   const authorizeURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   const mainColor = theme.colors.main;
 

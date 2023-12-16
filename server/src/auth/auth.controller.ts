@@ -3,7 +3,6 @@ import "dotenv/config";
 import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
 import express, { Response } from "express";
-//import authService from "./auth.authService.js";
 import userService from "./auth.service.js";
 
 const kakaoGetUserInfoURL = "https://kapi.kakao.com/v2/user/me";
@@ -15,7 +14,7 @@ const authController = {
       const code = await validateKakaoOAuthCode(req.query.code as string);
 
       const data = await getKakaoAccessToken(code);
-      //console.log("access_token", data.accessToken);
+
       const userInfo = await getUserInfo(data.accessToken);
 
       const isNewUser = await userService.searchUsers(userInfo.id);
@@ -81,7 +80,8 @@ export async function validateKakaoOAuthCode(code: string) {
 async function getKakaoAccessToken(
   code: string,
 ): Promise<{ accessToken: string }> {
-  const REST_API_KEY: string | undefined = process.env.REST_API_KEY as string;
+  const REST_API_KEY: string | undefined = process.env
+    .KAKAO_REST_API_KEY as string;
   const BACKEND_URL: string | undefined = process.env.BACKEND_URL as string;
 
   const headers = {
@@ -94,7 +94,6 @@ async function getKakaoAccessToken(
     redirect_uri: `${BACKEND_URL}/api/auth/oauth`,
     code: code,
   };
-  //console.log(data);
 
   try {
     const response = await fetch(kakaoGetTokenURL, {
@@ -118,7 +117,6 @@ async function getUserInfo(accessToken: string): Promise<any> {
     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
     Authorization: "Bearer " + accessToken,
   };
-  //console.log(headers);
 
   try {
     const response = await fetch(kakaoGetUserInfoURL, { headers });
