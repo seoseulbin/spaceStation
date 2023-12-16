@@ -2,7 +2,8 @@ import "dotenv/config";
 import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
 import express, { Response } from "express";
-import { userService, authService } from "./auth.service.js";
+import authService from "./auth.service.js";
+import userService from "../user/user.service.js";
 
 const authController = {
   handleKakaoOAuthProcess: asyncHandler(
