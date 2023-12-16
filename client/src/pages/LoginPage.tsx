@@ -6,7 +6,8 @@ export default function LoginPage() {
   const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
   const REDIRECT_URI = `${import.meta.env.VITE_BACKEND_URL}/api/auth/oauth`;
   const authorizeURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  const mainColor = theme.colors.main;
+  const logoutURL = `${import.meta.env.VITE_BACKEND_URL}/api/auth/logout`;
+  const subColor = theme.colors.sub;
 
   return (
     <Container>
@@ -17,10 +18,16 @@ export default function LoginPage() {
         label="카카오 계정으로 로그인"
       />
       <AnchorButton
-        bgColor={mainColor}
+        bgColor={subColor}
+        textColor="#FFF"
+        url={logoutURL}
+        label="로그아웃 버튼"
+      />
+      <AnchorButton
+        bgColor="red"
         textColor="#FFF"
         url={"#"}
-        label="테스트 버튼"
+        label="회원탈퇴 버튼"
       />
     </Container>
   );
