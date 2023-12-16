@@ -9,9 +9,10 @@ export default function LoginPage() {
   return (
     <Container>
       <AnchorButton
-        bgColor="#fde433"
-        textColor="#333"
+        bgcolor="#fde433"
+        textcolor="#333"
         url={authorizeURL}
+        onClick={() => {}}
         label="카카오 계정으로 로그인"
       />
     </Container>

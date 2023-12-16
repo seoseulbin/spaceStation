@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 type ButtonProps = {
-  bgColor: string;
-  textColor: string;
+  bgcolor: string;
+  textcolor: string;
 };
 
 export const AnchorButton = styled.a<ButtonProps>`
-  background-color: ${(props) => props.bgColor};
-  color: ${(props) => props.textColor};
+  background-color: ${(props) => props.bgcolor};
+  color: ${(props) => props.textcolor};
   border: none;
   border-radius: 5px;
   cursor: pointer;
