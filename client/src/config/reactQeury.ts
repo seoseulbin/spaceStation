@@ -16,4 +16,5 @@ export const queryKeys = {
   feed: "FEED",
   feedUser: "FEED_USER",
   feedCategory: "FEED_CATEGORY",
+  comment: "Comment",
 };

@@ -7,7 +7,8 @@ const router = createBrowserRouter([
   {
     path: PATH.root,
     element: <MainPage />,
-  },{
+  },
+  {
     path: PATH.login,
     element: <LoginPage />,
   },

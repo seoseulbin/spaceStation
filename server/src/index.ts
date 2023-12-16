@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import "dotenv/config";
 import sampleRouter from "./sample/sample.router.js";
+import commentRouter from "./comments/comments.router.js";
 import errorHandler from "./middleware/errorHandler.js";
 import feedRouter from "./feed/feed.router.js";
 import followRouter from "./follow/follow.router.js";
@@ -34,6 +35,7 @@ app.use(cookieParser());
 
 app.use("/api/samples", sampleRouter);
 app.use("/api/feeds", feedRouter);
+app.use("/api/comments", commentRouter);
 app.use("/api/follows", followRouter);
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
