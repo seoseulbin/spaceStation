@@ -68,25 +68,12 @@ const authController = {
     });
   }),
   handleLogout: asyncHandler(async (req: express.Request, res: Response) => {
-    const userToken = req.cookies.service_token;
-    if (!userToken) {
-      throw new CustomError({
-        status: 400,
-        message: "토큰이 없습니다.",
-      });
-    }
     res.clearCookie("service_token", { path: "/", maxAge: 0 });
     res.status(204).send();
   }),
   handleWithdraw: asyncHandler(async (req: express.Request, res: Response) => {
     const userToken = req.cookies.service_token;
-    if (!userToken) {
-      throw new CustomError({
-        status: 400,
-        message: "토큰이 없습니다.",
-      });
-    }
-    const userId = authService.extractUserIdFromToken(userToken);
+    const userId = authService.extractDataFromToken(userToken, "user_id");
     const result = await userService.withdrawUser(userId);
     if (!result) {
       throw new CustomError({

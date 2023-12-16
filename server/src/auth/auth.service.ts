@@ -117,11 +117,11 @@ export const authService = {
 
     return token;
   },
-  extractUserIdFromToken(userToken: string) {
+  extractDataFromToken(userToken: string, key: string) {
     const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
     const jwtDecoded = jwt.verify(userToken, secretKey) as JwtPayload;
 
-    return jwtDecoded.user_id;
+    return jwtDecoded[key];
   },
   async handleAuthUser(userInfo: { id: string }, api: string) {
     const data = {
