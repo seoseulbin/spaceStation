@@ -68,6 +68,20 @@ const authController = {
     res.clearCookie("service_token", { path: "/" });
     res.status(204).redirect(`${process.env.FRONTEND_URL}`);
   }),
+  handleWithdraw: asyncHandler(async (req: express.Request, res: Response) => {
+    const { userId } = req.body;
+    const result = await userService.withdrawUser(userId);
+    if (!result) {
+      throw new CustomError({
+        status: 400,
+        message: "회원 탈퇴에 실패했습니다.",
+      });
+    }
+    res.status(200).json({
+      message: "회원 탈퇴에 성공했습니다.",
+      user: result,
+    });
+  }),
 };
 
 export default authController;

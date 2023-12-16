@@ -22,6 +22,13 @@ export const userService = {
   async signIn(snsId: string) {
     return await UserModel.findOne({ snsId: snsId });
   },
+  async withdrawUser(userId: string) {
+    return await UserModel.findOneAndUpdate(
+      { id: userId },
+      { deletedAt: new Date() },
+      { new: true },
+    );
+  },
 };
 
 const kakaoGetUserInfoURL = "https://kapi.kakao.com/v2/user/me";

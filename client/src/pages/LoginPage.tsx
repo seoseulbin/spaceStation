@@ -9,24 +9,31 @@ export default function LoginPage() {
   const logoutURL = `${import.meta.env.VITE_BACKEND_URL}/api/auth/logout`;
   const subColor = theme.colors.sub;
 
+  function handleWithdraw() {
+    console.log("click");
+  }
+
   return (
     <Container>
       <AnchorButton
-        bgColor="#fde433"
-        textColor="#333"
+        bgcolor="#fde433"
+        textcolor="#333"
         url={authorizeURL}
+        onClick={() => {}}
         label="카카오 계정으로 로그인"
       />
       <AnchorButton
-        bgColor={subColor}
-        textColor="#FFF"
+        bgcolor={subColor}
+        textcolor="#FFF"
         url={logoutURL}
+        onClick={() => {}}
         label="로그아웃 버튼"
       />
       <AnchorButton
-        bgColor="red"
-        textColor="#FFF"
-        url={"#"}
+        bgcolor="red"
+        textcolor="#FFF"
+        onClick={handleWithdraw}
+        url={undefined}
         label="회원탈퇴 버튼"
       />
     </Container>
