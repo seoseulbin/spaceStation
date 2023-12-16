@@ -4,6 +4,7 @@ type ButtonProps = {
   bgColor: string;
   textColor: string;
 };
+
 export const AnchorButton = styled.a<ButtonProps>`
   background-color: ${(props) => props.bgColor};
   color: ${(props) => props.textColor};
