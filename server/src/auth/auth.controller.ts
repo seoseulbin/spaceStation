@@ -30,7 +30,6 @@ const authController = {
         result.user._id,
         result.user.nickname,
       );
-      console.log(result, token);
       res.cookie("service_token", token, { path: "/", httpOnly: true });
       res.redirect(`${process.env.FRONTEND_URL}`);
     },
@@ -43,6 +42,10 @@ const authController = {
         status: 404,
         message: "존재하지 않는 id입니다.",
       });
+    }
+
+    if (result.deletedAt !== null) {
+      await userService.revertDeletedUser(snsId);
     }
 
     res.status(200).json({
@@ -65,11 +68,25 @@ const authController = {
     });
   }),
   handleLogout: asyncHandler(async (req: express.Request, res: Response) => {
-    res.clearCookie("service_token", { path: "/" });
-    res.status(204).redirect(`${process.env.FRONTEND_URL}`);
+    const userToken = req.cookies.service_token;
+    if (!userToken) {
+      throw new CustomError({
+        status: 400,
+        message: "토큰이 없습니다.",
+      });
+    }
+    res.clearCookie("service_token", { path: "/", maxAge: 0 });
+    res.status(204).send();
   }),
   handleWithdraw: asyncHandler(async (req: express.Request, res: Response) => {
-    const { userId } = req.body;
+    const userToken = req.cookies.service_token;
+    if (!userToken) {
+      throw new CustomError({
+        status: 400,
+        message: "토큰이 없습니다.",
+      });
+    }
+    const userId = authService.extractUserIdFromToken(userToken);
     const result = await userService.withdrawUser(userId);
     if (!result) {
       throw new CustomError({
@@ -77,6 +94,7 @@ const authController = {
         message: "회원 탈퇴에 실패했습니다.",
       });
     }
+    res.clearCookie("service_token", { path: "/", maxAge: 0 });
     res.status(200).json({
       message: "회원 탈퇴에 성공했습니다.",
       user: result,

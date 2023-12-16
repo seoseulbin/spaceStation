@@ -5,6 +5,7 @@ type UserSchemaType = {
   nickname: string;
   snsId: string;
   profileImgUrl: string;
+  deletedAt: Number | null;
 };
 
 const UserSchema = new Schema<UserSchemaType>({
@@ -19,7 +20,11 @@ const UserSchema = new Schema<UserSchemaType>({
   profileImgUrl: {
     required: true,
     type: String,
-  }
+  },
+  deletedAt: {
+    default: null,
+    type: Number,
+  },
 });
 
 const UserModel = model("user", UserSchema);
