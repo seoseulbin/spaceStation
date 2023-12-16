@@ -25,7 +25,7 @@ export const userService = {
   async withdrawUser(userId: string) {
     return await UserModel.findOneAndUpdate(
       { _id: userId },
-      { deletedAt: Date.now() },
+      { deletedAt: new Date() },
       { new: true },
     );
   },
