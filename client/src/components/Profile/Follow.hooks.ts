@@ -9,7 +9,10 @@ import { AxiosError } from "axios";
  * 팔로우 훅
  */
 export const useFollow = (userid: string) => {
-  const { data: follows, ...rest } = useQuery<FollowType[], Error>({
+  const { data: follows, ...rest } = useQuery<
+    { follower: FollowType[]; following: FollowType[] },
+    Error
+  >({
     queryKey: [queryKeys.follow, userid],
     queryFn: () => followAPI.getFollows(userid),
   });
