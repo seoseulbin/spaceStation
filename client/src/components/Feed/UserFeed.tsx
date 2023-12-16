@@ -2,13 +2,14 @@ import { Link } from "react-router-dom";
 import { useUserFeed } from "./Feed.hooks";
 import * as S from "./Feed.styles";
 import { PATH } from "@/config/constants";
+import Loading from "../common/Loading";
 
 export default function UserFeed({ userId }: { userId: string }) {
   const { data, isLoading, isError, error, setTarget } = useUserFeed({
     userId,
   });
 
-  if (isLoading) return "loading...";
+  if (isLoading) return <Loading />;
   if (isError) return error.message;
 
   return (
@@ -25,7 +26,9 @@ export default function UserFeed({ userId }: { userId: string }) {
           ))}
         </S.GridFeedItem>
       ))}
-      <div ref={setTarget}>loading ...</div>
+      <div ref={setTarget}>
+        <Loading />
+      </div>
     </>
   );
 }

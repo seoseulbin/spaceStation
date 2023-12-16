@@ -2,13 +2,14 @@ import { Link } from "react-router-dom";
 import { useCategoryFeed } from "./Feed.hooks";
 import * as S from "./Feed.styles";
 import { PATH } from "@/config/constants";
+import Loading from "../common/Loading";
 
 export default function CategoryFeed({ category }: { category: string }) {
   const { data, isLoading, isError, error, setTarget } = useCategoryFeed({
     category,
   });
 
-  if (isLoading) return "loading...";
+  if (isLoading) return <Loading />;
   if (isError) return error.message;
 
   return (
@@ -25,7 +26,9 @@ export default function CategoryFeed({ category }: { category: string }) {
           ))}
         </S.GridFeedItem>
       ))}
-      <div ref={setTarget}>loading ...</div>
+      <div ref={setTarget}>
+        <Loading />
+      </div>
     </>
   );
 }

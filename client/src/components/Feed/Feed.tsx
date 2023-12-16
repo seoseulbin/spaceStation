@@ -1,11 +1,12 @@
 import { Fragment } from "react";
 import { useFeed } from "./Feed.hooks";
 import FeedItem from "./FeedItem";
+import Loading from "../common/Loading";
 
 export default function Feed() {
   const { data, isLoading, isError, error, setTarget } = useFeed();
 
-  if (isLoading) return "loading...";
+  if (isLoading) return <Loading />;
   if (isError) return error.message;
 
   return (
@@ -17,7 +18,9 @@ export default function Feed() {
           </Fragment>
         )),
       )}
-      <div ref={setTarget}>loading ...</div>
+      <div ref={setTarget}>
+        <Loading />
+      </div>
     </>
   );
 }
