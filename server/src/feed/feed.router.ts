@@ -14,5 +14,8 @@ feedRouter.get(
   ]),
   feedController.getFeeds,
 );
+feedRouter.post("/", feedController.createFeed);
+feedRouter.put("/:id", feedController.updateFeed);
+feedRouter.delete("/:id", feedController.deleteFeed);
 
 export default feedRouter;
