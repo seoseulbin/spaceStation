@@ -1,7 +1,7 @@
 import * as S from "./Login.styles";
 import toast from "react-hot-toast";
-import AnchorButton from "@/components/Button/AnchorButton/AnchorButton";
-import { theme } from "../../../global/styles/theme";
+import AnchorButton from "@/components/common/AnchorButton/AnchorButton";
+import { theme } from "../../global/styles/theme";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
