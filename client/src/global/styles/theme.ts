@@ -6,6 +6,7 @@ const colors = {
 
 const size = {
   maxWidth: 768,
+  maxheight: 1768,
   sm: 12,
   md: 16,
   lg: 20,

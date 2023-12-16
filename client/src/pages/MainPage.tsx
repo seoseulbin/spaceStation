@@ -1,9 +1,11 @@
-import Sample from "@/components/Sample/Sample";
+import Comment from "@/components/Comments/Comments";
 
 export default function MainPage() {
+  const feedIds = ["657bbb1f59008937d6e424b8", "657ad9c4b22e76aea1ff6bf4"];
+
   return (
     <>
-      <Sample />
+      <Comment feedIds={feedIds} />
     </>
   );
 }
