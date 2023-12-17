@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background-color: ${({ theme }) => theme.colors.main};
+  background-color: white;
   font-size: ${({ theme }) => theme.size.md}px;
   max-width: calc(${({ theme }) => theme.size.maxWidth}px - 10px);
   height: 100%;
   margin: 0 auto;
+  border: 1px solid #e7e7e7;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box;
 `;
 
 export const ImageContainer = styled.div`

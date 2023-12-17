@@ -84,8 +84,8 @@ export default function CreateFeed({ children }: Element) {
 
   return (
     <>
+      {children}
       <S.Container>
-        {children}
         <S.ImageContainer>
           {images && <S.FeedImage src={showImage} alt="피드 이미지" />}
         </S.ImageContainer>
