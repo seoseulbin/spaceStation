@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useUser } from "./User.hooks";
 import * as S from "./Profile.styles";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 type UpdateProfileData = {
   nickname: string;
@@ -27,14 +28,59 @@ export default function ProfileUpdate() {
   if (isLoading) return "loading...";
   if (isError) return error.message;
 
-  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewNickname(e.target.value);
+  /**
+   * cloudinary 이미지 저장 함수
+   */
+  const imageUploader = async (file: File) => {
+    try {
+      // cloudinary 필요한 정보
+      const {
+        VITE_CLOUDINARY_PRESET_NAME,
+        VITE_CLOUDINARY_NAME,
+        VITE_CLOUDINARY_API_KEY,
+      } = import.meta.env;
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", VITE_CLOUDINARY_PRESET_NAME);
+      formData.append("api_key", VITE_CLOUDINARY_API_KEY);
+
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${VITE_CLOUDINARY_NAME}/image/upload`,
+        formData,
+        { headers: { "content-type": "multipart/form-data" } },
+      );
+
+      return response.data.url; // 이미지 URL 받아오기
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+      } else {
+        console.log(String(error));
+      }
+      throw error;
+    }
   };
 
-  const handleProfileImgUrlChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setNewProfileImgUrl(e.target.value);
+  const fileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (!e.target.files?.[0]) {
+        throw new Error("이미지 파일이 없습니다.");
+      }
+      const uploadedUrl = await imageUploader(e.target.files[0]);
+      setNewProfileImgUrl(uploadedUrl);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+        toast.error("이미지 업로드 실패");
+      } else {
+        console.log(String(error));
+      }
+    }
+  };
+
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewNickname(e.target.value);
   };
 
   const handleUpdateProfile = async () => {
@@ -62,9 +108,15 @@ export default function ProfileUpdate() {
 
   return (
     <S.Container>
+      <S.UpdateInput
+        type="file"
+        onChange={fileChange}
+        accept="image/*"
+        // placeholder는 file input에서는 지원되지 않습니다.
+      />
       <S.ProfileImg
         className="profileImageEditCamera2"
-        src={user?.profileImgUrl}
+        src={newProfileImgUrl || user?.profileImgUrl}
         alt="프로필 이미지"
         onClick={() => {}}
       />
@@ -73,11 +125,7 @@ export default function ProfileUpdate() {
         onChange={handleNicknameChange}
         placeholder="닉네임을 입력하세요"
       />
-      <S.UpdateInput
-        value={newProfileImgUrl || ""}
-        onChange={handleProfileImgUrlChange}
-        placeholder="프로필 이미지 URL을 입력하세요"
-      />
+
       <S.Upload onClick={handleUpdateProfile}>업로드</S.Upload>
     </S.Container>
   );
