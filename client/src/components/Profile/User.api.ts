@@ -15,7 +15,9 @@ const followAPI = {
     nickname: UserType["nickname"];
     profileImgUrl: UserType["profileImgUrl"];
   }) {
-    return instance.post(`/`, props);
+    return instance.put(`/`, props, {
+      withCredentials: true,
+    });
   },
 };
 
