@@ -8,7 +8,7 @@ import { AxiosError } from "axios";
  * 샘플 훅
  */
 export const useCreateFeed = () => {
-  const invalidateSampleQuery = () => {
+  const invalidateFeedQuery = () => {
     queryClient.invalidateQueries({
       queryKey: [queryKeys.feed],
     });
@@ -16,7 +16,9 @@ export const useCreateFeed = () => {
 
   const createFeed = useMutation({
     mutationFn: feedAPI.createFeed,
-    onSuccess: invalidateSampleQuery,
+    onSuccess: () => {
+      invalidateFeedQuery();
+    },
     onError: (err) => {
       toast.error(err instanceof AxiosError ? err.message : "unknown error");
     },

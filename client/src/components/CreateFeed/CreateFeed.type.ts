@@ -1,4 +1,4 @@
-export type createfeedType = {
+export type CreateFeedType = {
   userId: string;
   category: string;
   imgUrls: Array<string>;

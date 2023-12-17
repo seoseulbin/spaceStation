@@ -1,13 +1,21 @@
 import { useCreateFeed } from "./CreateFeed.hooks";
+import { useCategory } from "../Category/Category.hooks";
 import { ChangeEvent, useState } from "react";
 import * as S from "./CreateFeed.styles";
 import axios from "axios";
 
-export default function CreateFeed() {
+export default function CreateFeed({ children }: Element) {
+  const { categorys, isLoading, isError, error } = useCategory();
   const { createFeed } = useCreateFeed();
-  const [images, setImages] = useState<string[]>([]);
   const [showImage, setShowImage] = useState(""); //대표 이미지
-  const [contents, setContents] = useState<string>(""); //컨텐츠 내용
+
+  const [images, setImages] = useState<string[]>([]); // 피드 이미지 배열
+  const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
+  const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
+  const [activeCategory, setActiveCategory] = useState<number | null>(null); // 활성화된 카테고리 검증
+
+  if (isLoading) return "loading...";
+  if (isError) return error.message;
 
   /**
    * cloudinary 이미지 저장 함수
@@ -41,11 +49,11 @@ export default function CreateFeed() {
   };
 
   const fileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files?.[0]);
     try {
       if (!e.target.files?.[0]) {
         throw new Error("이미지 파일이 없습니다.");
       }
+      //TODO:추후 업로드 버튼을 눌렀을 시 cloudinary에 이미지가 저장되도록 변경 예정
       const uploaded = await imageUploader(e.target.files[0]);
 
       setImages((arr) => [...arr, uploaded.url]);
@@ -59,20 +67,25 @@ export default function CreateFeed() {
   /**
    * preview 이미지 삭제 버튼
    */
-  const onClickPreviewDeleteBtn = async (e) => {
+  const onClickPreviewDeleteBtn = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
     e.preventDefault();
+    const previousSibling = e.currentTarget.previousSibling;
 
-    const parentEl = e.target.parentElement; // 삭제 버튼이 있는 부모 요소
-    const imageUrl = e.target.previousSibling.getAttribute("src"); // 삭제 버튼이 있는 image의 src값
-    // imageDelete(imageUrl.split("/")[7].split(".")[0]); // cloudinary 이미지 삭제
-    setShowImage("");
-    await setImages((images) => images.filter((image) => image !== imageUrl)); //error 두개가 삭제됨..
-    await parentEl.remove();
+    //if문은 타입 확인 && 값이 존재하는 지
+    if (previousSibling && previousSibling instanceof HTMLImageElement) {
+      const imageUrl = previousSibling.getAttribute("src");
+      //TODO: cloudinary 이미지 삭제
+      setShowImage("");
+      setImages((images) => images.filter((image) => image !== imageUrl));
+    }
   };
 
   return (
     <>
       <S.Container>
+        {children}
         <S.ImageContainer>
           {images && <S.FeedImage src={showImage} alt="피드 이미지" />}
         </S.ImageContainer>
@@ -116,21 +129,30 @@ export default function CreateFeed() {
         <S.CategoryContainer>
           <S.Label htmlFor="category">카테고리</S.Label>
           <S.CategoryWrapper>
-            <S.CategoryItem>집</S.CategoryItem>
-            <S.CategoryItem>카페</S.CategoryItem>
-            <S.CategoryItem>회사</S.CategoryItem>
-            <S.CategoryItem>학원</S.CategoryItem>
-            <S.CategoryItem>학교</S.CategoryItem>
-            <S.CategoryItem>회의실</S.CategoryItem>
-            <S.CategoryItem>유치원</S.CategoryItem>
-            <S.CategoryItem>서점</S.CategoryItem>
+            {categorys?.map((item, index) => {
+              return (
+                <S.CategoryItem
+                  key={index}
+                  isActive={index === activeCategory ? true : false}
+                  onClick={() => {
+                    setActiveCategory((prev) =>
+                      prev === index ? null : index,
+                    );
+                    setCategory((prev) => (prev === item._id ? "" : item._id));
+                    console.log(category);
+                  }}
+                >
+                  {item.category}
+                </S.CategoryItem>
+              );
+            })}
           </S.CategoryWrapper>
         </S.CategoryContainer>
         <button
           onClick={async () => {
             const res = await createFeed({
               userId: "614d72a1b5ec679c080d8b12",
-              category: "614d72a1b5ec679c080d8b12",
+              category: category,
               content: contents,
               imgUrls: images,
             });

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  background-color: ${({ theme }) => theme.colors.main};
   font-size: ${({ theme }) => theme.size.md}px;
   max-width: calc(${({ theme }) => theme.size.maxWidth}px - 10px);
   height: 100%;
@@ -93,12 +94,9 @@ export const CategoryWrapper = styled.div`
   margin-top: 5px;
 `;
 
-export const CategoryItem = styled.div`
-  background-color: #d9d9d9;
+export const CategoryItem = styled.div<{ isActive: boolean }>`
+  background-color: ${(props) => (props.isActive ? "#9c9c9c" : "#d9d9d9")};
   padding: 15px;
   text-align: center;
   cursor: pointer;
-  &:active {
-    background-color: #9c9c9c;
-  }
 `;

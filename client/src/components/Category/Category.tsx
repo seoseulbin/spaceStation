@@ -7,7 +7,6 @@ export default function Category() {
   if (isLoading) return "loading...";
   if (isError) return error.message;
 
-  console.log(categorys);
   return (
     <>
       <S.Container>
