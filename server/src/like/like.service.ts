@@ -1,5 +1,7 @@
-import LikeModel from "./like.model";
-//TODO : User, Feed model import
+import LikeModel from "./like.model.js";
+import UserModel from "../user/user.model.js";
+import FeedModel from "../feed/feed.model.js";
+import { CustomError } from "../middleware/errorHandler.js";
 
 type likePostType = {
   user: string;
@@ -7,19 +9,30 @@ type likePostType = {
 };
 
 const likeService = {
-  async getLikes() {
-    return LikeModel.find({});
+  async getLikes({ feed }: Pick<likePostType, "feed">) {
+    console.log("feed", feed);
+    return LikeModel.find({ feedId: feed });
   },
 
-  //TODO : model import 후 주석 제거 필요
   async postLike({ user, feed }: likePostType) {
-    // const userId = UserModel.findOne({ _id: user });
-    // const feedId = FeedModel.findOne({ _id: feed });
-    // return LikeModel.create({ userId:userId._id, feedId:feedId._id });
+    const findUser = await UserModel.findOne({ _id: user }).exec();
+    const findFeed = await FeedModel.findOne({ _id: feed }).exec();
+
+    if (!findFeed || !findUser) {
+      throw new CustomError({
+        status: 404,
+        message: "요청한 Id가 존재하지 않습니다",
+      });
+    }
+
+    return LikeModel.create({
+      userId: findUser._id,
+      feedId: findFeed._id,
+    });
   },
 
-  async deleteLike({ feed }: Pick<likePostType, "feed">) {
-    // return FeedModel.deleteOne({ _id: feed });
+  async deleteLike({ user, feed }: likePostType) {
+    return LikeModel.deleteOne({ userId: user, feedId: feed });
   },
 };
 
