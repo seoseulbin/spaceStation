@@ -2,8 +2,7 @@ import { Request } from "express";
 import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
 import followService from "./follow.service.js";
-
-const userId = "657c89bb7e02fb18144b1dc0"; //TODO: 쿠키를 통해 받아오는 userid middleware에서 처리 필요
+import authService from "../auth/auth.service.js";
 
 const followController = {
   getFollows: asyncHandler(async (req: Request<{ userid?: string }>, res) => {
@@ -18,14 +17,39 @@ const followController = {
     res.json(follows);
   }),
 
+  getFollowers: asyncHandler(async (req: Request<{ userid?: string }>, res) => {
+    const { userid } = req.params;
+    if (!userid)
+      throw new CustomError({
+        status: 400,
+        message: "유효하지 않은 ID입니다.",
+      });
+    const follows = await followService.getFollowers(userid);
+    res.json(follows);
+  }),
+
+  getFollowings: asyncHandler(
+    async (req: Request<{ userid?: string }>, res) => {
+      const { userid } = req.params;
+      if (!userid)
+        throw new CustomError({
+          status: 400,
+          message: "유효하지 않은 ID입니다.",
+        });
+      const follows = await followService.getFollowings(userid);
+      res.json(follows);
+    },
+  ),
+
   postFollow: asyncHandler(
     async (
       req: Request<{}, {}, { follower: string; following: string }>,
       res,
     ) => {
       const { follower } = req.body;
-      //const.following = req.userId;
-      const following = userId;
+      const userToken = req.cookies.service_token;
+      const following = authService.extractDataFromToken(userToken, "user_id");
+
       if (!follower)
         throw new CustomError({
           status: 400,
@@ -43,8 +67,9 @@ const followController = {
 
   deleteFollow: asyncHandler(async (req, res) => {
     const { follower } = req.params;
-    //const.following = req.userId;
-    const following = userId;
+    const userToken = req.cookies.service_token;
+    const following = authService.extractDataFromToken(userToken, "user_id");
+
     if (!follower)
       throw new CustomError({
         status: 400,
