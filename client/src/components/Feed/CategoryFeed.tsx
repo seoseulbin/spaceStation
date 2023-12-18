@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useCategoryFeed } from "./Feed.hooks";
 import * as S from "./Feed.styles";
-import { PATH } from "@/config/constants";
+import { PATH } from "@/global/constants";
 import Loading from "../common/Loading";
 
 export default function CategoryFeed({ category }: { category: string }) {
