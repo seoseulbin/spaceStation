@@ -22,6 +22,7 @@ export default function ProfileUpdate() {
   const [newProfileImgUrl, setNewProfileImgUrl] = useState<string | undefined>(
     user?.profileImgUrl,
   );
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (!localUserData) {
@@ -35,12 +36,8 @@ export default function ProfileUpdate() {
     return error.message;
   }
 
-  /**
-   * cloudinary 이미지 저장 함수
-   */
   const imageUploader = async (file: File) => {
     try {
-      // cloudinary 필요한 정보
       const {
         VITE_CLOUDINARY_PRESET_NAME,
         VITE_CLOUDINARY_NAME,
@@ -60,42 +57,43 @@ export default function ProfileUpdate() {
 
       return response.data.url; // 이미지 URL 받아오기
     } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      } else {
-        console.log(String(error));
-      }
+      console.error("Error uploading image:", error);
       throw error;
     }
   };
 
-  const fileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (!e.target.files?.[0]) {
-        throw new Error("이미지 파일이 없습니다.");
-      }
-      const uploadedUrl = await imageUploader(e.target.files[0]);
-      setNewProfileImgUrl(uploadedUrl);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-        toast.error("이미지 업로드 실패");
-      } else {
-        console.log(String(error));
-      }
-    }
+  const fileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setSelectedFile(file);
+    setNewProfileImgUrl(file ? URL.createObjectURL(file) : undefined);
   };
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewNickname(e.target.value);
   };
 
+  const handleProfileImageClick = () => {
+    // 파일 선택 창 열기
+    const fileInput = document.getElementById("profileImageInput");
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
+
   const handleUpdateProfile = async () => {
     try {
+      let uploadedUrl = newProfileImgUrl;
+
+      // 이미지가 선택되어 있을 경우에만 클라우드니어리에 업로드
+      if (selectedFile) {
+        uploadedUrl = await imageUploader(selectedFile);
+        setNewProfileImgUrl(uploadedUrl);
+      }
+
       const updateData: UpdateProfileData = {
         nickname: newNickname,
-        profileImgUrl: newProfileImgUrl
-          ? newProfileImgUrl
+        profileImgUrl: uploadedUrl
+          ? uploadedUrl
           : "/profile_default_image.jpeg",
       };
 
@@ -104,10 +102,7 @@ export default function ProfileUpdate() {
 
       // 성공적으로 업데이트되면 다시 사용자 정보를 가져오기
       toast.success("프로필 업데이트 성공");
-
-      setTimeout(() => {
-        window.location.href = "/profile";
-      }, 400);
+      navigate("/profile");
     } catch (error) {
       console.error("Error updating profile:", error);
     }
@@ -117,22 +112,22 @@ export default function ProfileUpdate() {
     <S.Container>
       <input
         type="file"
+        id="profileImageInput"
         onChange={fileChange}
         accept="image/*"
-        // placeholder는 file input에서는 지원되지 않습니다.
+        style={{ display: "none" }}
       />
       <S.ProfileImg
         className="profileImageEditCamera2"
         src={newProfileImgUrl || user?.profileImgUrl}
         alt="프로필 이미지"
-        onClick={() => {}}
+        onClick={handleProfileImageClick}
       />
       <S.UpdateInput
         value={newNickname}
         onChange={handleNicknameChange}
         placeholder="닉네임을 입력하세요"
       />
-
       <S.Upload onClick={handleUpdateProfile}>업로드</S.Upload>
     </S.Container>
   );
