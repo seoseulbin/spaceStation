@@ -3,17 +3,15 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   padding: 20px;
-  width: 90%;
   box-sizing: border-box;
   display: grid;
   padding: 40px;
   gap: 20px;
-  align-items: center;
-  justify-content: center;
   background-color: white;
   position: fixed;
   border-radius: 10px;
   border: 1px solid ${theme.colors.textDisable};
+
   .itemContainer {
     display: flex;
     align-items: center;
