@@ -5,6 +5,7 @@ import { theme } from "../../global/styles/theme";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
+import { storage, storageKeys } from "../../global/storage";
 
 export default function Login() {
   const kakaoAuthorizeURL = `${
@@ -22,7 +23,7 @@ export default function Login() {
   const [currentUserId, setCurrentUserId] = useState("");
 
   useEffect(() => {
-    const localUserData = localStorage.getItem("currentUser");
+    const localUserData = storage.get(storageKeys.currentUser);
     const id = searchParams.get("id");
     const nickname = searchParams.get("nickname");
 
@@ -32,8 +33,8 @@ export default function Login() {
       setCurrentNickname(currentUser.nickname);
     }
     if (id && nickname) {
-      localStorage.setItem(
-        "currentUser",
+      storage.set(
+        storageKeys.currentUser,
         JSON.stringify({
           userId: id,
           nickname: nickname,
@@ -70,7 +71,7 @@ export default function Login() {
         setCurrentUserId("");
         setCurrentNickname("");
         toast.success(response.data.message);
-        delete localStorage.currentUser;
+        storage.remove(storageKeys.currentUser);
       });
   }
 
@@ -84,13 +85,13 @@ export default function Login() {
         setCurrentUserId("");
         setCurrentNickname("");
         toast.success("로그아웃 되었습니다.");
-        delete localStorage.currentUser;
+        storage.remove(storageKeys.currentUser);
       });
   }
 
   return (
     <S.Container>
-      {!localStorage.getItem("currentUser") && (
+      {!storage.get(storageKeys.currentUser) && (
         <AnchorButton
           bgcolor="#fde433"
           textcolor="#333"
@@ -99,7 +100,7 @@ export default function Login() {
           label="카카오 계정으로 로그인"
         />
       )}
-      {localStorage.getItem("currentUser") && (
+      {storage.get(storageKeys.currentUser) && (
         <>
           <AnchorButton
             bgcolor={subColor}
