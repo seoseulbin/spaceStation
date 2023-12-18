@@ -2,7 +2,7 @@ import { Request } from "express";
 import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
 import followService from "./follow.service.js";
-import authService from "../auth/auth.service.js";
+import decodeTokenPayload from "../utils/decodeTokenPayload.js";
 
 const followController = {
   getFollows: asyncHandler(async (req: Request<{ userid?: string }>, res) => {
@@ -48,7 +48,7 @@ const followController = {
     ) => {
       const { follower } = req.body;
       const userToken = req.cookies.service_token;
-      const following = authService.extractDataFromToken(userToken, "user_id");
+      const following = decodeTokenPayload(userToken)["user_id"];
 
       if (!follower)
         throw new CustomError({
@@ -68,7 +68,7 @@ const followController = {
   deleteFollow: asyncHandler(async (req, res) => {
     const { follower } = req.params;
     const userToken = req.cookies.service_token;
-    const following = authService.extractDataFromToken(userToken, "user_id");
+    const following = decodeTokenPayload(userToken)["user_id"];
 
     if (!follower)
       throw new CustomError({
