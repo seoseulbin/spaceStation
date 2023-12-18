@@ -20,12 +20,6 @@ const authController = {
 
       const action = isNewUser.length === 0 ? "join" : "login";
 
-      console.log(
-        `가입 정보가 ${
-          action === "join" ? "존재하지 않습니다." : "존재합니다."
-        }`,
-      );
-
       const result = await authService.handleAuthUser(userInfo, action);
       const token = authService.generateJWT(
         result.user._id,
