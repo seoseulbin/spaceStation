@@ -3,6 +3,7 @@ import { useUser } from "./User.hooks";
 import * as S from "./Profile.styles";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { storage } from "@/global/storage";
 
 type UpdateProfileData = {
   nickname: string;
@@ -10,23 +11,25 @@ type UpdateProfileData = {
 };
 
 export default function ProfileUpdate() {
-  const localUserData = localStorage.getItem("currentUser");
-  if (!localUserData) {
-    toast.error("로그인 필요");
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 2000);
-  }
-  const userid = JSON.parse(localUserData as string).userId;
+  const localUserData = storage.get("currentUser");
+  const userid = localUserData ? JSON.parse(localUserData).userId : null;
 
-  const { user, putUser, isLoading, isError, error } = useUser(userid);
+  const { user, putUser, isLoading, isError, error } = useUser(
+    userid as string,
+  );
   const [newNickname, setNewNickname] = useState<string>(user?.nickname || "");
   const [newProfileImgUrl, setNewProfileImgUrl] = useState<string | undefined>(
     user?.profileImgUrl,
   );
 
   if (isLoading) return "loading...";
-  if (isError) return error.message;
+  if (isError) {
+    toast.error("잘못된 접근입니다");
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 1000);
+    return error.message;
+  }
 
   /**
    * cloudinary 이미지 저장 함수
@@ -108,7 +111,7 @@ export default function ProfileUpdate() {
 
   return (
     <S.Container>
-      <S.UpdateInput
+      <input
         type="file"
         onChange={fileChange}
         accept="image/*"

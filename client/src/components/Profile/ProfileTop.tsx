@@ -1,28 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
 import * as S from "./Profile.styles";
 import FollowModal from "./FollowModal";
 import toast from "react-hot-toast";
 import { useFollow } from "./Follow.hooks";
 import { useUser } from "./User.hooks";
 
-export default function ProfileTop() {
-  const [searchParams] = useSearchParams();
-  const [currentUserId, setCurrentUserId] = useState("");
+export default function ProfileTop({ userId }: { userId: string }) {
+  const localUserData = localStorage.getItem("currentUser");
+
   const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
   const [followState, setIsFollowState] = useState(false);
-  const localUserData = localStorage.getItem("currentUser");
-  const userid = searchParams.get("id");
-
-  useEffect(() => {
-    if (userid) {
-      setCurrentUserId(userid as string);
-    } else if (localUserData) {
-      const myid = JSON.parse(localUserData).userId as string;
-      setCurrentUserId(myid);
-    }
-  }, [userid, localUserData]);
 
   const {
     follows,
@@ -32,8 +20,8 @@ export default function ProfileTop() {
     isLoading,
     isError,
     error,
-  } = useFollow(currentUserId);
-  const { user } = useUser(currentUserId);
+  } = useFollow(userId);
+  const { user } = useUser(userId);
 
   if (isLoading) return "loading...";
   if (isError) return error.message;
@@ -56,7 +44,7 @@ export default function ProfileTop() {
       );
     }
 
-    if (localUserData && JSON.parse(localUserData).userId === currentUserId) {
+    if (localUserData && JSON.parse(localUserData).userId === userId) {
       return (
         <Link to="/profile/update">
           {" "}
@@ -72,7 +60,7 @@ export default function ProfileTop() {
           value="팔로우"
           onClick={async () => {
             const res = await postFollow({
-              follower: currentUserId,
+              follower: userId,
             });
             console.log(res);
           }}
@@ -86,7 +74,7 @@ export default function ProfileTop() {
           type="button"
           value="팔로우 취소"
           onClick={async () => {
-            const res = await deleteFollow(currentUserId);
+            const res = await deleteFollow(userId);
             console.log(res);
           }}
         />
