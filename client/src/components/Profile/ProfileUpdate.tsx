@@ -102,7 +102,10 @@ export default function ProfileUpdate() {
 
       // 성공적으로 업데이트되면 다시 사용자 정보를 가져오기
       toast.success("프로필 업데이트 성공");
-      navigate("/profile");
+
+      setTimeout(() => {
+        navigate("/profile");
+      }, 400);
     } catch (error) {
       console.error("Error updating profile:", error);
     }
