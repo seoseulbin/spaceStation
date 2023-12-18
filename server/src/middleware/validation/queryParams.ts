@@ -27,7 +27,7 @@ export const validateQueryParams =
       if (queryParam === undefined) {
         throw new CustomError({
           status: 400,
-          message: `query params: ${key}가 전달되지 않았습니다.\n${key}: ${queryParam}`,
+          message: `query params: ${key}가 전달되지 않았습니다. - ${key}: ${queryParam}`,
         });
       }
 
@@ -35,14 +35,14 @@ export const validateQueryParams =
       if (typeof queryParam !== "string") {
         throw new CustomError({
           status: 400,
-          message: `query params: ${key}가 문자열이 아닙니다.\n${key}: ${queryParam}`,
+          message: `query params: ${key}가 문자열이 아닙니다. - ${key}: ${queryParam}`,
         });
       }
 
       if (isNumber && (/[^0-9]/.test(queryParam) || queryParam === "")) {
         throw new CustomError({
           status: 400,
-          message: `query params: ${key}가 숫자가 아닙니다.\n${key}: ${queryParam}`,
+          message: `query params: ${key}가 숫자가 아닙니다. - ${key}: ${queryParam}`,
         });
       }
     });
