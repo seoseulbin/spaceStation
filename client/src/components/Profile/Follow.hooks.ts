@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { queryClient, queryKeys } from "@/config/reactQeury";
+import { queryClient, queryKeys } from "@/config/styles/reactQeury";
 import { FollowType } from "./Follow.type";
 import followAPI from "./Follow.api";
 import toast from "react-hot-toast";

@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { PATH } from "./config/constants";
+import { PATH } from "./global/constants";
 import MainPage from "./pages/MainPage";
 import CreateFeedPage from "./pages/CreateFeedPage";
 import LoginPage from "./pages/LoginPage";
