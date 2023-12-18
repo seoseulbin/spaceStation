@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { queryClient, queryKeys } from "@/config/reactQeury";
+import { queryClient, queryKeys } from "@/global/reactQeury";
 import feedAPI from "./CreateFeed.api";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
