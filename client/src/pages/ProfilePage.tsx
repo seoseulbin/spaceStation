@@ -3,17 +3,13 @@ import ProfileTop from "@/components/Profile/ProfileTop";
 import { storage } from "@/global/storage";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const userIdFromParams = searchParams.get("id");
   const localUserData = storage.get("currentUser");
-
-  if (!localUserData && !userIdFromParams) {
-    toast.error("로그인 필요");
-    window.location.href = "/login";
-  }
 
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
@@ -27,6 +23,10 @@ export default function ProfilePage() {
   }, [localUserData, userIdFromParams]);
 
   if (!currentUserId) {
+    if (!localUserData && !userIdFromParams) {
+      toast.error("로그인 필요");
+      navigate("/login");
+    }
     return "loading...";
   }
 

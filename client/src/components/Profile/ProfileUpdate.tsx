@@ -4,6 +4,7 @@ import * as S from "./Profile.styles";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { storage } from "@/global/storage";
+import { useNavigate } from "react-router-dom";
 
 type UpdateProfileData = {
   nickname: string;
@@ -13,7 +14,7 @@ type UpdateProfileData = {
 export default function ProfileUpdate() {
   const localUserData = storage.get("currentUser");
   const userid = localUserData ? JSON.parse(localUserData).userId : null;
-
+  const navigate = useNavigate();
   const { user, putUser, isLoading, isError, error } = useUser(
     userid as string,
   );
@@ -26,7 +27,7 @@ export default function ProfileUpdate() {
   if (isError) {
     toast.error("잘못된 접근입니다");
     setTimeout(() => {
-      window.location.href = "/login";
+      navigate("/login");
     }, 1000);
     return error.message;
   }
