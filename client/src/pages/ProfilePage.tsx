@@ -20,13 +20,14 @@ export default function ProfilePage() {
     if (userIdFromParams) {
       setCurrentUserId(userIdFromParams);
     }
-  }, [localUserData, userIdFromParams]);
 
-  if (!currentUserId) {
     if (!localUserData && !userIdFromParams) {
       toast.error("로그인 필요");
       navigate("/login");
     }
+  }, [localUserData, navigate, userIdFromParams]);
+
+  if (!currentUserId) {
     return "loading...";
   }
 

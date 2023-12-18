@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useUser } from "./User.hooks";
 import * as S from "./Profile.styles";
 import toast from "react-hot-toast";
@@ -23,12 +23,15 @@ export default function ProfileUpdate() {
     user?.profileImgUrl,
   );
 
+  useEffect(() => {
+    if (!localUserData) {
+      toast.error("잘못된 접근입니다");
+      navigate("/login");
+    }
+  }, [localUserData, navigate]);
+
   if (isLoading) return "loading...";
   if (isError) {
-    toast.error("잘못된 접근입니다");
-    setTimeout(() => {
-      navigate("/login");
-    }, 1000);
     return error.message;
   }
 
