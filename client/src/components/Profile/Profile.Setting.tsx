@@ -4,15 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { storage, storageKeys } from "../../global/storage";
 
 import { AnchorButton } from "../common/AnchorButton/AnchorButton.styles";
-import * as S from "../Login/Login.styles";
+import * as S from "./Profile.Setting.styles";
 import { theme } from "@/global/styles/theme";
+import { FiLogOut, FiUserX } from "react-icons/fi";
+
 import toast from "react-hot-toast";
 import { PATH } from "@/global/constants";
 
 function ProfileSetting() {
   const logoutURL = `${import.meta.env.VITE_BACKEND_URL}/api/auth/logout`;
   const withdrawURL = `${import.meta.env.VITE_BACKEND_URL}/api/auth/withdraw`;
-  const subColor = theme.colors.sub;
   const navigate = useNavigate();
 
   const [localStorageData, setLocalStorageData] = useState({});
@@ -59,22 +60,24 @@ function ProfileSetting() {
   return (
     <S.Container>
       <div>프로필 설정 페이지</div>
-      <>
-        <AnchorButton
-          bgcolor={subColor}
-          textcolor="#FFF"
-          href={undefined}
-          onClick={handleLogout}
-          children="로그아웃 버튼"
-        />
-        <AnchorButton
-          bgcolor="red"
-          textcolor="#FFF"
-          onClick={handleWithdraw}
-          href={undefined}
-          children="회원탈퇴 버튼"
-        />
-      </>
+      <S.ListContainer>
+        <S.ListItem>
+          <FiLogOut size={24} color={theme.colors.textPrimary} />
+          <AnchorButton
+            href={undefined}
+            onClick={handleLogout}
+            children="로그아웃"
+          />
+        </S.ListItem>
+        <S.ListItem className="withdraw">
+          <FiUserX size={24} color={theme.colors.textPrimary} />
+          <AnchorButton
+            onClick={handleWithdraw}
+            href={undefined}
+            children="회원탈퇴"
+          />
+        </S.ListItem>
+      </S.ListContainer>
     </S.Container>
   );
 }
