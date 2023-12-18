@@ -3,6 +3,7 @@ import { PATH } from "./global/constants";
 import MainPage from "./pages/MainPage";
 import CreateFeedPage from "./pages/CreateFeedPage";
 import LoginPage from "./pages/LoginPage";
+import ProfileSetting from "./components/Profile/Profile.Setting";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: PATH.login,
     element: <LoginPage />,
+  },
+  {
+    path: PATH.profileSetting,
+    element: <ProfileSetting />,
   },
 ]);
 
