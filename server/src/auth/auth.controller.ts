@@ -6,6 +6,14 @@ import authService from "./auth.service.js";
 import userService from "../user/user.service.js";
 
 const authController = {
+  getKakaoAuthCode: asyncHandler(
+    async (req: express.Request, res: Response) => {
+      const REST_API_KEY = process.env.KAKAO_REST_API_KEY;
+      const REDIRECT_URI = `${process.env.BACKEND_URL}/api/auth/oauth`;
+      const authorizeURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+      res.redirect(authorizeURL);
+    },
+  ),
   handleKakaoOAuthProcess: asyncHandler(
     async (req: express.Request, res: Response) => {
       const code = await authService.validateKakaoOAuthCode(
