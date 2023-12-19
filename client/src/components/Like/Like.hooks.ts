@@ -18,7 +18,7 @@ export const useLikes = (feedId: string) => {
   };
 
   const postLike = useMutation({
-    mutationFn: async (feedId: string) => likeAPI.postLikes(feedId),
+    mutationFn: async (feedId: string) => await likeAPI.postLikes(feedId),
     onSuccess: (_, feedId) => {
       invalidateQuery(feedId);
     },

@@ -34,14 +34,12 @@ export default function Like({ feedId }: { feedId: FeedType["_id"] }) {
     }
 
     if (!heart) {
-      await postLike(targetFeedId).then((res) => {
-        console.log(res);
+      await postLike(targetFeedId).then(() => {
         setHeart(!heart);
       });
     }
     if (heart) {
-      await deleteLike(targetFeedId).then((res) => {
-        console.log(res);
+      await deleteLike(targetFeedId).then(() => {
         setHeart(!heart);
       });
     }
