@@ -4,6 +4,8 @@ import { validateToken } from "../middleware/validation/validateToken.js";
 
 const authRouter = Router();
 
+authRouter.get("/kakao", authController.getKakaoAuthCode);
+
 authRouter.get("/oauth", authController.handleKakaoOAuthProcess);
 
 authRouter.post("/login", authController.handleLogin);

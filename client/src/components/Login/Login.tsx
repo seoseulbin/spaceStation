@@ -5,11 +5,12 @@ import { theme } from "../../global/styles/theme";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
+import { storage, storageKeys } from "../../global/storage";
 
 export default function Login() {
-  const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
-  const REDIRECT_URI = `${import.meta.env.VITE_BACKEND_URL}/api/auth/oauth`;
-  const authorizeURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const kakaoAuthorizeURL = `${
+    import.meta.env.VITE_BACKEND_URL
+  }/api/auth/kakao`;
   const logoutURL = `${import.meta.env.VITE_BACKEND_URL}/api/auth/logout`;
   const withdrawURL = `${import.meta.env.VITE_BACKEND_URL}/api/auth/withdraw`;
   const subColor = theme.colors.sub;
@@ -22,7 +23,7 @@ export default function Login() {
   const [currentUserId, setCurrentUserId] = useState("");
 
   useEffect(() => {
-    const localUserData = localStorage.getItem("currentUser");
+    const localUserData = storage.get(storageKeys.currentUser);
     const id = searchParams.get("id");
     const nickname = searchParams.get("nickname");
 
@@ -32,8 +33,8 @@ export default function Login() {
       setCurrentNickname(currentUser.nickname);
     }
     if (id && nickname) {
-      localStorage.setItem(
-        "currentUser",
+      storage.set(
+        storageKeys.currentUser,
         JSON.stringify({
           userId: id,
           nickname: nickname,
@@ -70,7 +71,7 @@ export default function Login() {
         setCurrentUserId("");
         setCurrentNickname("");
         toast.success(response.data.message);
-        delete localStorage.currentUser;
+        storage.remove(storageKeys.currentUser);
       });
   }
 
@@ -84,22 +85,22 @@ export default function Login() {
         setCurrentUserId("");
         setCurrentNickname("");
         toast.success("로그아웃 되었습니다.");
-        delete localStorage.currentUser;
+        storage.remove(storageKeys.currentUser);
       });
   }
 
   return (
     <S.Container>
-      {!localStorage.getItem("currentUser") && (
+      {!storage.get(storageKeys.currentUser) && (
         <AnchorButton
           bgcolor="#fde433"
           textcolor="#333"
-          url={authorizeURL}
+          url={kakaoAuthorizeURL}
           onClick={() => {}}
           label="카카오 계정으로 로그인"
         />
       )}
-      {localStorage.getItem("currentUser") && (
+      {storage.get(storageKeys.currentUser) && (
         <>
           <AnchorButton
             bgcolor={subColor}

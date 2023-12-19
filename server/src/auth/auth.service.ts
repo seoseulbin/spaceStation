@@ -50,7 +50,10 @@ const authService = {
     }
   },
   // 발급된 액세스 토큰으로 유저 정보를 반환하는 함수
-  async getUserInfo(accessToken: string): Promise<any> {
+  // 응답 형태 - { id: 3221581180, connected_at: '2023-12-17T06:50:59Z' }
+  async getUserInfo(
+    accessToken: string,
+  ): Promise<{ id: string; connected_at: Date }> {
     const headers = {
       "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
       Authorization: "Bearer " + accessToken,
