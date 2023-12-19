@@ -93,10 +93,7 @@ const followController = {
         message: "팔로우 취소에 실패했습니다.",
       });
     }
-    res.status(200).json({
-      message: "회원 탈퇴에 성공했습니다.",
-      follow: result,
-    });
+    res.status(200).end();
   }),
 };
 
