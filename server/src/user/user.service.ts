@@ -21,7 +21,7 @@ const userService = {
     const user = {
       snsId,
       nickname: "",
-      profileImgUrl: "/profile_default_image.jpeg", // TODO : cloudinary 서버 구축되면 해당 URL로 교체 필요
+      profileImgUrl: "/profile_default_image.jpeg",
     };
 
     if (!user.nickname) user.nickname = generateNickname();

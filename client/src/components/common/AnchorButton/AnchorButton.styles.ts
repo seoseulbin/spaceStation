@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 type ButtonProps = {
-  bgcolor: string;
-  textcolor: string;
+  bgcolor?: string;
+  textcolor?: string;
 };
 
 export const AnchorButton = styled.a<ButtonProps>`
