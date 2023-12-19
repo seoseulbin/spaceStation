@@ -45,8 +45,7 @@ export default function Login() {
           5,
         )}...)"(으)로 로그인 했습니다.`,
       );
-      // TODO : 프로필 페이지 완성 후 PATH.profile 로 변경 필요
-      navigate(PATH.profileSetting);
+      navigate(PATH.profile);
     }
   }, [searchParams, navigate, currentNickname, currentUserId]);
 
