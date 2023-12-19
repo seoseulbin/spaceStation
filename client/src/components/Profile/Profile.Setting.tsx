@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { storage, storageKeys } from "../../global/storage";
@@ -8,12 +7,11 @@ import * as S from "./Profile.Setting.styles";
 import { theme } from "@/global/styles/theme";
 import { FiLogOut, FiUserX } from "react-icons/fi";
 
-import toast from "react-hot-toast";
 import { PATH } from "@/global/constants";
+import { useProfileSetting } from "./Profile.Setting.hooks";
 
 function ProfileSetting() {
-  const logoutURL = `${import.meta.env.VITE_BACKEND_URL}/api/auth/logout`;
-  const withdrawURL = `${import.meta.env.VITE_BACKEND_URL}/api/auth/withdraw`;
+  const { logout, withdraw } = useProfileSetting();
   const navigate = useNavigate();
 
   const [localStorageData, setLocalStorageData] = useState({});
@@ -27,34 +25,14 @@ function ProfileSetting() {
     setLocalStorageData(localUserData);
   }, [localStorageData, navigate]);
 
-  function removeLocalData(message: string) {
-    toast.success(message);
-    storage.remove(storageKeys.currentUser);
+  async function handleWithdraw() {
+    await withdraw();
     setLocalStorageData({});
   }
 
-  function handleWithdraw() {
-    const data = {};
-    axios
-      .post(withdrawURL, data, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        removeLocalData(response.data.message);
-      });
-  }
-
-  function handleLogout() {
-    const data = {};
-    axios
-      .post(logoutURL, data, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        if (response.status === 204) {
-          removeLocalData("성공적으로 로그아웃 되었습니다.");
-        }
-      });
+  async function handleLogout() {
+    await logout();
+    setLocalStorageData({});
   }
 
   return (
