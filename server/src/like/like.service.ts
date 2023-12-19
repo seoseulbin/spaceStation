@@ -10,7 +10,6 @@ type likePostType = {
 
 const likeService = {
   async getLikes({ feed }: Pick<likePostType, "feed">) {
-    console.log("feed", feed);
     return LikeModel.find({ feedId: feed });
   },
 

@@ -8,11 +8,18 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const heartButton = styled.div`
+export const heartButtonDiv = styled.div`
   margin: 0 5px;
+  display: flex;
+  flex-direction: row;
   &:hover {
     cursor: pointer;
   }
+`;
+
+export const heartButton = styled.button`
+  border: none;
+  background-color: transparent;
 `;
 
 export const likesNumDiv = styled.div`

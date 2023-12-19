@@ -33,7 +33,7 @@ export default function FeedItem(feed: FeedType) {
           {feed.content.length < 60 || more ? (
             // {여기다가 Likes 넣기}
             <>
-              <Like />
+              <Like feedId={feed._id} />
               {feed.content}
             </>
           ) : (

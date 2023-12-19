@@ -62,7 +62,6 @@ const likeController = {
         message: "잘못된 접근 방식입니다.",
       });
     }
-
     const user = decodeJWT(cookie);
 
     likeService.deleteLike({ user, feed: feedId });
