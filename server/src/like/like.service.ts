@@ -33,14 +33,14 @@ const likeService = {
       return;
     }
 
-    return LikeModel.create({
+    return await LikeModel.create({
       userId: findUser._id,
       feedId: findFeed._id,
     });
   },
 
   async deleteLike({ user, feed }: likePostType) {
-    return LikeModel.deleteOne({ userId: user, feedId: feed });
+    return await LikeModel.deleteOne({ userId: user, feedId: feed });
   },
 };
 

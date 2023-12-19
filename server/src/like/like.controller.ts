@@ -40,7 +40,7 @@ const likeController = {
       }
 
       const userId = decodeTokenPayload(token)["user_id"];
-      likeService.postLike({ user: userId, feed: feedId });
+      await likeService.postLike({ user: userId, feed: feedId });
 
       res.status(200).end();
     },
@@ -66,7 +66,7 @@ const likeController = {
 
     const user = decodeTokenPayload(token)["user_id"];
 
-    likeService.deleteLike({ user, feed: feedId });
+    await likeService.deleteLike({ user, feed: feedId });
     res.status(200).end();
   }),
 };
