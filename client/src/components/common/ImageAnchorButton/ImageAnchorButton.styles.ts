@@ -26,8 +26,8 @@ const scaleAnimation = keyframes`
 
 export const AnchorButton = styled.div<CustomDivElement>`
   position: absolute;
-  left: ${(props) => props.x}px;
-  top: ${(props) => props.y}px;
+  left: ${(props) => props.x}%;
+  top: ${(props) => props.y}%;
   width: 16px;
   height: 16px;
   margin-top: -8px;
