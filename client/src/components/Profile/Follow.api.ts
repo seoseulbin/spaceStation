@@ -15,11 +15,15 @@ const followAPI = {
   },
 
   async postFollow(props: { follower: FollowType["follower"] }) {
-    return instance.post(`/`, props);
+    return instance.post(`/`, props, {
+      withCredentials: true,
+    });
   },
 
   async deleteFollow(follower: string) {
-    return instance.delete(`/${follower}`);
+    return instance.delete(`/${follower}`, {
+      withCredentials: true,
+    });
   },
 };
 
