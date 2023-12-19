@@ -7,15 +7,15 @@ import ApiBoundary from "../common/ApiBoundary";
 
 type Props = { category: string };
 
-export default function CategoryFeedWithApiBoundary(props: Props) {
+export default function CategoryFeed(props: Props) {
   return (
     <ApiBoundary>
-      <CategoryFeed {...props} />
+      <ApiComponent {...props} />
     </ApiBoundary>
   );
 }
 
-function CategoryFeed({ category }: Props) {
+function ApiComponent({ category }: Props) {
   const { data, setTarget } = useCategoryFeed({
     category,
   });

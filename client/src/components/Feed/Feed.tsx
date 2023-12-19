@@ -4,15 +4,15 @@ import FeedItem from "./FeedItem";
 import Loading from "../common/Loading";
 import ApiBoundary from "../common/ApiBoundary";
 
-export default function FeedWithApiBoundary() {
+export default function Feed() {
   return (
     <ApiBoundary>
-      <Feed />
+      <ApiComponent />
     </ApiBoundary>
   );
 }
 
-function Feed() {
+function ApiComponent() {
   const { data, setTarget } = useFeed();
 
   return (

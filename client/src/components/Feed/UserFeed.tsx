@@ -7,15 +7,15 @@ import ApiBoundary from "../common/ApiBoundary";
 
 type Props = { userId: string };
 
-export default function UserFeedWithApiBoundary(props: Props) {
+export default function UserFeed(props: Props) {
   return (
     <ApiBoundary>
-      <UserFeed {...props} />
+      <ApiComponent {...props} />
     </ApiBoundary>
   );
 }
 
-function UserFeed({ userId }: Props) {
+function ApiComponent({ userId }: Props) {
   const { data, setTarget } = useUserFeed({
     userId,
   });
