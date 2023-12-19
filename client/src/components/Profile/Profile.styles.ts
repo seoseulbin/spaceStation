@@ -16,6 +16,18 @@ export const Container = styled.div`
     justify-content: center;
     box-sizing: border;
   }
+  input {
+    color: ${({ theme }) => theme.colors.textSecondary};
+    padding: 5px;
+    width: 100%;
+    item-align: center;
+    text-align: center;
+    border: 1px solid ${({ theme }) => theme.colors.textDisable};
+    border-radius: 3px;
+    span {
+      font-size: ${({ theme }) => theme.size.lg}px;
+    }
+  }
 `;
 
 export const ProfileImg = styled.img`
@@ -40,18 +52,6 @@ export const Following = styled.li`
   span {
     font-size: ${({ theme }) => theme.size.lg}px;
     font-weight: bold;
-  }
-`;
-export const Button = styled.input`
-  color: ${({ theme }) => theme.colors.textSecondary};
-  padding: 5px;
-  width: 100%;
-  item-align: center;
-  text-align: center;
-  border: 1px solid ${({ theme }) => theme.colors.textDisable};
-  border-radius: 3px;
-  span {
-    font-size: ${({ theme }) => theme.size.lg}px;
   }
 `;
 
