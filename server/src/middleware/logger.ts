@@ -2,12 +2,6 @@ import { Request, Response } from "express";
 import morgan from "morgan";
 import winston from "winston";
 
-const env = process.env.NODE_ENV;
-
-if (!["dev", "prod"].includes(env?.trim() ?? "")) {
-  throw new Error(`unexpected environment value\nNODE_ENV: ${env}!`);
-}
-
 export const Logger = winston.createLogger({
   format: winston.format.combine(
     winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }),
@@ -42,14 +36,9 @@ morgan.token("message", (req: Request, res: Response) => {
   return res.locals.errorMessage || "no message";
 });
 
-export const errorLogger =
-  process.env.NODE_ENV === "dev"
-    ? morgan(`:status :method :url - :response-time ms - message: :message`, {
-        ...morganConfig,
-      })
-    : morgan(
-        ":remote-addr - :status :method :url - :response-time ms - message: :message",
-        {
-          ...morganConfig,
-        },
-      );
+export const errorLogger = morgan(
+  `:remote-addr - :status :method :url - :response-time ms - message: :message`,
+  {
+    ...morganConfig,
+  },
+);
