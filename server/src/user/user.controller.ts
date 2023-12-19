@@ -1,5 +1,6 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
+import decodeTokenPayload from "../utils/decodeTokenPayload.js";
 import userService from "./user.service.js";
 
 const userController = {
@@ -16,7 +17,9 @@ const userController = {
   }),
 
   updateUser: asyncHandler(async (req, res) => {
-    const { userid, nickname, profileImgUrl } = req.body;
+    const { nickname, profileImgUrl } = req.body;
+    const userToken = req.cookies.service_token;
+    const userid = decodeTokenPayload(userToken)["user_id"];
 
     if (!nickname || !profileImgUrl) {
       throw new CustomError({
