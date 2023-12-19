@@ -3,6 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as S from "./Feed.styles";
 import { Fragment, useState } from "react";
+import Comment from "../Comments/Comments";
 
 const sliderSettings = {
   dots: true,
@@ -16,6 +17,10 @@ const sliderSettings = {
 
 export default function FeedItem(feed: FeedType) {
   const [more, setMore] = useState(false);
+
+  //댓글창을 오버레이로 렌더하기 위해 모달을 사용.
+  const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+
   return (
     <>
       <S.Container>
@@ -28,6 +33,7 @@ export default function FeedItem(feed: FeedType) {
             </Fragment>
           ))}
         </S.CustomSlider>
+
         <S.TextContainer>
           {feed.content.length < 60 || more ? (
             feed.content
@@ -40,6 +46,20 @@ export default function FeedItem(feed: FeedType) {
             </>
           )}
         </S.TextContainer>
+
+        <S.CommentContainer
+          key={feed._id}
+          onClick={() => setIsCommentModalOpen(true)}
+        >
+          댓글
+        </S.CommentContainer>
+
+        {isCommentModalOpen && (
+          <Comment
+            feedId={feed._id}
+            onClickClose={() => setIsCommentModalOpen(false)}
+          />
+        )}
       </S.Container>
     </>
   );

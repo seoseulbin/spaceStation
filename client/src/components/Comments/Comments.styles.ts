@@ -3,13 +3,12 @@ import styled from "styled-components";
 export const Container = styled.div`
   background-color: none;
   font-size: ${({ theme }) => theme.size.md}px;
-  max-width: calc(${({ theme }) => theme.size.maxWidth}px - 10px);
+  width: 99%;
   &:hover {
     background-color: lightgray;
   }
   text-align: left;
   border: 1px solid gray;
-  padding: 10px 10px;
 `;
 
 export const DeleteButton = styled.button`
@@ -18,26 +17,22 @@ export const DeleteButton = styled.button`
   cursor: pointer;
 `;
 
-export const FeedContainer = styled.div`
-  background-color: ivory;
-  max-width: calc(${({ theme }) => theme.size.maxWidth}px - 10px);
-  height: 870px;
-  margin: 30px 30px;
-  border: 1px solid black;
-  transform: translate(50%, 0%);
-`;
-
 export const CommentWindowContainer = styled.div`
-  background-color: ivory;
-  max-width: calc(${({ theme }) => theme.size.maxWidth}px - 190px);
-  height: 700px;
-  margin: 30px 30px;
+  position: fixed;
+  right: 10%;
+  top: 20%;
+
+  background-color: gray;
+  width: 80%;
+  height: 70%;
+
   border: 1px solid black;
-  position: relative;
-  transform: translate(10%, 10%);
+
+  align-items: center;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+
+  z-index: 2;
 `;
 
 export const FeedCommentButton = styled.button`
@@ -61,16 +56,12 @@ export const CancelButton = styled.button`
 `;
 
 export const InputWrapper = styled.form`
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 0;
   background-color: none;
-  z-index: 1;
-  padding: 10px;
   display: flex;
   align-items: center;
-  max-width: calc(${({ theme }) => theme.size.maxWidth}px - 10px);
+  width: 98%;
+
+  justify-content: center;
 `;
 
 export const InputField = styled.input`
@@ -80,7 +71,7 @@ export const InputField = styled.input`
   border-radius: 20px;
   outline: none;
   background-color: gray;
-  width: 100%;
+  width: 98%;
 `;
 
 export const SubmitButton = styled.button`
