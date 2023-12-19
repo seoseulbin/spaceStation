@@ -1,9 +1,9 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "set NODE_ENV=dev&& nodemon --watch src --exec npx ts-node src/index.ts",
+    "dev": "nodemon --watch src --exec npx ts-node src/index.ts",
     "build": "tsc",
-    "start": "set NODE_ENV=prod&& npm run build && node ./dist/src/index.js"
+    "start": "npm run build && node ./dist/src/index.js"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
