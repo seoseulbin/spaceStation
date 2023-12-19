@@ -3,34 +3,25 @@ import { queryClient, queryKeys } from "@/global/reactQeury";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { likeAPI } from "./Like.api";
-import { storage } from "@/global/storage";
+import { LikeType } from "./Like.type";
 
 export const useLikes = (feedId: string) => {
-  const { data, ...rest } = useQuery({
+  const { data: likes, ...rest } = useQuery<LikeType[]>({
     queryKey: [queryKeys.like, feedId],
-
-    queryFn: async () => {
-      const res = await likeAPI.getLikes(feedId);
-      const myId = storage.get("currentUser");
-
-      return {
-        likes: res,
-        isMyLike: res.some((like) => {
-          return like.userId === myId;
-        }),
-      };
-    },
+    queryFn: () => likeAPI.getLikes(feedId),
   });
 
-  const invalidateSampleQuery = () => {
+  const invalidateQuery = (feedId: string) => {
     queryClient.invalidateQueries({
-      queryKey: [queryKeys.like],
+      queryKey: [queryKeys.like, feedId],
     });
   };
 
   const postLike = useMutation({
     mutationFn: async (feedId: string) => likeAPI.postLikes(feedId),
-    onSuccess: invalidateSampleQuery,
+    onSuccess: (_, feedId) => {
+      invalidateQuery(feedId);
+    },
     onError: (err) => {
       toast.error(err instanceof AxiosError ? err.message : "unknown error");
     },
@@ -38,11 +29,13 @@ export const useLikes = (feedId: string) => {
 
   const deleteLike = useMutation({
     mutationFn: async (feedId: string) => likeAPI.deleteLikes(feedId),
-    onSuccess: invalidateSampleQuery,
+    onSuccess: (_, feedId) => {
+      invalidateQuery(feedId);
+    },
     onError: (err) => {
       toast.error(err instanceof AxiosError ? err.message : "unknown error");
     },
   }).mutateAsync;
 
-  return { data, postLike, deleteLike, ...rest };
+  return { likes, postLike, deleteLike, ...rest };
 };

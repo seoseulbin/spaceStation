@@ -9,7 +9,7 @@ export const Container = styled.div`
 `;
 
 export const heartButtonDiv = styled.div`
-  margin: 0 5px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   &:hover {
@@ -17,8 +17,8 @@ export const heartButtonDiv = styled.div`
   }
 `;
 
-export const heartButton = styled.button`
-  border: none;
+export const heartButton = styled.div`
+  margin-right: 5px;
   background-color: transparent;
 `;
 

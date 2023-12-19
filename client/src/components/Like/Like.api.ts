@@ -8,12 +8,18 @@ export const likeAPI = {
   },
 
   async postLikes(feedId: string) {
-    const res = await axiosInstance.post(`/likes/${feedId}`);
+    const res = await axiosInstance.post(
+      `/likes`,
+      { feedId },
+      { withCredentials: true },
+    );
     return res.data;
   },
 
   async deleteLikes(feedId: string) {
-    const res = await axiosInstance.delete(`/likes/${feedId}`);
+    const res = await axiosInstance.delete(`/likes/${feedId}`, {
+      withCredentials: true,
+    });
     return res.data;
   },
 };
