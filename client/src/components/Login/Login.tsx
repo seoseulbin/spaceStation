@@ -53,13 +53,16 @@ export default function Login() {
   return (
     <S.Container>
       {!searchParams.get("id") && (
-        <AnchorButton
-          bgcolor="#fde433"
-          textcolor="#333"
-          href={kakaoAuthorizeURL}
-          onClick={() => {}}
-          children="카카오 계정으로 로그인"
-        />
+        <>
+          <div>로그인 페이지</div>
+          <AnchorButton
+            bgcolor="#fde433"
+            textcolor="#333"
+            href={kakaoAuthorizeURL}
+            onClick={() => {}}
+            children="카카오 계정으로 로그인"
+          />
+        </>
       )}
     </S.Container>
   );
