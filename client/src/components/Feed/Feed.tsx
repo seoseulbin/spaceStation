@@ -2,16 +2,22 @@ import { Fragment } from "react";
 import { useFeed } from "./Feed.hooks";
 import FeedItem from "./FeedItem";
 import Loading from "../common/Loading";
+import ApiBoundary from "../common/ApiBoundary";
 
-export default function Feed() {
-  const { data, isLoading, isError, error, setTarget } = useFeed();
+export default function FeedWithApiBoundary() {
+  return (
+    <ApiBoundary>
+      <Feed />
+    </ApiBoundary>
+  );
+}
 
-  if (isLoading) return <Loading />;
-  if (isError) return error.message;
+function Feed() {
+  const { data, setTarget } = useFeed();
 
   return (
     <>
-      {data!.pages.map(({ data: feeds }) =>
+      {data.pages.map(({ data: feeds }) =>
         feeds.map((feed) => (
           <Fragment key={feed._id}>
             <FeedItem {...feed} />
