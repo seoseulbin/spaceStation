@@ -1,13 +1,21 @@
 import { useCreateFeed } from "./CreateFeed.hooks";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import * as S from "./CreateFeed.styles";
 import axios from "axios";
+import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler.ts";
 
 export default function CreateFeed() {
   const { createFeed } = useCreateFeed();
   const [images, setImages] = useState<string[]>([]);
   const [showImage, setShowImage] = useState(""); //대표 이미지
   const [contents, setContents] = useState<string>(""); //컨텐츠 내용
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { mousePos, getCurrentMousePos } = useTagButtonHandler();
+
+  useEffect(() => {
+    console.log(mousePos);
+  }, [mousePos]);
 
   /**
    * cloudinary 이미지 저장 함수
@@ -73,7 +81,13 @@ export default function CreateFeed() {
   return (
     <>
       <S.Container>
-        <S.ImageContainer>
+        <S.ImageContainer
+          ref={containerRef}
+          onClick={() => {
+            const containerElement = containerRef.current;
+            getCurrentMousePos(containerElement);
+          }}
+        >
           {images && <S.FeedImage src={showImage} alt="피드 이미지" />}
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
