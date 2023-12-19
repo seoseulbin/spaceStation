@@ -1,7 +1,8 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useComment } from "./Comments.hooks";
 import CommentItem from "./CommentItems";
 import * as S from "./Comments.styles";
+import { storage, storageKeys } from "../../global/storage";
 
 interface CommentProps {
   feedId: string;
@@ -29,10 +30,13 @@ export default function Comment({ feedId, onClickClose }: CommentProps) {
         return;
       }
 
+      const localUserData = storage.get(storageKeys.currentUser);
+      const currentUser = JSON.parse(localUserData as string);
+
       //댓글 내용 불러오기
       await postComment({
         content: comment,
-        userId: "657ad316527f73fdac869c9e",
+        userId: currentUser.userId,
         feedId: feedId,
       });
 
@@ -51,19 +55,36 @@ export default function Comment({ feedId, onClickClose }: CommentProps) {
     }
   };
 
+  //댓글창 뜨면 뒤에 스크롤 금지
+  useEffect(() => {
+    document.body.style.cssText = `
+    position: fixed; 
+    top: -${window.scrollY}px;
+    overflow-y: scroll;
+    width: 100%;`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = "";
+      window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+    };
+  }, []);
+
   if (isLoading) return "loading...";
   if (isError) return error.message;
 
   return (
     <S.CommentWindowContainer>
-      {comments &&
-        comments.map((comment) => (
-          <CommentItem
-            key={comment._id}
-            item={comment}
-            onDelete={onDeleteComment}
-          />
-        ))}
+      <S.CommentsCollection>
+        {comments &&
+          comments.map((comment) => (
+            <CommentItem
+              key={comment._id}
+              item={comment}
+              onDelete={onDeleteComment}
+            />
+          ))}
+      </S.CommentsCollection>
+
       <S.InputWrapper onSubmit={onSubmit}>
         <S.InputField
           type="text"

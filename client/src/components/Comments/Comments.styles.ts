@@ -7,8 +7,10 @@ export const Container = styled.div`
   &:hover {
     background-color: lightgray;
   }
-  text-align: left;
   border: 1px solid gray;
+
+  margin-top: 5px;
+  margin-bottom: 5px;
 `;
 
 export const DeleteButton = styled.button`
@@ -21,17 +23,14 @@ export const CommentWindowContainer = styled.div`
   position: fixed;
   right: 10%;
   top: 20%;
-
   background-color: gray;
   width: 80%;
-  height: 70%;
-
+  height: 80%;
+  max-height: 70vh;
+  overflow-y: auto;
   border: 1px solid black;
-
-  align-items: center;
   display: flex;
   flex-direction: column;
-
   z-index: 2;
 `;
 
@@ -50,18 +49,26 @@ export const CancelButton = styled.button`
   align-self: flex-end; 
   cursor: pointer;
   margin: 10px 10px;
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: fixed;
+`;
+
+export const CommentsCollection = styled.div`
+  position: relative;
 `;
 
 export const InputWrapper = styled.form`
   background-color: none;
   display: flex;
   align-items: center;
-  width: 98%;
+  width: 78%;
+  height: 240px;
 
   justify-content: center;
+
+  margin-bottom: 10px;
+  position: fixed;
+  bottom: 0;
+  margin-left: 6px;
 `;
 
 export const InputField = styled.input`
@@ -72,6 +79,8 @@ export const InputField = styled.input`
   outline: none;
   background-color: gray;
   width: 98%;
+
+  align-item: center;
 `;
 
 export const SubmitButton = styled.button`
