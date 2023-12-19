@@ -3,6 +3,8 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import * as S from "./CreateFeed.styles";
 import axios from "axios";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler.ts";
+import ImageAnchorTagButton from "../common/ImageAnchorButton/ImageAnchorButton.tsx";
+import toast from "react-hot-toast";
 
 export default function CreateFeed() {
   const { createFeed } = useCreateFeed();
@@ -12,10 +14,25 @@ export default function CreateFeed() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { mousePos, getCurrentMousePos } = useTagButtonHandler();
+  const [imageTagPos, setImageTagPos] = useState<{ x: number; y: number }[]>(
+    [],
+  );
 
   useEffect(() => {
-    console.log(mousePos);
+    if (mousePos.x !== 0 || mousePos.y !== 0) {
+      setImageTagPos((prev) => [...prev, mousePos]);
+    }
   }, [mousePos]);
+
+  function handleImageAnchor() {
+    const maxAnchorCount = 5;
+    const containerElement = containerRef.current;
+    if (imageTagPos.length >= maxAnchorCount) {
+      toast.error(`상품은 ${maxAnchorCount}개 이상 추가하실 수 없습니다.`);
+      return;
+    }
+    getCurrentMousePos(containerElement);
+  }
 
   /**
    * cloudinary 이미지 저장 함수
@@ -67,7 +84,7 @@ export default function CreateFeed() {
   /**
    * preview 이미지 삭제 버튼
    */
-  const onClickPreviewDeleteBtn = async (e) => {
+  const onClickPreviewDeleteBtn = async (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
 
     const parentEl = e.target.parentElement; // 삭제 버튼이 있는 부모 요소
@@ -81,14 +98,12 @@ export default function CreateFeed() {
   return (
     <>
       <S.Container>
-        <S.ImageContainer
-          ref={containerRef}
-          onClick={() => {
-            const containerElement = containerRef.current;
-            getCurrentMousePos(containerElement);
-          }}
-        >
+        <S.ImageContainer ref={containerRef} onClick={handleImageAnchor}>
           {images && <S.FeedImage src={showImage} alt="피드 이미지" />}
+          {imageTagPos.length > 0 &&
+            imageTagPos.map((item, index) => (
+              <ImageAnchorTagButton key={index} x={item.x} y={item.y} />
+            ))}
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
           <label htmlFor="file">

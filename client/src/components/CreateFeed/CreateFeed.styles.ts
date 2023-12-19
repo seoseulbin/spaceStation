@@ -18,6 +18,8 @@ export const ImageContainer = styled.div`
   text-align: center;
   margin-top: 20px;
   margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
 `;
 
 export const FeedImage = styled.img`

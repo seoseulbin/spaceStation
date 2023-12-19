@@ -9,7 +9,7 @@ export const useTagButtonHandler = () => {
   const getCurrentMousePos = (containerRef: HTMLDivElement | null) => {
     const handleMouseClick = (event: { clientX: number; clientY: number }) => {
       const containerRect = containerRef?.getBoundingClientRect();
-      console.log(containerRect);
+      //console.log(containerRect);
       if (containerRect) {
         const x = event.clientX - containerRect.left;
         const y = event.clientY - containerRect.top;
@@ -17,6 +17,7 @@ export const useTagButtonHandler = () => {
           x: x > 0 ? x : 0,
           y: y > 0 ? y : 0,
         });
+        console.log("xpos:", x, "ypos:", y);
       }
 
       window.removeEventListener("click", handleMouseClick);
@@ -24,5 +25,6 @@ export const useTagButtonHandler = () => {
 
     window.addEventListener("click", handleMouseClick);
   };
+
   return { mousePos, getCurrentMousePos };
 };
