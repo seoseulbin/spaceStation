@@ -16,8 +16,7 @@ function errorHandler(
   res: Response,
   next: NextFunction, // eslint-disable-line no-unused-vars
 ) {
-  // TODO: 배포시 에러 로그 파일로 남기기
-  console.log(`[${new Date()}]` + err);
+  res.locals.errorMessage = err.message; // logger middleware에 에러 메시지를 전달하기 위함
 
   return res.status(err instanceof CustomError ? err.status : 500).json({
     result: "fail",
