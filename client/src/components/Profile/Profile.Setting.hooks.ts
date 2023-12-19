@@ -1,9 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import profileSettingAPI from "./Profile.Setting.api";
 import toast from "react-hot-toast";
 import { storage, storageKeys } from "@/global/storage";
+import { PATH } from "@/global/constants";
 
 export const useProfileSetting = () => {
+  const navigate = useNavigate();
+
   const logout = useMutation({
     mutationFn: profileSettingAPI.logout,
     onSuccess: (response) => {
@@ -14,6 +18,7 @@ export const useProfileSetting = () => {
 
       toast.success(message);
       storage.remove(storageKeys.currentUser);
+      navigate(PATH.login);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -29,6 +34,7 @@ export const useProfileSetting = () => {
 
       toast.success(message);
       storage.remove(storageKeys.currentUser);
+      navigate(PATH.login);
     },
     onError: (error) => {
       toast.error(error.message);

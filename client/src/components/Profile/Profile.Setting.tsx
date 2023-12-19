@@ -25,16 +25,6 @@ function ProfileSetting() {
     setLocalStorageData(localUserData);
   }, [localStorageData, navigate]);
 
-  async function handleWithdraw() {
-    await withdraw();
-    setLocalStorageData({});
-  }
-
-  async function handleLogout() {
-    await logout();
-    setLocalStorageData({});
-  }
-
   return (
     <S.Container>
       <div>프로필 설정 페이지</div>
@@ -43,14 +33,14 @@ function ProfileSetting() {
           <FiLogOut size={24} color={theme.colors.textPrimary} />
           <AnchorButton
             href={undefined}
-            onClick={handleLogout}
+            onClick={async () => await logout()}
             children="로그아웃"
           />
         </S.ListItem>
         <S.ListItem className="withdraw">
           <FiUserX size={24} color={theme.colors.textPrimary} />
           <AnchorButton
-            onClick={handleWithdraw}
+            onClick={async () => await withdraw()}
             href={undefined}
             children="회원탈퇴"
           />
