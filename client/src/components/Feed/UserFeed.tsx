@@ -3,18 +3,26 @@ import { useUserFeed } from "./Feed.hooks";
 import * as S from "./Feed.styles";
 import { PATH } from "@/global/constants";
 import Loading from "../common/Loading";
+import ApiBoundary from "../common/ApiBoundary";
 
-export default function UserFeed({ userId }: { userId: string }) {
-  const { data, isLoading, isError, error, setTarget } = useUserFeed({
+type Props = { userId: string };
+
+export default function UserFeedWithApiBoundary(props: Props) {
+  return (
+    <ApiBoundary>
+      <UserFeed {...props} />
+    </ApiBoundary>
+  );
+}
+
+function UserFeed({ userId }: Props) {
+  const { data, setTarget } = useUserFeed({
     userId,
   });
 
-  if (isLoading) return <Loading />;
-  if (isError) return error.message;
-
   return (
     <>
-      {data!.pages.map(({ data: feeds }, i) => (
+      {data.pages.map(({ data: feeds }, i) => (
         <S.GridFeedItem $column={3} key={"gridFeedItem" + i}>
           {feeds.map((feed) => (
             // TODO: 피드로 이동

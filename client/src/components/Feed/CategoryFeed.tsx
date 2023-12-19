@@ -3,18 +3,26 @@ import { useCategoryFeed } from "./Feed.hooks";
 import * as S from "./Feed.styles";
 import { PATH } from "@/global/constants";
 import Loading from "../common/Loading";
+import ApiBoundary from "../common/ApiBoundary";
 
-export default function CategoryFeed({ category }: { category: string }) {
-  const { data, isLoading, isError, error, setTarget } = useCategoryFeed({
+type Props = { category: string };
+
+export default function CategoryFeedWithApiBoundary(props: Props) {
+  return (
+    <ApiBoundary>
+      <CategoryFeed {...props} />
+    </ApiBoundary>
+  );
+}
+
+function CategoryFeed({ category }: Props) {
+  const { data, setTarget } = useCategoryFeed({
     category,
   });
 
-  if (isLoading) return <Loading />;
-  if (isError) return error.message;
-
   return (
     <>
-      {data!.pages.map(({ data: feeds }, i) => (
+      {data.pages.map(({ data: feeds }, i) => (
         <S.GridFeedItem $column={2} key={"gridFeedItem" + i}>
           {feeds.map((feed) => (
             // TODO: 피드로 이동
