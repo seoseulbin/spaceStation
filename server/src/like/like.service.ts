@@ -24,6 +24,15 @@ const likeService = {
       });
     }
 
+    const isExistLike = await LikeModel.findOne({
+      userId: findUser._id,
+      feedId: findFeed._id,
+    });
+
+    if (isExistLike) {
+      return;
+    }
+
     return LikeModel.create({
       userId: findUser._id,
       feedId: findFeed._id,
