@@ -29,13 +29,10 @@ export default function FeedItem(feed: FeedType) {
             </Fragment>
           ))}
         </S.CustomSlider>
+        <Like feedId={feed._id} />
         <S.TextContainer>
           {feed.content.length < 60 || more ? (
-            // {여기다가 Likes 넣기}
-            <>
-              <Like feedId={feed._id} />
-              {feed.content}
-            </>
+            <>{feed.content}</>
           ) : (
             <>
               {feed.content.slice(0, 60)} ...{" "}
