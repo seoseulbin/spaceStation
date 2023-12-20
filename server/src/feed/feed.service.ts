@@ -2,6 +2,12 @@ import FeedModel from "./feed.model.js";
 import mongoose, { Types } from "mongoose";
 
 const feedService = {
+  async getFeed({ id }: { id: string }) {
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    return FeedModel.findOne({ _id: objectId });
+  },
+
   async getFeeds({ cursor, limit }: { cursor: number; limit: number }) {
     const feeds = await FeedModel.find({}).skip(cursor).limit(limit);
 

@@ -1,56 +1,19 @@
-import { useCreateFeed } from "./CreateFeed.hooks";
+import { useUpdateFeed } from "./UpdateFeed.hooks";
 import { useCategory } from "../Category/Category.hooks";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-import * as S from "./CreateFeed.styles";
+import { ChangeEvent, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import * as S from "./UpdateFeed.styles";
 import axios from "axios";
-import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler.ts";
-import ImageAnchorTagButton from "../common/ImageAnchorButton/ImageAnchorButton.tsx";
-import toast from "react-hot-toast";
 
-export default function CreateFeed({ children }: Element) {
+export default function UpdateFeed({ feedId }: { feedId: string }) {
   const { categorys } = useCategory();
-  const { createFeed } = useCreateFeed();
-  const [showImage, setShowImage] = useState(""); //대표 이미지
+  const { updateFeed, feed, isLoading, isError, error } = useUpdateFeed(feedId);
 
+  const [showImage, setShowImage] = useState<string>(""); //대표 이미지
   const [images, setImages] = useState<string[]>([]); // 피드 이미지 배열
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { mousePos, getCurrentMousePos } = useTagButtonHandler();
-  const [imageTagPos, setImageTagPos] = useState<{ x: number; y: number }[]>(
-    [],
-  );
-
-  useEffect(() => {
-    if (mousePos.x !== 0 || mousePos.y !== 0) {
-      setImageTagPos((prev) => [...prev, mousePos]);
-    }
-  }, [mousePos]);
-
-  function addImageAnchor() {
-    const maxAnchorCount = 5;
-    const containerElement = containerRef.current;
-    if (imageTagPos.length >= maxAnchorCount) {
-      toast.error(
-        `상품 태그는 최대 ${maxAnchorCount}개까지만 추가하실 수 있습니다.`,
-      );
-      return;
-    }
-
-    if (images.length === 0) {
-      toast.error("등록할 이미지를 추가해주세요.");
-      return;
-    }
-    getCurrentMousePos(containerElement);
-  }
-
-  function handleImageAnchor(e: React.BaseSyntheticEvent) {
-    e.stopPropagation();
-    toast.success("링크 수정하는 UI 추가 예정");
-  }
-
   /**
    * cloudinary 이미지 저장 함수
    */
@@ -97,11 +60,12 @@ export default function CreateFeed({ children }: Element) {
       else console.log(String(error));
     }
   };
-
   /**
    * preview 이미지 삭제 버튼
    */
-  const onClickPreviewDeleteBtn = async (e) => {
+  const onClickPreviewDeleteBtn = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
     e.preventDefault();
     const previousSibling = e.currentTarget.previousSibling;
 
@@ -114,21 +78,24 @@ export default function CreateFeed({ children }: Element) {
     }
   };
 
+  useEffect(() => {
+    if (feed) {
+      setImages(feed.imgUrls);
+      setShowImage(feed.imgUrls[0]);
+      setContents(feed.content);
+      setCategory(feed.category);
+      setActiveCategory(feed.category);
+    }
+  }, [feed, activeCategory]);
+
+  if (isLoading) return "loading...";
+  if (isError) return error.message;
+
   return (
     <>
-      {children}
       <S.Container>
-        <S.ImageContainer ref={containerRef} onClick={addImageAnchor}>
+        <S.ImageContainer>
           {images && <S.FeedImage src={showImage} alt="피드 이미지" />}
-          {imageTagPos.length > 0 &&
-            imageTagPos.map((item, index) => (
-              <ImageAnchorTagButton
-                key={index}
-                x={item.x}
-                y={item.y}
-                onClick={(e) => handleImageAnchor(e)}
-              />
-            ))}
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
           <label htmlFor="file">
@@ -162,6 +129,7 @@ export default function CreateFeed({ children }: Element) {
           <S.Label htmlFor="feedContent">컨텐츠</S.Label>
           <S.Textarea
             id="feedContent"
+            value={contents}
             onChange={(e) => {
               setContents(e.target.value);
             }}
@@ -190,7 +158,8 @@ export default function CreateFeed({ children }: Element) {
         </S.CategoryContainer>
         <button
           onClick={async () => {
-            const res = await createFeed({
+            const res = await updateFeed({
+              _id: feedId,
               userId: "614d72a1b5ec679c080d8b12",
               category: category,
               content: contents,
@@ -199,7 +168,7 @@ export default function CreateFeed({ children }: Element) {
             console.log(res);
           }}
         >
-          UPLOAD
+          <Link to="/">UPDATE</Link>
         </button>
       </S.Container>
     </>
