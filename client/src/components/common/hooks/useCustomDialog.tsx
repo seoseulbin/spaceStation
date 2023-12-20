@@ -7,6 +7,8 @@ import * as S from "./useCustomDialog.styles";
  * 메소드는 아래와 같이 사용하고, 불러온 컴포넌트의 return 값에 레이아웃 컴포넌트를 지정하고
  * 마크업을 직접 정의하거나, children props로 템플릿 레이아웃을 할당하여 사용할 수 있습니다.
  *
+ * (주의) 한 컴포넌트 안에서는 1개의 dialog만 사용 가능합니다.
+ *
  * -- isOpen :
  *   팝업이 열렸는지 판단하는 상태 값 (기본값 : false)
  *   * StyledModal의 "isOpen" props에 할당합니다.
@@ -26,18 +28,16 @@ import * as S from "./useCustomDialog.styles";
  *
  * -- beforeCloseDialog :
  *   StyledModal의 "beforeClose" props에 할당합니다.
- *
  */
 
 export function useCustomDialog() {
   const [isOpen, setIsOpen] = useState(false);
   const [opacity, setOpacity] = useState(0);
-  const [scale, setScale] = useState(1.15);
 
   useEffect(() => {
     if (!isOpen) beforeCloseDialog;
     else afterOpenDialog();
-  }, [isOpen, scale]);
+  }, [isOpen]);
 
   function toggleDialog() {
     setIsOpen(!isOpen);
@@ -46,15 +46,13 @@ export function useCustomDialog() {
   function afterOpenDialog() {
     setTimeout(() => {
       setOpacity(1);
-      setScale(1);
     }, 100);
   }
 
   function beforeCloseDialog() {
     return new Promise((resolve) => {
       setOpacity(0);
-      setScale(1.15);
-      setTimeout(resolve, 300);
+      setTimeout(resolve, 400);
     });
   }
 
@@ -84,14 +82,24 @@ export function useCustomDialog() {
   }
 
   function ActionSheetLayout({
-    options,
+    list,
   }: {
-    options?: [{ name: string; onClick: () => void }] | undefined;
+    list?:
+      | Array<
+          [
+            {
+              name: string;
+              usage: string;
+              onClick: () => void;
+            },
+          ]
+        >
+      | undefined;
   }) {
     return (
       <S.ActionSheetLayoutStyle>
-        {options?.map((item, index) => (
-          <button key={index} onClick={item.onClick}>
+        {list?.map((item, index) => (
+          <button key={index} name={item.usage} onClick={item.onClick}>
             {item.name}
           </button>
         ))}

@@ -56,15 +56,18 @@ export function SampleDialog() {
 
   const options = [
     {
-      name: "액션 시트 옵션 1입니다.",
+      name: "NEUTRAL 메뉴 버튼입니다.",
+      usage: "NEUTRAL",
       onClick: () => alert("옵션1을 클릭했습니다."),
     },
     {
-      name: "액션 시트 옵션 2입니다.",
+      name: "POSITIVE 메뉴 버튼입니다.",
+      usage: "POSITIVE",
       onClick: () => alert("옵션2을 클릭했습니다."),
     },
     {
-      name: "액션 시트 옵션 3입니다.",
+      name: "ALERT 메뉴 버튼입니다.",
+      usage: "ALERT",
       onClick: () => alert("옵션3을 클릭했습니다."),
     },
   ];
@@ -72,7 +75,7 @@ export function SampleDialog() {
   return (
     <>
       <button onClick={toggleDialog}>액션 시트 호출하기</button>
-      <S.StyledModal
+      <S.StyledActionSheet
         isOpen={isOpen}
         afterOpen={afterOpenDialog}
         beforeClose={beforeCloseDialog}
@@ -80,8 +83,9 @@ export function SampleDialog() {
         onEscapeKeydown={toggleDialog}
         opacity={opacity}
         backgroundProps={{ opacity }}
-        children={<ActionSheetLayout options={options} />}
-      ></S.StyledModal>
+        length={options?.length}
+        children={<ActionSheetLayout list={options} />}
+      ></S.StyledActionSheet>
     </>
   );
 }
