@@ -27,3 +27,22 @@ export const Following = styled.li`
   margin: 10px;
   text-align: center;
 `;
+
+export const Upload = styled.div`
+  color: ${({ theme }) => theme.colors.main};
+  position: absolute;
+  font-weight: bold;
+  top: 20px;
+  cursor: pointer;
+  right: 20px;
+`;
+
+export const UpdateInput = styled.input`
+  padding: 10px;
+  box-sizing: border-box;
+  items-align: center;
+  text-align: center;
+  font-size: ${({ theme }) => theme.size.md}px;
+  border: 1px solid #ddd;
+  justify-content: center;
+`;

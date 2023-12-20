@@ -1,10 +1,9 @@
-// TODO: 프로젝트 구조를 보여주기위한 샘플 파일임. 구조 잡히면 지우기.
 import { useState } from "react";
-import Loading from "../common/Loading";
 import FeedOption from "../FeedOption/FeedOption";
-import { useUser } from "../Profile/User.hooks";
 import * as S from "./FeedHeader.styles";
 import { HiDotsHorizontal } from "react-icons/hi";
+import UserItem from "../Profile/UserItem";
+import FollowButton from "../Profile/FollowButton";
 
 export default function FeedHeader({
   feedId,
@@ -13,13 +12,7 @@ export default function FeedHeader({
   feedId: string;
   userId: string;
 }) {
-  const { user, isLoading, isError, error } = useUser(
-    userId, //TODO:userId가 들어가야함, 임시 아이디
-  );
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  if (isLoading) return <Loading />;
-  if (isError) return error.message;
 
   const openOption = () => {
     document.body.style.overflow = "hidden";
@@ -32,13 +25,13 @@ export default function FeedHeader({
   return (
     <>
       <S.FeedHeader>
-        <S.UserInfo>
-          <S.ProfileImage src={user?.profileImgUrl} />
-          <span>{user?.nickname}</span>
-        </S.UserInfo>
+        <div className="user">
+          <UserItem currentUserId={userId} />
+          <FollowButton currentUserId={userId} />
+        </div>
         <HiDotsHorizontal onClick={() => openOption()} />
+        <FeedOption feedId={feedId} isOpen={isOpen} closeOption={closeOption} />
       </S.FeedHeader>
-      <FeedOption feedId={feedId} isOpen={isOpen} closeOption={closeOption} />
     </>
   );
 }
