@@ -3,9 +3,9 @@ import { FiX } from "react-icons/fi";
 import * as S from "./useCustomDialog.styles";
 
 /**
- * 커스텀 다이얼로그 사용을 위한 메소드를 정의한 훅 입니다.
- * 훅은 아래와 같이 정의하고, 불러온 컴포넌트의 return 값에 StyledModal을 생성하고
- * 마크업을 직접 정의합니다.
+ * 커스텀 다이얼로그 Custom Dialog 사용을 위한 메소드와 레이아웃을 정의한 훅 입니다.
+ * 메소드는 아래와 같이 사용하고, 불러온 컴포넌트의 return 값에 레이아웃 컴포넌트를 지정하고
+ * 마크업을 직접 정의하거나, children props로 템플릿 레이아웃을 할당하여 사용할 수 있습니다.
  *
  * -- isOpen :
  *   팝업이 열렸는지 판단하는 상태 값 (기본값 : false)
@@ -32,11 +32,12 @@ import * as S from "./useCustomDialog.styles";
 export function useCustomDialog() {
   const [isOpen, setIsOpen] = useState(false);
   const [opacity, setOpacity] = useState(0);
+  const [scale, setScale] = useState(1.15);
 
   useEffect(() => {
     if (!isOpen) beforeCloseDialog;
     else afterOpenDialog();
-  }, [isOpen]);
+  }, [isOpen, scale]);
 
   function toggleDialog() {
     setIsOpen(!isOpen);
@@ -45,12 +46,14 @@ export function useCustomDialog() {
   function afterOpenDialog() {
     setTimeout(() => {
       setOpacity(1);
+      setScale(1);
     }, 100);
   }
 
   function beforeCloseDialog() {
     return new Promise((resolve) => {
       setOpacity(0);
+      setScale(1.15);
       setTimeout(resolve, 300);
     });
   }
@@ -58,17 +61,24 @@ export function useCustomDialog() {
   function BasicModalLayout({
     title,
     description,
+    children,
   }: {
     title: string;
-    description: string;
+    description?: string | undefined;
+    children?: React.ReactNode | undefined;
   }) {
     return (
       <S.BasicModalLayoutStyle>
-        <h1>{title}</h1>
-        <p>{description}</p>
-        <button onClick={toggleDialog}>
-          <FiX size={36} />
-        </button>
+        <header>
+          <h1>{title}</h1>
+          <button onClick={toggleDialog}>
+            <FiX size={24} />
+          </button>
+        </header>
+        <section>
+          <p>{description}</p>
+          {children}
+        </section>
       </S.BasicModalLayoutStyle>
     );
   }
