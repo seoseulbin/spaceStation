@@ -24,14 +24,26 @@ export default function CreateFeed() {
     }
   }, [mousePos]);
 
-  function handleImageAnchor() {
+  function addImageAnchor() {
     const maxAnchorCount = 5;
     const containerElement = containerRef.current;
     if (imageTagPos.length >= maxAnchorCount) {
-      toast.error(`상품은 ${maxAnchorCount}개 이상 추가하실 수 없습니다.`);
+      toast.error(
+        `상품 태그는 최대 ${maxAnchorCount}개까지만 추가하실 수 있습니다.`,
+      );
+      return;
+    }
+
+    if (images.length === 0) {
+      toast.error("등록할 이미지를 추가해주세요.");
       return;
     }
     getCurrentMousePos(containerElement);
+  }
+
+  function handleImageAnchor(e: React.BaseSyntheticEvent) {
+    e.stopPropagation();
+    toast.success("링크 수정하는 UI 추가 예정");
   }
 
   /**
@@ -98,11 +110,16 @@ export default function CreateFeed() {
   return (
     <>
       <S.Container>
-        <S.ImageContainer ref={containerRef} onClick={handleImageAnchor}>
+        <S.ImageContainer ref={containerRef} onClick={addImageAnchor}>
           {images && <S.FeedImage src={showImage} alt="피드 이미지" />}
           {imageTagPos.length > 0 &&
             imageTagPos.map((item, index) => (
-              <ImageAnchorTagButton key={index} x={item.x} y={item.y} />
+              <ImageAnchorTagButton
+                key={index}
+                x={item.x}
+                y={item.y}
+                onClick={(e) => handleImageAnchor(e)}
+              />
             ))}
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
