@@ -3,6 +3,7 @@ import { useFeed } from "./FeedOption.hooks";
 import * as S from "./FeedOption.styles";
 import { Link } from "react-router-dom";
 import ApiBoundary from "@/components/common/ApiBoundary";
+import toast from "react-hot-toast";
 
 interface OptionProps {
   feedId: string;
@@ -53,7 +54,13 @@ function ApiComponent({
                 </S.Button>
               </>
             ) : (
-              <S.Button>신고하기</S.Button>
+              <S.Button
+                onClick={() => {
+                  toast.success("신고되었습니다.");
+                }}
+              >
+                신고하기
+              </S.Button>
             )}
           </S.Wrapper>
         </S.Container>
