@@ -69,7 +69,6 @@ export default function Like({ feedId }: { feedId: FeedType["_id"] }) {
           {!heart && <FaRegHeart />}
         </S.heartButton>
         <S.likesNumDiv>
-          {likes?.length === 0 && ""}
           {likes?.length !== 0 && `좋아요 ${likes?.length} 개`}
         </S.likesNumDiv>
       </S.heartButtonDiv>
