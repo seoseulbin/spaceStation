@@ -5,17 +5,11 @@ import commentAPI from "./Comments.api";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
-export const useComment = (feedId: string | null) => {
+export const useComment = (feedId: string) => {
   const { data: comments, ...rest } = useQuery<CommentType[], Error>({
     queryKey: [queryKeys.comment, feedId],
     queryFn: () => {
-      //아이디가 있으면 넘기고
-      if (feedId !== null) {
-        return commentAPI.getComments(feedId);
-      } else {
-        //없으면 빈객체 리턴
-        return [];
-      }
+      return commentAPI.getComments(feedId);
     },
   });
 
@@ -34,16 +28,17 @@ export const useComment = (feedId: string | null) => {
       content: string;
       userId: string;
       feedId: string;
-      createdAt: Date;
     }) => {
       return commentAPI.postComment({ content, userId, feedId });
     },
     onSuccess: () => {
-      toast.success("포스트 성공!");
+      toast.success("댓글 달기 성공!");
       invalidateCommentQuery();
     },
     onError: (err) => {
-      toast.error(err instanceof AxiosError ? err.message : "에러다 에러");
+      toast.error(
+        err instanceof AxiosError ? err.message : "댓글 못 달았어 에러다 에러",
+      );
     },
   }).mutateAsync;
 
