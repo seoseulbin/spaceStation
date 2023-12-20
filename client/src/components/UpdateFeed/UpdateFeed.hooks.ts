@@ -31,7 +31,9 @@ export const useUpdateFeed = (_id: string) => {
       navigate(PATH.root);
     },
     onError: (err) => {
-      toast.error(err instanceof AxiosError ? err.message : "unknown error");
+      toast.error(
+        err instanceof AxiosError ? "정보가 부족합니다." : "unknown error",
+      );
     },
   }).mutateAsync;
 

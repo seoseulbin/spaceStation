@@ -14,24 +14,19 @@ const feedAPI = {
     content,
     imgUrls,
   }: UpdateFeedType) => {
-    try {
-      const response = await axiosInstance.put(
-        `/feeds/${_id}`,
-        {
-          userId,
-          category,
-          content,
-          imgUrls,
-        },
-        {
-          withCredentials: true,
-        },
-      );
-      return response.data;
-    } catch (error) {
-      if (error instanceof Error) console.log(error.message);
-      else console.log(String(error));
-    }
+    const response = await axiosInstance.put(
+      `/feeds/${_id}`,
+      {
+        userId,
+        category,
+        content,
+        imgUrls,
+      },
+      {
+        withCredentials: true,
+      },
+    );
+    return response.data;
   },
 };
 export default feedAPI;
