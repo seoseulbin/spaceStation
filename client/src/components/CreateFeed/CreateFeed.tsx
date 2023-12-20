@@ -3,19 +3,19 @@ import { useCategory } from "../Category/Category.hooks";
 import { ChangeEvent, useState } from "react";
 import * as S from "./CreateFeed.styles";
 import axios from "axios";
+import { CgMathPlus } from "react-icons/cg";
+import { GoX } from "react-icons/go";
+import { Link } from "react-router-dom";
 
-export default function CreateFeed({ children }: Element) {
-  const { categorys, isLoading, isError, error } = useCategory();
+export default function CreateFeed() {
+  const { categorys } = useCategory();
   const { createFeed } = useCreateFeed();
-  const [showImage, setShowImage] = useState(""); //대표 이미지
 
+  const [showImage, setShowImage] = useState(""); //대표 이미지
   const [images, setImages] = useState<string[]>([]); // 피드 이미지 배열
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
-  const [activeCategory, setActiveCategory] = useState<number | null>(null); // 활성화된 카테고리 검증
-
-  if (isLoading) return "loading...";
-  if (isError) return error.message;
+  const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
 
   /**
    * cloudinary 이미지 저장 함수
@@ -84,14 +84,19 @@ export default function CreateFeed({ children }: Element) {
 
   return (
     <>
-      {children}
       <S.Container>
         <S.ImageContainer>
-          {images && <S.FeedImage src={showImage} alt="피드 이미지" />}
+          {images.length != 0 ? (
+            <S.FeedImage src={showImage} alt="피드 이미지" />
+          ) : (
+            <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
+          )}
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
           <label htmlFor="file">
-            <S.InputImageButton>+</S.InputImageButton>
+            <S.InputImageButton>
+              <CgMathPlus size="36" color="#2B2B2B" />
+            </S.InputImageButton>
           </label>
           <S.InputImage
             id="file"
@@ -110,7 +115,7 @@ export default function CreateFeed({ children }: Element) {
                     }}
                   />
                   <S.ImageDeleteButton onClick={onClickPreviewDeleteBtn}>
-                    x
+                    <GoX color="gray" size="14" />
                   </S.ImageDeleteButton>
                 </S.ImagePreviewList>
               );
@@ -129,17 +134,16 @@ export default function CreateFeed({ children }: Element) {
         <S.CategoryContainer>
           <S.Label htmlFor="category">카테고리</S.Label>
           <S.CategoryWrapper>
-            {categorys?.map((item, index) => {
+            {categorys?.map((item) => {
               return (
                 <S.CategoryItem
-                  key={index}
-                  isActive={index === activeCategory ? true : false}
+                  key={item._id}
+                  $isActive={item._id === activeCategory ? true : false}
                   onClick={() => {
                     setActiveCategory((prev) =>
-                      prev === index ? null : index,
+                      prev === item._id ? null : item._id,
                     );
                     setCategory((prev) => (prev === item._id ? "" : item._id));
-                    console.log(category);
                   }}
                 >
                   {item.category}
@@ -159,7 +163,7 @@ export default function CreateFeed({ children }: Element) {
             console.log(res);
           }}
         >
-          UPLOAD
+          <Link to="/">UPDATE</Link>
         </button>
       </S.Container>
     </>

@@ -3,6 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as S from "./Feed.styles";
 import { Fragment, useState } from "react";
+import FeedHeader from "../FeedHeader/FeedHeader";
 
 const sliderSettings = {
   dots: true,
@@ -16,9 +17,11 @@ const sliderSettings = {
 
 export default function FeedItem(feed: FeedType) {
   const [more, setMore] = useState(false);
+
   return (
     <>
       <S.Container>
+        <FeedHeader feedId={feed._id} userId={feed.userId} />
         <S.CustomSlider {...sliderSettings}>
           {feed.imgUrls.map((imgUrl, i) => (
             <Fragment key={imgUrl + i}>

@@ -3,23 +3,20 @@ import { useCategory } from "./Category.hooks";
 import * as S from "./Category.styles";
 
 export default function Category() {
-  const { categorys, isLoading, isError, error } = useCategory();
-  const [activeCategory, setActiveCategory] = useState<number | null>(0); // 활성화된 카테고리 검증
-
-  if (isLoading) return "loading...";
-  if (isError) return error.message;
+  const { categorys } = useCategory();
+  const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
 
   return (
     <>
       <S.Container>
         <S.CategoryList>
-          {categorys?.map((category, index) => {
+          {categorys?.map((category) => {
             return (
               <S.Category
-                key={index}
-                isActive={index === activeCategory ? true : false}
+                key={category._id}
+                $isActive={category._id === activeCategory ? true : false}
                 onClick={() => {
-                  setActiveCategory(index);
+                  setActiveCategory(category._id);
                 }}
               >
                 {category.category}

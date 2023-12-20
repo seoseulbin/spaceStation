@@ -4,6 +4,7 @@ import { validateQueryParams } from "../middleware/validation/queryParams.js";
 
 const feedRouter = Router();
 
+feedRouter.get("/:id", feedController.getFeed);
 feedRouter.get(
   "/",
   validateQueryParams([

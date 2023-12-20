@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { queryClient, queryKeys } from "@/config/reactQeury";
+import { queryClient, queryKeys } from "@/global/reactQeury";
 import feedAPI from "./CreateFeed.api";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
@@ -17,6 +17,7 @@ export const useCreateFeed = () => {
   const createFeed = useMutation({
     mutationFn: feedAPI.createFeed,
     onSuccess: () => {
+      toast.success("피드가 추가되었습니다.");
       invalidateFeedQuery();
     },
     onError: (err) => {
