@@ -5,9 +5,18 @@ import * as S from "./CreateFeed.styles";
 import axios from "axios";
 import { CgMathPlus } from "react-icons/cg";
 import { GoX } from "react-icons/go";
-import { Link } from "react-router-dom";
+import { storage, storageKeys } from "@/global/storage";
+import ApiBoundary from "../common/ApiBoundary";
 
 export default function CreateFeed() {
+  return (
+    <ApiBoundary>
+      <ApiComponent />
+    </ApiBoundary>
+  );
+}
+
+function ApiComponent() {
   const { categorys } = useCategory();
   const { createFeed } = useCreateFeed();
 
@@ -16,6 +25,9 @@ export default function CreateFeed() {
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
+
+  const localUserData = storage.get(storageKeys.currentUser);
+  const currentUser = JSON.parse(localUserData as string);
 
   /**
    * cloudinary 이미지 저장 함수
@@ -154,16 +166,15 @@ export default function CreateFeed() {
         </S.CategoryContainer>
         <button
           onClick={async () => {
-            const res = await createFeed({
-              userId: "614d72a1b5ec679c080d8b12",
+            await createFeed({
+              userId: currentUser.userId,
               category: category,
               content: contents,
               imgUrls: images,
             });
-            console.log(res);
           }}
         >
-          <Link to="/">UPDATE</Link>
+          UPLOAD
         </button>
       </S.Container>
     </>

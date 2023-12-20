@@ -9,7 +9,10 @@ const feedService = {
   },
 
   async getFeeds({ cursor, limit }: { cursor: number; limit: number }) {
-    const feeds = await FeedModel.find({}).skip(cursor).limit(limit);
+    const feeds = await FeedModel.find({})
+      .skip(cursor)
+      .limit(limit)
+      .sort({ createdAt: -1 });
 
     return feeds;
   },
@@ -20,7 +23,10 @@ const feedService = {
     limit: number;
   }) {
     const { userId, cursor, limit } = props;
-    const feeds = await FeedModel.find({ userId }).skip(cursor).limit(limit);
+    const feeds = await FeedModel.find({ userId })
+      .skip(cursor)
+      .limit(limit)
+      .sort({ createdAt: -1 });
 
     return feeds;
   },
@@ -31,7 +37,10 @@ const feedService = {
     limit: number;
   }) {
     const { category, cursor, limit } = props;
-    const feeds = await FeedModel.find({ category }).skip(cursor).limit(limit);
+    const feeds = await FeedModel.find({ category })
+      .skip(cursor)
+      .limit(limit)
+      .sort({ createdAt: -1 });
 
     return feeds;
   },
@@ -51,11 +60,13 @@ const feedService = {
 
   async updateFeed({
     id,
+    userId,
     category,
     content,
     imgUrls,
   }: {
     id: string;
+    userId: string;
     category: string;
     content: string;
     imgUrls: string[];
@@ -65,6 +76,7 @@ const feedService = {
     return FeedModel.findByIdAndUpdate(
       { _id: objectId },
       {
+        userId,
         category,
         content,
         imgUrls,
