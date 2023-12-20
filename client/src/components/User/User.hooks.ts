@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "@/global/reactQeury";
 import { UserType } from "./User.type";
 import UserAPI from "./User.api";
@@ -8,7 +8,7 @@ import { AxiosError } from "axios";
  * 유저 훅
  */
 export const useUser = (userid: string) => {
-  const { data: user, ...rest } = useQuery<UserType, Error>({
+  const { data: user, ...rest } = useSuspenseQuery<UserType, Error>({
     queryKey: [queryKeys.user, userid],
     queryFn: () => UserAPI.getUser(userid),
   });
