@@ -1,13 +1,9 @@
-import axios from "axios";
-
-const instance = axios.create({
-  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/feeds`,
-});
+import { axiosInstance } from "@/global/axiosInstance";
 
 const feedAPI = {
   deleteFeed: async (_id: string) => {
     try {
-      const response = await instance.delete(`/${_id}`);
+      const response = await axiosInstance.delete(`/feeds/${_id}`);
       return response.data;
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
