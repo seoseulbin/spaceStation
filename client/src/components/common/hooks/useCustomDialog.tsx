@@ -1,28 +1,30 @@
 import { useEffect, useState } from "react";
+import { FiX } from "react-icons/fi";
+import * as S from "./useCustomDialog.styles";
 
 /**
  * 커스텀 다이얼로그 사용을 위한 메소드를 정의한 훅 입니다.
  * 훅은 아래와 같이 정의하고, 불러온 컴포넌트의 return 값에 StyledModal을 생성하고
  * 마크업을 직접 정의합니다.
  *
- * >> isOpen :
+ * -- isOpen :
  *   팝업이 열렸는지 판단하는 상태 값 (기본값 : false)
  *   * StyledModal의 "isOpen" props에 할당합니다.
  *
- * >> opacity :
+ * -- opacity :
  *   팝업의 투명도 값 (기본값 : 0)
  *   * StyledModal의 "opacity" props에 할당합니다.
  *   * StyledModal의 "backgroundProps" props에 할당합니다.
  *
- * >> toggleDialog :
+ * -- toggleDialog :
  *   1) 팝업을 호출할 엘리먼트의 onClick 이벤트에 할당합니다.
  *   2) StyledModal의 "onBackgroundClick", "onEscapeKeydown" props에 할당합니다.
  *   3) 팝업 내부의 요소 중 팝업을 닫을 엘리먼트의 onClick 이벤트에 할당합니다.
  *
- * >> afterOpenDialog :
+ * -- afterOpenDialog :
  *   StyledModal의 "afterOpen" props에 할당합니다.
  *
- * >> beforeCloseDialog :
+ * -- beforeCloseDialog :
  *   StyledModal의 "beforeClose" props에 할당합니다.
  *
  */
@@ -38,7 +40,6 @@ export function useCustomDialog() {
 
   function toggleDialog() {
     setIsOpen(!isOpen);
-    console.log(isOpen);
   }
 
   function afterOpenDialog() {
@@ -54,5 +55,30 @@ export function useCustomDialog() {
     });
   }
 
-  return { toggleDialog, afterOpenDialog, beforeCloseDialog, opacity, isOpen };
+  function BasicModalLayout({
+    title,
+    description,
+  }: {
+    title: string;
+    description: string;
+  }) {
+    return (
+      <S.BasicModalLayoutStyle>
+        <h1>{title}</h1>
+        <p>{description}</p>
+        <button onClick={toggleDialog}>
+          <FiX size={36} />
+        </button>
+      </S.BasicModalLayoutStyle>
+    );
+  }
+
+  return {
+    BasicModalLayout, // 기본 모달 레이아웃 입니다. 타이틀, 설명을 입력합니다.
+    toggleDialog,
+    afterOpenDialog,
+    beforeCloseDialog,
+    opacity,
+    isOpen,
+  };
 }
