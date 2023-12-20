@@ -31,7 +31,7 @@ export default function ProfileTop({ userId }: { userId: string }) {
         </Link>
       );
     }
-    return <FollowButton currentUserId={userId} />;
+    return null;
   };
   const ProfileButton = () => <div>{HandlerFollowButton()}</div>;
 
@@ -56,6 +56,7 @@ export default function ProfileTop({ userId }: { userId: string }) {
                 <span>{follows?.following?.length}</span> 팔로잉
               </S.Following>
             </S.Follow>
+            <FollowButton currentUserId={userId} />
             <ProfileButton />
           </div>
         </div>
