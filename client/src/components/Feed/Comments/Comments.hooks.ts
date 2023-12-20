@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "@/global/reactQeury";
 import { CommentType } from "./Comments.type";
 import commentAPI from "./Comments.api";
@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
 export const useComment = (feedId: string) => {
-  const { data: comments, ...rest } = useQuery<CommentType[], Error>({
+  const { data: comments, ...rest } = useSuspenseQuery<CommentType[], Error>({
     queryKey: [queryKeys.comment, feedId],
     queryFn: () => {
       return commentAPI.getComments(feedId);
