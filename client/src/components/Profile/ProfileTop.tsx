@@ -1,12 +1,10 @@
 import { useState } from "react";
-
 import * as S from "./Profile.styles";
 import FollowModal from "../Follow/FollowModal";
-
 import { useFollow } from "../Follow/Follow.hooks";
 import { useUser } from "../User/User.hooks";
 import FollowButton from "../Follow/FollowButton";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import ApiBoundary from "../common/ApiBoundary";
 
 export default function ProfileTop({ userId }: { userId: string }) {
@@ -52,9 +50,9 @@ function ApiComponent({ userId }: { userId: string }) {
               </S.Following>
             </S.Follow>
             {localUserData && JSON.parse(localUserData).userId === userId ? (
-              <Link to="/profile/update">
+              <NavLink to="/profile/update">
                 <input type="button" value={"프로필 수정"} />
-              </Link>
+              </NavLink>
             ) : (
               <FollowButton userId={userId} />
             )}
