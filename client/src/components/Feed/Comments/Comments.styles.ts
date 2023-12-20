@@ -32,7 +32,7 @@ export const CommentDate = styled.p`
 
 export const DeleteButton = styled(MdDelete)`
   cursor: pointer;
-  margin-top: 3ppx;
+  margin-top: 3px;
 `;
 
 export const User = styled.div`
@@ -58,7 +58,7 @@ export const CommentWindowContainer = styled.div`
 export const CloseButton = styled(IoClose)`
   align-self: flex-end;
   cursor: pointer;
-  margin: 10px;
+  margin: 5px;
 `;
 
 export const FeedCommentButton = styled.button`
