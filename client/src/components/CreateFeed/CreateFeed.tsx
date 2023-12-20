@@ -7,7 +7,7 @@ import { CgMathPlus } from "react-icons/cg";
 import { GoX } from "react-icons/go";
 import { Link } from "react-router-dom";
 
-export default function CreateFeed() {
+export default function CreateFeed({ children }: Element) {
   const { categorys } = useCategory();
   const { createFeed } = useCreateFeed();
 
@@ -84,6 +84,7 @@ export default function CreateFeed() {
 
   return (
     <>
+      {children}
       <S.Container>
         <S.ImageContainer>
           {images.length != 0 ? (

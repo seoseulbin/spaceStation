@@ -53,6 +53,8 @@ export const TextContainer = styled.p`
   font-size: 14px;
   color: ${({ theme }) => theme.colors.textPrimary};
   line-height: 20px;
+
+  overflow = hidden;
 `;
 
 export const MoreReadButton = styled.button`
@@ -71,4 +73,17 @@ export const GridFeedItem = styled.div<{ $column: number }>`
   width: 100%;
   overflow: hidden;
   position: relative;
+`;
+
+export const CommentContainer = styled.button`
+  background-color: black;
+  color: white;
+  border: 3px solid gray;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 70px;
+  height: 70px;
+
+  overflow-y: auto;
+  z-index: 2;
 `;
