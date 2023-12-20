@@ -6,7 +6,7 @@ export const useTagButtonHandler = () => {
     y: number;
   }>({ x: 0, y: 0 });
 
-  const getCurrentMousePos = (containerRef: HTMLDivElement | null) => {
+  const getCurrentMousePos = async (containerRef: HTMLDivElement | null) => {
     const handleMouseClick = (event: { clientX: number; clientY: number }) => {
       const containerRect = containerRef?.getBoundingClientRect();
       //console.log(containerRect);
@@ -29,5 +29,9 @@ export const useTagButtonHandler = () => {
     window.addEventListener("click", handleMouseClick);
   };
 
-  return { mousePos, getCurrentMousePos };
+  const showTagButtonModal = () => {
+    return "";
+  };
+
+  return { mousePos, getCurrentMousePos, showTagButtonModal };
 };
