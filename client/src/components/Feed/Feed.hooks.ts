@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { queryKeys } from "@/config/reactQeury";
+import { queryKeys } from "@/global/reactQeury";
 import feedAPI from "./Feed.api";
 import { useIntersectionObserver } from "../common/hooks/useIntersectionObserver";
 

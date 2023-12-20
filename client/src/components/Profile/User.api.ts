@@ -5,7 +5,7 @@ const instance = axios.create({
   baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/users`,
 });
 
-const followAPI = {
+const userAPI = {
   async getUser(userid: string) {
     const res = await instance.get<UserType>(`/${userid}`);
     return res.data;
@@ -15,8 +15,10 @@ const followAPI = {
     nickname: UserType["nickname"];
     profileImgUrl: UserType["profileImgUrl"];
   }) {
-    return instance.post(`/`, props);
+    return instance.put(`/`, props, {
+      withCredentials: true,
+    });
   },
 };
 
-export default followAPI;
+export default userAPI;

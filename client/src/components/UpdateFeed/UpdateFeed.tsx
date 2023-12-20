@@ -1,19 +1,19 @@
-import { useCreateFeed } from "./CreateFeed.hooks";
+import { useUpdateFeed } from "./UpdateFeed.hooks";
 import { useCategory } from "../Category/Category.hooks";
-import { ChangeEvent, useState } from "react";
-import * as S from "./CreateFeed.styles";
+import { ChangeEvent, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import * as S from "./UpdateFeed.styles";
 import axios from "axios";
 
-export default function CreateFeed({ children }: Element) {
+export default function UpdateFeed({ feedId }: { feedId: string }) {
   const { categorys } = useCategory();
-  const { createFeed } = useCreateFeed();
-  const [showImage, setShowImage] = useState(""); //대표 이미지
+  const { updateFeed, feed, isLoading, isError, error } = useUpdateFeed(feedId);
 
+  const [showImage, setShowImage] = useState<string>(""); //대표 이미지
   const [images, setImages] = useState<string[]>([]); // 피드 이미지 배열
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
-
   /**
    * cloudinary 이미지 저장 함수
    */
@@ -60,7 +60,6 @@ export default function CreateFeed({ children }: Element) {
       else console.log(String(error));
     }
   };
-
   /**
    * preview 이미지 삭제 버튼
    */
@@ -79,9 +78,21 @@ export default function CreateFeed({ children }: Element) {
     }
   };
 
+  useEffect(() => {
+    if (feed) {
+      setImages(feed.imgUrls);
+      setShowImage(feed.imgUrls[0]);
+      setContents(feed.content);
+      setCategory(feed.category);
+      setActiveCategory(feed.category);
+    }
+  }, [feed, activeCategory]);
+
+  if (isLoading) return "loading...";
+  if (isError) return error.message;
+
   return (
     <>
-      {children}
       <S.Container>
         <S.ImageContainer>
           {images && <S.FeedImage src={showImage} alt="피드 이미지" />}
@@ -118,6 +129,7 @@ export default function CreateFeed({ children }: Element) {
           <S.Label htmlFor="feedContent">컨텐츠</S.Label>
           <S.Textarea
             id="feedContent"
+            value={contents}
             onChange={(e) => {
               setContents(e.target.value);
             }}
@@ -146,7 +158,8 @@ export default function CreateFeed({ children }: Element) {
         </S.CategoryContainer>
         <button
           onClick={async () => {
-            const res = await createFeed({
+            const res = await updateFeed({
+              _id: feedId,
               userId: "614d72a1b5ec679c080d8b12",
               category: category,
               content: contents,
@@ -155,7 +168,7 @@ export default function CreateFeed({ children }: Element) {
             console.log(res);
           }}
         >
-          UPLOAD
+          <Link to="/">UPDATE</Link>
         </button>
       </S.Container>
     </>

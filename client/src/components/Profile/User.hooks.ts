@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { queryClient, queryKeys } from "@/config/reactQeury";
+import { queryClient, queryKeys } from "@/global/reactQeury";
 import { UserType } from "./User.type";
 import UserAPI from "./User.api";
 import toast from "react-hot-toast";
