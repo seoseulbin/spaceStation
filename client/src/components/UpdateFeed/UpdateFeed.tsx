@@ -4,6 +4,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as S from "./UpdateFeed.styles";
 import axios from "axios";
+import { CgMathPlus } from "react-icons/cg";
+import { GoX } from "react-icons/go";
 
 export default function UpdateFeed({ feedId }: { feedId: string }) {
   const { categorys } = useCategory();
@@ -86,7 +88,7 @@ export default function UpdateFeed({ feedId }: { feedId: string }) {
       setCategory(feed.category);
       setActiveCategory(feed.category);
     }
-  }, [feed, activeCategory]);
+  }, [feed]);
 
   if (isLoading) return "loading...";
   if (isError) return error.message;
@@ -99,7 +101,9 @@ export default function UpdateFeed({ feedId }: { feedId: string }) {
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
           <label htmlFor="file">
-            <S.InputImageButton>+</S.InputImageButton>
+            <S.InputImageButton>
+              <CgMathPlus size="36" color="#2B2B2B" />
+            </S.InputImageButton>
           </label>
           <S.InputImage
             id="file"
@@ -118,7 +122,7 @@ export default function UpdateFeed({ feedId }: { feedId: string }) {
                     }}
                   />
                   <S.ImageDeleteButton onClick={onClickPreviewDeleteBtn}>
-                    x
+                    <GoX color="gray" size="14" />
                   </S.ImageDeleteButton>
                 </S.ImagePreviewList>
               );

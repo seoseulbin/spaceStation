@@ -1,13 +1,9 @@
-import axios from "axios";
+import { axiosInstance } from "@/global/axiosInstance";
 import { CategoryType } from "./Category.type";
-
-const instance = axios.create({
-  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/categorys`,
-});
 
 const categoryAPI = {
   async getCategory() {
-    const res = await instance.get<CategoryType[]>(`/`);
+    const res = await axiosInstance.get<CategoryType[]>(`/categorys`);
     return res.data;
   },
 };

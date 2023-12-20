@@ -3,6 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as S from "./Feed.styles";
 import { Fragment, useState } from "react";
+import FeedHeader from "../FeedHeader/FeedHeader";
 import FeedOption from "../FeedOption/FeedOption";
 import Comment from "../Comments/Comments";
 import Like from "../Like/Like";
@@ -35,6 +36,7 @@ export default function FeedItem(feed: FeedType) {
   return (
     <>
       <S.Container>
+        <FeedHeader feedId={feed._id} userId={feed.userId} />
         <div className="FeedHeader">
           <button onClick={() => openOption()}>옵션 버튼</button>
         </div>

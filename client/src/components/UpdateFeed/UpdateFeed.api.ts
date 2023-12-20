@@ -1,13 +1,9 @@
-import axios from "axios";
+import { axiosInstance } from "@/global/axiosInstance";
 import { UpdateFeedType } from "./UpdateFeed.type";
-
-const instance = axios.create({
-  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/feeds`,
-});
 
 const feedAPI = {
   getFeed: async (_id: string) => {
-    const response = await instance.get<UpdateFeedType>(`/${_id}`);
+    const response = await axiosInstance.get<UpdateFeedType>(`/feeds/${_id}`);
     return response.data;
   },
 
@@ -19,7 +15,7 @@ const feedAPI = {
     imgUrls,
   }: UpdateFeedType) => {
     try {
-      const response = await instance.put(`/${_id}`, {
+      const response = await axiosInstance.put(`/feeds/${_id}`, {
         userId,
         category,
         content,

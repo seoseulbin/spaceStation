@@ -16,9 +16,11 @@ export const ImageContainer = styled.div`
   width: 350px;
   height: 300px;
   border: 1px solid #b4b4b4;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 `;
 
 export const FeedImage = styled.img`
@@ -26,12 +28,17 @@ export const FeedImage = styled.img`
   height: 100%;
 `;
 
+export const FeedImageEmpty = styled.div`
+  font-weight: 600;
+  color: #b4b4b4;
+`;
+
 export const ImagePreveiwContainer = styled.form`
   width: 350px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 `;
 
 export const InputImage = styled.input`
@@ -39,14 +46,22 @@ export const InputImage = styled.input`
 `;
 
 export const InputImageButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 50px;
   height: 50px;
-  border: 1px solid #b4b4b4;
-  margin-right: 10px;
+  border: 1px solid #f0f0f0;
+  border-radius: 3px;
+  background-color: #f0f0f0;
+  margin-right: 15px;
 `;
 
 export const ImagePreviewWrapper = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
   overflow: auto;
 `;
 
@@ -63,6 +78,11 @@ export const ImagePreview = styled.img`
 export const ImageDeleteButton = styled.button`
   position: absolute;
   right: 0;
+  width: 20px;
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 `;
 
 export const TextareaContainer = styled.div`
@@ -79,6 +99,7 @@ export const Label = styled.label`
 export const Textarea = styled.textarea`
   width: 350px;
   height: 100px;
+  border: 1px solid #b4b4b4;
 `;
 
 export const CategoryContainer = styled.div`
@@ -98,5 +119,10 @@ export const CategoryItem = styled.div<{ $isActive: boolean }>`
   background-color: ${(props) => (props.$isActive ? "#9c9c9c" : "#d9d9d9")};
   padding: 15px;
   text-align: center;
+  border-radius: 5px;
   cursor: pointer;
+  transition: all 0.2s ease-out;
+  &:active {
+    transform: scale(1.1);
+  }
 `;
