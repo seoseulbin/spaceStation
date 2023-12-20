@@ -17,6 +17,7 @@ export const useCreateFeed = () => {
   const createFeed = useMutation({
     mutationFn: feedAPI.createFeed,
     onSuccess: () => {
+      toast.success("피드가 추가되었습니다.");
       invalidateFeedQuery();
     },
     onError: (err) => {
