@@ -37,6 +37,22 @@ export default function FeedItem(feed: FeedType) {
           ))}
         </S.CustomSlider>
         <Like feedId={feed._id} />
+
+        <S.CommentContainer
+          key={feed._id}
+          onClick={() => setIsCommentModalOpen(true)}
+        >
+          댓글
+        </S.CommentContainer>
+
+        {isCommentModalOpen && (
+          <Comment
+            feedId={feed._id}
+            feedUser={feed.userId}
+            onClickClose={() => setIsCommentModalOpen(false)}
+          />
+        )}
+
         <S.TextContainer>
           {feed.content.length < 60 || more ? (
             <>{feed.content}</>
@@ -49,20 +65,6 @@ export default function FeedItem(feed: FeedType) {
             </>
           )}
         </S.TextContainer>
-
-        <S.CommentContainer
-          key={feed._id}
-          onClick={() => setIsCommentModalOpen(true)}
-        >
-          댓글
-        </S.CommentContainer>
-
-        {isCommentModalOpen && (
-          <Comment
-            feedId={feed._id}
-            onClickClose={() => setIsCommentModalOpen(false)}
-          />
-        )}
       </S.Container>
     </>
   );
