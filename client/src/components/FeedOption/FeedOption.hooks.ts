@@ -1,22 +1,24 @@
 import { useMutation } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "@/global/reactQeury";
-import feedAPI from "./CreateFeed.api";
+import feedAPI from "./FeedOption.api";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-
 /**
  * 샘플 훅
  */
-export const useCreateFeed = () => {
+export const useFeed = () => {
   const invalidateFeedQuery = () => {
     queryClient.invalidateQueries({
       queryKey: [queryKeys.feed],
     });
   };
 
-  const createFeed = useMutation({
-    mutationFn: feedAPI.createFeed,
+  const deleteFeed = useMutation({
+    mutationFn: async (_id: string) => {
+      return feedAPI.deleteFeed(_id);
+    },
     onSuccess: () => {
+      toast.success("피드가 삭제되었습니다.");
       invalidateFeedQuery();
     },
     onError: (err) => {
@@ -24,5 +26,5 @@ export const useCreateFeed = () => {
     },
   }).mutateAsync;
 
-  return { createFeed };
+  return { deleteFeed };
 };

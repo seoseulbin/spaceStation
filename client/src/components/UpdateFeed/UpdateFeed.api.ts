@@ -1,17 +1,25 @@
 import axios from "axios";
-import { CreateFeedType } from "./CreateFeed.type";
+import { UpdateFeedType } from "./UpdateFeed.type";
 
 const instance = axios.create({
   baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/feeds`,
 });
 
 const feedAPI = {
-  async createFeed({ userId, category, content, imgUrls }: CreateFeedType) {
+  getFeed: async (_id: string) => {
+    const response = await instance.get<UpdateFeedType>(`/${_id}`);
+    return response.data;
+  },
+
+  updateFeed: async ({
+    _id,
+    userId,
+    category,
+    content,
+    imgUrls,
+  }: UpdateFeedType) => {
     try {
-      if (!userId || !category || !content || imgUrls.length == 0) {
-        throw new Error("정보가 부족합니다.");
-      }
-      const response = await instance.post(`/`, {
+      const response = await instance.put(`/${_id}`, {
         userId,
         category,
         content,

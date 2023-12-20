@@ -3,6 +3,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as S from "./Feed.styles";
 import { Fragment, useState } from "react";
+import FeedOption from "../FeedOption/FeedOption";
+import Comment from "../Comments/Comments";
+import Like from "../Like/Like";
 
 const sliderSettings = {
   dots: true,
@@ -16,9 +19,30 @@ const sliderSettings = {
 
 export default function FeedItem(feed: FeedType) {
   const [more, setMore] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const openOption = () => {
+    document.body.style.overflow = "hidden";
+    setIsOpen(true);
+  };
+  const closeOption = () => {
+    document.body.style.overflow = "unset";
+    setIsOpen(false);
+  };
+
+  //댓글창을 오버레이로 렌더하기 위해 모달을 사용.
+  const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+
   return (
     <>
       <S.Container>
+        <div className="FeedHeader">
+          <button onClick={() => openOption()}>옵션 버튼</button>
+        </div>
+        <FeedOption
+          feedId={feed._id}
+          isOpen={isOpen}
+          closeOption={closeOption}
+        />
         <S.CustomSlider {...sliderSettings}>
           {feed.imgUrls.map((imgUrl, i) => (
             <Fragment key={imgUrl + i}>
@@ -28,9 +52,10 @@ export default function FeedItem(feed: FeedType) {
             </Fragment>
           ))}
         </S.CustomSlider>
+        <Like feedId={feed._id} />
         <S.TextContainer>
           {feed.content.length < 60 || more ? (
-            feed.content
+            <>{feed.content}</>
           ) : (
             <>
               {feed.content.slice(0, 60)} ...{" "}
@@ -40,6 +65,20 @@ export default function FeedItem(feed: FeedType) {
             </>
           )}
         </S.TextContainer>
+
+        <S.CommentContainer
+          key={feed._id}
+          onClick={() => setIsCommentModalOpen(true)}
+        >
+          댓글
+        </S.CommentContainer>
+
+        {isCommentModalOpen && (
+          <Comment
+            feedId={feed._id}
+            onClickClose={() => setIsCommentModalOpen(false)}
+          />
+        )}
       </S.Container>
     </>
   );
