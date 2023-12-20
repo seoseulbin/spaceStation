@@ -2,7 +2,7 @@ import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useComment } from "./Comments.hooks";
 import CommentItem from "./CommentItems";
 import * as S from "./Comments.styles";
-import { storage, storageKeys } from "../../global/storage";
+import { storage, storageKeys } from "../../../global/storage";
 
 interface CommentProps {
   feedId: string;

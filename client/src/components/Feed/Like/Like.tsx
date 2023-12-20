@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 import * as S from "./Like.styles";
 import { useLikes } from "./Like.hooks";
-import { FeedType } from "../Feed/Feed.type";
+import { FeedType } from "../Feed.type";
 import { storage } from "@/global/storage";
 
 export default function Like({ feedId }: { feedId: FeedType["_id"] }) {

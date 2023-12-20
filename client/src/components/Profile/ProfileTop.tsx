@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 import * as S from "./Profile.styles";
-import FollowModal from "./FollowModal";
+import FollowModal from "../Follow/FollowModal";
 
-import { useFollow } from "./Follow.hooks";
-import { useUser } from "./User.hooks";
-import FollowButton from "./FollowButton";
+import { useFollow } from "../Follow/Follow.hooks";
+import { useUser } from "../User/User.hooks";
+import FollowButton from "../Follow/FollowButton";
 import { Link } from "react-router-dom";
 
 export default function ProfileTop({ userId }: { userId: string }) {

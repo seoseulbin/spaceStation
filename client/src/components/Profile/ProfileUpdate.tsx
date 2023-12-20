@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { useUser } from "./User.hooks";
+import { useUser } from "../User/User.hooks";
 import * as S from "./Profile.styles";
 import toast from "react-hot-toast";
 import axios from "axios";
