@@ -3,11 +3,15 @@ import { useState } from "react";
 import Modal from "styled-react-modal";
 
 export default function Sample() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isAOpen, setIsAOpen] = useState(false);
+  const [isBOpen, setIsBOpen] = useState(false);
   const [opacity, setOpacity] = useState(0);
 
-  function toggleModal() {
-    setIsOpen(!isOpen);
+  function toggleModalA() {
+    setIsAOpen(!isAOpen);
+  }
+  function toggleModalB() {
+    setIsBOpen(!isBOpen);
   }
   function afterOpen() {
     setTimeout(() => {
@@ -24,18 +28,31 @@ export default function Sample() {
 
   return (
     <>
-      <button onClick={toggleModal}>모달 호출하기</button>
+      <button onClick={toggleModalA}>모달 A 호출하기</button>
+      <button onClick={toggleModalB}>모달 B 호출하기</button>
       <StyledModal
-        isOpen={isOpen}
+        isOpen={isAOpen}
         afterOpen={afterOpen}
         beforeClose={beforeClose}
-        onBackgroundClick={toggleModal}
-        onEscapeKeydown={toggleModal}
+        onBackgroundClick={toggleModalA}
+        onEscapeKeydown={toggleModalA}
         opacity={opacity}
         backgroundProps={{ opacity }}
       >
-        <span>I am a modal!</span>
-        <button onClick={toggleModal}>모달 닫기</button>
+        <span>I am a modal A!</span>
+        <button onClick={toggleModalA}>모달 닫기</button>
+      </StyledModal>
+      <StyledModal
+        isOpen={isBOpen}
+        afterOpen={afterOpen}
+        beforeClose={beforeClose}
+        onBackgroundClick={toggleModalB}
+        onEscapeKeydown={toggleModalB}
+        opacity={opacity}
+        backgroundProps={{ opacity }}
+      >
+        <span>I am a modal B!</span>
+        <button onClick={toggleModalB}>모달 닫기</button>
       </StyledModal>
     </>
   );
