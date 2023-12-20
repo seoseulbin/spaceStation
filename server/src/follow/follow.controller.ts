@@ -61,7 +61,7 @@ const followController = {
           message: "자신을 팔로우 할 수 없습니다.",
         });
       if (!result) {
-        followService.postFollow({ follower, following });
+        await followService.postFollow({ follower, following });
       }
       if (result && result.deletedAt !== null) {
         await followService.revertDeletedFollower(follower, following);
