@@ -18,7 +18,7 @@ const CommentItem = ({ item, feedUserId, onDelete }: CommentItemProps) => {
       <S.Container>
         <S.UserInfo>
           {/* 유저의 프로필과 이름 => useritem 에서 사용 */}
-          <User currentUserId={item.userId} />
+          <User userId={item.userId} />
 
           {(item.userId === currentUser.userId ||
             currentUser.userId === feedUserId) && (
