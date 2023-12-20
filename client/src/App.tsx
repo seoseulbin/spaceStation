@@ -7,6 +7,8 @@ import UpdateFeedPage from "./pages/UpdateFeedPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProfileUpdate from "./components/Profile/ProfileUpdate";
 import ProfileSetting from "./components/Profile/Profile.Setting";
+import { ModalProvider } from "styled-react-modal";
+import Sample from "./components/Sample/Sample";
 
 const router = createBrowserRouter([
   {
@@ -37,13 +39,17 @@ const router = createBrowserRouter([
     path: PATH.profileSetting,
     element: <ProfileSetting />,
   },
+  {
+    path: PATH.sample,
+    element: <Sample />,
+  },
 ]);
 
 function App() {
   return (
-    <>
+    <ModalProvider>
       <RouterProvider router={router} />
-    </>
+    </ModalProvider>
   );
 }
 
