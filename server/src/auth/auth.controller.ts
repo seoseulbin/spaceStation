@@ -6,6 +6,14 @@ import authService from "./auth.service.js";
 import userService from "../user/user.service.js";
 
 const authController = {
+  getKakaoAuthCode: asyncHandler(
+    async (req: express.Request, res: Response) => {
+      const REST_API_KEY = process.env.KAKAO_REST_API_KEY;
+      const REDIRECT_URI = `${process.env.BACKEND_URL}/api/auth/oauth`;
+      const authorizeURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+      res.redirect(authorizeURL);
+    },
+  ),
   handleKakaoOAuthProcess: asyncHandler(
     async (req: express.Request, res: Response) => {
       const code = await authService.validateKakaoOAuthCode(
@@ -19,12 +27,6 @@ const authController = {
       const isNewUser = await userService.searchUsers(userInfo.id);
 
       const action = isNewUser.length === 0 ? "join" : "login";
-
-      console.log(
-        `가입 정보가 ${
-          action === "join" ? "존재하지 않습니다." : "존재합니다."
-        }`,
-      );
 
       const result = await authService.handleAuthUser(userInfo, action);
       const token = authService.generateJWT(
