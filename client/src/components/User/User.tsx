@@ -2,6 +2,7 @@ import * as S from "./User.styles";
 import { useUser } from "./User.hooks";
 import { NavLink } from "react-router-dom";
 import ApiBoundary from "../common/ApiBoundary";
+import { PATH } from "@/global/constants";
 
 export default function User({ userId }: { userId: string }) {
   return (
@@ -15,7 +16,7 @@ function ApiComponent({ userId }: { userId: string }) {
   const { user } = useUser(userId);
 
   return (
-    <NavLink to={`/profile?id=${userId}`}>
+    <NavLink to={`${PATH.profile}?id=${userId}`}>
       <S.UserContainer>
         <S.ProfileImg src={user?.profileImgUrl} />
         <span>{user?.nickname} </span>

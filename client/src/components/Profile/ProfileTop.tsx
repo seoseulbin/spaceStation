@@ -6,6 +6,7 @@ import { useUser } from "../User/User.hooks";
 import FollowButton from "../Follow/FollowButton";
 import { NavLink } from "react-router-dom";
 import ApiBoundary from "../common/ApiBoundary";
+import { PATH } from "@/global/constants";
 
 export default function ProfileTop({ userId }: { userId: string }) {
   return (
@@ -50,7 +51,7 @@ function ApiComponent({ userId }: { userId: string }) {
               </S.Following>
             </S.Follow>
             {localUserData && JSON.parse(localUserData).userId === userId ? (
-              <NavLink to="/profile/update">
+              <NavLink to={PATH.profileUpdate}>
                 <input type="button" value={"프로필 수정"} />
               </NavLink>
             ) : (
