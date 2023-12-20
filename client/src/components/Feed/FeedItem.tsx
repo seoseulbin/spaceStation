@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import * as S from "./Feed.styles";
 import { Fragment, useState } from "react";
 import Comment from "../Comments/Comments";
+import Like from "../Like/Like";
 
 const sliderSettings = {
   dots: true,
