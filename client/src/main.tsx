@@ -7,6 +7,7 @@ import App from "./App.tsx";
 import { theme } from "./global/styles/theme.ts";
 import { queryClient } from "./global/reactQeury.ts";
 import GlobalStyle from "./global/styles/GlobalStyle.ts";
+import { ModalProvider } from "styled-react-modal";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -14,7 +15,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Toaster />
-        <App />
+        <ModalProvider>
+          <App />
+        </ModalProvider>
       </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>,
