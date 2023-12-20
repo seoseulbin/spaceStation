@@ -4,7 +4,6 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
 import { errorLogger } from "./middleware/logger.js";
-import sampleRouter from "./sample/sample.router.js";
 import commentRouter from "./comments/comments.router.js";
 import errorHandler from "./middleware/errorHandler.js";
 import feedRouter from "./feed/feed.router.js";
@@ -38,7 +37,6 @@ app.use(
 );
 app.use(cookieParser());
 
-app.use("/api/samples", sampleRouter);
 app.use("/api/feeds", feedRouter);
 app.use("/api/likes", likeRouter);
 app.use("/api/categorys", categoryRouter);

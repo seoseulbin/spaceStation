@@ -1,5 +1,5 @@
 import { useCreateFeed } from "./CreateFeed.hooks";
-import { useCategory } from "../Category/Category.hooks";
+import { useCategory } from "../Feed/Category/Category.hooks";
 import { ChangeEvent, useState } from "react";
 import * as S from "./CreateFeed.styles";
 import axios from "axios";

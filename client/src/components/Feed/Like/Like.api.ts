@@ -1,4 +1,4 @@
-import { axiosInstance } from "../../global/axiosInstance";
+import { axiosInstance } from "../../../global/axiosInstance";
 import { LikeType } from "./Like.type";
 
 export const likeAPI = {

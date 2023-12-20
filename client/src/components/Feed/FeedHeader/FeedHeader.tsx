@@ -2,8 +2,8 @@ import { useState } from "react";
 import FeedOption from "../FeedOption/FeedOption";
 import * as S from "./FeedHeader.styles";
 import { HiDotsHorizontal } from "react-icons/hi";
-import UserItem from "../Profile/UserItem";
-import FollowButton from "../Profile/FollowButton";
+import User from "../../User/User";
+import FollowButton from "../../Follow/FollowButton";
 
 export default function FeedHeader({
   feedId,
@@ -26,7 +26,7 @@ export default function FeedHeader({
     <>
       <S.FeedHeader>
         <div className="user">
-          <UserItem currentUserId={userId} />
+          <User currentUserId={userId} />
           <FollowButton currentUserId={userId} />
         </div>
         <HiDotsHorizontal onClick={() => openOption()} />

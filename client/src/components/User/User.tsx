@@ -2,7 +2,7 @@ import * as S from "./User.styles";
 import { useUser } from "./User.hooks";
 import { Link } from "react-router-dom";
 
-export default function UserItem({ currentUserId }: { currentUserId: string }) {
+export default function User({ currentUserId }: { currentUserId: string }) {
   const { user } = useUser(currentUserId);
 
   return (
