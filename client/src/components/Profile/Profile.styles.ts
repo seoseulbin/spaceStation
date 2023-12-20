@@ -1,3 +1,4 @@
+import { theme } from "@/global/styles/theme";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -5,6 +6,7 @@ export const Container = styled.div`
   display: grid;
   place-items: center;
   gap: 20px;
+  color: ${theme.colors.textPrimary};
   font-size: ${({ theme }) => theme.size.md}px;
   .profileContainer {
     display: flex;
@@ -14,11 +16,23 @@ export const Container = styled.div`
     justify-content: center;
     box-sizing: border;
   }
+  input {
+    color: ${({ theme }) => theme.colors.textSecondary};
+    padding: 5px;
+    width: 100%;
+    item-align: center;
+    text-align: center;
+    border: 1px solid ${({ theme }) => theme.colors.textDisable};
+    border-radius: 3px;
+    span {
+      font-size: ${({ theme }) => theme.size.lg}px;
+    }
+  }
 `;
 
 export const ProfileImg = styled.img`
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  height: 120px;
   border-radius: 70%;
   padding: 10px;
 `;
@@ -40,18 +54,6 @@ export const Following = styled.li`
     font-weight: bold;
   }
 `;
-export const Button = styled.input`
-  color: ${({ theme }) => theme.colors.textSecondary};
-  padding: 5px;
-  width: 100%;
-  item-align: center;
-  text-align: center;
-  border: 1px solid ${({ theme }) => theme.colors.textSecondary};
-  border-radius: 3px;
-  span {
-    font-size: ${({ theme }) => theme.size.lg}px;
-  }
-`;
 
 export const Upload = styled.div`
   color: ${({ theme }) => theme.colors.main};
@@ -67,7 +69,6 @@ export const UpdateInput = styled.input`
   box-sizing: border-box;
   items-align: center;
   text-align: center;
-
   font-size: ${({ theme }) => theme.size.md}px;
   border: 1px solid #ddd;
   justify-content: center;

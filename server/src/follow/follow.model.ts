@@ -4,6 +4,7 @@ type FollowSchemaType = {
   _id: Types.ObjectId;
   following: Types.ObjectId;
   follower: Types.ObjectId;
+  deletedAt: Date | null;
 };
 
 const FollowSchema = new Schema<FollowSchemaType>({
@@ -16,6 +17,10 @@ const FollowSchema = new Schema<FollowSchemaType>({
     type: Schema.Types.ObjectId,
     ref: "user",
     required: true,
+  },
+  deletedAt: {
+    default: null,
+    type: Date,
   },
 });
 

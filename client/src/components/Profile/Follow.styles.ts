@@ -2,34 +2,27 @@ import { theme } from "@/global/styles/theme";
 import styled from "styled-components";
 
 export const Container = styled.div`
-  padding: 20px;
-  box-sizing: border-box;
+  z-index: 100;
+  width: 50%;
   display: grid;
-  padding: 40px;
+  padding: 70px;
+  text-align: center;
+  justify-content: center;
   gap: 20px;
   background-color: white;
-  position: fixed;
-  border-radius: 10px;
-  border: 1px solid ${theme.colors.textDisable};
 
-  .itemContainer {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  color: ${theme.colors.textPrimary};
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+
+  border: 1px solid #eee;
+
   .close {
     position: absolute;
     top: 20px;
     right: 20px;
   }
-  .nickname {
-    text-align: center;
-    vertical-align: middle;
-  }
-`;
-
-export const ProfileImg = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 70%;
 `;
