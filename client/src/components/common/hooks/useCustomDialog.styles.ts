@@ -19,6 +19,7 @@ export const BasicModalLayoutStyle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1em;
+  padding: 1.5em;
 
   & h1 {
     font-size: 2em;
@@ -26,6 +27,7 @@ export const BasicModalLayoutStyle = styled.div`
   }
   & p {
     font-size: 1em;
+    line-height: 1.25em;
     color: ${({ theme }) => theme.colors.textSecondary};
   }
   & button {
@@ -38,3 +40,5 @@ export const BasicModalLayoutStyle = styled.div`
     border-radius: 8px;
   }
 `;
+
+export const ActionSheetLayoutStyle = styled.div``;

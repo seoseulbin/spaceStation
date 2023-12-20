@@ -73,8 +73,25 @@ export function useCustomDialog() {
     );
   }
 
+  function ActionSheetLayout({
+    options,
+  }: {
+    options?: [{ name: string; onClick: () => void }] | undefined;
+  }) {
+    return (
+      <S.ActionSheetLayoutStyle>
+        {options?.map((item, index) => (
+          <button key={index} onClick={item.onClick}>
+            {item.name}
+          </button>
+        ))}
+      </S.ActionSheetLayoutStyle>
+    );
+  }
+
   return {
     BasicModalLayout, // 기본 모달 레이아웃 입니다. 타이틀, 설명을 입력합니다.
+    ActionSheetLayout, // 액션 시트 레이아웃 입니다. string으로 이루어진 배열을 입력합니다.
     toggleDialog,
     afterOpenDialog,
     beforeCloseDialog,
