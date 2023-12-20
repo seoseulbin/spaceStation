@@ -101,7 +101,7 @@ export default function CreateFeed({ children }: Element) {
   /**
    * preview 이미지 삭제 버튼
    */
-  const onClickPreviewDeleteBtn = async (e) => {
+  const onClickPreviewDeleteBtn = async (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
     const previousSibling = e.currentTarget.previousSibling;
 
