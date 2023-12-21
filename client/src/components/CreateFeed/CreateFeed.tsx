@@ -1,14 +1,12 @@
 import { useCreateFeed } from "./CreateFeed.hooks";
 import { useCategory } from "../Feed/Category/Category.hooks";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import * as S from "./CreateFeed.styles";
 import axios from "axios";
 import { CgMathPlus } from "react-icons/cg";
 import { GoX } from "react-icons/go";
 import ApiBoundary from "../common/ApiBoundary";
-import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler.ts";
-import ImageAnchorTagButton from "../common/ImageAnchorButton/ImageAnchorButton.tsx";
-import toast from "react-hot-toast";
+import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 
 export default function CreateFeed() {
   return (
@@ -28,39 +26,26 @@ function ApiComponent() {
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { mousePos, getCurrentMousePos } = useTagButtonHandler();
-  const [imageTagPos, setImageTagPos] = useState<{ x: number; y: number }[]>(
-    [],
-  );
+  const { setTarget, setImgList, addImageAnchor, TagButtonListContainer } =
+    useTagButtonHandler();
 
   useEffect(() => {
-    if (mousePos.x !== 0 || mousePos.y !== 0) {
-      setImageTagPos((prev) => [...prev, mousePos]);
-    }
-  }, [mousePos]);
-
-  function addImageAnchor() {
-    const maxAnchorCount = 5;
-    const containerElement = containerRef.current;
-    if (imageTagPos.length >= maxAnchorCount) {
-      toast.error(
-        `상품 태그는 최대 ${maxAnchorCount}개까지만 추가하실 수 있습니다.`,
-      );
-      return;
-    }
-
-    if (images.length === 0) {
-      toast.error("등록할 이미지를 추가해주세요.");
-      return;
-    }
-    getCurrentMousePos(containerElement);
-  }
-
-  function handleImageAnchor(e: React.BaseSyntheticEvent) {
-    e.stopPropagation();
-    toast.success("링크 수정하는 UI 추가 예정");
-  }
+    const newImage = images.map((item) => {
+      return {
+        url: item,
+        tagPosition: {
+          x: 0,
+          y: 0,
+        },
+        tagInfo: {
+          name: "",
+          url: "",
+        },
+      };
+    });
+    console.log(newImage);
+    setImgList(() => newImage);
+  }, [images, setImgList]);
 
   /**
    * cloudinary 이미지 저장 함수
@@ -130,21 +115,15 @@ function ApiComponent() {
   return (
     <>
       <S.Container>
-        <S.ImageContainer ref={containerRef} onClick={addImageAnchor}>
+        <S.ImageContainer ref={setTarget} onClick={addImageAnchor}>
           {showImage == "" ? (
-            <S.FeedImage src={showImage} alt="피드 이미지" />
+            <>
+              <S.FeedImage src={showImage} alt="피드 이미지" />
+              <TagButtonListContainer />
+            </>
           ) : (
             <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
           )}
-          {imageTagPos.length > 0 &&
-            imageTagPos.map((item, index) => (
-              <ImageAnchorTagButton
-                key={index}
-                x={item.x}
-                y={item.y}
-                onClick={(e) => handleImageAnchor(e)}
-              />
-            ))}
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
           <label htmlFor="file">
