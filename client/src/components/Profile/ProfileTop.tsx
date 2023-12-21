@@ -4,9 +4,10 @@ import FollowModal from "../Follow/FollowModal";
 import { useFollow } from "../Follow/Follow.hooks";
 import { useUser } from "../User/User.hooks";
 import FollowButton from "../Follow/FollowButton";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ApiBoundary from "../common/ApiBoundary";
 import { PATH } from "@/global/constants";
+import Header from "../Header/Header";
 
 export default function ProfileTop({ userId }: { userId: string }) {
   return (
@@ -20,9 +21,12 @@ function ApiComponent({ userId }: { userId: string }) {
   const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
   const [followState, setIsFollowState] = useState(false);
   const localUserData = localStorage.getItem("currentUser");
-
+  const navigate = useNavigate();
   const { follows } = useFollow(userId);
   const { user } = useUser(userId);
+  const handleHeaderNavigate = () => {
+    navigate("/profile/setting");
+  };
 
   const handleFollowModalOpen = (state: boolean) => {
     setIsFollowModalOpen(true);
@@ -32,7 +36,17 @@ function ApiComponent({ userId }: { userId: string }) {
   return (
     <>
       <S.Container>
-        <div>{user?.nickname}</div> {/*헤더에 들어가는 값*/}
+        <Header
+          backArrow={true}
+          headerTitle={user.nickname}
+          isFunctionAcitve={
+            localUserData && JSON.parse(localUserData).userId === userId
+              ? true
+              : false
+          }
+          functionIconType={"setting"}
+          onClickFunction={handleHeaderNavigate}
+        />
         <FollowModal
           followList={followState ? follows?.follower : follows?.following}
           followState={followState}
