@@ -2,7 +2,6 @@ import { theme } from "@/global/styles/theme";
 import styled from "styled-components";
 
 export const Container = styled.div`
-  padding: 20px;
   display: grid;
   place-items: center;
   gap: 20px;
