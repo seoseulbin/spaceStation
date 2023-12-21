@@ -8,6 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ProfileUpdate from "./components/Profile/ProfileUpdate";
 import ProfileSetting from "./components/Profile/Profile.Setting";
 import Sample from "./components/common/Modal/Sample";
+import CategoryPage from "./pages/CategoryPage";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: PATH.sample,
     element: <Sample />,
+  },
+  {
+    path: PATH.categoryPage,
+    element: <CategoryPage />,
   },
 ]);
 
