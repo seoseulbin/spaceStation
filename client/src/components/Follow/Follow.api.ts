@@ -1,27 +1,23 @@
-import axios from "axios";
 import { FollowType } from "./Follow.type";
-
-const instance = axios.create({
-  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/follows`,
-});
+import { axiosInstance } from "@/global/axiosInstance";
 
 const followAPI = {
   async getFollows(follower: string) {
-    const res = await instance.get<{
+    const res = await axiosInstance.get<{
       follower: FollowType[];
       following: FollowType[];
-    }>(`/${follower}`);
+    }>(`/follows/${follower}`);
     return res.data;
   },
 
   async postFollow(props: { follower: FollowType["follower"] }) {
-    return instance.post(`/`, props, {
+    return axiosInstance.post(`/follows/`, props, {
       withCredentials: true,
     });
   },
 
   async deleteFollow(follower: string) {
-    return instance.delete(`/${follower}`, {
+    return axiosInstance.delete(`/follows/${follower}`, {
       withCredentials: true,
     });
   },

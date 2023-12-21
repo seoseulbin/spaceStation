@@ -1,13 +1,14 @@
 import { useCreateFeed } from "./CreateFeed.hooks";
-import { useCategory } from "../Category/Category.hooks";
+import { useCategory } from "../Feed/Category/Category.hooks";
 import { ChangeEvent, useState } from "react";
 import * as S from "./CreateFeed.styles";
 import axios from "axios";
 import { CgMathPlus } from "react-icons/cg";
 import { GoX } from "react-icons/go";
 import { Link } from "react-router-dom";
+import Header from "../Header/Header";
 
-export default function CreateFeed({ children }: Element) {
+export default function CreateFeed() {
   const { categorys } = useCategory();
   const { createFeed } = useCreateFeed();
 
@@ -84,7 +85,12 @@ export default function CreateFeed({ children }: Element) {
 
   return (
     <>
-      {children}
+      <Header
+        backArrow={true}
+        headerTitle="게시글 업로드"
+        isFunctionAcitve={true}
+        functionIconType={"upload"}
+      />
       <S.Container>
         <S.ImageContainer>
           {images.length != 0 ? (

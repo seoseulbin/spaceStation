@@ -4,6 +4,7 @@ import FeedItem from "./FeedItem";
 import Loading from "../common/Loading";
 import ApiBoundary from "../common/ApiBoundary";
 import Header from "../Header/Header";
+import Category from "./Category/Category";
 
 export default function Feed() {
   //TODO : 나중에 검색 기능 추가해야함
@@ -17,7 +18,7 @@ export default function Feed() {
         backArrow={false}
         headerTitle={"Space-station🚉"}
         isFunctionAcitve={true}
-        functionTitle={"검색"}
+        functionIconType={"search"}
         onClickFunction={handleSearchButton}
       />
       <ApiComponent />
@@ -30,6 +31,7 @@ function ApiComponent() {
 
   return (
     <>
+      <Category />
       {data.pages.map(({ data: feeds }) =>
         feeds.map((feed) => (
           <Fragment key={feed._id}>

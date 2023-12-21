@@ -1,15 +1,20 @@
 import { SyntheticEvent } from "react";
 import * as S from "./Header.styles";
 import { IoIosArrowBack } from "react-icons/io";
+import { HiDotsHorizontal } from "react-icons/hi";
+import { RiSaveLine } from "react-icons/ri";
+import { IoSearch } from "react-icons/io5";
+import { FiUpload } from "react-icons/fi";
 
 interface HeaderType {
   backArrow: boolean;
   headerTitle?: string;
   headerUrl?: string | undefined;
   isFunctionAcitve?: boolean;
-  functionTitle?: string | undefined;
-  functionTitleColor?: string | undefined;
-  onClickFunction?: (e: SyntheticEvent<HTMLDivElement>) => void | undefined;
+  functionIconType?: string | undefined;
+  onClickFunction?: (
+    e: SyntheticEvent<HTMLDivElement>,
+  ) => Promise<void> | void | undefined;
 }
 
 export default function Header({
@@ -17,13 +22,27 @@ export default function Header({
   headerTitle = "",
   headerUrl,
   isFunctionAcitve,
-  functionTitle,
-  functionTitleColor,
+  functionIconType = "",
   onClickFunction,
 }: HeaderType) {
   //뒤로가기 함수
   const handleBackArrowFunction = () => {
     window.history.back();
+  };
+
+  const functionIconSetting = (iconType: string) => {
+    if (iconType === "dots") {
+      return <HiDotsHorizontal size="20" />;
+    }
+    if (iconType === "search") {
+      return <IoSearch size="25" />;
+    }
+    if (iconType === "upload") {
+      return <FiUpload size="20" />;
+    }
+    if (iconType === "save") {
+      return <RiSaveLine size="24" />;
+    }
   };
 
   return (
@@ -44,8 +63,8 @@ export default function Header({
           </S.HeaderTitleDiv>
         )}
       </S.ContainerLeftDiv>
-      <S.ContainerRightDiv onClick={onClickFunction} color={functionTitleColor}>
-        {isFunctionAcitve && functionTitle}
+      <S.ContainerRightDiv onClick={onClickFunction}>
+        {isFunctionAcitve && functionIconSetting(functionIconType)}
       </S.ContainerRightDiv>
     </S.Container>
   );

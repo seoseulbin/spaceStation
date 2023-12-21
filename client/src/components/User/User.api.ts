@@ -1,13 +1,9 @@
-import axios from "axios";
 import { UserType } from "./User.type";
-
-const instance = axios.create({
-  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/users`,
-});
+import { axiosInstance } from "@/global/axiosInstance";
 
 const userAPI = {
   async getUser(userid: string) {
-    const res = await instance.get<UserType>(`/${userid}`);
+    const res = await axiosInstance.get<UserType>(`/users/${userid}`);
     return res.data;
   },
 
@@ -15,7 +11,7 @@ const userAPI = {
     nickname: UserType["nickname"];
     profileImgUrl: UserType["profileImgUrl"];
   }) {
-    return instance.put(`/`, props, {
+    return axiosInstance.put(`/users/`, props, {
       withCredentials: true,
     });
   },
