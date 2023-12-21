@@ -3,6 +3,7 @@ import { useFeed } from "./Feed.hooks";
 import FeedItem from "./FeedItem";
 import Loading from "../common/Loading";
 import ApiBoundary from "../common/ApiBoundary";
+import Category from "./Category/Category";
 
 export default function Feed() {
   return (
@@ -17,6 +18,7 @@ function ApiComponent() {
 
   return (
     <>
+      <Category />
       {data.pages.map(({ data: feeds }) =>
         feeds.map((feed) => (
           <Fragment key={feed._id}>

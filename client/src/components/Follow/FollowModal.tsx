@@ -1,5 +1,5 @@
 import { FollowType } from "./Follow.type";
-import FollowItem from "./FollowItem";
+import User from "../User/User";
 import * as S from "./Follow.styles";
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -31,11 +31,11 @@ export default function FollowModal({
     }
     if (followState) {
       return followList!.map((follow) => (
-        <FollowItem currentUserId={follow.following} key={follow._id} />
+        <User userId={follow.following} key={follow._id} />
       ));
     }
     return followList!.map((follow) => (
-      <FollowItem currentUserId={follow.follower} key={follow._id} />
+      <User userId={follow.follower} key={follow._id} />
     ));
   }
 

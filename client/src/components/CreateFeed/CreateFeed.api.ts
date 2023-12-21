@@ -1,9 +1,5 @@
-import axios from "axios";
+import { axiosInstance } from "@/global/axiosInstance";
 import { CreateFeedType } from "./CreateFeed.type";
-
-const instance = axios.create({
-  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/feeds`,
-});
 
 const feedAPI = {
   async createFeed({ userId, category, content, imgUrls }: CreateFeedType) {
@@ -11,7 +7,7 @@ const feedAPI = {
       if (!userId || !category || !content || imgUrls.length == 0) {
         throw new Error("정보가 부족합니다.");
       }
-      const response = await instance.post(`/`, {
+      const response = await axiosInstance.post(`/feeds`, {
         userId,
         category,
         content,

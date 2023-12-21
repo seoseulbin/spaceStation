@@ -1,88 +1,33 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import * as S from "./Profile.styles";
-import FollowModal from "./FollowModal";
-import toast from "react-hot-toast";
-import { useFollow } from "./Follow.hooks";
-import { useUser } from "./User.hooks";
+import FollowModal from "../Follow/FollowModal";
+import { useFollow } from "../Follow/Follow.hooks";
+import { useUser } from "../User/User.hooks";
+import FollowButton from "../Follow/FollowButton";
+import { NavLink } from "react-router-dom";
+import ApiBoundary from "../common/ApiBoundary";
+import { PATH } from "@/global/constants";
 
 export default function ProfileTop({ userId }: { userId: string }) {
-  const localUserData = localStorage.getItem("currentUser");
+  return (
+    <ApiBoundary>
+      <ApiComponent userId={userId} />
+    </ApiBoundary>
+  );
+}
 
+function ApiComponent({ userId }: { userId: string }) {
   const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
   const [followState, setIsFollowState] = useState(false);
+  const localUserData = localStorage.getItem("currentUser");
 
-  const {
-    follows,
-    checkFollow,
-    deleteFollow,
-    postFollow,
-    isLoading,
-    isError,
-    error,
-  } = useFollow(userId);
+  const { follows } = useFollow(userId);
   const { user } = useUser(userId);
-
-  if (isLoading) return "loading...";
-  if (isError) return error.message;
 
   const handleFollowModalOpen = (state: boolean) => {
     setIsFollowModalOpen(true);
     setIsFollowState(state);
   };
-
-  const renderFollowButton = () => {
-    if (!localUserData) {
-      return (
-        <S.Button
-          type="button"
-          value="팔로우"
-          onClick={() => {
-            toast.error("팔로우하려면 로그인해주세요");
-          }}
-        />
-      );
-    }
-
-    if (localUserData && JSON.parse(localUserData).userId === userId) {
-      return (
-        <Link to="/profile/update">
-          {" "}
-          <S.Button type="button" value={"프로필 수정"} />
-        </Link>
-      );
-    }
-
-    if (!checkFollow) {
-      return (
-        <S.Button
-          type="button"
-          value="팔로우"
-          onClick={async () => {
-            const res = await postFollow({
-              follower: userId,
-            });
-            console.log(res);
-          }}
-        />
-      );
-    }
-
-    if (checkFollow) {
-      return (
-        <S.Button
-          type="button"
-          value="팔로우 취소"
-          onClick={async () => {
-            const res = await deleteFollow(userId);
-            console.log(res);
-          }}
-        />
-      );
-    }
-  };
-
-  const ProfileButtons = () => <div>{renderFollowButton()}</div>;
 
   return (
     <>
@@ -105,7 +50,13 @@ export default function ProfileTop({ userId }: { userId: string }) {
                 <span>{follows?.following?.length}</span> 팔로잉
               </S.Following>
             </S.Follow>
-            <ProfileButtons />
+            {localUserData && JSON.parse(localUserData).userId === userId ? (
+              <NavLink to={PATH.profileUpdate}>
+                <input type="button" value={"프로필 수정"} />
+              </NavLink>
+            ) : (
+              <FollowButton userId={userId} />
+            )}
           </div>
         </div>
       </S.Container>

@@ -17,6 +17,6 @@ export const queryKeys = {
   user: "USER",
   feedUser: "FEED_USER",
   feedCategory: "FEED_CATEGORY",
-  comment: "Comment",
+  comment: "FEED_COMMENT",
   like: "LIKE",
 };

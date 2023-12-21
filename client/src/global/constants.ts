@@ -6,4 +6,5 @@ export const PATH = {
   profile: "/profile",
   profileUpdate: "/profile/update",
   profileSetting: "/profile/setting",
+  sample: "/sample",
 } as const;

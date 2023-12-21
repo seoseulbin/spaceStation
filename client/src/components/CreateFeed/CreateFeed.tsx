@@ -1,17 +1,20 @@
 import { useCreateFeed } from "./CreateFeed.hooks";
-import { useCategory } from "../Category/Category.hooks";
+import { useCategory } from "../Feed/Category/Category.hooks";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import * as S from "./CreateFeed.styles";
 import axios from "axios";
+import { CgMathPlus } from "react-icons/cg";
+import { GoX } from "react-icons/go";
+import { Link } from "react-router-dom";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler.ts";
 import ImageAnchorTagButton from "../common/ImageAnchorButton/ImageAnchorButton.tsx";
 import toast from "react-hot-toast";
 
-export default function CreateFeed({ children }: Element) {
+export default function CreateFeed() {
   const { categorys } = useCategory();
   const { createFeed } = useCreateFeed();
-  const [showImage, setShowImage] = useState(""); //대표 이미지
 
+  const [showImage, setShowImage] = useState(""); //대표 이미지
   const [images, setImages] = useState<string[]>([]); // 피드 이미지 배열
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
@@ -116,10 +119,13 @@ export default function CreateFeed({ children }: Element) {
 
   return (
     <>
-      {children}
       <S.Container>
         <S.ImageContainer ref={containerRef} onClick={addImageAnchor}>
-          {images && <S.FeedImage src={showImage} alt="피드 이미지" />}
+          {images.length != 0 ? (
+            <S.FeedImage src={showImage} alt="피드 이미지" />
+          ) : (
+            <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
+          )}
           {imageTagPos.length > 0 &&
             imageTagPos.map((item, index) => (
               <ImageAnchorTagButton
@@ -132,7 +138,9 @@ export default function CreateFeed({ children }: Element) {
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
           <label htmlFor="file">
-            <S.InputImageButton>+</S.InputImageButton>
+            <S.InputImageButton>
+              <CgMathPlus size="36" color="#2B2B2B" />
+            </S.InputImageButton>
           </label>
           <S.InputImage
             id="file"
@@ -151,7 +159,7 @@ export default function CreateFeed({ children }: Element) {
                     }}
                   />
                   <S.ImageDeleteButton onClick={onClickPreviewDeleteBtn}>
-                    x
+                    <GoX color="gray" size="14" />
                   </S.ImageDeleteButton>
                 </S.ImagePreviewList>
               );
@@ -199,7 +207,7 @@ export default function CreateFeed({ children }: Element) {
             console.log(res);
           }}
         >
-          UPLOAD
+          <Link to="/">UPDATE</Link>
         </button>
       </S.Container>
     </>
