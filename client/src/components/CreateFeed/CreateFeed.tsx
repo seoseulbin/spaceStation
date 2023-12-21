@@ -5,13 +5,21 @@ import * as S from "./CreateFeed.styles";
 import axios from "axios";
 import { CgMathPlus } from "react-icons/cg";
 import { GoX } from "react-icons/go";
-import { Link } from "react-router-dom";
+import ApiBoundary from "../common/ApiBoundary";
 
 export default function CreateFeed() {
+  return (
+    <ApiBoundary>
+      <ApiComponent />
+    </ApiBoundary>
+  );
+}
+
+function ApiComponent() {
   const { categorys } = useCategory();
   const { createFeed } = useCreateFeed();
 
-  const [showImage, setShowImage] = useState(""); //대표 이미지
+  const [showImage, setShowImage] = useState<string>(""); //대표 이미지
   const [images, setImages] = useState<string[]>([]); // 피드 이미지 배열
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
@@ -86,7 +94,7 @@ export default function CreateFeed() {
     <>
       <S.Container>
         <S.ImageContainer>
-          {images.length != 0 ? (
+          {showImage == "" ? (
             <S.FeedImage src={showImage} alt="피드 이미지" />
           ) : (
             <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
@@ -154,16 +162,14 @@ export default function CreateFeed() {
         </S.CategoryContainer>
         <button
           onClick={async () => {
-            const res = await createFeed({
-              userId: "614d72a1b5ec679c080d8b12",
+            await createFeed({
               category: category,
               content: contents,
               imgUrls: images,
             });
-            console.log(res);
           }}
         >
-          <Link to="/">UPDATE</Link>
+          UPLOAD
         </button>
       </S.Container>
     </>
