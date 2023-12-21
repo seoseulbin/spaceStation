@@ -5,7 +5,6 @@ import * as S from "./UpdateFeed.styles";
 import axios from "axios";
 import { CgMathPlus } from "react-icons/cg";
 import { GoX } from "react-icons/go";
-import { storage, storageKeys } from "@/global/storage";
 import ApiBoundary from "../common/ApiBoundary";
 
 interface UpdateFeedProps {
@@ -29,10 +28,6 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
-
-  const localUserData = storage.get(storageKeys.currentUser);
-  const currentUser = JSON.parse(localUserData as string);
-
   /**
    * cloudinary 이미지 저장 함수
    */
@@ -111,7 +106,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
     <>
       <S.Container>
         <S.ImageContainer>
-          {images.length != 0 ? (
+          {showImage != "" ? (
             <S.FeedImage src={showImage} alt="피드 이미지" />
           ) : (
             <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
@@ -182,7 +177,6 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
           onClick={async () => {
             await updateFeed({
               _id: feedId,
-              userId: currentUser.userId,
               category: category,
               content: contents,
               imgUrls: images,

@@ -7,17 +7,10 @@ const feedAPI = {
     return response.data;
   },
 
-  updateFeed: async ({
-    _id,
-    userId,
-    category,
-    content,
-    imgUrls,
-  }: UpdateFeedType) => {
+  updateFeed: async ({ _id, category, content, imgUrls }: UpdateFeedType) => {
     const response = await axiosInstance.put(
       `/feeds/${_id}`,
       {
-        userId,
         category,
         content,
         imgUrls,
