@@ -46,6 +46,7 @@ const router = createBrowserRouter([
         <Sample.SampleModal />
         <Sample.SampleDialog />
         <Sample.SampleConfirm />
+        <Sample.SampleConfirmWithInput />
       </>
     ),
   },

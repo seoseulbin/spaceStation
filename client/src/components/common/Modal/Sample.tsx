@@ -1,6 +1,9 @@
 import Login from "@/components/Login/Login";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { useCustomDialog } from "../hooks/useCustomDialog";
 import * as S from "../hooks/useCustomDialog.styles";
+import { PATH } from "@/global/constants";
 
 export function SampleModal() {
   const {
@@ -15,7 +18,7 @@ export function SampleModal() {
   return (
     <>
       <button onClick={toggleDialog}>모달 호출하기</button>
-      <S.StyledModal
+      <S.BasicModal
         isOpen={isOpen}
         afterOpen={afterOpenDialog}
         beforeClose={beforeCloseDialog}
@@ -39,7 +42,7 @@ export function SampleModal() {
             <Login />
           </BasicModalLayout>
         }
-      ></S.StyledModal>
+      ></S.BasicModal>
     </>
   );
 }
@@ -54,16 +57,21 @@ export function SampleDialog() {
     isOpen,
   } = useCustomDialog();
 
+  const navigate = useNavigate();
+
   const options = [
     {
-      name: "NEUTRAL 메뉴 버튼입니다.",
+      name: "NEUTRAL 메뉴 버튼 (main으로 이동)",
       usage: "NEUTRAL",
-      onClick: () => alert("옵션1을 클릭했습니다."),
+      onClick: () => navigate(PATH.root),
     },
     {
       name: "POSITIVE 메뉴 버튼입니다.",
       usage: "POSITIVE",
-      onClick: () => alert("옵션2을 클릭했습니다."),
+      onClick: () => {
+        toast.success("옵션2을 클릭했습니다.");
+        toggleDialog();
+      },
     },
     {
       name: "ALERT 메뉴 버튼입니다.",
@@ -75,7 +83,7 @@ export function SampleDialog() {
   return (
     <>
       <button onClick={toggleDialog}>액션 시트 호출하기</button>
-      <S.StyledActionSheet
+      <S.ActionSheet
         isOpen={isOpen}
         afterOpen={afterOpenDialog}
         beforeClose={beforeCloseDialog}
@@ -84,15 +92,15 @@ export function SampleDialog() {
         opacity={opacity}
         backgroundProps={{ opacity }}
         length={options?.length}
-        children={<ActionSheetLayout list={options} />}
-      ></S.StyledActionSheet>
+        children={<ActionSheetLayout options={options} />}
+      ></S.ActionSheet>
     </>
   );
 }
 
 export function SampleConfirm() {
   const {
-    ActionSheetLayout,
+    ConfirmPopupLayout,
     toggleDialog,
     afterOpenDialog,
     beforeCloseDialog,
@@ -100,10 +108,25 @@ export function SampleConfirm() {
     isOpen,
   } = useCustomDialog();
 
+  const buttons = [
+    {
+      name: "NEUTRAL (취소)",
+      usage: "NEUTRAL",
+      onClick: () => toggleDialog(),
+    },
+    {
+      name: "ALERT (삭제하는 버튼)",
+      usage: "ALERT",
+      onClick: () => {
+        toast.success("성공적으로 삭제되었습니다.");
+        toggleDialog();
+      },
+    },
+  ];
   return (
     <>
-      <button onClick={toggleDialog}>컨펌 팝업 호출하기</button>
-      <S.StyledModal
+      <button onClick={toggleDialog}>컨펌 팝업 호출하기 (버튼만)</button>
+      <S.ConfirmPopup
         isOpen={isOpen}
         afterOpen={afterOpenDialog}
         beforeClose={beforeCloseDialog}
@@ -111,8 +134,79 @@ export function SampleConfirm() {
         onEscapeKeydown={toggleDialog}
         opacity={opacity}
         backgroundProps={{ opacity }}
-        children={<ActionSheetLayout />}
-      ></S.StyledModal>
+        children={
+          <ConfirmPopupLayout
+            description="변경된 정보를 저장할까요?"
+            buttons={buttons}
+          ></ConfirmPopupLayout>
+        }
+      ></S.ConfirmPopup>
+    </>
+  );
+}
+
+export function SampleConfirmWithInput() {
+  const {
+    ConfirmPopupLayout,
+    toggleDialog,
+    afterOpenDialog,
+    beforeCloseDialog,
+    opacity,
+    isOpen,
+  } = useCustomDialog();
+
+  const buttons = [
+    {
+      name: "NEUTRAL (취소)",
+      usage: "NEUTRAL",
+      onClick: () => toggleDialog(),
+    },
+    {
+      name: "SUBMIT (입력된 정보 저장)",
+      usage: "SUBMIT",
+      onClick: () => {
+        toast.success("성공적으로 저장했습니다.");
+        toggleDialog();
+      },
+    },
+  ];
+  return (
+    <>
+      <button onClick={toggleDialog}>
+        컨펌 팝업 호출하기 (입력 필드 있는 타입)
+      </button>
+      <S.ConfirmPopup
+        isOpen={isOpen}
+        afterOpen={afterOpenDialog}
+        beforeClose={beforeCloseDialog}
+        onBackgroundClick={toggleDialog}
+        onEscapeKeydown={toggleDialog}
+        opacity={opacity}
+        backgroundProps={{ opacity }}
+        children={
+          <ConfirmPopupLayout
+            description="추가할 태그 정보를 입력해주세요."
+            buttons={buttons}
+          >
+            <section>
+              <label>태그 이름</label>
+              <input
+                name="tagName"
+                type="text"
+                placeholder="이름을 입력해주세요"
+              />
+            </section>
+            <section>
+              <label>링크</label>
+              <input
+                name="tagURL"
+                type="text"
+                placeholder="URL을 입력해주세요"
+              />
+            </section>
+          </ConfirmPopupLayout>
+        }
+      ></S.ConfirmPopup>
     </>
   );
 }

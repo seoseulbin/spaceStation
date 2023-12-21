@@ -4,8 +4,9 @@ import * as S from "./useCustomDialog.styles";
 
 /**
  * 커스텀 다이얼로그 Custom Dialog 사용을 위한 메소드와 레이아웃을 정의한 훅 입니다.
- * 메소드는 아래와 같이 사용하고, 불러온 컴포넌트의 return 값에 레이아웃 컴포넌트를 지정하고
- * 마크업을 직접 정의하거나, children props로 템플릿 레이아웃을 할당하여 사용할 수 있습니다.
+ * 메소드는 아래와 같이 사용하고, 다이얼로그 훅을 import한 컴포넌트의 return 값에
+ * 다이얼로그 컴포넌트 (S.BasicModal / S.ActionSheet / S.ConfirmPopup)를 지정하고 하위에 마크업을 직접 정의하거나,
+ * children props로 템플릿 레이아웃 (S.BasicModalLayout / S.ActionSheetLayout / S.ConfirmPopupLayout)을 할당하여 사용할 수 있습니다.
  *
  * (주의) 한 컴포넌트 안에서는 1개의 dialog만 사용 가능합니다.
  *
@@ -52,7 +53,7 @@ export function useCustomDialog() {
   function beforeCloseDialog() {
     return new Promise((resolve) => {
       setOpacity(0);
-      setTimeout(resolve, 400);
+      setTimeout(resolve, 350);
     });
   }
 
@@ -82,23 +83,15 @@ export function useCustomDialog() {
   }
 
   function ActionSheetLayout({
-    list,
+    options,
   }: {
-    list?:
-      | Array<
-          [
-            {
-              name: string;
-              usage: string;
-              onClick: () => void;
-            },
-          ]
-        >
+    options?:
+      | { name: string; usage: string; onClick: () => void }[]
       | undefined;
   }) {
     return (
       <S.ActionSheetLayoutStyle>
-        {list?.map((item, index) => (
+        {options?.map((item, index) => (
           <button key={index} name={item.usage} onClick={item.onClick}>
             {item.name}
           </button>
@@ -107,9 +100,43 @@ export function useCustomDialog() {
     );
   }
 
+  function ConfirmPopupLayout({
+    description,
+    buttons,
+    children,
+  }: {
+    description?: string;
+    buttons?:
+      | { name: string; usage: string; onClick: () => void }[]
+      | undefined;
+    children?: React.ReactNode | undefined;
+  }) {
+    return (
+      <S.ConfirmPopupLayoutStyle>
+        <header>
+          <h3>{description}</h3>
+        </header>
+        {children && <body>{children}</body>}
+        <footer>
+          {buttons?.map((item, index) => (
+            <button
+              title={item.name}
+              key={index}
+              name={item.usage}
+              onClick={item.onClick}
+            >
+              {item.name}
+            </button>
+          ))}
+        </footer>
+      </S.ConfirmPopupLayoutStyle>
+    );
+  }
+
   return {
-    BasicModalLayout, // 기본 모달 레이아웃 입니다. 타이틀, 설명을 입력합니다.
-    ActionSheetLayout, // 액션 시트 레이아웃 입니다. string으로 이루어진 배열을 입력합니다.
+    BasicModalLayout, // 기본 모달 레이아웃 입니다. 타이틀 (title), 설명(description)을 입력합니다.
+    ActionSheetLayout, // 액션 시트 레이아웃 입니다. { name, usage, onClick }으로 이루어진 배열(options)을 입력합니다.
+    ConfirmPopupLayout, // 컨펌 팝업 레이아웃 입니다. 설명(description)과 { name, usage, onClick }으로 이루어진 배열(buttons)을 입력합니다.
     toggleDialog,
     afterOpenDialog,
     beforeCloseDialog,
