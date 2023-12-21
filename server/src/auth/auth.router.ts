@@ -12,7 +12,7 @@ authRouter.post("/login", authController.handleLogin);
 
 authRouter.post("/join", authController.handleJoin);
 
-authRouter.post("/logout", validateToken, authController.handleLogout);
+authRouter.post("/logout", authController.handleLogout);
 
 authRouter.post("/withdraw", validateToken, authController.handleWithdraw);
 
