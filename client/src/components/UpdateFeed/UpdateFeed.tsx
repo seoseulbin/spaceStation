@@ -1,5 +1,5 @@
 import { useUpdateFeed } from "./UpdateFeed.hooks";
-import { useCategory } from "../Category/Category.hooks";
+import { useCategory } from "../Feed/Category/Category.hooks";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as S from "./UpdateFeed.styles";

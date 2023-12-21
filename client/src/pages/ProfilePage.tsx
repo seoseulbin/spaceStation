@@ -1,4 +1,5 @@
 import UserFeed from "@/components/Feed/UserFeed";
+import Navbar from "@/components/Navbar/Navbar";
 import ProfileTop from "@/components/Profile/ProfileTop";
 import { storage } from "@/global/storage";
 import { useEffect, useState } from "react";
@@ -35,6 +36,7 @@ export default function ProfilePage() {
     <>
       <ProfileTop userId={currentUserId} />
       <UserFeed userId={currentUserId} />
+      <Navbar />
     </>
   );
 }
