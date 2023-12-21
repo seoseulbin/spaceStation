@@ -30,7 +30,12 @@ export default function FeedHeader({
           <FollowButton userId={userId} />
         </div>
         <HiDotsHorizontal onClick={() => openOption()} />
-        <FeedOption feedId={feedId} isOpen={isOpen} closeOption={closeOption} />
+        <FeedOption
+          feedId={feedId}
+          currentUserId={userId}
+          isOpen={isOpen}
+          closeOption={closeOption}
+        />
       </S.FeedHeader>
     </>
   );

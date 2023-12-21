@@ -7,25 +7,19 @@ const feedAPI = {
     return response.data;
   },
 
-  updateFeed: async ({
-    _id,
-    userId,
-    category,
-    content,
-    imgUrls,
-  }: UpdateFeedType) => {
-    try {
-      const response = await axiosInstance.put(`/feeds/${_id}`, {
-        userId,
+  updateFeed: async ({ _id, category, content, imgUrls }: UpdateFeedType) => {
+    const response = await axiosInstance.put(
+      `/feeds/${_id}`,
+      {
         category,
         content,
         imgUrls,
-      });
-      return response.data;
-    } catch (error) {
-      if (error instanceof Error) console.log(error.message);
-      else console.log(String(error));
-    }
+      },
+      {
+        withCredentials: true,
+      },
+    );
+    return response.data;
   },
 };
 export default feedAPI;
