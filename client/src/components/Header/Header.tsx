@@ -1,6 +1,7 @@
 import { SyntheticEvent } from "react";
 import * as S from "./Header.styles";
 import { IoIosArrowBack } from "react-icons/io";
+import { IoSettingsSharp } from "react-icons/io5";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { RiSaveLine } from "react-icons/ri";
 import { IoSearch } from "react-icons/io5";
@@ -33,6 +34,9 @@ export default function Header({
   const functionIconSetting = (iconType: string) => {
     if (iconType === "dots") {
       return <HiDotsHorizontal size="20" />;
+    }
+    if (iconType === "setting") {
+      return <IoSettingsSharp size="20" />;
     }
     if (iconType === "search") {
       return <IoSearch size="25" />;

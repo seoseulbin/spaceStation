@@ -15,10 +15,9 @@ export default function ProfilePage() {
 
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [userNickname, setUserNickname] = useState<string | undefined>();
+  const [isMyId, setIsMyId] = useState(true);
 
   const handleHeaderNavigate = () => {
-    //TODO: 본인일 경우 settings 화면으로, 아닐 경우 신고하기로 해야함
-    //현재는 profile setting로 넘어감
     navigate("/profile/setting");
   };
 
@@ -30,13 +29,14 @@ export default function ProfilePage() {
     }
     if (userIdFromParams) {
       setCurrentUserId(userIdFromParams);
+      setIsMyId(!isMyId);
     }
 
     if (!localUserData && !userIdFromParams) {
       toast.error("로그인 필요");
       navigate("/login");
     }
-  }, [localUserData, navigate, userIdFromParams]);
+  }, [localUserData, navigate, userIdFromParams, isMyId]);
 
   if (!currentUserId) {
     return "loading...";
@@ -47,8 +47,8 @@ export default function ProfilePage() {
       <Header
         backArrow={true}
         headerTitle={userNickname}
-        isFunctionAcitve={true}
-        functionIconType={"dots"}
+        isFunctionAcitve={isMyId}
+        functionIconType={"setting"}
         onClickFunction={handleHeaderNavigate}
       />
       <ProfileTop userId={currentUserId} />
