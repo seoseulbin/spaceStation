@@ -20,8 +20,8 @@ const CommentItem = ({ item, feedUserId, onDelete }: CommentItemProps) => {
           {/* 유저의 프로필과 이름 => useritem 에서 사용 */}
           <User currentUserId={item.userId} />
 
-          {(item.userId === currentUser.userId ||
-            currentUser.userId === feedUserId) && (
+          {(item.userId === currentUser?.userId ||
+            currentUser?.userId === feedUserId) && (
             <S.DeleteButton onClick={() => onDelete(item._id)} />
           )}
         </S.UserInfo>
