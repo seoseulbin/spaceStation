@@ -1,5 +1,6 @@
 import Slider from "react-slick";
 import styled from "styled-components";
+import { FaRegComment } from "react-icons/fa6";
 
 export const Container = styled.div`
   margin-bottom: 3rem;
@@ -75,14 +76,10 @@ export const GridFeedItem = styled.div<{ $column: number }>`
   position: relative;
 `;
 
-export const CommentContainer = styled.button`
-  background-color: black;
-  color: white;
-  border: 3px solid gray;
-  border-radius: 20px;
+export const CommentContainer = styled(FaRegComment)`
   cursor: pointer;
-  width: 70px;
-  height: 70px;
+  width: 28px;
+  height: 28px;
 
   overflow-y: auto;
   z-index: 2;

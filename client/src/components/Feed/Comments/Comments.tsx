@@ -2,20 +2,32 @@ import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useComment } from "./Comments.hooks";
 import CommentItem from "./CommentItems";
 import * as S from "./Comments.styles";
-import { storage, storageKeys } from "../../../global/storage";
+import { storage } from "../../../global/storage";
+import ApiBoundary from "../../common/ApiBoundary";
 
 interface CommentProps {
   feedId: string;
+  feedUser: string;
   onClickClose: () => void;
 }
 
-export default function Comment({ feedId, onClickClose }: CommentProps) {
-  const { comments, postComment, deleteComment, isLoading, isError, error } =
-    useComment(feedId);
+export default function Comment(props: CommentProps) {
+  return (
+    <ApiBoundary>
+      <ApiComponent {...props} />
+    </ApiBoundary>
+  );
+}
+
+function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
+  const { comments, postComment, deleteComment } = useComment(feedId);
   const [comment, setComment] = useState<string>("");
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) =>
     setComment(e.target.value);
+
+  const localUserData = storage.get("currentUser");
+  const currentUser = JSON.parse(localUserData as string);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,9 +41,6 @@ export default function Comment({ feedId, onClickClose }: CommentProps) {
       if (comment.trim() === "") {
         return;
       }
-
-      const localUserData = storage.get(storageKeys.currentUser);
-      const currentUser = JSON.parse(localUserData as string);
 
       //댓글 내용 불러오기
       await postComment({
@@ -69,17 +78,16 @@ export default function Comment({ feedId, onClickClose }: CommentProps) {
     };
   }, []);
 
-  if (isLoading) return "loading...";
-  if (isError) return error.message;
-
   return (
     <S.CommentWindowContainer>
+      <S.CloseButton onClick={onClickClose} />
       <S.CommentsCollection>
         {comments &&
           comments.map((comment) => (
             <CommentItem
               key={comment._id}
               item={comment}
+              feedUserId={feedUser}
               onDelete={onDeleteComment}
             />
           ))}
@@ -96,7 +104,6 @@ export default function Comment({ feedId, onClickClose }: CommentProps) {
 
         {comment && <S.SubmitButton type="submit">SEND</S.SubmitButton>}
       </S.InputWrapper>
-      <S.CancelButton onClick={onClickClose}>취소</S.CancelButton>
     </S.CommentWindowContainer>
   );
 }

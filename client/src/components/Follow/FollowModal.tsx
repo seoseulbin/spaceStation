@@ -31,11 +31,11 @@ export default function FollowModal({
     }
     if (followState) {
       return followList!.map((follow) => (
-        <User currentUserId={follow.following} key={follow._id} />
+        <User userId={follow.following} key={follow._id} />
       ));
     }
     return followList!.map((follow) => (
-      <User currentUserId={follow.follower} key={follow._id} />
+      <User userId={follow.follower} key={follow._id} />
     ));
   }
 

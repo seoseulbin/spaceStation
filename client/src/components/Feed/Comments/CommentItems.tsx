@@ -1,26 +1,33 @@
 import * as S from "./Comments.styles";
 import { CommentType } from "./Comments.type";
+import User from "../../User/User";
+import { storage } from "../../../global/storage";
 
 interface CommentItemProps {
   item: CommentType;
+  feedUserId: string;
   onDelete: (commentId: string) => void;
 }
 
-/*
-  코멘트 타입에서 아이템을 가젼와 **댓글을 구성하는 요소**들을 만들어 주는 곳
-  onDelete를 item에 넣은 이유
-  일단 삭제는 전체 댓글 구현의 요소중 하나이고 comment에서 만들 수도 있었지만 여기에 만드는게 더 가독성도 좋고 재사용성도 있고 유지보수도 더 쉬울것 같았음...
-*/
-const CommentItem = ({ item, onDelete }: CommentItemProps) => {
+const localUserData = storage.get("currentUser");
+const currentUser = JSON.parse(localUserData as string);
+
+const CommentItem = ({ item, feedUserId, onDelete }: CommentItemProps) => {
   return (
     <>
       <S.Container>
-        <div>user: {item.userId}</div>
-        <div>comment: {item.content}</div>
-        <div>Date: {item.createdAt}</div>
-        <S.DeleteButton onClick={() => onDelete(item._id)}>
-          Delete
-        </S.DeleteButton>
+        <S.UserInfo>
+          {/* 유저의 프로필과 이름 => useritem 에서 사용 */}
+          <User userId={item.userId} />
+
+          {(item.userId === currentUser.userId ||
+            currentUser.userId === feedUserId) && (
+            <S.DeleteButton onClick={() => onDelete(item._id)} />
+          )}
+        </S.UserInfo>
+
+        <S.Comment>{item.content}</S.Comment>
+        <S.CommentDate>{item.createdAt}</S.CommentDate>
       </S.Container>
     </>
   );

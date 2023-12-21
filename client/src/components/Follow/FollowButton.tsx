@@ -1,13 +1,18 @@
 import { storage } from "@/global/storage";
 import { useFollow } from "./Follow.hooks";
 import toast from "react-hot-toast";
+import ApiBoundary from "../common/ApiBoundary";
 
-export default function FollowButton({
-  currentUserId,
-}: {
-  currentUserId: string;
-}) {
-  const { checkFollow, postFollow, deleteFollow } = useFollow(currentUserId);
+export default function FollowButton({ userId }: { userId: string }) {
+  return (
+    <ApiBoundary>
+      <ApiComponent userId={userId} />
+    </ApiBoundary>
+  );
+}
+
+function ApiComponent({ userId }: { userId: string }) {
+  const { checkFollow, postFollow, deleteFollow } = useFollow(userId);
   const localUserData = storage.get("currentUser");
 
   const renderFollowButton = () => {
@@ -23,7 +28,7 @@ export default function FollowButton({
       );
     }
 
-    if (localUserData && JSON.parse(localUserData).userId === currentUserId) {
+    if (localUserData && JSON.parse(localUserData).userId === userId) {
       return null;
     }
 
@@ -34,7 +39,7 @@ export default function FollowButton({
           value="팔로우"
           onClick={async () => {
             const res = await postFollow({
-              follower: currentUserId,
+              follower: userId,
             });
             console.log(res);
           }}
@@ -48,7 +53,7 @@ export default function FollowButton({
           type="button"
           value="팔로우 취소"
           onClick={async () => {
-            const res = await deleteFollow(currentUserId);
+            const res = await deleteFollow(userId);
             console.log(res);
           }}
         />
