@@ -7,6 +7,7 @@ import UpdateFeedPage from "./pages/UpdateFeedPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProfileUpdate from "./components/Profile/ProfileUpdate";
 import ProfileSetting from "./components/Profile/Profile.Setting";
+import CategoryPage from "./pages/CategoryPage";
 import * as Sample from "./components/common/Modal/Sample";
 
 const router = createBrowserRouter([
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
         <Sample.SampleConfirmWithInput />
       </>
     ),
+  },
+  {
+    path: PATH.categoryPage,
+    element: <CategoryPage />,
   },
 ]);
 
