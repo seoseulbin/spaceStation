@@ -51,10 +51,11 @@ export default function Navbar() {
 }
 
 const Container = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.deepback};
   width: 100%;
   height: 3rem;
   display: flex;
+  padding: 10px;
   justify-content: space-around;
   position: fixed;
   bottom: 0;

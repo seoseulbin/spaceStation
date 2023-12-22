@@ -33,10 +33,10 @@ export const Container = styled.div`
     background-color: ${({ theme }) => theme.colors.sub};
   }
   .cancel {
-    background-color: #f9f1e9;
+    background-color: ${({ theme }) => theme.colors.deepback};
   }
   .update {
-    background-color: #f9f1e9;
+    background-color: ${({ theme }) => theme.colors.deepback};
   }
 `;
 
