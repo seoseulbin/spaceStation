@@ -37,6 +37,10 @@ export const AnchorButton = styled.div<CustomDivElement>`
   border-radius: 20px;
   cursor: pointer;
 
+  &[data-disabled="disabled"] {
+    visibility: hidden;
+  }
+
   &:before {
     content: "";
     display: block;

@@ -24,6 +24,9 @@ export default function ImageFeedTagButton({
   return (
     <>
       <S.AnchorButton
+        data-disabled={
+          currentImage.tagInfo[parseInt(index)].url ? "" : "disabled"
+        }
         title={index}
         x={x}
         y={y}
