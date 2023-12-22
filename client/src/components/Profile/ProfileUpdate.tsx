@@ -1,43 +1,37 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useUser } from "../User/User.hooks";
 import * as S from "./Profile.styles";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { storage } from "@/global/storage";
 import { useNavigate } from "react-router-dom";
 import ApiBoundary from "../common/ApiBoundary";
 import Header from "../Header/Header";
+
+type Props = {
+  userInfo: { userId: string; nickname: string };
+};
 
 type UpdateProfileData = {
   nickname: string;
   profileImgUrl: string;
 };
 
-export default function ProfileUpdate() {
+export default function ProfileUpdate(props: Props) {
   return (
     <ApiBoundary>
-      <ApiComponent />
+      <ApiComponent {...props} />
     </ApiBoundary>
   );
 }
 
-function ApiComponent() {
-  const localUserData = storage.get("currentUser");
-  const userid = localUserData ? JSON.parse(localUserData).userId : null;
+function ApiComponent({ userInfo: { userId, nickname } }: Props) {
   const navigate = useNavigate();
-  const { user, putUser } = useUser(userid as string);
-  const [newNickname, setNewNickname] = useState<string>(user?.nickname || "");
+  const { user, putUser } = useUser(userId);
+  const [newNickname, setNewNickname] = useState(nickname);
   const [newProfileImgUrl, setNewProfileImgUrl] = useState<string | undefined>(
-    user?.profileImgUrl,
+    user.profileImgUrl,
   );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-  useEffect(() => {
-    if (!localUserData) {
-      toast.error("잘못된 접근입니다");
-      navigate("/login");
-    }
-  }, [localUserData, navigate]);
 
   const imageUploader = async (file: File) => {
     try {

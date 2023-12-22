@@ -15,8 +15,7 @@ function ApiComponent({ userId }: { userId: string }) {
   const { checkFollow, postFollow, deleteFollow } = useFollow(userId);
   const localUserData = storage.get("currentUser");
   const isLoggedIn = !!localUserData;
-  const isCurrentUser =
-    localUserData && JSON.parse(localUserData).userId === userId;
+  const isCurrentUser = localUserData && localUserData.userId === userId;
 
   const handleFollowClick = async () => {
     try {

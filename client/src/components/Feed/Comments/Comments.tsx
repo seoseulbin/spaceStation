@@ -26,12 +26,12 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
   const onChange = (e: ChangeEvent<HTMLInputElement>) =>
     setComment(e.target.value);
 
-  const localUserData = storage.get("currentUser");
-  const currentUser = JSON.parse(localUserData as string);
+  const currentUser = storage.get("currentUser");
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      if (!currentUser) throw new Error("로그인이 필요합니다.");
       if (!feedId) {
         console.error("해당된 피드가 없습니다.");
         return;
