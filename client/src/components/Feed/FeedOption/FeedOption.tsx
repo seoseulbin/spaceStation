@@ -4,6 +4,7 @@ import * as S from "./FeedOption.styles";
 import { Link } from "react-router-dom";
 import ApiBoundary from "@/components/common/ApiBoundary";
 import toast from "react-hot-toast";
+import { PATH } from "@/global/constants";
 
 interface OptionProps {
   feedId: string;
@@ -37,7 +38,7 @@ function ApiComponent({
           <S.Wrapper>
             {currentUserId === currentUser?.userId ? (
               <>
-                <Link to={`/feeds/${feedId}`}>
+                <Link to={PATH.upadteFeed(feedId)}>
                   <S.Button>수정</S.Button>
                 </Link>
 
