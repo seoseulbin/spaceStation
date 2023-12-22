@@ -9,8 +9,7 @@ interface CommentItemProps {
   onDelete: (commentId: string) => void;
 }
 
-const localUserData = storage.get("currentUser");
-const currentUser = JSON.parse(localUserData as string);
+const currentUser = storage.get("currentUser");
 
 const CommentItem = ({ item, feedUserId, onDelete }: CommentItemProps) => {
   return (
@@ -20,8 +19,8 @@ const CommentItem = ({ item, feedUserId, onDelete }: CommentItemProps) => {
           {/* 유저의 프로필과 이름 => useritem 에서 사용 */}
           <User userId={item.userId} />
 
-          {(item.userId === currentUser.userId ||
-            currentUser.userId === feedUserId) && (
+          {(item.userId === currentUser?.userId ||
+            currentUser?.userId === feedUserId) && (
             <S.DeleteButton onClick={() => onDelete(item._id)} />
           )}
         </S.UserInfo>
