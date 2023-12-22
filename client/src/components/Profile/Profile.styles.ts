@@ -32,6 +32,12 @@ export const Container = styled.div`
     color: white;
     background-color: ${({ theme }) => theme.colors.sub};
   }
+  .cancel {
+    background-color: #f9f1e9;
+  }
+  .update {
+    background-color: #f9f1e9;
+  }
 `;
 
 export const ProfileImg = styled.img`

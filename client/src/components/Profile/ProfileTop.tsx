@@ -95,7 +95,7 @@ function ApiComponent({ userId }: { userId: string }) {
             </S.Follow>
             {localUserData && JSON.parse(localUserData).userId === userId ? (
               <NavLink to={PATH.profileUpdate}>
-                <input type="button" value={"프로필 수정"} />
+                <input type="button" className="update" value={"프로필 수정"} />
               </NavLink>
             ) : (
               <FollowButton userId={userId} />
