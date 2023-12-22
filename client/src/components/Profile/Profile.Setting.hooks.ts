@@ -18,7 +18,7 @@ export const useProfileSetting = () => {
 
       toast.success(message);
       storage.remove(storageKeys.currentUser);
-      navigate(PATH.login);
+      navigate(PATH.root);
     },
     onError: (error) => {
       toast.error(error.message);
