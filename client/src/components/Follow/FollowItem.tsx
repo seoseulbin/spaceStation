@@ -1,10 +1,10 @@
-import * as S from "./User.styles";
-import { useUser } from "./User.hooks";
+import * as S from "./Follow.styles";
+import { useUser } from "../User/User.hooks";
 import { NavLink } from "react-router-dom";
 import ApiBoundary from "../common/ApiBoundary";
 import { PATH } from "@/global/constants";
 
-export default function User({ userId }: { userId: string }) {
+export default function FollowItem({ userId }: { userId: string }) {
   return (
     <ApiBoundary>
       <ApiComponent userId={userId} />

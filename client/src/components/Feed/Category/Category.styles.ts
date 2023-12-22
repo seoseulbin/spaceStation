@@ -23,4 +23,5 @@ export const Category = styled.div<{ $isActive: boolean }>`
   align-items: center;
   justify-content: center;
   background-color: ${(props) => (props.$isActive ? "#e7e7e7" : "white")};
+  cursor: pointer;
 `;

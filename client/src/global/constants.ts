@@ -3,7 +3,7 @@ export const PATH = {
   login: "/login",
   category: (id: string = ":id") => `/category/${id}`,
   createFeed: "/feeds/create",
-  upadteFeed: (id: string = ":id") => `/feeds/${id}/update`,
+  updateFeed: (id: string = ":id") => `/feeds/${id}/update`,
   profile: "/profile",
   profileUpdate: "/profile/update",
   profileSetting: "/profile/setting",

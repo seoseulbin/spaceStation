@@ -4,7 +4,6 @@ import { axiosInstance } from "../../../global/axiosInstance";
 export const bookmarkAPI = {
   async getBookmarkByFeedId(feedId: string) {
     const res = await axiosInstance.get<BookmarkType[]>(`/bookmarks/${feedId}`);
-    console.log("hwiehi", res.data);
     return res.data;
   },
 

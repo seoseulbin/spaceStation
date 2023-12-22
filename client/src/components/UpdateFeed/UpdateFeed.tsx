@@ -1,14 +1,16 @@
 import { useUpdateFeed } from "./UpdateFeed.hooks";
 import { useCategory } from "../Feed/Category/Category.hooks";
-import { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import * as S from "./UpdateFeed.styles";
 import axios from "axios";
 import { CgMathPlus } from "react-icons/cg";
 import { GoX } from "react-icons/go";
 import ApiBoundary from "../common/ApiBoundary";
 import Header from "../Header/Header";
+import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
+import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
 
-interface UpdateFeedProps {
+export interface UpdateFeedProps {
   feedId: string;
 }
 
@@ -29,6 +31,24 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
+
+  const {
+    setTarget,
+    imgList,
+    setImgList,
+    currentImage,
+    setCurrentImage,
+    addNewImage,
+    addImageAnchor,
+    updateTagInfo,
+    getTagInfo,
+  } = useTagButtonHandler();
+
+  // ImgTagButton 갱신을 위한 effect 훅
+  useEffect(() => {
+    setCurrentImage(imgList.find((item) => item.url === showImage));
+  }, [imgList, setCurrentImage, showImage]);
+
   /**
    * cloudinary 이미지 저장 함수
    */
@@ -70,6 +90,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
 
       setImages((arr) => [...arr, uploaded.url]);
       setShowImage(uploaded.url);
+      addNewImage(uploaded.url); // useTagButtonHandler에 image 추가
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
       else console.log(String(error));
@@ -95,13 +116,15 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
 
   useEffect(() => {
     if (feed) {
-      setImages(feed.imgUrls);
-      setShowImage(feed.imgUrls[0]);
+      setImgList(feed.imgUrls);
+      const imageUrls = feed.imgUrls.map((item) => item.url);
+      setImages(imageUrls);
+      setShowImage(feed.imgUrls[0].url);
       setContents(feed.content);
       setCategory(feed.category);
       setActiveCategory(feed.category);
     }
-  }, [feed]);
+  }, [feed, setImgList]);
 
   return (
     <>
@@ -115,17 +138,40 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
             _id: feedId,
             category: category,
             content: contents,
-            imgUrls: images,
+            imgUrls: imgList,
           });
         }}
       />
       <S.Container>
-        <S.ImageContainer>
-          {showImage != "" ? (
+        <S.ImageContainer
+          ref={setTarget}
+          onClick={(event: React.MouseEvent) =>
+            addImageAnchor(showImage, event)
+          }
+        >
+          {showImage !== "" ? (
             <S.FeedImage src={showImage} alt="피드 이미지" />
           ) : (
             <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
           )}
+          <div
+            onClick={(e: React.MouseEvent) => {
+              e.stopPropagation();
+            }}
+          >
+            {currentImage &&
+              currentImage.tagPosition.map((item, index) => (
+                <ImageAnchorButton
+                  key={index}
+                  index={String(index)}
+                  x={item.x}
+                  y={item.y}
+                  onSuccess={updateTagInfo}
+                  currentImage={currentImage.url}
+                  getTagInfo={getTagInfo}
+                />
+              ))}
+          </div>
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
           <label htmlFor="file">

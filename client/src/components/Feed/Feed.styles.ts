@@ -54,8 +54,7 @@ export const TextContainer = styled.p`
   font-size: 14px;
   color: ${({ theme }) => theme.colors.textPrimary};
   line-height: 20px;
-
-  overflow = hidden;
+  overflow: hidden;
 `;
 
 export const MoreReadButton = styled.button`
@@ -78,9 +77,33 @@ export const GridFeedItem = styled.div<{ $column: number }>`
 
 export const CommentContainer = styled(FaRegComment)`
   cursor: pointer;
-  width: 28px;
-  height: 28px;
-
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
   overflow-y: auto;
   z-index: 2;
+`;
+
+export const ButtonContainer = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+`;
+
+export const ButtonLeftDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+export const ButtonRightDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 `;
