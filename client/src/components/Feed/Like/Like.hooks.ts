@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "@/global/reactQeury";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
@@ -6,7 +6,7 @@ import { likeAPI } from "./Like.api";
 import { LikeType } from "./Like.type";
 
 export const useLikes = (feedId: string) => {
-  const { data: likes, ...rest } = useQuery<LikeType[]>({
+  const { data: likes, ...rest } = useSuspenseQuery<LikeType[]>({
     queryKey: [queryKeys.like, feedId],
     queryFn: () => likeAPI.getLikes(feedId),
   });

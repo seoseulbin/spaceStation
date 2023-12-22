@@ -28,15 +28,14 @@ function ApiComponent({
 }: OptionProps) {
   const { deleteFeed } = useFeed();
 
-  const localUserData = storage.get(storageKeys.currentUser);
-  const currentUser = JSON.parse(localUserData as string);
+  const currentUser = storage.get(storageKeys.currentUser);
 
   return (
     <>
       {isOpen && (
         <S.Container onClick={closeOption}>
           <S.Wrapper>
-            {currentUserId === currentUser.userId ? (
+            {currentUserId === currentUser?.userId ? (
               <>
                 <Link to={`/feeds/${feedId}`}>
                   <S.Button>수정</S.Button>
