@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import AnchorButton from "@/components/common/AnchorButton/AnchorButton";
 
 import { useEffect, useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { storage, storageKeys } from "../../global/storage";
 import { PATH } from "@/global/constants";
 
@@ -14,11 +14,13 @@ export default function Login() {
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [currentUserId, setCurrentUserId] = useState("");
   const [currentNickname, setCurrentNickname] = useState("");
 
   useEffect(() => {
+    const pathname = location.pathname;
     const localUserData = storage.get(storageKeys.currentUser);
     const id = searchParams.get("id");
     const nickname = searchParams.get("nickname");
@@ -38,7 +40,7 @@ export default function Login() {
       );
     }
 
-    if (currentNickname && currentUserId) {
+    if (currentNickname && currentUserId && pathname === "/login") {
       toast.success(
         `"${currentNickname}(${currentUserId.slice(
           0,
@@ -47,7 +49,13 @@ export default function Login() {
       );
       navigate(PATH.profile);
     }
-  }, [searchParams, navigate, currentNickname, currentUserId]);
+  }, [
+    searchParams,
+    navigate,
+    currentNickname,
+    currentUserId,
+    location.pathname,
+  ]);
 
   return (
     <S.Container>

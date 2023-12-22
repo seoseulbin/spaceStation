@@ -4,12 +4,25 @@ import * as S from "./Feed.styles";
 import { PATH } from "@/global/constants";
 import Loading from "../common/Loading";
 import ApiBoundary from "../common/ApiBoundary";
+import Category from "./Category/Category";
+import Header from "../Header/Header";
 
 type Props = { category: string };
 
 export default function CategoryFeed(props: Props) {
+  const handleSearchButton = () => {
+    alert("!!?");
+  };
+
   return (
     <ApiBoundary>
+      <Header
+        backArrow={false}
+        headerTitle={"Space-station🚉"}
+        isFunctionAcitve={true}
+        functionIconType={"search"}
+        onClickFunction={handleSearchButton}
+      />
       <ApiComponent {...props} />
     </ApiBoundary>
   );
@@ -22,6 +35,7 @@ function ApiComponent({ category }: Props) {
 
   return (
     <>
+      <Category categoryId={category} />
       {data.pages.map(({ data: feeds }, i) => (
         <S.GridFeedItem $column={2} key={"gridFeedItem" + i}>
           {feeds.map((feed) => (

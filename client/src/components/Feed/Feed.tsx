@@ -31,7 +31,7 @@ function ApiComponent() {
 
   return (
     <>
-      <Category />
+      <Category categoryId={""} />
       {data.pages.map(({ data: feeds }) =>
         feeds.map((feed) => (
           <Fragment key={feed._id}>

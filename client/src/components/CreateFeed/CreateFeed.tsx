@@ -108,7 +108,7 @@ function ApiComponent() {
       />
       <S.Container>
         <S.ImageContainer>
-          {showImage == "" ? (
+          {showImage != "" ? (
             <S.FeedImage src={showImage} alt="피드 이미지" />
           ) : (
             <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>

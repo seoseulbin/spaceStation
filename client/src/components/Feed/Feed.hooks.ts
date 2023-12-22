@@ -22,7 +22,7 @@ export const useFeed = () => {
 
 export const useUserFeed = ({ userId }: { userId: string }) => {
   const results = useSuspenseInfiniteQuery({
-    queryKey: [queryKeys.feedUser],
+    queryKey: [queryKeys.feedUser, userId],
     queryFn: ({ pageParam }) =>
       feedAPI.getUserFeeds({ userId, cursor: pageParam, limit: 12 }),
     initialPageParam: 0,
@@ -39,7 +39,7 @@ export const useUserFeed = ({ userId }: { userId: string }) => {
 
 export const useCategoryFeed = ({ category }: { category: string }) => {
   const results = useSuspenseInfiniteQuery({
-    queryKey: [queryKeys.feedCategory],
+    queryKey: [queryKeys.feedCategory, category],
     queryFn: ({ pageParam }) =>
       feedAPI.getCategoryFeeds({ category, cursor: pageParam, limit: 8 }),
     initialPageParam: 0,
