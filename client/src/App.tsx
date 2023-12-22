@@ -50,7 +50,7 @@ const router = createBrowserRouter([
         element: <CreateFeedPage />,
       },
       {
-        path: PATH.upadteFeed(),
+        path: PATH.updateFeed(),
         element: <UpdateFeedPage />,
       },
       {

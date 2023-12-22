@@ -27,7 +27,6 @@ export function FeedOptionModal({
   const navigate = useNavigate();
 
   const localUserData = storage.get(storageKeys.currentUser);
-  const currentUser = JSON.parse(localUserData as string);
 
   const options = [
     {
@@ -77,7 +76,7 @@ export function FeedOptionModal({
         length={options?.length}
         children={
           <ActionSheetLayout
-            options={currentUser.userId === userId ? options : options2}
+            options={localUserData?.userId === userId ? options : options2}
           />
         }
       ></S.ActionSheet>
