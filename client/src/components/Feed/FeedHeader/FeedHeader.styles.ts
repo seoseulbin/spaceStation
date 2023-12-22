@@ -11,6 +11,12 @@ export const FeedHeader = styled.div`
     margin: -1px 0px -10px 0px;
     text-align: center;
   }
+  .follow {
+    color: ${({ theme }) => theme.colors.main};
+  }
+  .cancel {
+    color: ${({ theme }) => theme.colors.textDisable};
+  }
   .user {
     display: flex;
     align-items: center;
