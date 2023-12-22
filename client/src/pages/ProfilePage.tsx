@@ -5,6 +5,7 @@ import { storage } from "@/global/storage";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import Layout from "./Layout";
 
 export default function ProfilePage() {
   const [searchParams] = useSearchParams();
@@ -34,10 +35,10 @@ export default function ProfilePage() {
   }
 
   return (
-    <>
+    <Layout>
       <ProfileTop userId={currentUserId} />
       <UserFeed userId={currentUserId} />
       <Navbar />
-    </>
+    </Layout>
   );
 }
