@@ -1,9 +1,9 @@
 export const PATH = {
   root: "/",
-  categoryPage: "/category/:id",
+  categoryPage: (id: string = ":id") => `/category/${id}`,
   login: "/login",
-  createFeed: "/feeds",
-  upadteFeed: "/feeds/:id",
+  createFeed: "/feeds/create",
+  updateFeed: (id: string = ":id") => `/feeds/${id}/update`,
   profile: "/profile",
   profileUpdate: "/profile/update",
   profileSetting: "/profile/setting",

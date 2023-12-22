@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: PATH.upadteFeed,
+    path: PATH.updateFeed(),
     element: <UpdateFeedPage />,
   },
   {
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: PATH.categoryPage,
+    path: PATH.categoryPage(),
     element: <CategoryPage />,
   },
 ]);
