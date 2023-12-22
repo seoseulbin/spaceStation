@@ -1,7 +1,7 @@
 import * as S from "./ImageAnchorButton.styles";
 import { useCustomDialog } from "../hooks/useCustomDialog";
 import * as SDialog from "../hooks/useCustomDialog.styles";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function ImageAnchorButton({
@@ -15,7 +15,7 @@ export default function ImageAnchorButton({
   x: number;
   y: number;
   currentImage: string;
-  getTagInfo: (current: string) => void;
+  getTagInfo: (current: string) => { name: string; url: string }[];
   index: string;
   onSuccess: (
     current: string | undefined,
@@ -33,12 +33,20 @@ export default function ImageAnchorButton({
     isOpen,
   } = useCustomDialog();
 
-  // const [tagName, setTagName] = useState("");
-  // const [tagUrl, setTagUrl] = useState("");
+  const [tagName, setTagName] = useState("");
+  const [tagUrl, setTagUrl] = useState("");
   const [currentTag, setCurrentTag] = useState("");
 
   const tagNameRef = useRef<HTMLInputElement | null>(null);
   const tagUrlRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    tagNameRef?.current?.focus();
+  }, [tagName]);
+
+  useEffect(() => {
+    tagUrlRef?.current?.focus();
+  }, [tagUrl]);
 
   const buttons = [
     {
@@ -50,8 +58,8 @@ export default function ImageAnchorButton({
       name: "저장",
       usage: "SUBMIT",
       onClick: () => {
-        let name = "";
-        let url = "";
+        let name;
+        let url;
         if (tagNameRef.current) {
           name = tagNameRef.current.value;
         }
@@ -75,7 +83,10 @@ export default function ImageAnchorButton({
         x={x}
         y={y}
         onClick={(e: React.BaseSyntheticEvent) => {
-          getTagInfo(currentImage);
+          const tagInfo = getTagInfo(currentImage);
+          console.log(tagInfo[parseInt(index)]);
+          setTagName(tagInfo[parseInt(index)].name);
+          setTagUrl(tagInfo[parseInt(index)].url);
           toggleDialog();
           setCurrentTag(e.target.title);
         }}
@@ -103,8 +114,10 @@ export default function ImageAnchorButton({
                 onChange={() => {
                   if (tagNameRef.current) {
                     console.log(tagNameRef.current.value);
+                    setTagName(tagNameRef.current.value);
                   }
                 }}
+                value={tagName}
               />
             </section>
             <section>
@@ -114,10 +127,12 @@ export default function ImageAnchorButton({
                 name="taguRL"
                 type="text"
                 placeholder="URL을 입력해주세요"
-                // onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
-                //   e.preventDefault();
-                //   setTagUrl(e.target.value);}}
-                // value={tagUrl}
+                onChange={() => {
+                  if (tagUrlRef.current) {
+                    setTagUrl(tagUrlRef.current.value);
+                  }
+                }}
+                value={tagUrl}
               />
             </section>
           </ConfirmPopupLayout>
