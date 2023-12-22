@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { storage } from "@/global/storage";
 import { useNavigate } from "react-router-dom";
+import ApiBoundary from "../common/ApiBoundary";
+import Header from "../Header/Header";
 
 type UpdateProfileData = {
   nickname: string;
@@ -12,12 +14,18 @@ type UpdateProfileData = {
 };
 
 export default function ProfileUpdate() {
+  return (
+    <ApiBoundary>
+      <ApiComponent />
+    </ApiBoundary>
+  );
+}
+
+function ApiComponent() {
   const localUserData = storage.get("currentUser");
   const userid = localUserData ? JSON.parse(localUserData).userId : null;
   const navigate = useNavigate();
-  const { user, putUser, isLoading, isError, error } = useUser(
-    userid as string,
-  );
+  const { user, putUser } = useUser(userid as string);
   const [newNickname, setNewNickname] = useState<string>(user?.nickname || "");
   const [newProfileImgUrl, setNewProfileImgUrl] = useState<string | undefined>(
     user?.profileImgUrl,
@@ -30,11 +38,6 @@ export default function ProfileUpdate() {
       navigate("/login");
     }
   }, [localUserData, navigate]);
-
-  if (isLoading) return "loading...";
-  if (isError) {
-    return error.message;
-  }
 
   const imageUploader = async (file: File) => {
     try {
@@ -112,26 +115,34 @@ export default function ProfileUpdate() {
   };
 
   return (
-    <S.Container>
-      <input
-        type="file"
-        id="profileImageInput"
-        onChange={fileChange}
-        accept="image/*"
-        style={{ display: "none" }}
+    <>
+      <Header
+        backArrow={true}
+        headerTitle="프로필 변경"
+        isFunctionAcitve={true}
+        functionIconType="save"
+        onClickFunction={handleUpdateProfile}
       />
-      <S.ProfileImg
-        className="profileImageEditCamera2"
-        src={newProfileImgUrl || user?.profileImgUrl}
-        alt="프로필 이미지"
-        onClick={handleProfileImageClick}
-      />
-      <S.UpdateInput
-        value={newNickname}
-        onChange={handleNicknameChange}
-        placeholder="닉네임을 입력하세요"
-      />
-      <S.Upload onClick={handleUpdateProfile}>업로드</S.Upload>
-    </S.Container>
+      <S.Container>
+        <input
+          type="file"
+          id="profileImageInput"
+          onChange={fileChange}
+          accept="image/*"
+          style={{ display: "none" }}
+        />
+        <S.ProfileImg
+          className="profileImageEditCamera2"
+          src={newProfileImgUrl || user?.profileImgUrl}
+          alt="프로필 이미지"
+          onClick={handleProfileImageClick}
+        />
+        <S.UpdateInput
+          value={newNickname}
+          onChange={handleNicknameChange}
+          placeholder="닉네임을 입력하세요"
+        />
+      </S.Container>
+    </>
   );
 }

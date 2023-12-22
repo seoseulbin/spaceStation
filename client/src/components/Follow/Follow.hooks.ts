@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "@/global/reactQeury";
 import { FollowType } from "./Follow.type";
 import followAPI from "./Follow.api";
@@ -10,7 +10,7 @@ const localUserData = localStorage.getItem("currentUser");
  * 팔로우 훅
  */
 export const useFollow = (userid: string) => {
-  const { data: follows, ...rest } = useQuery<
+  const { data: follows, ...rest } = useSuspenseQuery<
     { follower: FollowType[]; following: FollowType[] },
     Error
   >({

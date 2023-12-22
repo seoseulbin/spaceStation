@@ -10,6 +10,8 @@ import { FiLogOut, FiUserX } from "react-icons/fi";
 import { PATH } from "@/global/constants";
 import { useProfileSetting } from "./Profile.Setting.hooks";
 
+import Header from "../Header/Header";
+
 function ProfileSetting() {
   const { logout, withdraw } = useProfileSetting();
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ function ProfileSetting() {
 
   return (
     <S.Container>
+      <Header backArrow={true} headerTitle="설정" />
       <div>프로필 설정 페이지</div>
       <S.ListContainer>
         <S.ListItem>

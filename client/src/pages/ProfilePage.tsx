@@ -1,4 +1,5 @@
 import UserFeed from "@/components/Feed/UserFeed";
+import Navbar from "@/components/Navbar/Navbar";
 import ProfileTop from "@/components/Profile/ProfileTop";
 import { storage } from "@/global/storage";
 import { useEffect, useState } from "react";
@@ -15,7 +16,8 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (localUserData) {
-      setCurrentUserId(JSON.parse(localUserData).userId);
+      const userInfo = JSON.parse(localUserData);
+      setCurrentUserId(userInfo.userId);
     }
     if (userIdFromParams) {
       setCurrentUserId(userIdFromParams);
@@ -35,6 +37,7 @@ export default function ProfilePage() {
     <>
       <ProfileTop userId={currentUserId} />
       <UserFeed userId={currentUserId} />
+      <Navbar />
     </>
   );
 }

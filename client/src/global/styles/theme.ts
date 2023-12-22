@@ -1,7 +1,8 @@
 const colors = {
   // ${({ theme }) => theme.colors.컬러이름};
-  main: "#35a29f",
-  sub: "#2b2b2b",
+  main: "#684F3F",
+  sub: "#815F50",
+  point: "#EC4194",
   textPrimary: "#212121",
   textSecondary: "#666666",
   textDisable: "#9e9e9e",

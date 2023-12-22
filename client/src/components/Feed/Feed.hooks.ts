@@ -39,7 +39,7 @@ export const useUserFeed = ({ userId }: { userId: string }) => {
 
 export const useCategoryFeed = ({ category }: { category: string }) => {
   const results = useSuspenseInfiniteQuery({
-    queryKey: [queryKeys.feedCategory],
+    queryKey: [queryKeys.feedCategory, category],
     queryFn: ({ pageParam }) =>
       feedAPI.getCategoryFeeds({ category, cursor: pageParam, limit: 8 }),
     initialPageParam: 0,
