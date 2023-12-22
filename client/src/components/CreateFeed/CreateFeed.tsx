@@ -121,10 +121,11 @@ function ApiComponent() {
         isFunctionAcitve={true}
         functionIconType={"upload"}
         onClickFunction={async () => {
+          console.log(imgList);
           await createFeed({
             category: category,
             content: contents,
-            imgUrls: images, //TODO : imgList 로 변경 필요
+            imgUrls: imgList, //TODO : imgList 로 변경 필요
           });
         }}
       />
