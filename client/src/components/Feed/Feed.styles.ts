@@ -54,8 +54,7 @@ export const TextContainer = styled.p`
   font-size: 14px;
   color: ${({ theme }) => theme.colors.textPrimary};
   line-height: 20px;
-
-  overflow = hidden;
+  overflow: hidden;
 `;
 
 export const MoreReadButton = styled.button`
