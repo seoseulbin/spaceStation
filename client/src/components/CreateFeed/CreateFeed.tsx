@@ -42,8 +42,6 @@ function ApiComponent() {
   // ImgTagButton 갱신을 위한 effect 훅
   useEffect(() => {
     setCurrentImage(imgList.find((item) => item.url === showImage));
-    // console.log("imgList", imgList);
-    // console.log("currentImage", currentImage);
   }, [imgList, setCurrentImage, showImage]);
 
   /**
@@ -88,7 +86,6 @@ function ApiComponent() {
       setImages((arr) => [...arr, uploaded.url]);
       setShowImage(uploaded.url);
       addNewImage(uploaded.url); // useTagButtonHandler에 image 추가
-      // console.log(imgList.find((item) => item.url === uploaded.url));
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
       else console.log(String(error));
@@ -125,7 +122,7 @@ function ApiComponent() {
           await createFeed({
             category: category,
             content: contents,
-            imgUrls: imgList, //TODO : imgList 로 변경 필요
+            imgUrls: imgList, // 중요 : imgList 로 변경됨
           });
         }}
       />

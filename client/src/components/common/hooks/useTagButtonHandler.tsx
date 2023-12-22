@@ -91,11 +91,9 @@ export function useTagButtonHandler() {
     showImage: string,
     position: { x: number; y: number },
   ) {
-    //console.log(position);
     const currentImageIndex = imgList?.findIndex(
       (item) => item.url === showImage,
     );
-    console.log("isCurrentImage", imgList[currentImageIndex]);
     if (currentImageIndex !== -1) {
       const newPosition = { x: position.x, y: position.y };
       const newInfo = { name: "", url: "" };
@@ -114,8 +112,6 @@ export function useTagButtonHandler() {
     name: string,
     url: string,
   ) {
-    //console.log(name, url);
-    //const newInfo = {name: name, url: url};
     const newArray = [...imgList];
     const imageIndex = imgList.findIndex((item) => item.url === currentImage);
     newArray[imageIndex].tagInfo[parseInt(index as string)].name = name;

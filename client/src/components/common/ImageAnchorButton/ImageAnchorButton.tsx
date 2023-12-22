@@ -84,7 +84,6 @@ export default function ImageAnchorButton({
         y={y}
         onClick={(e: React.BaseSyntheticEvent) => {
           const tagInfo = getTagInfo(currentImage);
-          console.log(tagInfo[parseInt(index)]);
           setTagName(tagInfo[parseInt(index)].name);
           setTagUrl(tagInfo[parseInt(index)].url);
           toggleDialog();
@@ -113,7 +112,6 @@ export default function ImageAnchorButton({
                 placeholder="이름을 입력해주세요"
                 onChange={() => {
                   if (tagNameRef.current) {
-                    console.log(tagNameRef.current.value);
                     setTagName(tagNameRef.current.value);
                   }
                 }}
