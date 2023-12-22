@@ -5,7 +5,6 @@ import { storage } from "@/global/storage";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import Header from "@/components/Header/Header";
 
 export default function ProfilePage() {
   const [searchParams] = useSearchParams();
@@ -14,29 +13,21 @@ export default function ProfilePage() {
   const localUserData = storage.get("currentUser");
 
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-  const [userNickname, setUserNickname] = useState<string | undefined>();
-  const [isMyId, setIsMyId] = useState(true);
-
-  const handleHeaderNavigate = () => {
-    navigate("/profile/setting");
-  };
 
   useEffect(() => {
     if (localUserData) {
       const userInfo = JSON.parse(localUserData);
       setCurrentUserId(userInfo.userId);
-      setUserNickname(userInfo.nickname);
     }
     if (userIdFromParams) {
       setCurrentUserId(userIdFromParams);
-      setIsMyId(!isMyId);
     }
 
     if (!localUserData && !userIdFromParams) {
       toast.error("로그인 필요");
       navigate("/login");
     }
-  }, [localUserData, navigate, userIdFromParams, isMyId]);
+  }, [localUserData, navigate, userIdFromParams]);
 
   if (!currentUserId) {
     return "loading...";
@@ -44,13 +35,6 @@ export default function ProfilePage() {
 
   return (
     <>
-      <Header
-        backArrow={true}
-        headerTitle={userNickname}
-        isFunctionAcitve={isMyId}
-        functionIconType={"setting"}
-        onClickFunction={handleHeaderNavigate}
-      />
       <ProfileTop userId={currentUserId} />
       <UserFeed userId={currentUserId} />
       <Navbar />
