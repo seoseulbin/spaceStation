@@ -1,11 +1,11 @@
 import { theme } from "@/global/styles/theme";
 import styled from "styled-components";
-import Modal from "styled-react-modal";
 
 export const Container = styled.div`
   display: grid;
   place-items: center;
   gap: 20px;
+  padding: 30px;
   color: ${theme.colors.textPrimary};
   font-size: ${({ theme }) => theme.size.md}px;
   .profileContainer {
@@ -17,16 +17,26 @@ export const Container = styled.div`
     box-sizing: border;
   }
   input {
-    color: ${({ theme }) => theme.colors.textSecondary};
-    padding: 5px;
     width: 100%;
-    item-align: center;
-    text-align: center;
-    border: 1px solid ${({ theme }) => theme.colors.textDisable};
+    padding: 10px;
     border-radius: 3px;
-    span {
-      font-size: ${({ theme }) => theme.size.lg}px;
-    }
+  }
+  input[type="button"] {
+    padding: 6px;
+    width: 100%;
+    text-align: center;
+    border-radius: 3px;
+    border: 0px;
+  }
+  .follow {
+    color: white;
+    background-color: ${({ theme }) => theme.colors.sub};
+  }
+  .cancel {
+    background-color: ${({ theme }) => theme.colors.deepback};
+  }
+  .update {
+    background-color: ${({ theme }) => theme.colors.deepback};
   }
 `;
 
@@ -73,16 +83,4 @@ export const UpdateInput = styled.input`
   font-size: ${({ theme }) => theme.size.md}px;
   border: 1px solid #ddd;
   justify-content: center;
-`;
-
-export const StyledModal = Modal.styled`
-  width: 20rem;
-  padding: 20px;
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-  background-color: #FFF;
-  opacity: ${(props: { opacity: number }) => props.opacity};
-  transition : all 0.3s ease-in-out;
-
 `;

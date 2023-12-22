@@ -1,12 +1,14 @@
 import { useCreateFeed } from "./CreateFeed.hooks";
 import { useCategory } from "../Feed/Category/Category.hooks";
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import * as S from "./CreateFeed.styles";
 import axios from "axios";
 import { CgMathPlus } from "react-icons/cg";
 import { GoX } from "react-icons/go";
 import Header from "../Header/Header";
 import ApiBoundary from "../common/ApiBoundary";
+import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
+import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
 
 export default function CreateFeed() {
   return (
@@ -25,6 +27,22 @@ function ApiComponent() {
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
+
+  const {
+    setTarget,
+    imgList,
+    currentImage,
+    setCurrentImage,
+    addNewImage,
+    addImageAnchor,
+    updateTagInfo,
+    getTagInfo,
+  } = useTagButtonHandler();
+
+  // ImgTagButton 갱신을 위한 effect 훅
+  useEffect(() => {
+    setCurrentImage(imgList.find((item) => item.url === showImage));
+  }, [imgList, setCurrentImage, showImage]);
 
   /**
    * cloudinary 이미지 저장 함수
@@ -67,6 +85,7 @@ function ApiComponent() {
 
       setImages((arr) => [...arr, uploaded.url]);
       setShowImage(uploaded.url);
+      addNewImage(uploaded.url); // useTagButtonHandler에 image 추가
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
       else console.log(String(error));
@@ -99,20 +118,44 @@ function ApiComponent() {
         isFunctionAcitve={true}
         functionIconType={"upload"}
         onClickFunction={async () => {
+          console.log(imgList);
           await createFeed({
             category: category,
             content: contents,
-            imgUrls: images,
+            imgUrls: imgList, // 중요 : imgList 로 변경됨
           });
         }}
       />
       <S.Container>
-        <S.ImageContainer>
+        <S.ImageContainer
+          ref={setTarget}
+          onClick={(event: React.MouseEvent) =>
+            addImageAnchor(showImage, event)
+          }
+        >
           {showImage != "" ? (
             <S.FeedImage src={showImage} alt="피드 이미지" />
           ) : (
             <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
           )}
+          <div
+            onClick={(e: React.MouseEvent) => {
+              e.stopPropagation();
+            }}
+          >
+            {currentImage &&
+              currentImage.tagPosition.map((item, index) => (
+                <ImageAnchorButton
+                  key={index}
+                  index={String(index)}
+                  x={item.x}
+                  y={item.y}
+                  onSuccess={updateTagInfo}
+                  currentImage={currentImage.url}
+                  getTagInfo={getTagInfo}
+                />
+              ))}
+          </div>
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
           <label htmlFor="file">

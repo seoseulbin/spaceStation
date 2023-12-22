@@ -6,6 +6,8 @@ const colors = {
   textPrimary: "#212121",
   textSecondary: "#666666",
   textDisable: "#9e9e9e",
+  background: "#FFFCF8",
+  deepback: "#f9f1e9",
 };
 
 const size = {

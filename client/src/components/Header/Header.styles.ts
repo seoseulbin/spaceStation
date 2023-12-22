@@ -14,7 +14,7 @@ export const Container = styled.header`
   background-color: white;
   position: sticky;
   top: 0;
-  z-index: 99;
+  z-index: 29;
 `;
 
 export const ContainerLeftDiv = styled.div`
