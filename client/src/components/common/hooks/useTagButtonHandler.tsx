@@ -62,16 +62,15 @@ export function useTagButtonHandler() {
       return;
     }
 
-    // 마우스 이벤트 좌표를 가져오는 함수
     const currentMousePos = getCurrentMousePos(event);
     console.log(currentMousePos);
 
     if (currentMousePos) {
-      // 현재 showImage의 tagPosition에 가져온 좌표를 추가하는 함수
       addTagPosition(showImage, currentMousePos);
     }
   }
 
+  // 마우스 이벤트 좌표를 가져오는 함수
   function getCurrentMousePos(event: React.MouseEvent) {
     const containerRect = target?.getBoundingClientRect();
     if (containerRect) {
@@ -87,6 +86,7 @@ export function useTagButtonHandler() {
     }
   }
 
+  // 태그 position을 추가하고 imgList를 반환하는 함수
   function addTagPosition(
     showImage: string,
     position: { x: number; y: number },
@@ -106,6 +106,7 @@ export function useTagButtonHandler() {
     }
   }
 
+  // 태그 정보를 저장하는 함수
   function updateTagInfo(
     currentImage: string | undefined,
     index: string | undefined,
@@ -117,9 +118,10 @@ export function useTagButtonHandler() {
     newArray[imageIndex].tagInfo[parseInt(index as string)].name = name;
     newArray[imageIndex].tagInfo[parseInt(index as string)].url = url;
     setImgList(() => newArray);
-    toast.success(`${index} : ${name}, ${url}이 저장되었습니다.`);
+    toast.success(`${name} 태그를 수정했습니다.`);
   }
 
+  // 태그 정보를 반환하는 함수
   function getTagInfo(currentImage: string) {
     const imageIndex = imgList.findIndex((item) => item.url === currentImage);
     const currentTagInfo = imgList[imageIndex].tagInfo;
