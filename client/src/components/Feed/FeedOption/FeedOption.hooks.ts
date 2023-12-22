@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 /**
  * 샘플 훅
  */
-export const useFeed = () => {
+export const useDeleteFeed = () => {
   const invalidateFeedQuery = () => {
     queryClient.invalidateQueries({
       queryKey: [queryKeys.feed],
