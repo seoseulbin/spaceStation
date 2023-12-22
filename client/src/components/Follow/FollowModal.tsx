@@ -1,6 +1,6 @@
 import { FollowType } from "./Follow.type";
-import User from "../User/User";
 import * as S from "./Follow.styles";
+import FollowItem from "./FollowItem";
 
 type FollowModalProps = {
   followList?: FollowType[];
@@ -22,11 +22,11 @@ export default function FollowModal({
     }
     if (followState) {
       return followList!.map((follow) => (
-        <User userId={follow.following} key={follow._id} />
+        <FollowItem userId={follow.following} key={follow._id} />
       ));
     }
     return followList!.map((follow) => (
-      <User userId={follow.follower} key={follow._id} />
+      <FollowItem userId={follow.follower} key={follow._id} />
     ));
   }
 
