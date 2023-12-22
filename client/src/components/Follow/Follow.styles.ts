@@ -4,20 +4,18 @@ export const Container = styled.div`
   display: grid;
   width: 80vw;
   max-width: 80vw;
-  overflow: auto;
   align-items: center;
   justify-content: center;
 `;
 
 export const UserContainer = styled.div`
   display: flex;
+
   align-items: center;
   gap: 60px;
   padding: 20px;
+  border-bottom: 1px solid #eee;
   font-size: ${({ theme }) => theme.size.md}px;
-  span {
-    width: 30vw;
-  }
 `;
 
 export const ProfileImg = styled.img`
