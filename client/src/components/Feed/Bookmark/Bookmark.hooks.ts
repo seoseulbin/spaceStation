@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "@/global/reactQeury";
 import { bookmarkAPI } from "./Bookmark.api";
 import toast from "react-hot-toast";
@@ -6,14 +6,14 @@ import { AxiosError } from "axios";
 import { BookmarkType } from "./Bookmark.type";
 
 export const useBookmark = (feedId: string) => {
-  const { data: bookmarks, ...rest } = useQuery<BookmarkType[]>({
-    queryKey: [queryKeys.like, feedId],
-    queryFn: () => bookmarkAPI.getBookmarks(),
+  const { data: bookmarks, ...rest } = useSuspenseQuery<BookmarkType[]>({
+    queryKey: [queryKeys.bookmark, feedId],
+    queryFn: () => bookmarkAPI.getBookmarkByFeedId(feedId),
   });
 
   const invalidateQuery = (feedId: string) => {
     queryClient.invalidateQueries({
-      queryKey: [queryKeys.like, feedId],
+      queryKey: [queryKeys.bookmark, feedId],
     });
   };
 

@@ -1,54 +1,54 @@
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { FeedType } from "../Feed.type";
 import { FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 import * as S from "./Bookmark.styles";
 import { useBookmark } from "./Bookmark.hooks";
-import React, { useEffect, useState } from "react";
+import { PATH } from "@/global/constants";
 import { storage } from "@/global/storage";
-import toast from "react-hot-toast";
+import ApiBoundary from "@/components/common/ApiBoundary";
 
-export default function Bookmark({ feedId }: { feedId: FeedType["_id"] }) {
-  const userInfo = storage.get("currentUser");
-  const { bookmarks, postBookmark, deleteBookmark, isSuccess, isFetching } =
-    useBookmark(feedId);
-  const [bookmark, setBookmark] = useState<boolean | undefined>(false);
-  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+type Props = { feedId: FeedType["_id"] };
 
-  const handleBookmarkButton = async (e: React.MouseEvent<HTMLDivElement>) => {
-    const targetFeedId = e.currentTarget.id;
+export default function Bookmark(props: Props) {
+  return (
+    <ApiBoundary>
+      <ApiComponent {...props} />
+    </ApiBoundary>
+  );
+}
 
-    if (!userInfo) {
+function ApiComponent({ feedId }: { feedId: FeedType["_id"] }) {
+  const navigate = useNavigate();
+  const { bookmarks, postBookmark, deleteBookmark } = useBookmark(feedId);
+  const currentUser = storage.get("currentUser");
+
+  const isMyBookmark = bookmarks.some(
+    (bookmark) => bookmark.userId === currentUser?.userId,
+  );
+
+  let isFetching = false;
+  const handleBookmarkButton = async () => {
+    if (isFetching) return;
+
+    isFetching = true;
+
+    if (!currentUser) {
       toast.error("로그인이 필요합니다.");
+      isFetching = false;
+      navigate(PATH.login);
+      return;
     }
 
-    if (!bookmark) {
-      await postBookmark(targetFeedId);
-      setBookmark(!bookmark);
-    }
-    if (bookmark) {
-      await deleteBookmark(targetFeedId);
-      setBookmark(!bookmark);
-    }
+    isMyBookmark ? await deleteBookmark(feedId) : await postBookmark(feedId);
+    isFetching = false;
   };
-
-  useEffect(() => {
-    if (userInfo) {
-      setCurrentUserId(JSON.parse(userInfo).userId);
-    }
-
-    if (isSuccess || isFetching) {
-      const isMyBookmark = bookmarks?.some(
-        (bookmark) => bookmark.userId === currentUserId,
-      );
-      alert(isMyBookmark);
-      setBookmark(isMyBookmark);
-    }
-  }, [isSuccess, isFetching, userInfo, currentUserId, bookmarks]);
 
   return (
     <S.bookmarkButtonDiv id={feedId} onClick={handleBookmarkButton}>
-      {bookmark && <FaBookmark size="20" />}
-      {!bookmark && <FaRegBookmark size="20" />}
+      {isMyBookmark && <FaBookmark size="20" />}
+      {!isMyBookmark && <FaRegBookmark size="20" />}
     </S.bookmarkButtonDiv>
   );
 }

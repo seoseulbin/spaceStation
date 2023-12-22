@@ -4,53 +4,47 @@ import styled from "styled-components";
 import { MdHome } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
+import { Fragment } from "react";
+
+const items = [
+  {
+    path: PATH.root,
+    activeIcon: <MdHome size={25} />,
+    defaultIcon: <MdHome size={25} color={"gray"} />,
+    text: "메인",
+  },
+  {
+    path: PATH.createFeed,
+    activeIcon: <FaPlus size={25} />,
+    defaultIcon: <FaPlus size={25} color={"gray"} />,
+    text: "업로드",
+  },
+  {
+    path: PATH.profile,
+    activeIcon: <CgProfile size={25} />,
+    defaultIcon: <CgProfile size={25} color={"gray"} />,
+    text: "마이페이지",
+  },
+];
 
 export default function Navbar() {
   return (
     <>
       <Container>
-        <NavLink to={PATH.root}>
-          {({ isActive }) => (
-            <>
-              <LinkWrrapper $isActive={isActive}>
-                {isActive ? (
-                  <MdHome size={25} />
-                ) : (
-                  <MdHome size={25} color="gray" />
-                )}
-                <div>메인</div>
-              </LinkWrrapper>
-            </>
-          )}
-        </NavLink>
-        <NavLink to={PATH.createFeed}>
-          {({ isActive }) => (
-            <>
-              <LinkWrrapper $isActive={isActive}>
-                {isActive ? (
-                  <FaPlus size={25} />
-                ) : (
-                  <FaPlus size={25} color="gray" />
-                )}
-                <div>업로드</div>
-              </LinkWrrapper>
-            </>
-          )}
-        </NavLink>
-        <NavLink to={PATH.profile}>
-          {({ isActive }) => (
-            <>
-              <LinkWrrapper $isActive={isActive}>
-                {isActive ? (
-                  <CgProfile size={25} />
-                ) : (
-                  <CgProfile size={25} color="gray" />
-                )}
-                <div>마이페이지</div>
-              </LinkWrrapper>
-            </>
-          )}
-        </NavLink>
+        {items.map(({ path, activeIcon, defaultIcon, text }, i) => (
+          <Fragment key={"nav" + i}>
+            <NavLink to={path}>
+              {({ isActive }) => (
+                <>
+                  <LinkWrrapper $isActive={isActive}>
+                    {isActive ? activeIcon : defaultIcon}
+                    <div>{text}</div>
+                  </LinkWrrapper>
+                </>
+              )}
+            </NavLink>
+          </Fragment>
+        ))}
       </Container>
     </>
   );

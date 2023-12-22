@@ -13,10 +13,10 @@ export default function FollowButton({ userId }: { userId: string }) {
 
 function ApiComponent({ userId }: { userId: string }) {
   const { checkFollow, postFollow, deleteFollow } = useFollow(userId);
-  const localUserData = storage.get("currentUser");
+  const currentUser = storage.get("currentUser");
 
   const renderFollowButton = () => {
-    if (!localUserData) {
+    if (!currentUser) {
       return (
         <input
           type="button"
@@ -28,7 +28,7 @@ function ApiComponent({ userId }: { userId: string }) {
       );
     }
 
-    if (localUserData && JSON.parse(localUserData).userId === userId) {
+    if (currentUser && currentUser.userId === userId) {
       return null;
     }
 
