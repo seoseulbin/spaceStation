@@ -6,6 +6,7 @@ import axios from "axios";
 import { CgMathPlus } from "react-icons/cg";
 import { GoX } from "react-icons/go";
 import ApiBoundary from "../common/ApiBoundary";
+import Header from "../Header/Header";
 
 interface UpdateFeedProps {
   feedId: string;
@@ -104,6 +105,20 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
 
   return (
     <>
+      <Header
+        backArrow={true}
+        headerTitle="게시글 수정하기"
+        isFunctionAcitve={true}
+        functionIconType={"upload"}
+        onClickFunction={async () => {
+          await updateFeed({
+            _id: feedId,
+            category: category,
+            content: contents,
+            imgUrls: images,
+          });
+        }}
+      />
       <S.Container>
         <S.ImageContainer>
           {showImage != "" ? (
@@ -173,18 +188,6 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
             })}
           </S.CategoryWrapper>
         </S.CategoryContainer>
-        <button
-          onClick={async () => {
-            await updateFeed({
-              _id: feedId,
-              category: category,
-              content: contents,
-              imgUrls: images,
-            });
-          }}
-        >
-          UPDATE
-        </button>
       </S.Container>
     </>
   );

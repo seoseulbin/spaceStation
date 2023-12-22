@@ -16,7 +16,8 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (localUserData) {
-      setCurrentUserId(JSON.parse(localUserData).userId);
+      const userInfo = JSON.parse(localUserData);
+      setCurrentUserId(userInfo.userId);
     }
     if (userIdFromParams) {
       setCurrentUserId(userIdFromParams);

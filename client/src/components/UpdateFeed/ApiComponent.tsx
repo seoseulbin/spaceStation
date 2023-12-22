@@ -1,46 +1,21 @@
-import { useCreateFeed } from "./CreateFeed.hooks";
+import { useUpdateFeed } from "./UpdateFeed.hooks";
 import { useCategory } from "../Feed/Category/Category.hooks";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import * as S from "./CreateFeed.styles";
+import { ChangeEvent, useEffect, useState } from "react";
+import * as S from "./UpdateFeed.styles";
 import axios from "axios";
 import { CgMathPlus } from "react-icons/cg";
 import { GoX } from "react-icons/go";
-import Header from "../Header/Header";
-import ApiBoundary from "../common/ApiBoundary";
-import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
+import { UpdateFeedProps } from "./UpdateFeed";
 
-export default function CreateFeed() {
-  return (
-    <ApiBoundary>
-      <ApiComponent />
-    </ApiBoundary>
-  );
-}
-
-function ApiComponent() {
+export function ApiComponent({ feedId }: UpdateFeedProps) {
   const { categorys } = useCategory();
-  const { createFeed } = useCreateFeed();
+  const { updateFeed, feed } = useUpdateFeed(feedId);
 
   const [showImage, setShowImage] = useState<string>(""); //대표 이미지
   const [images, setImages] = useState<string[]>([]); // 피드 이미지 배열
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
-
-  const { setTarget, setImgList, addImageAnchor, TagButtonListContainer } =
-    useTagButtonHandler();
-
-  useEffect(() => {
-    const newImage = images.map((item) => {
-      return {
-        url: item,
-        tagPosition: [],
-        tagInfo: [],
-      };
-    });
-    setImgList(() => newImage);
-    //console.log("imgList", imgList);
-  }, [images, setImgList]);
 
   /**
    * cloudinary 이미지 저장 함수
@@ -88,7 +63,6 @@ function ApiComponent() {
       else console.log(String(error));
     }
   };
-
   /**
    * preview 이미지 삭제 버튼
    */
@@ -107,15 +81,26 @@ function ApiComponent() {
     }
   };
 
+  useEffect(() => {
+    if (feed) {
+      setImages(feed.imgUrls);
+      setShowImage(feed.imgUrls[0]);
+      setContents(feed.content);
+      setCategory(feed.category);
+      setActiveCategory(feed.category);
+    }
+  }, [feed]);
+
   return (
     <>
       <Header
         backArrow={true}
-        headerTitle="게시글 업로드"
+        headerTitle="게시글 수정하기"
         isFunctionAcitve={true}
         functionIconType={"upload"}
         onClickFunction={async () => {
-          await createFeed({
+          await updateFeed({
+            _id: feedId,
             category: category,
             content: contents,
             imgUrls: images,
@@ -123,18 +108,12 @@ function ApiComponent() {
         }}
       />
       <S.Container>
-        <S.ImageContainer
-          ref={setTarget}
-          onClick={() => addImageAnchor(showImage)}
-        >
+        <S.ImageContainer>
           {showImage != "" ? (
             <S.FeedImage src={showImage} alt="피드 이미지" />
           ) : (
             <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
           )}
-          <div>
-            <TagButtonListContainer current={showImage} />
-          </div>
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
           <label htmlFor="file">
@@ -170,6 +149,7 @@ function ApiComponent() {
           <S.Label htmlFor="feedContent">컨텐츠</S.Label>
           <S.Textarea
             id="feedContent"
+            value={contents}
             onChange={(e) => {
               setContents(e.target.value);
             }}
@@ -196,6 +176,18 @@ function ApiComponent() {
             })}
           </S.CategoryWrapper>
         </S.CategoryContainer>
+        <button
+          onClick={async () => {
+            await updateFeed({
+              _id: feedId,
+              category: category,
+              content: contents,
+              imgUrls: images,
+            });
+          }}
+        >
+          UPDATE
+        </button>
       </S.Container>
     </>
   );
