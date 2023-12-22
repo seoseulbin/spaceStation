@@ -33,18 +33,12 @@ function ApiComponent() {
     const newImage = images.map((item) => {
       return {
         url: item,
-        tagPosition: {
-          x: 0,
-          y: 0,
-        },
-        tagInfo: {
-          name: "",
-          url: "",
-        },
+        tagPosition: [],
+        tagInfo: [],
       };
     });
-    console.log(newImage);
     setImgList(() => newImage);
+    //console.log("imgList", imgList);
   }, [images, setImgList]);
 
   /**
@@ -115,15 +109,18 @@ function ApiComponent() {
   return (
     <>
       <S.Container>
-        <S.ImageContainer ref={setTarget} onClick={addImageAnchor}>
-          {showImage == "" ? (
-            <>
-              <S.FeedImage src={showImage} alt="피드 이미지" />
-              <TagButtonListContainer />
-            </>
+        <S.ImageContainer
+          ref={setTarget}
+          onClick={() => addImageAnchor(showImage)}
+        >
+          {showImage !== "" ? (
+            <S.FeedImage src={showImage} alt="피드 이미지" />
           ) : (
             <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
           )}
+          <div>
+            <TagButtonListContainer current={showImage} />
+          </div>
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
           <label htmlFor="file">
