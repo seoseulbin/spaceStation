@@ -21,17 +21,6 @@ export function useTagButtonHandler() {
     | undefined
   >(undefined);
 
-  // const [mousePos, setMousePos] = useState<{
-  //   x: number;
-  //   y: number;
-  // }>({ x: 0, y: 0 });
-
-  // const [imageTagPos, setImageTagPos] = useState<{ x: number; y: number }[]>(
-  //   [],
-  // );
-
-  //const [ isClicked, setIsClicked ] = useState(false);
-
   const [imgList, setImgList] = useState<
     {
       url: string;
@@ -109,22 +98,35 @@ export function useTagButtonHandler() {
     console.log("isCurrentImage", imgList[currentImageIndex]);
     if (currentImageIndex !== -1) {
       const newPosition = { x: position.x, y: position.y };
+      const newInfo = { name: "", url: "" };
       const newArray = [...imgList];
       newArray[currentImageIndex].tagPosition.push(newPosition);
+      newArray[currentImageIndex].tagInfo.push(newInfo);
 
       setImgList(() => newArray);
       return imgList;
     }
   }
 
-  // const showTagButtonModal = () => {
-  //   return "";
-  // };
+  function updateTagInfo(
+    currentImage: string | undefined,
+    index: string | undefined,
+    name: string,
+    url: string,
+  ) {
+    //console.log(name, url);
+    //const newInfo = {name: name, url: url};
+    const newArray = [...imgList];
+    const imageIndex = imgList.findIndex((item) => item.url === currentImage);
+    newArray[imageIndex].tagInfo[parseInt(index as string)].name = name;
+    newArray[imageIndex].tagInfo[parseInt(index as string)].url = url;
+    setImgList(() => newArray);
+    toast.success(`${index} : ${name}, ${url}이 저장되었습니다.`);
+  }
 
-  // function handleImageAnchor(e: React.BaseSyntheticEvent) {
-  //   e.stopPropagation();
-  //   toast.success("링크 수정하는 UI 추가 예정");
-  // }
+  function getTagInfo(currentImage: string) {
+    return currentImage;
+  }
 
   return {
     setTarget,
@@ -135,5 +137,7 @@ export function useTagButtonHandler() {
     addNewImage,
     addImageAnchor,
     getCurrentMousePos,
+    updateTagInfo,
+    getTagInfo,
   };
 }

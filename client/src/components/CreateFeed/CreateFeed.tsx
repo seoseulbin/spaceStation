@@ -8,7 +8,7 @@ import { GoX } from "react-icons/go";
 import Header from "../Header/Header";
 import ApiBoundary from "../common/ApiBoundary";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
-import ImageAnchorTagButton from "../common/ImageAnchorButton/ImageAnchorButton";
+import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
 
 export default function CreateFeed() {
   return (
@@ -35,14 +35,16 @@ function ApiComponent() {
     setCurrentImage,
     addNewImage,
     addImageAnchor,
+    updateTagInfo,
+    getTagInfo,
   } = useTagButtonHandler();
 
   // ImgTagButton 갱신을 위한 effect 훅
   useEffect(() => {
     setCurrentImage(imgList.find((item) => item.url === showImage));
-    console.log("imgList", imgList);
-    console.log("currentImage", currentImage);
-  }, [currentImage, imgList, setCurrentImage, showImage]);
+    // console.log("imgList", imgList);
+    // console.log("currentImage", currentImage);
+  }, [imgList, setCurrentImage, showImage]);
 
   /**
    * cloudinary 이미지 저장 함수
@@ -144,8 +146,16 @@ function ApiComponent() {
             }}
           >
             {currentImage &&
-              currentImage.tagPosition.map((item, key) => (
-                <ImageAnchorTagButton key={key} x={item.x} y={item.y} />
+              currentImage.tagPosition.map((item, index) => (
+                <ImageAnchorButton
+                  key={index}
+                  index={String(index)}
+                  x={item.x}
+                  y={item.y}
+                  onSuccess={updateTagInfo}
+                  currentImage={currentImage.url}
+                  getTagInfo={getTagInfo}
+                />
               ))}
           </div>
         </S.ImageContainer>
