@@ -44,13 +44,13 @@ export const AnchorButton = styled.div<CustomDivElement>`
   &:before {
     content: "";
     display: block;
-    width: 36px;
-    height: 36px;
+    width: 48px;
+    height: 48px;
     background-color: ${({ theme }) => theme.colors.main};
     opacity: 0.3;
     border-radius: 40px;
-    top: -10px;
-    left: -10px;
+    top: -16px;
+    left: -16px;
     /* transform: translate(-10px, -10px);*/
     animation: ${scaleAnimation} 1.75s ease-in-out infinite;
     position: absolute;
