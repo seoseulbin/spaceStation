@@ -6,6 +6,7 @@ import { Fragment, useState } from "react";
 import FeedHeader from "./FeedHeader/FeedHeader";
 import Comment from "./Comments/Comments";
 import Like from "./Like/Like";
+import Bookmark from "./Bookmark/Bookmark";
 
 const sliderSettings = {
   dots: true,
@@ -44,6 +45,7 @@ export default function FeedItem(feed: FeedType) {
         >
           댓글
         </S.CommentContainer>
+        <Bookmark feedId={feed._id} />
 
         {isCommentModalOpen && (
           <Comment

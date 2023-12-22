@@ -48,7 +48,7 @@ export default function Like({ feedId }: { feedId: FeedType["_id"] }) {
   useEffect(() => {
     if (userInfo) {
       setCurrentUserId(JSON.parse(userInfo).userId);
-      console.log(currentUserId);
+      console.log("???", currentUserId);
     }
 
     if (isSuccess || isFetching) {
