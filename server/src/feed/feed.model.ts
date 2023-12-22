@@ -5,7 +5,11 @@ type FeedSchemaType = {
   userId: Types.ObjectId;
   comments: Array<Types.ObjectId>;
   category: Types.ObjectId;
-  imgUrls: Array<string>;
+  imgUrls: Array<{
+    url: string;
+    tagPosition: Array<{ x: number; y: number }>;
+    tagInfo: Array<{ name: string; url: string }>;
+  }>;
   content: string;
   createdAt: Date;
   // TODO: 위치 정보 사용시 활성화
@@ -30,7 +34,7 @@ const FeedSchema = new Schema<FeedSchemaType>(
       required: true,
     },
     imgUrls: {
-      type: [String],
+      type: [],
       default: [],
     },
     content: {

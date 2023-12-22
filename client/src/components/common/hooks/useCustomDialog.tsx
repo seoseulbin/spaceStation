@@ -116,7 +116,7 @@ export function useCustomDialog() {
         <header>
           <h3>{description}</h3>
         </header>
-        {children && <body>{children}</body>}
+        {children && <div>{children}</div>}
         <footer>
           {buttons?.map((item, index) => (
             <button
