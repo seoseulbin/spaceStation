@@ -9,6 +9,10 @@ type bookmarkType = {
 };
 
 const bookmarkService = {
+  async getBookmarksByFeedId({ feed }: { feed: bookmarkType["feed"] }) {
+    return await BookmarkModel.find({ feedId: feed });
+  },
+
   async getBookmarks({ user }: { user: bookmarkType["user"] }) {
     return await BookmarkModel.find({ userId: user });
   },

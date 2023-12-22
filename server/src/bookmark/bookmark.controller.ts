@@ -5,6 +5,23 @@ import decodeTokenPayload from "../utils/decodeTokenPayload.js";
 import bookmarkService from "./bookmark.service.js";
 
 const boomarkController = {
+  getBookmarksByFeedId: asyncHandler(
+    async (req: Request<{ feedId?: string }>, res) => {
+      const { feedId } = req.params;
+      if (!feedId) {
+        throw new CustomError({
+          status: 400,
+          message: "전달된 내용이 없습니다.",
+        });
+      }
+
+      const bookmarks = await bookmarkService.getBookmarksByFeedId({
+        feed: feedId,
+      });
+      res.json(bookmarks);
+    },
+  ),
+
   getBookmarksByUserId: asyncHandler(async (req, res) => {
     const token = req.cookies.service_token;
     if (!token) {

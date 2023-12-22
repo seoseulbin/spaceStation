@@ -3,7 +3,7 @@ import bookmarkController from "./bookmark.controller.js";
 
 const bookMarkRouter = Router();
 
-bookMarkRouter.get("/", bookmarkController.getBookmarksByUserId);
+bookMarkRouter.get("/:feedId", bookmarkController.getBookmarksByFeedId);
 bookMarkRouter.post("/", bookmarkController.postBookmark);
 bookMarkRouter.delete("/:feedId", bookmarkController.deleteBookmark);
 

@@ -8,6 +8,7 @@ const likeController = {
   getLikesByFeedId: asyncHandler(
     async (req: Request<{ feedId?: string }>, res) => {
       const { feedId } = req.params;
+
       if (!feedId) {
         throw new CustomError({
           status: 400,
