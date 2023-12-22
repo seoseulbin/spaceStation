@@ -14,53 +14,41 @@ export default function FollowButton({ userId }: { userId: string }) {
 function ApiComponent({ userId }: { userId: string }) {
   const { checkFollow, postFollow, deleteFollow } = useFollow(userId);
   const localUserData = storage.get("currentUser");
+  const isLoggedIn = !!localUserData;
+  const isCurrentUser =
+    localUserData && JSON.parse(localUserData).userId === userId;
 
-  const renderFollowButton = () => {
-    if (!localUserData) {
-      return (
-        <input
-          type="button"
-          value="팔로우"
-          onClick={() => {
-            toast.error("팔로우하려면 로그인해주세요");
-          }}
-        />
-      );
-    }
+  const handleFollowClick = async () => {
+    try {
+      if (!isLoggedIn) {
+        toast.error("팔로우하려면 로그인해주세요");
+        return;
+      }
 
-    if (localUserData && JSON.parse(localUserData).userId === userId) {
-      return null;
-    }
+      if (isCurrentUser) {
+        return; // Do nothing if trying to follow oneself
+      }
 
-    if (!checkFollow) {
-      return (
-        <input
-          type="button"
-          value="팔로우"
-          onClick={async () => {
-            const res = await postFollow({
-              follower: userId,
-            });
-            console.log(res);
-          }}
-        />
-      );
-    }
-
-    if (checkFollow) {
-      return (
-        <input
-          type="button"
-          value="팔로우 취소"
-          onClick={async () => {
-            const res = await deleteFollow(userId);
-            console.log(res);
-          }}
-        />
-      );
+      if (!checkFollow) {
+        await postFollow({ follower: userId });
+      } else {
+        await deleteFollow(userId);
+      }
+    } catch (error) {
+      console.error("Error handling follow:", error);
     }
   };
-  const FollowButton = () => <div>{renderFollowButton()}</div>;
 
-  return <FollowButton />;
+  return (
+    <div>
+      {!isCurrentUser && (
+        <input
+          type="button"
+          value={checkFollow ? "팔로잉" : "팔로우"}
+          className={checkFollow ? "cancel" : "follow"}
+          onClick={handleFollowClick}
+        />
+      )}
+    </div>
+  );
 }

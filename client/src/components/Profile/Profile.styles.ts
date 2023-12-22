@@ -17,16 +17,20 @@ export const Container = styled.div`
     box-sizing: border;
   }
   input {
-    color: ${({ theme }) => theme.colors.textSecondary};
-    padding: 5px;
     width: 100%;
-    item-align: center;
-    text-align: center;
-    border: 1px solid ${({ theme }) => theme.colors.textDisable};
+    padding: 10px;
     border-radius: 3px;
-    span {
-      font-size: ${({ theme }) => theme.size.lg}px;
-    }
+  }
+  input[type="button"] {
+    padding: 6px;
+    width: 100%;
+    text-align: center;
+    border-radius: 3px;
+    border: 0px;
+  }
+  .follow {
+    color: white;
+    background-color: ${({ theme }) => theme.colors.sub};
   }
 `;
 
