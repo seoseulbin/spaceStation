@@ -10,7 +10,7 @@ import Header from "../Header/Header";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
 
-interface UpdateFeedProps {
+export interface UpdateFeedProps {
   feedId: string;
 }
 

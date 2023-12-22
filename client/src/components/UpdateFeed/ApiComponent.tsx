@@ -6,6 +6,8 @@ import axios from "axios";
 import { CgMathPlus } from "react-icons/cg";
 import { GoX } from "react-icons/go";
 import { UpdateFeedProps } from "./UpdateFeed";
+import Header from "../Header/Header";
+import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 
 export function ApiComponent({ feedId }: UpdateFeedProps) {
   const { categorys } = useCategory();
@@ -17,6 +19,7 @@ export function ApiComponent({ feedId }: UpdateFeedProps) {
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
 
+  const { imgList, setImgList } = useTagButtonHandler();
   /**
    * cloudinary 이미지 저장 함수
    */
@@ -83,13 +86,15 @@ export function ApiComponent({ feedId }: UpdateFeedProps) {
 
   useEffect(() => {
     if (feed) {
-      setImages(feed.imgUrls);
-      setShowImage(feed.imgUrls[0]);
+      setImgList(feed.imgUrls);
+      const imageUrls = feed.imgUrls.map((item) => item.url);
+      setImages(imageUrls);
+      setShowImage(feed.imgUrls[0].url);
       setContents(feed.content);
       setCategory(feed.category);
       setActiveCategory(feed.category);
     }
-  }, [feed]);
+  }, [feed, setImgList]);
 
   return (
     <>
@@ -103,7 +108,7 @@ export function ApiComponent({ feedId }: UpdateFeedProps) {
             _id: feedId,
             category: category,
             content: contents,
-            imgUrls: images,
+            imgUrls: imgList,
           });
         }}
       />
@@ -182,7 +187,7 @@ export function ApiComponent({ feedId }: UpdateFeedProps) {
               _id: feedId,
               category: category,
               content: contents,
-              imgUrls: images,
+              imgUrls: imgList,
             });
           }}
         >
