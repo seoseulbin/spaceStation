@@ -9,6 +9,8 @@ import ApiBoundary from "../common/ApiBoundary";
 import { PATH } from "@/global/constants";
 import Header from "../Header/Header";
 
+import { AiOutlineClose } from "react-icons/ai";
+
 export default function ProfileTop({ userId }: { userId: string }) {
   return (
     <ApiBoundary>
@@ -22,20 +24,51 @@ function ApiComponent({ userId }: { userId: string }) {
   const [followState, setIsFollowState] = useState(false);
   const localUserData = localStorage.getItem("currentUser");
   const navigate = useNavigate();
+  const [opacity, setOpacity] = useState(0);
   const { follows } = useFollow(userId);
   const { user } = useUser(userId);
   const handleHeaderNavigate = () => {
     navigate("/profile/setting");
   };
 
+  function afterOpen() {
+    setTimeout(() => {
+      setOpacity(1);
+    }, 100);
+  }
+
+  function beforeClose() {
+    return new Promise((resolve) => {
+      setOpacity(0);
+      setTimeout(resolve, 300);
+    });
+  }
   const handleFollowModalOpen = (state: boolean) => {
-    setIsFollowModalOpen(true);
+    setIsFollowModalOpen(!isFollowModalOpen);
     setIsFollowState(state);
   };
 
   return (
     <>
       <S.Container>
+        <S.StyledModal
+          isOpen={isFollowModalOpen}
+          afterOpen={afterOpen}
+          beforeClose={beforeClose}
+          onBackgroundClick={() => setIsFollowModalOpen(false)}
+          onEscapeKeydown={() => setIsFollowModalOpen(false)}
+          opacity={opacity}
+          backgroundProps={{ opacity }}
+        >
+          <AiOutlineClose
+            className="close"
+            onClick={() => setIsFollowModalOpen(false)}
+          />
+          <FollowModal
+            followList={followState ? follows?.follower : follows?.following}
+            followState={followState}
+          />
+        </S.StyledModal>
         <Header
           backArrow={true}
           headerTitle={user.nickname}
@@ -47,12 +80,7 @@ function ApiComponent({ userId }: { userId: string }) {
           functionIconType={"setting"}
           onClickFunction={handleHeaderNavigate}
         />
-        <FollowModal
-          followList={followState ? follows?.follower : follows?.following}
-          followState={followState}
-          isOpen={isFollowModalOpen}
-          onClose={() => setIsFollowModalOpen(false)}
-        />
+
         <div className="profileContainer">
           <S.ProfileImg src={user?.profileImgUrl} />
           <div>

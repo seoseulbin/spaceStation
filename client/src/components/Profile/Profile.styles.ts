@@ -1,5 +1,7 @@
 import { theme } from "@/global/styles/theme";
 import styled from "styled-components";
+import Modal from "styled-react-modal";
+
 export const Container = styled.div`
   display: grid;
   place-items: center;
@@ -71,4 +73,16 @@ export const UpdateInput = styled.input`
   font-size: ${({ theme }) => theme.size.md}px;
   border: 1px solid #ddd;
   justify-content: center;
+`;
+
+export const StyledModal = Modal.styled`
+  width: 20rem;
+  padding: 20px;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFF;
+  opacity: ${(props: { opacity: number }) => props.opacity};
+  transition : all 0.3s ease-in-out;
+
 `;
