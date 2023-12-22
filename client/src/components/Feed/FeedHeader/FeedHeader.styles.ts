@@ -15,7 +15,7 @@ export const FeedHeader = styled.div`
     color: ${({ theme }) => theme.colors.main};
   }
   .cancel {
-    color: ${({ theme }) => theme.colors.textd};
+    color: ${({ theme }) => theme.colors.textDisable};
   }
   .user {
     display: flex;
