@@ -6,7 +6,6 @@ import { Fragment, useState } from "react";
 import FeedHeader from "./FeedHeader/FeedHeader";
 import Comment from "./Comments/Comments";
 import Like from "./Like/Like";
-import Category from "./Category/Category";
 
 const sliderSettings = {
   dots: true,
@@ -27,7 +26,6 @@ export default function FeedItem(feed: FeedType) {
   return (
     <>
       <S.Container>
-        <Category categoryId={""} />
         <FeedHeader feedId={feed._id} userId={feed.userId} />
         <S.CustomSlider {...sliderSettings}>
           {feed.imgUrls.map((imgUrl, i) => (
