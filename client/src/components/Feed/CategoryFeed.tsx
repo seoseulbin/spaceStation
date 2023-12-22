@@ -29,7 +29,7 @@ export default function CategoryFeed(props: Props) {
 }
 
 function ApiComponent({ category }: Props) {
-  const { data, setTarget } = useCategoryFeed({
+  const { data, setTarget, hasNextPage } = useCategoryFeed({
     category,
   });
 
@@ -48,9 +48,11 @@ function ApiComponent({ category }: Props) {
           ))}
         </S.GridFeedItem>
       ))}
-      <div ref={setTarget}>
-        <Loading />
-      </div>
+      {hasNextPage && (
+        <div ref={setTarget}>
+          <Loading />
+        </div>
+      )}
     </>
   );
 }

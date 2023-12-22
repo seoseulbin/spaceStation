@@ -16,7 +16,7 @@ export default function UserFeed(props: Props) {
 }
 
 function ApiComponent({ userId }: Props) {
-  const { data, setTarget } = useUserFeed({
+  const { data, setTarget, hasNextPage } = useUserFeed({
     userId,
   });
 
@@ -34,9 +34,11 @@ function ApiComponent({ userId }: Props) {
           ))}
         </S.GridFeedItem>
       ))}
-      <div ref={setTarget}>
-        <Loading />
-      </div>
+      {hasNextPage && (
+        <div ref={setTarget}>
+          <Loading />
+        </div>
+      )}
     </>
   );
 }
