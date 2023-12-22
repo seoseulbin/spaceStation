@@ -14,12 +14,15 @@ type CustomDivElement = Omit<
 
 const scaleAnimation = keyframes`
   0% {
+    -webkit-transform: scale(1);
     transform: scale(1);
   }
   50% {
+    -webkit-transform: scale(0.85);
     transform: scale(0.85);
   }
   100% {
+    -webkit-transform: scale(1);
     transform: scale(1);
   }
 `;
@@ -52,6 +55,7 @@ export const AnchorButton = styled.div<CustomDivElement>`
     top: -16px;
     left: -16px;
     /* transform: translate(-10px, -10px);*/
+    -webkit-animation: ${scaleAnimation} 1.75s ease-in-out infinite;
     animation: ${scaleAnimation} 1.75s ease-in-out infinite;
     position: absolute;
   }
