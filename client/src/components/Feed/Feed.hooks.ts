@@ -22,7 +22,7 @@ export const useFeed = () => {
 
 export const useUserFeed = ({ userId }: { userId: string }) => {
   const results = useSuspenseInfiniteQuery({
-    queryKey: [queryKeys.feedUser],
+    queryKey: [queryKeys.feedUser, userId],
     queryFn: ({ pageParam }) =>
       feedAPI.getUserFeeds({ userId, cursor: pageParam, limit: 12 }),
     initialPageParam: 0,
