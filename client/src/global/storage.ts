@@ -17,7 +17,11 @@ export const storage = {
   get: <T extends StorageKeysType>(key: T): StorageValuesType[T] | null => {
     const item = localStorage.getItem(key);
     if (!item) return null;
-    return JSON.parse(item);
+    try {
+      return JSON.parse(item);
+    } catch {
+      return item as StorageValuesType[T];
+    }
   },
   set: <T extends StorageKeysType>(key: T, value: StorageValuesType[T]) => {
     if (value !== null && typeof value === "object") {
