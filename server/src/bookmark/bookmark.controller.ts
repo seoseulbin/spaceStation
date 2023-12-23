@@ -22,19 +22,6 @@ const boomarkController = {
     },
   ),
 
-  getBookmarksByUserId: asyncHandler(async (req, res) => {
-    const token = req.cookies.service_token;
-    if (!token) {
-      throw new CustomError({
-        status: 401,
-        message: "잘못된 접근 방식입니다.",
-      });
-    }
-    const user = decodeTokenPayload(token)["user_id"];
-    await bookmarkService.getBookmarks({ user });
-    res.status(200).end();
-  }),
-
   postBookmark: asyncHandler(
     async (req: Request<{}, {}, { feedId: string }>, res) => {
       const { feedId } = req.body;
