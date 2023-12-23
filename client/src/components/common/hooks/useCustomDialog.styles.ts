@@ -172,7 +172,7 @@ export const ConfirmPopupLayoutStyle = styled.div`
       text-align: center;
     }
   }
-  & body {
+  & div {
     padding: 1em;
     display: flex;
     flex-direction: column;

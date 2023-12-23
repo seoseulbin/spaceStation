@@ -4,6 +4,8 @@ import CommentItem from "./CommentItems";
 import * as S from "./Comments.styles";
 import { storage } from "../../../global/storage";
 import ApiBoundary from "../../common/ApiBoundary";
+import { FiSend } from "react-icons/fi";
+import { IoClose } from "react-icons/io5";
 
 interface CommentProps {
   feedId: string;
@@ -26,12 +28,14 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
   const onChange = (e: ChangeEvent<HTMLInputElement>) =>
     setComment(e.target.value);
 
-  const localUserData = storage.get("currentUser");
-  const currentUser = JSON.parse(localUserData as string);
+  const currentUser = storage.get("currentUser");
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("Submit button clicked");
+
     try {
+      if (!currentUser) throw new Error("로그인이 필요합니다.");
       if (!feedId) {
         console.error("해당된 피드가 없습니다.");
         return;
@@ -80,7 +84,10 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
 
   return (
     <S.CommentWindowContainer>
-      <S.CloseButton onClick={onClickClose} />
+      <S.CloseButton onClick={onClickClose}>
+        <IoClose />
+      </S.CloseButton>
+
       <S.CommentsCollection>
         {comments &&
           comments.map((comment) => (
@@ -102,7 +109,11 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
           onChange={onChange}
         />
 
-        {comment && <S.SubmitButton type="submit">SEND</S.SubmitButton>}
+        {comment && (
+          <S.SubmitButton type="submit">
+            <FiSend />
+          </S.SubmitButton>
+        )}
       </S.InputWrapper>
     </S.CommentWindowContainer>
   );

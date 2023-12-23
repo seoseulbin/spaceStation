@@ -1,9 +1,10 @@
 import { storage, storageKeys } from "@/global/storage";
-import { useFeed } from "./FeedOption.hooks";
+import { useDeleteFeed } from "./FeedOption.hooks";
 import * as S from "./FeedOption.styles";
 import { Link } from "react-router-dom";
 import ApiBoundary from "@/components/common/ApiBoundary";
 import toast from "react-hot-toast";
+import { PATH } from "@/global/constants";
 
 interface OptionProps {
   feedId: string;
@@ -26,19 +27,18 @@ function ApiComponent({
   isOpen,
   closeOption,
 }: OptionProps) {
-  const { deleteFeed } = useFeed();
+  const { deleteFeed } = useDeleteFeed();
 
-  const localUserData = storage.get(storageKeys.currentUser);
-  const currentUser = JSON.parse(localUserData as string);
+  const currentUser = storage.get(storageKeys.currentUser);
 
   return (
     <>
       {isOpen && (
         <S.Container onClick={closeOption}>
           <S.Wrapper>
-            {currentUserId === currentUser.userId ? (
+            {currentUserId === currentUser?.userId ? (
               <>
-                <Link to={`/feeds/${feedId}`}>
+                <Link to={PATH.updateFeed(feedId)}>
                   <S.Button>수정</S.Button>
                 </Link>
 

@@ -5,31 +5,31 @@ import { PATH } from "@/global/constants";
 import Loading from "../common/Loading";
 import ApiBoundary from "../common/ApiBoundary";
 import Category from "./Category/Category";
-import Header from "../Header/Header";
+// import Header from "../Header/Header";
 
 type Props = { category: string };
 
 export default function CategoryFeed(props: Props) {
-  const handleSearchButton = () => {
-    alert("!!?");
-  };
+  // const handleSearchButton = () => {
+  //   alert("!!?");
+  // };
 
   return (
     <ApiBoundary>
-      <Header
+      {/* <Header
         backArrow={false}
         headerTitle={"Space-station🚉"}
         isFunctionAcitve={true}
         functionIconType={"search"}
         onClickFunction={handleSearchButton}
-      />
+      /> */}
       <ApiComponent {...props} />
     </ApiBoundary>
   );
 }
 
 function ApiComponent({ category }: Props) {
-  const { data, setTarget } = useCategoryFeed({
+  const { data, setTarget, hasNextPage } = useCategoryFeed({
     category,
   });
 
@@ -42,15 +42,17 @@ function ApiComponent({ category }: Props) {
             // TODO: 피드로 이동
             <Link to={PATH.root} key={feed._id}>
               <S.ImageSquareFrame>
-                <img src={feed.imgUrls[0]} alt="피드 이미지" />
+                <img src={feed.imgUrls[0].url} alt="피드 이미지" />
               </S.ImageSquareFrame>
             </Link>
           ))}
         </S.GridFeedItem>
       ))}
-      <div ref={setTarget}>
-        <Loading />
-      </div>
+      {hasNextPage && (
+        <div ref={setTarget}>
+          <Loading />
+        </div>
+      )}
     </>
   );
 }

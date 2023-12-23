@@ -1,15 +1,24 @@
 import CategoryFeed from "@/components/Feed/CategoryFeed";
-import Navbar from "@/components/Navbar/Navbar";
 import { useParams } from "react-router-dom";
-import Layout from "./Layout";
+import Header from "@/components/Header/Header";
 
 export default function CategoryPage() {
   const params = useParams();
 
+  const handleSearchButton = () => {
+    alert("!!?");
+  };
+
   return (
-    <Layout>
+    <>
+      <Header
+        backArrow={false}
+        headerTitle={"Space-station🚉"}
+        isFunctionAcitve={true}
+        functionIconType={"search"}
+        onClickFunction={handleSearchButton}
+      />
       {params.id && <CategoryFeed category={params.id} />}
-      <Navbar />
-    </Layout>
+    </>
   );
 }

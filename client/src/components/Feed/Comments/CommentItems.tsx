@@ -9,8 +9,7 @@ interface CommentItemProps {
   onDelete: (commentId: string) => void;
 }
 
-const localUserData = storage.get("currentUser");
-const currentUser = JSON.parse(localUserData as string);
+const currentUser = storage.get("currentUser");
 
 const CommentItem = ({ item, feedUserId, onDelete }: CommentItemProps) => {
   return (

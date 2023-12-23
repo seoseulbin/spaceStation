@@ -9,7 +9,10 @@ export const useFeed = () => {
     queryFn: ({ pageParam }) =>
       feedAPI.getFeeds({ cursor: pageParam, limit: 3 }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    getNextPageParam: ({ data, nextCursor }) => {
+      if (data.length === 0) return null;
+      return nextCursor;
+    },
   });
 
   const { setTarget } = useIntersectionObserver({
@@ -22,11 +25,14 @@ export const useFeed = () => {
 
 export const useUserFeed = ({ userId }: { userId: string }) => {
   const results = useSuspenseInfiniteQuery({
-    queryKey: [queryKeys.feedUser],
+    queryKey: [queryKeys.feedUser, userId],
     queryFn: ({ pageParam }) =>
       feedAPI.getUserFeeds({ userId, cursor: pageParam, limit: 12 }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    getNextPageParam: ({ data, nextCursor }) => {
+      if (data.length === 0) return null;
+      return nextCursor;
+    },
   });
 
   const { setTarget } = useIntersectionObserver({
@@ -43,7 +49,10 @@ export const useCategoryFeed = ({ category }: { category: string }) => {
     queryFn: ({ pageParam }) =>
       feedAPI.getCategoryFeeds({ category, cursor: pageParam, limit: 8 }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    getNextPageParam: ({ data, nextCursor }) => {
+      if (data.length === 0) return null;
+      return nextCursor;
+    },
   });
 
   const { setTarget } = useIntersectionObserver({

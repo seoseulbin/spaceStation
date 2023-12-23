@@ -21,6 +21,7 @@ export const ImageContainer = styled.div`
   align-items: center;
   margin-top: 20px;
   margin-bottom: 15px;
+  position: relative;
 `;
 
 export const FeedImage = styled.img`

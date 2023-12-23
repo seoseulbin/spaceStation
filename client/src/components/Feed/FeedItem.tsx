@@ -6,6 +6,7 @@ import { Fragment, useState } from "react";
 import FeedHeader from "./FeedHeader/FeedHeader";
 import Comment from "./Comments/Comments";
 import Like from "./Like/Like";
+import ImageFeedTagButton from "../common/ImageFeedTagButton/ImageFeedTagButton";
 
 const sliderSettings = {
   dots: true,
@@ -29,9 +30,19 @@ export default function FeedItem(feed: FeedType) {
         <FeedHeader feedId={feed._id} userId={feed.userId} />
         <S.CustomSlider {...sliderSettings}>
           {feed.imgUrls.map((imgUrl, i) => (
-            <Fragment key={imgUrl + i}>
+            <Fragment key={`${imgUrl.url} + ${i}`}>
               <S.ImageSquareFrame>
-                <img src={imgUrl} alt={"피드 이미지"} />
+                <img src={imgUrl.url} alt={"피드 이미지"} />
+                {imgUrl &&
+                  imgUrl.tagPosition?.map((item, index) => (
+                    <ImageFeedTagButton
+                      key={index}
+                      index={String(index)}
+                      x={item.x}
+                      y={item.y}
+                      currentImage={imgUrl}
+                    />
+                  ))}
               </S.ImageSquareFrame>
             </Fragment>
           ))}

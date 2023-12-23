@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { storage, storageKeys } from "../../global/storage";
 
 import { AnchorButton } from "../common/AnchorButton/AnchorButton.styles";
@@ -14,18 +13,8 @@ import Header from "../Header/Header";
 
 function ProfileSetting() {
   const { logout, withdraw } = useProfileSetting();
-  const navigate = useNavigate();
-
-  const [localStorageData, setLocalStorageData] = useState({});
-
-  useEffect(() => {
-    const localUserData = storage.get(storageKeys.currentUser);
-    if (!localUserData) {
-      navigate(PATH.login);
-      return;
-    }
-    setLocalStorageData(localUserData);
-  }, [localStorageData, navigate]);
+  const currentUser = storage.get(storageKeys.currentUser);
+  if (!currentUser) return <Navigate replace to={PATH.login} />;
 
   return (
     <S.Container>

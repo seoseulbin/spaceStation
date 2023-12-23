@@ -1,9 +1,7 @@
-import { useState } from "react";
-import FeedOption from "../FeedOption/FeedOption";
 import * as S from "./FeedHeader.styles";
-import { HiDotsHorizontal } from "react-icons/hi";
 import User from "../../User/User";
 import FollowButton from "../../Follow/FollowButton";
+import { FeedOptionModal } from "@/components/Feed/FeedOption/FeedOptionModal";
 
 export default function FeedHeader({
   feedId,
@@ -12,16 +10,6 @@ export default function FeedHeader({
   feedId: string;
   userId: string;
 }) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const openOption = () => {
-    document.body.style.overflow = "hidden";
-    setIsOpen(true);
-  };
-  const closeOption = () => {
-    document.body.style.overflow = "unset";
-    setIsOpen(false);
-  };
   return (
     <>
       <S.FeedHeader>
@@ -29,13 +17,7 @@ export default function FeedHeader({
           <User userId={userId} />
           <FollowButton userId={userId} />
         </div>
-        <HiDotsHorizontal onClick={() => openOption()} />
-        <FeedOption
-          feedId={feedId}
-          currentUserId={userId}
-          isOpen={isOpen}
-          closeOption={closeOption}
-        />
+        <FeedOptionModal feedId={feedId} userId={userId} />
       </S.FeedHeader>
     </>
   );

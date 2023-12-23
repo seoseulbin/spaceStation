@@ -16,7 +16,7 @@ export default function UserFeed(props: Props) {
 }
 
 function ApiComponent({ userId }: Props) {
-  const { data, setTarget } = useUserFeed({
+  const { data, setTarget, hasNextPage } = useUserFeed({
     userId,
   });
 
@@ -28,15 +28,17 @@ function ApiComponent({ userId }: Props) {
             // TODO: 피드로 이동
             <Link to={PATH.root} key={feed._id}>
               <S.ImageSquareFrame>
-                <img src={feed.imgUrls[0]} alt="피드 이미지" />
+                <img src={feed.imgUrls[0].url} alt="피드 이미지" />
               </S.ImageSquareFrame>
             </Link>
           ))}
         </S.GridFeedItem>
       ))}
-      <div ref={setTarget}>
-        <Loading />
-      </div>
+      {hasNextPage && (
+        <div ref={setTarget}>
+          <Loading />
+        </div>
+      )}
     </>
   );
 }

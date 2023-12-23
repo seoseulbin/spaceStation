@@ -1,16 +1,22 @@
-import { ReactNode } from "react";
+import Navbar from "@/components/Navbar/Navbar";
 import styled from "styled-components";
-
-interface LayoutProps {
-  children: ReactNode;
-}
+import { Outlet } from "react-router-dom";
 
 const StylesdLayout = styled.div`
-  box-sizing: border-box;
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
+  margin: 0 auto;
 `;
 
-const Layout = ({ children }: LayoutProps) => {
-  return <StylesdLayout>{children}</StylesdLayout>;
+const Layout = () => {
+  return (
+    <>
+      <StylesdLayout>
+        <Outlet />
+      </StylesdLayout>
+
+      <Navbar />
+    </>
+  );
 };
 
 export default Layout;
