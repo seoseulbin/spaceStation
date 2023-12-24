@@ -16,6 +16,7 @@ import CategoryPage from "./pages/CategoryPage";
 import * as Sample from "./components/common/Modal/Sample";
 import { storage, storageKeys } from "./global/storage";
 import ProfileUpdatePage from "./pages/ProfileUpdatePage";
+import NotFound from "./pages/NotFound";
 
 // 인증을 수행하지 않고 storage에 인증정보의 유무만 검사 함
 const CheckHasAuth = () => {
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
         <Sample.SampleConfirmWithInput />
       </>
     ),
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 
