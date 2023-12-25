@@ -172,7 +172,7 @@ export const ConfirmPopupLayoutStyle = styled.div`
       text-align: center;
     }
   }
-  & div {
+  & > div {
     padding: 1em;
     display: flex;
     flex-direction: column;
@@ -200,6 +200,14 @@ export const ConfirmPopupLayoutStyle = styled.div`
           border-color: ${({ theme }) => theme.colors.main};
         }
       }
+      .input-w-button {
+        display: flex;
+        gap: ${({ theme }) => theme.size.sm / 2}px;
+
+        & input {
+          flex-grow: 1;
+        }
+      }
     }
   }
   & footer {
@@ -208,43 +216,43 @@ export const ConfirmPopupLayoutStyle = styled.div`
     align-items: center;
     justify-content: center;
     gap: 0.75em;
+  }
 
-    & button {
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      text-align: center;
-      font-size: ${({ theme }) => theme.size.md}px;
-      padding: ${({ theme }) => theme.size.rg}px
-        ${({ theme }) => theme.size.lg}px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      flex-shrink: 0;
+  & button {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    font-size: ${({ theme }) => theme.size.md}px;
+    padding: ${({ theme }) => theme.size.rg}px ${({ theme }) => theme.size.lg}px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+    line-height: 1;
+
+    &:hover {
+      filter: brightness(0.95);
+    }
+    &[name="NEUTRAL"] {
+      flex-shrink: 1;
+      color: ${({ theme }) => theme.colors.textPrimary};
+    }
+    &[name="SUBMIT"] {
+      background-color: ${({ theme }) => theme.colors.main};
+      color: #fff;
 
       &:hover {
-        filter: brightness(0.95);
+        filter: brightness(0.9);
       }
-      &[name="NEUTRAL"] {
-        flex-shrink: 1;
-        color: ${({ theme }) => theme.colors.textPrimary};
-      }
-      &[name="SUBMIT"] {
-        background-color: ${({ theme }) => theme.colors.main};
-        color: #fff;
+    }
+    &[name="ALERT"] {
+      background-color: red;
+      color: #fff;
 
-        &:hover {
-          filter: brightness(0.9);
-        }
-      }
-      &[name="ALERT"] {
-        background-color: red;
-        color: #fff;
-
-        &:hover {
-          filter: brightness(0.9);
-        }
+      &:hover {
+        filter: brightness(0.9);
       }
     }
   }

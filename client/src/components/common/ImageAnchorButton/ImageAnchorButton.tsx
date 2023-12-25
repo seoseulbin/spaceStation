@@ -3,6 +3,7 @@ import { useCustomDialog } from "../hooks/useCustomDialog";
 import * as SDialog from "../hooks/useCustomDialog.styles";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 export default function ImageAnchorButton({
   x,
@@ -120,22 +121,65 @@ export default function ImageAnchorButton({
             </section>
             <section>
               <label>링크</label>
-              <input
-                ref={tagUrlRef}
-                name="taguRL"
-                type="text"
-                placeholder="URL을 입력해주세요"
-                onChange={() => {
-                  if (tagUrlRef.current) {
-                    setTagUrl(tagUrlRef.current.value);
-                  }
-                }}
-                value={tagUrl}
-              />
+              <div className="input-w-button">
+                <input
+                  ref={tagUrlRef}
+                  name="taguRL"
+                  type="text"
+                  placeholder="URL을 입력해주세요"
+                  onChange={() => {
+                    if (tagUrlRef.current) {
+                      setTagUrl(tagUrlRef.current.value);
+                    }
+                  }}
+                  value={tagUrl}
+                />
+                <button
+                  onClick={() => {
+                    fetchUrlInfo(tagUrl);
+                  }}
+                >
+                  미리보기
+                </button>
+              </div>
+              <div className="meta-data"></div>
             </section>
           </ConfirmPopupLayout>
         }
       />
     </>
   );
+}
+
+async function fetchUrlInfo(url: string) {
+  try {
+    // // 입력된 URL의 유효성 검사
+    // // 유효하지 않은 URL은 처리하지 않음
+    // if (!isValidUrl(url)) {
+    //   return;
+    // }
+    const baseURL = `http://localhost:5001/api/auth/parse?url=${url}`;
+    // URL에 접근하여 og 이미지와 제목 정보 가져오기
+    const response = await axios.get(baseURL, { withCredentials: true });
+
+    console.log(response.data);
+
+    // HTML에서 og:image 메타 태그와 title 태그를 찾아내기
+    // const ogImageRegex = /<meta[^>]*property=["']og:image["'][^>]*content=["'](.*?)["']/i;
+    // const titleRegex = /<title[^>]*>(.*?)<\/title>/i;
+
+    // const ogImageMatch = html.match(ogImageRegex);
+    // const titleMatch = html.match(titleRegex);
+
+    // console.log(ogImageMatch, titleMatch);
+    // if (ogImageMatch) {
+    //   setOgImage(ogImageMatch[1]);
+    // }
+
+    // if (titleMatch) {
+    //   setTitle(titleMatch[1]);
+    // }
+  } catch (error) {
+    console.error(error);
+  }
 }
