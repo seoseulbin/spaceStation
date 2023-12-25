@@ -3,7 +3,8 @@ import { useCustomDialog } from "../hooks/useCustomDialog";
 import * as SDialog from "../hooks/useCustomDialog.styles";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
+import UrlPreview from "../UrlPreview/UrlPreview";
+import parseAPI from "./ImageAnchorButton.api";
 
 export default function ImageAnchorButton({
   x,
@@ -37,9 +38,29 @@ export default function ImageAnchorButton({
   const [tagName, setTagName] = useState("");
   const [tagUrl, setTagUrl] = useState("");
   const [currentTag, setCurrentTag] = useState("");
+  const [metaData, setMetaData] = useState(undefined);
 
   const tagNameRef = useRef<HTMLInputElement | null>(null);
   const tagUrlRef = useRef<HTMLInputElement | null>(null);
+
+  async function fetchUrlInfo(url: string) {
+    try {
+      // 입력된 URL의 유효성 검사
+      const regex = /^(http:\/\/|https:\/\/).*\.[a-zA-Z]{2,}/;
+
+      if (!regex.test(url)) {
+        toast.error("유효하지 않은 URL입니다. 다시 한 번 확인해주세요.");
+        return;
+      }
+
+      // URL에 접근하여 og 이미지와 제목 정보 가져오기
+      const response = await parseAPI.getURLMetaData(url);
+
+      setMetaData(response.data);
+    } catch (error) {
+      toast.error(error as string);
+    }
+  }
 
   useEffect(() => {
     tagNameRef?.current?.focus();
@@ -53,7 +74,10 @@ export default function ImageAnchorButton({
     {
       name: "취소",
       usage: "NEUTRAL",
-      onClick: () => toggleDialog(),
+      onClick: () => {
+        toggleDialog();
+        setMetaData(undefined);
+      },
     },
     {
       name: "저장",
@@ -129,57 +153,30 @@ export default function ImageAnchorButton({
                   placeholder="URL을 입력해주세요"
                   onChange={() => {
                     if (tagUrlRef.current) {
+                      setMetaData(undefined);
                       setTagUrl(tagUrlRef.current.value);
                     }
                   }}
                   value={tagUrl}
                 />
                 <button
+                  disabled={tagUrl.length == 0 ? true : false}
                   onClick={() => {
-                    fetchUrlInfo(tagUrl);
+                    if (tagUrl.length > 0) {
+                      fetchUrlInfo(tagUrl);
+                    }
                   }}
                 >
                   미리보기
                 </button>
               </div>
-              <div className="meta-data"></div>
+              <div className="meta-data">
+                {metaData && <UrlPreview url={metaData} />}
+              </div>
             </section>
           </ConfirmPopupLayout>
         }
       />
     </>
   );
-}
-
-async function fetchUrlInfo(url: string) {
-  try {
-    // // 입력된 URL의 유효성 검사
-    // // 유효하지 않은 URL은 처리하지 않음
-    // if (!isValidUrl(url)) {
-    //   return;
-    // }
-    const baseURL = `http://localhost:5001/api/auth/parse?url=${url}`;
-    // URL에 접근하여 og 이미지와 제목 정보 가져오기
-    const response = await axios.get(baseURL, { withCredentials: true });
-
-    console.log(response.data);
-
-    // HTML에서 og:image 메타 태그와 title 태그를 찾아내기
-    // const ogImageRegex = /<meta[^>]*property=["']og:image["'][^>]*content=["'](.*?)["']/i;
-    // const titleRegex = /<title[^>]*>(.*?)<\/title>/i;
-
-    // const ogImageMatch = html.match(ogImageRegex);
-    // const titleMatch = html.match(titleRegex);
-
-    // console.log(ogImageMatch, titleMatch);
-    // if (ogImageMatch) {
-    //   setOgImage(ogImageMatch[1]);
-    // }
-
-    // if (titleMatch) {
-    //   setTitle(titleMatch[1]);
-    // }
-  } catch (error) {
-    console.error(error);
-  }
 }

@@ -151,12 +151,14 @@ export const ConfirmPopup = Modal.styled`
   transition : all 0.375s 0.025s cubic-bezier(0.67, 0.03, 0.29, 1.13);
   position: relative;
   border-radius: 8px;
+  overflow: auto;
 `;
 
 export const ConfirmPopupLayoutStyle = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-height: 90vh;
 
   & header {
     display: flex;
@@ -216,6 +218,9 @@ export const ConfirmPopupLayoutStyle = styled.div`
     align-items: center;
     justify-content: center;
     gap: 0.75em;
+    position: sticky;
+    bottom: 0;
+    background-color: #fff;
   }
 
   & button {
@@ -231,6 +236,10 @@ export const ConfirmPopupLayoutStyle = styled.div`
     text-overflow: ellipsis;
     flex-shrink: 0;
     line-height: 1;
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
 
     &:hover {
       filter: brightness(0.95);
