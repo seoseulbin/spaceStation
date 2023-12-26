@@ -18,6 +18,7 @@ export const CommentWindowContainer = styled.div`
   bottom: 0;
   background-color: white;
   width: 100%;
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
   height: 80%;
   max-height: 70vh;
   overflow-y: auto;
@@ -39,6 +40,7 @@ export const CommentHeader = styled.div`
   justify-content: center;
 
   width: 100%;
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
   height: 50px;
 
   border-top-left-radius: 20px;
