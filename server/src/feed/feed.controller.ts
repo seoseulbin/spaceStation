@@ -62,6 +62,29 @@ const feedController = {
     res.json(feeds);
   }),
 
+  getMyBookmarkFeeds: asyncHandler(async (req, res) => {
+    const { cursor, limit } = req.query;
+
+    const token = req.cookies.service_token;
+
+    if (!token) {
+      throw new CustomError({
+        status: 401,
+        message: "토큰을 전달받지 못했습니다.",
+      });
+    }
+
+    const userId = decodeTokenPayload(token)["user_id"];
+
+    const feeds = await feedService.getUserBookmarkFeeds({
+      userId: new ObjectId(userId),
+      cursor: Number(cursor),
+      limit: Number(limit),
+    });
+
+    res.json(feeds);
+  }),
+
   createFeed: asyncHandler(async (req: Request<{}, {}, FeedType>, res) => {
     const { category, content, imgUrls } = req.body;
     const userToken = req.cookies.service_token;
