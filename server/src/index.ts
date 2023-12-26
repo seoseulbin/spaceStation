@@ -13,6 +13,7 @@ import followRouter from "./follow/follow.router.js";
 import userRouter from "./user/user.router.js";
 import authRouter from "./auth/auth.router.js";
 import bookMarkRouter from "./bookmark/bookmark.router.js";
+import parseRouter from "./parse/parse.router.js";
 
 const { PORT, MONGODB_URL, FRONTEND_URL } = process.env;
 if (!PORT || !MONGODB_URL || !FRONTEND_URL) {
@@ -46,6 +47,7 @@ app.use("/api/follows", followRouter);
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/bookmarks", bookMarkRouter);
+app.use("/api/parse", parseRouter);
 
 app.use(errorHandler);
 
