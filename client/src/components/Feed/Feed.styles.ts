@@ -81,7 +81,6 @@ export const CommentContainer = styled(FaRegComment)`
   height: 20px;
   margin-right: 10px;
   overflow-y: auto;
-  z-index: 2;
 `;
 
 export const ButtonContainer = styled.div`
