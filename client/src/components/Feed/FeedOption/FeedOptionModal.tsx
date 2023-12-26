@@ -27,6 +27,7 @@ export function FeedOptionModal({
   const navigate = useNavigate();
 
   const localUserData = storage.get(storageKeys.currentUser);
+  // const currentUser = JSON.parse(localUserData as string);
 
   const options = [
     {

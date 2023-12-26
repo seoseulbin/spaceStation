@@ -6,6 +6,7 @@ import { Fragment, useState } from "react";
 import FeedHeader from "./FeedHeader/FeedHeader";
 import Comment from "./Comments/Comments";
 import Like from "./Like/Like";
+import Bookmark from "./Bookmark/Bookmark";
 import ImageFeedTagButton from "../common/ImageFeedTagButton/ImageFeedTagButton";
 
 const sliderSettings = {
@@ -47,14 +48,21 @@ export default function FeedItem(feed: FeedType) {
             </Fragment>
           ))}
         </S.CustomSlider>
-        <Like feedId={feed._id} />
 
-        <S.CommentContainer
-          key={feed._id}
-          onClick={() => setIsCommentModalOpen(true)}
-        >
-          댓글
-        </S.CommentContainer>
+        <S.ButtonContainer>
+          <S.ButtonLeftDiv>
+            <Like feedId={feed._id} />
+          </S.ButtonLeftDiv>
+          <S.ButtonRightDiv>
+            <S.CommentContainer
+              key={feed._id}
+              onClick={() => setIsCommentModalOpen(true)}
+            >
+              댓글
+            </S.CommentContainer>
+            <Bookmark feedId={feed._id} />
+          </S.ButtonRightDiv>
+        </S.ButtonContainer>
 
         {isCommentModalOpen && (
           <Comment
