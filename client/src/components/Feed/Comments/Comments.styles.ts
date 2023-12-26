@@ -87,13 +87,28 @@ export const UserInfo = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: ${({ theme }) => theme.size.rg}px;
+    text-align: center;
+  }
+
+  img {
+    width: 34px;
+    height: 34px;
+    border-radius: 70%;
+    object-fit: cover;
+  }
 `;
 
 export const Comment = styled.p`
-  margin-left: 53px;
+  margin-left: 56px;
   margin-top: 2px;
   color: "#666666";
-  font-size: ${({ theme }) => theme.size.rg}px;
+  font-size: ${({ theme }) => theme.size.md}px;
 `;
 
 export const CommentDate = styled.p`
@@ -156,4 +171,19 @@ export const ProfileImage = styled.img`
   height: 30px;
   border-radius: 50%;
   margin-right: 10px;
+`;
+
+export const UserContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: ${({ theme }) => theme.size.md}px;
+  text-align: center;
+`;
+
+export const ProfileImg = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 70%;
+  object-fit: cover;
 `;
