@@ -38,17 +38,10 @@ export function FeedOptionModal({
       name: "삭제",
       usage: "삭제",
       onClick: async () => {
-        toggleDialog();
-        await deleteFeed(feedId);
-        // toast.custom( TODO: 수정 필요
-        //   <div>
-        //     <div className="description">dd</div>
-        //     <div className="buttons">
-        //       <button>취소</button>
-        //       <button>확인</button>
-        //     </div>
-        //   </div>,
-        // );
+        if (confirm("삭제하시겠습니까?")) {
+          await deleteFeed(feedId);
+        }
+        toggleDialog(); //TODO: 커스텀 컨펌 만들기
       },
     },
   ];

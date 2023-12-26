@@ -17,11 +17,15 @@ export const CategoryList = styled.div`
   font-weight: bold;
 `;
 
-export const Category = styled.div<{ $isActive: boolean }>`
+export const Category = styled.div<{ $isActive: boolean; $fontColor: string }>`
   width: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => (props.$isActive ? "#e7e7e7" : "white")};
+  border-radius: 3px;
+  margin: 2px;
+  color: ${(props) => (props.$isActive ? "white" : "black")};
+  background-color: ${(props) =>
+    props.$isActive ? props.$fontColor : "white"};
   cursor: pointer;
 `;
