@@ -19,4 +19,5 @@ export const queryKeys = {
   feedCategory: "FEED_CATEGORY",
   comment: "FEED_COMMENT",
   like: "LIKE",
+  bookmark: "BOOKMARK",
 };

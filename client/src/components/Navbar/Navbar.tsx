@@ -59,8 +59,10 @@ const Container = styled.div`
   justify-content: space-around;
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: ${({ theme }) => theme.size.rg}px;
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
 `;
 
 const LinkWrrapper = styled.div<{ $isActive?: boolean }>`
