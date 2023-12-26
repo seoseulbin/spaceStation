@@ -1,32 +1,20 @@
-import axios from "axios";
-import { createfeedType } from "./CreateFeed.type";
-
-const instance = axios.create({
-  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/feeds`,
-});
+import { axiosInstance } from "@/global/axiosInstance";
+import { CreateFeedType } from "./CreateFeed.type";
 
 const feedAPI = {
-  createFeed: async ({
-    userId,
-    category,
-    content,
-    imgUrls,
-  }: createfeedType) => {
-    try {
-      if (!userId || !category || !content || imgUrls.length == 0) {
-        throw new Error("정보가 부족합니다.");
-      }
-      const response = await instance.post(`/`, {
-        userId,
+  async createFeed({ category, content, imgUrls }: CreateFeedType) {
+    const response = await axiosInstance.post(
+      `/feeds`,
+      {
         category,
         content,
         imgUrls,
-      });
-      return response.data;
-    } catch (error) {
-      if (error instanceof Error) console.log(error.message);
-      else console.log(String(error));
-    }
+      },
+      {
+        withCredentials: true,
+      },
+    );
+    return response.data;
   },
 };
 export default feedAPI;

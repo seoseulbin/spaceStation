@@ -1,13 +1,48 @@
 import { useCreateFeed } from "./CreateFeed.hooks";
-import { ChangeEvent, useState } from "react";
+import { useCategory } from "../Feed/Category/Category.hooks";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import * as S from "./CreateFeed.styles";
 import axios from "axios";
+import { CgMathPlus } from "react-icons/cg";
+import { GoX } from "react-icons/go";
+import Header from "../Header/Header";
+import ApiBoundary from "../common/ApiBoundary";
+import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
+import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
 
 export default function CreateFeed() {
+  return (
+    <ApiBoundary>
+      <ApiComponent />
+    </ApiBoundary>
+  );
+}
+
+function ApiComponent() {
+  const { categorys } = useCategory();
   const { createFeed } = useCreateFeed();
-  const [images, setImages] = useState<string[]>([]);
-  const [showImage, setShowImage] = useState(""); //대표 이미지
-  const [contents, setContents] = useState<string>(""); //컨텐츠 내용
+
+  const [showImage, setShowImage] = useState<string>(""); //대표 이미지
+  const [images, setImages] = useState<string[]>([]); // 피드 이미지 배열
+  const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
+  const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
+  const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
+
+  const {
+    setTarget,
+    imgList,
+    currentImage,
+    setCurrentImage,
+    addNewImage,
+    addImageAnchor,
+    updateTagInfo,
+    getTagInfo,
+  } = useTagButtonHandler();
+
+  // ImgTagButton 갱신을 위한 effect 훅
+  useEffect(() => {
+    setCurrentImage(imgList.find((item) => item.url === showImage));
+  }, [imgList, setCurrentImage, showImage]);
 
   /**
    * cloudinary 이미지 저장 함수
@@ -41,15 +76,16 @@ export default function CreateFeed() {
   };
 
   const fileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files?.[0]);
     try {
       if (!e.target.files?.[0]) {
         throw new Error("이미지 파일이 없습니다.");
       }
+      //TODO:추후 업로드 버튼을 눌렀을 시 cloudinary에 이미지가 저장되도록 변경 예정
       const uploaded = await imageUploader(e.target.files[0]);
 
       setImages((arr) => [...arr, uploaded.url]);
       setShowImage(uploaded.url);
+      addNewImage(uploaded.url); // useTagButtonHandler에 image 추가
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
       else console.log(String(error));
@@ -59,26 +95,73 @@ export default function CreateFeed() {
   /**
    * preview 이미지 삭제 버튼
    */
-  const onClickPreviewDeleteBtn = async (e) => {
+  const onClickPreviewDeleteBtn = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
     e.preventDefault();
+    const previousSibling = e.currentTarget.previousSibling;
 
-    const parentEl = e.target.parentElement; // 삭제 버튼이 있는 부모 요소
-    const imageUrl = e.target.previousSibling.getAttribute("src"); // 삭제 버튼이 있는 image의 src값
-    // imageDelete(imageUrl.split("/")[7].split(".")[0]); // cloudinary 이미지 삭제
-    setShowImage("");
-    await setImages((images) => images.filter((image) => image !== imageUrl)); //error 두개가 삭제됨..
-    await parentEl.remove();
+    //if문은 타입 확인 && 값이 존재하는 지
+    if (previousSibling && previousSibling instanceof HTMLImageElement) {
+      const imageUrl = previousSibling.getAttribute("src");
+      //TODO: cloudinary 이미지 삭제
+      setShowImage("");
+      setImages((images) => images.filter((image) => image !== imageUrl));
+    }
   };
 
   return (
     <>
+      <Header
+        backArrow={true}
+        headerTitle="게시글 업로드"
+        isFunctionAcitve={true}
+        functionIconType={"upload"}
+        onClickFunction={async () => {
+          console.log(imgList);
+          await createFeed({
+            category: category,
+            content: contents,
+            imgUrls: imgList, // 중요 : imgList 로 변경됨
+          });
+        }}
+      />
       <S.Container>
-        <S.ImageContainer>
-          {images && <S.FeedImage src={showImage} alt="피드 이미지" />}
+        <S.ImageContainer
+          ref={setTarget}
+          onClick={(event: React.MouseEvent) =>
+            addImageAnchor(showImage, event)
+          }
+        >
+          {showImage != "" ? (
+            <S.FeedImage src={showImage} alt="피드 이미지" />
+          ) : (
+            <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
+          )}
+          <div
+            onClick={(e: React.MouseEvent) => {
+              e.stopPropagation();
+            }}
+          >
+            {currentImage &&
+              currentImage.tagPosition.map((item, index) => (
+                <ImageAnchorButton
+                  key={index}
+                  index={String(index)}
+                  x={item.x}
+                  y={item.y}
+                  onSuccess={updateTagInfo}
+                  currentImage={currentImage.url}
+                  getTagInfo={getTagInfo}
+                />
+              ))}
+          </div>
         </S.ImageContainer>
         <S.ImagePreveiwContainer>
           <label htmlFor="file">
-            <S.InputImageButton>+</S.InputImageButton>
+            <S.InputImageButton>
+              <CgMathPlus size="36" color="#2B2B2B" />
+            </S.InputImageButton>
           </label>
           <S.InputImage
             id="file"
@@ -97,7 +180,7 @@ export default function CreateFeed() {
                     }}
                   />
                   <S.ImageDeleteButton onClick={onClickPreviewDeleteBtn}>
-                    x
+                    <GoX color="gray" size="14" />
                   </S.ImageDeleteButton>
                 </S.ImagePreviewList>
               );
@@ -116,29 +199,24 @@ export default function CreateFeed() {
         <S.CategoryContainer>
           <S.Label htmlFor="category">카테고리</S.Label>
           <S.CategoryWrapper>
-            <S.CategoryItem>집</S.CategoryItem>
-            <S.CategoryItem>카페</S.CategoryItem>
-            <S.CategoryItem>회사</S.CategoryItem>
-            <S.CategoryItem>학원</S.CategoryItem>
-            <S.CategoryItem>학교</S.CategoryItem>
-            <S.CategoryItem>회의실</S.CategoryItem>
-            <S.CategoryItem>유치원</S.CategoryItem>
-            <S.CategoryItem>서점</S.CategoryItem>
+            {categorys?.map((item) => {
+              return (
+                <S.CategoryItem
+                  key={item._id}
+                  $isActive={item._id === activeCategory ? true : false}
+                  onClick={() => {
+                    setActiveCategory((prev) =>
+                      prev === item._id ? null : item._id,
+                    );
+                    setCategory((prev) => (prev === item._id ? "" : item._id));
+                  }}
+                >
+                  {item.category}
+                </S.CategoryItem>
+              );
+            })}
           </S.CategoryWrapper>
         </S.CategoryContainer>
-        <button
-          onClick={async () => {
-            const res = await createFeed({
-              userId: "614d72a1b5ec679c080d8b12",
-              category: "614d72a1b5ec679c080d8b12",
-              content: contents,
-              imgUrls: images,
-            });
-            console.log(res);
-          }}
-        >
-          UPLOAD
-        </button>
       </S.Container>
     </>
   );

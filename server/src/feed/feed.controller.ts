@@ -3,6 +3,7 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
 import feedService from "./feed.service.js";
 import { ObjectId } from "mongodb";
+import decodeTokenPayload from "../utils/decodeTokenPayload.js";
 
 type FeedType = {
   userId: string;
@@ -12,6 +13,20 @@ type FeedType = {
 };
 
 const feedController = {
+  getFeed: asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+      throw new CustomError({
+        status: 400,
+        message: "요청에 필요한 정보가 부족합니다.",
+      });
+    }
+
+    const feed = await feedService.getFeed({ id });
+    res.json(feed);
+  }),
+
   getFeeds: asyncHandler(async (req, res) => {
     const { cursor, limit, userId, category } = req.query;
 
@@ -40,10 +55,13 @@ const feedController = {
       res.json(feeds);
     }
   }),
-  createFeed: asyncHandler(async (req: Request<{}, {}, FeedType>, res) => {
-    const { userId, category, content, imgUrls } = req.body;
 
-    if (!userId || !category || !content || !imgUrls) {
+  createFeed: asyncHandler(async (req: Request<{}, {}, FeedType>, res) => {
+    const { category, content, imgUrls } = req.body;
+    const userToken = req.cookies.service_token;
+    const userId = decodeTokenPayload(userToken)["user_id"];
+
+    if (!category || !content || imgUrls.length == 0) {
       throw new CustomError({
         status: 400,
         message: "요청에 필요한 정보가 부족합니다.",
@@ -57,6 +75,8 @@ const feedController = {
   updateFeed: asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { category, content, imgUrls }: FeedType = req.body;
+    const userToken = req.cookies.service_token;
+    const userId = decodeTokenPayload(userToken)["user_id"];
 
     if (!category || !content || !imgUrls) {
       throw new CustomError({
@@ -65,7 +85,7 @@ const feedController = {
       });
     }
 
-    feedService.updateFeed({ id, category, content, imgUrls });
+    feedService.updateFeed({ id, userId, category, content, imgUrls });
     res.status(200).end();
   }),
 

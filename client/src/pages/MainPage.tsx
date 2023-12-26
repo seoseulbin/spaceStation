@@ -1,13 +1,24 @@
-import Comment from "@/components/Comments/Comments";
 import Feed from "@/components/Feed/Feed";
+import Header from "@/components/Header/Header";
+import Navbar from "@/components/Navbar/Navbar";
 
 export default function MainPage() {
-  const feedIds = ["657bbb1f59008937d6e424b8", "657ad9c4b22e76aea1ff6bf4"];
+  //TODO : 나중에 검색 기능 추가해야함
+  const handleSearchButton = () => {
+    alert("!!?");
+  };
 
   return (
     <>
-      <Comment feedIds={feedIds} />
+      <Header
+        backArrow={false}
+        headerTitle={"Space-station🚉"}
+        isFunctionAcitve={true}
+        functionIconType={"search"}
+        onClickFunction={handleSearchButton}
+      />
       <Feed />
+      <Navbar />
     </>
   );
 }
