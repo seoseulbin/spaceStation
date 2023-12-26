@@ -127,3 +127,32 @@ export const CategoryItem = styled.div<{ $isActive: boolean }>`
     transform: scale(1.1);
   }
 `;
+
+export const MapContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-items: flex-start;
+  width: 350px;
+  padding-bottom: 48px;
+  gap: 8px;
+
+  & button {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    font-size: ${({ theme }) => theme.size.md}px;
+    padding: ${({ theme }) => theme.size.rg}px ${({ theme }) => theme.size.lg}px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+
+    &:hover {
+      filter: brightness(0.95);
+    }
+  }
+`;

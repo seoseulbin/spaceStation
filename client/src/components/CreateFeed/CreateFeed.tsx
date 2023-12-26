@@ -9,6 +9,7 @@ import Header from "../Header/Header";
 import ApiBoundary from "../common/ApiBoundary";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
+import GeoLocationPopup from "../common/GeoLocationPopup/GeoLocaitonPopup";
 
 export default function CreateFeed() {
   return (
@@ -217,6 +218,11 @@ function ApiComponent() {
             })}
           </S.CategoryWrapper>
         </S.CategoryContainer>
+        <S.MapContainer>
+          <S.Label htmlFor="geolocation">위치</S.Label>
+          <button onClick={() => {}}>위치 정보 검색하기</button>
+          <GeoLocationPopup />
+        </S.MapContainer>
       </S.Container>
     </>
   );
