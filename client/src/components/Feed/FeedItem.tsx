@@ -73,11 +73,14 @@ export default function FeedItem(feed: FeedType) {
         )}
 
         <S.TextContainer>
-          {feed.content.length < 60 || more ? (
+          {(feed.content.length < 60 &&
+            feed.content.split("\n").length === 1) ||
+          more ? (
             <>{feed.content}</>
           ) : (
             <>
-              {feed.content.slice(0, 60)} ...{" "}
+              {feed.content.split("\n")[0].slice(0, 60)}
+              ...{" "}
               <S.MoreReadButton onClick={() => setMore((prev) => !prev)}>
                 더보기
               </S.MoreReadButton>

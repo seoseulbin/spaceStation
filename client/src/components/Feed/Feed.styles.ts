@@ -55,6 +55,9 @@ export const TextContainer = styled.p`
   color: ${({ theme }) => theme.colors.textPrimary};
   line-height: 20px;
   overflow: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
 `;
 
 export const MoreReadButton = styled.button`
