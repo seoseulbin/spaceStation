@@ -12,4 +12,5 @@ export const ProfileImg = styled.img`
   width: 30px;
   height: 30px;
   border-radius: 70%;
+  object-fit: cover;
 `;
