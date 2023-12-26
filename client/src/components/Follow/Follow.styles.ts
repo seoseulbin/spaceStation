@@ -5,7 +5,7 @@ export const Container = styled.div`
   cursor: pointer;
   align-items: center;
   max-width: 80vw;
-  gap: 25px;
+  gap: 20px;
   width: 450px;
   justify-content: center;
 `;
@@ -14,7 +14,7 @@ export const UserContainer = styled.div`
   display: flex;
   width: 350px;
   align-items: center;
-  padding: 10px 10px 25px;
+  padding: 10px 10px 20px;
   box-sizing: border-content;
   justify-content: space-between;
   max-width: 70vw;
