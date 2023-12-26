@@ -14,7 +14,10 @@ export default function UrlPreview({
   const { ogTitle, ogDescription, ogImage, ogURL } = url;
   return (
     <>
-      {ogURL == undefined ? (
+      {ogURL == undefined ||
+      ogDescription == undefined ||
+      ogImage == undefined ||
+      ogTitle == undefined ? (
         <S.NoPreview>
           <FiAlertTriangle />
           <span>URL 미리보기 정보를 받아오지 못했습니다.</span>
