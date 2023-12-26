@@ -2,10 +2,11 @@ import { ChangeEvent, useState } from "react";
 import { useUser } from "../User/User.hooks";
 import * as S from "./Profile.styles";
 import toast from "react-hot-toast";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import ApiBoundary from "../common/ApiBoundary";
 import Header from "../Header/Header";
+import { PATH } from "@/global/constants";
 
 type Props = {
   userInfo: { userId: string; nickname: string };
@@ -104,7 +105,12 @@ function ApiComponent({ userInfo: { userId, nickname } }: Props) {
         navigate("/profile");
       }, 400);
     } catch (error) {
-      console.error("Error updating profile:", error);
+      if (error instanceof AxiosError && error.response?.status == 401) {
+        toast.error(error.response?.data.error);
+        navigate(PATH.login);
+        return;
+      }
+      throw new Error(`Error updating profile: ${error}`);
     }
   };
 
