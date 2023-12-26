@@ -5,12 +5,14 @@ import FollowItem from "./FollowItem";
 type FollowModalProps = {
   followList?: FollowType[];
   followState: boolean;
+  onClickCallback: () => void;
   // 다른 필요한 props 추가
 };
 
 export default function FollowModal({
   followList,
   followState,
+  onClickCallback,
 }: FollowModalProps) {
   function itemHandler() {
     if (followList?.length == 0) {
@@ -22,11 +24,19 @@ export default function FollowModal({
     }
     if (followState) {
       return followList!.map((follow) => (
-        <FollowItem userId={follow.following} key={follow._id} />
+        <FollowItem
+          userId={follow.following}
+          key={follow._id}
+          onClickCallback={onClickCallback}
+        />
       ));
     }
     return followList!.map((follow) => (
-      <FollowItem userId={follow.follower} key={follow._id} />
+      <FollowItem
+        userId={follow.follower}
+        key={follow._id}
+        onClickCallback={onClickCallback}
+      />
     ));
   }
 

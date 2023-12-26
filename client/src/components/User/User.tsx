@@ -1,4 +1,3 @@
-import * as S from "./User.styles";
 import { useUser } from "./User.hooks";
 import { NavLink } from "react-router-dom";
 import ApiBoundary from "../common/ApiBoundary";
@@ -17,10 +16,10 @@ function ApiComponent({ userId }: { userId: string }) {
 
   return (
     <NavLink to={`${PATH.profile}?id=${userId}`}>
-      <S.UserContainer>
-        <S.ProfileImg src={user?.profileImgUrl} />
+      <div>
+        <img src={user?.profileImgUrl} />
         <span>{user?.nickname} </span>
-      </S.UserContainer>
+      </div>
     </NavLink>
   );
 }
