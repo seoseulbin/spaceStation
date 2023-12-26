@@ -6,6 +6,7 @@ import { PATH } from "@/global/constants";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { storage, storageKeys } from "@/global/storage";
 import { useDeleteFeed } from "./FeedOption.hooks";
+import { useState } from "react";
 
 export function FeedOptionModal({
   feedId,
@@ -16,18 +17,36 @@ export function FeedOptionModal({
 }) {
   const {
     ActionSheetLayout,
+    ConfirmPopupLayout,
     toggleDialog,
     afterOpenDialog,
-    beforeCloseDialog,
     opacity,
     isOpen,
   } = useCustomDialog();
+
+  const [isOpen2, setIsOpen2] = useState(false);
+  const [opacity2, setOpacity2] = useState(0);
 
   const { deleteFeed } = useDeleteFeed();
   const navigate = useNavigate();
 
   const localUserData = storage.get(storageKeys.currentUser);
 
+  function toggleDialog2() {
+    setIsOpen2(!isOpen2);
+  }
+  function afterOpenDialog2() {
+    setTimeout(() => {
+      setOpacity2(1);
+    }, 100);
+  }
+
+  function beforeCloseDialog2() {
+    return new Promise((resolve) => {
+      setOpacity2(0);
+      setTimeout(resolve, 350);
+    });
+  }
   const options = [
     {
       name: "수정",
@@ -37,11 +56,9 @@ export function FeedOptionModal({
     {
       name: "삭제",
       usage: "삭제",
-      onClick: async () => {
-        if (confirm("삭제하시겠습니까?")) {
-          await deleteFeed(feedId);
-        }
-        toggleDialog(); //TODO: 커스텀 컨펌 만들기
+      onClick: () => {
+        toggleDialog();
+        toggleDialog2();
       },
     },
   ];
@@ -50,8 +67,23 @@ export function FeedOptionModal({
       name: "신고하기",
       usage: "신고하기",
       onClick: async () => {
-        toast.success("피드가 신고되었습니다.");
+        toast.success("신고가 완료되었습니다.");
         toggleDialog();
+      },
+    },
+  ];
+  const buttons = [
+    {
+      name: "취소",
+      usage: "취소",
+      onClick: () => toggleDialog2(),
+    },
+    {
+      name: "확인",
+      usage: "확인",
+      onClick: async () => {
+        await deleteFeed(feedId);
+        toggleDialog2();
       },
     },
   ];
@@ -61,7 +93,6 @@ export function FeedOptionModal({
       <S.ActionSheet
         isOpen={isOpen}
         afterOpen={afterOpenDialog}
-        beforeClose={beforeCloseDialog}
         onBackgroundClick={toggleDialog}
         onEscapeKeydown={toggleDialog}
         opacity={opacity}
@@ -73,6 +104,22 @@ export function FeedOptionModal({
           />
         }
       ></S.ActionSheet>
+
+      <S.ConfirmPopup
+        isOpen={isOpen2}
+        afterOpen={afterOpenDialog2}
+        beforeClose={beforeCloseDialog2}
+        onBackgroundClick={toggleDialog2}
+        onEscapeKeydown={toggleDialog2}
+        opacity={opacity2}
+        backgroundProps={{ opacity2 }}
+        children={
+          <ConfirmPopupLayout
+            description="피드를 삭제하시겠습니까?"
+            buttons={buttons}
+          ></ConfirmPopupLayout>
+        }
+      ></S.ConfirmPopup>
     </>
   );
 }
