@@ -45,6 +45,7 @@ export const ProfileImg = styled.img`
   height: 120px;
   border-radius: 70%;
   padding: 10px;
+  object-fit: cover;
 `;
 
 export const Follow = styled.ul`

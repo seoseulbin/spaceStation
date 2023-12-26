@@ -34,5 +34,6 @@ export const FeedHeader = styled.div`
     width: 35px;
     height: 35px;
     border-radius: 70%;
+    object-fit: cover;
   }
 `;
