@@ -3,5 +3,5 @@ export type CommentType = {
   feedId: string;
   content: string;
   userId: string;
-  createdAt: number;
+  createdAt: string;
 };

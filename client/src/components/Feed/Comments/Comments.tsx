@@ -4,7 +4,6 @@ import CommentItem from "./CommentItems";
 import * as S from "./Comments.styles";
 import { storage } from "../../../global/storage";
 import ApiBoundary from "../../common/ApiBoundary";
-import { FiSend } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 
 interface CommentProps {
@@ -100,6 +99,8 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
           ))}
       </S.CommentsCollection>
 
+      <S.CommentHeader>댓글</S.CommentHeader>
+
       <S.InputWrapper onSubmit={onSubmit}>
         <S.InputField
           type="text"
@@ -109,11 +110,7 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
           onChange={onChange}
         />
 
-        {comment && (
-          <S.SubmitButton type="submit">
-            <FiSend />
-          </S.SubmitButton>
-        )}
+        {comment && <S.SubmitButton type="submit">전송</S.SubmitButton>}
       </S.InputWrapper>
     </S.CommentWindowContainer>
   );
