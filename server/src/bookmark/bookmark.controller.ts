@@ -1,26 +1,28 @@
 import { Request } from "express";
 import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
-import likeService from "./like.service.js";
 import decodeTokenPayload from "../utils/decodeTokenPayload.js";
+import bookmarkService from "./bookmark.service.js";
 
-const likeController = {
-  getLikesByFeedId: asyncHandler(
+const boomarkController = {
+  getBookmarksByFeedId: asyncHandler(
     async (req: Request<{ feedId?: string }>, res) => {
       const { feedId } = req.params;
-
       if (!feedId) {
         throw new CustomError({
           status: 400,
           message: "전달된 내용이 없습니다.",
         });
       }
-      const likes = await likeService.getLikes({ feed: feedId });
-      res.json(likes);
+
+      const bookmarks = await bookmarkService.getBookmarksByFeedId({
+        feed: feedId,
+      });
+      res.json(bookmarks);
     },
   ),
 
-  postLikes: asyncHandler(
+  postBookmark: asyncHandler(
     async (req: Request<{}, {}, { feedId: string }>, res) => {
       const { feedId } = req.body;
 
@@ -41,35 +43,37 @@ const likeController = {
       }
 
       const userId = decodeTokenPayload(token)["user_id"];
-      await likeService.postLike({ user: userId, feed: feedId });
+      await bookmarkService.postBookmark({ user: userId, feed: feedId });
 
       res.status(200).end();
     },
   ),
 
-  deleteLikes: asyncHandler(async (req: Request<{ feedId?: string }>, res) => {
-    const { feedId } = req.params;
+  deleteBookmark: asyncHandler(
+    async (req: Request<{ feedId?: string }>, res) => {
+      const { feedId } = req.params;
 
-    if (!feedId)
-      throw new CustomError({
-        status: 400,
-        message: "전달된 내용이 없습니다.",
-      });
+      if (!feedId)
+        throw new CustomError({
+          status: 400,
+          message: "전달된 내용이 없습니다.",
+        });
 
-    const token = req.cookies.service_token;
+      const token = req.cookies.service_token;
 
-    if (!token) {
-      throw new CustomError({
-        status: 401,
-        message: "잘못된 접근 방식입니다.",
-      });
-    }
+      if (!token) {
+        throw new CustomError({
+          status: 401,
+          message: "잘못된 접근 방식입니다.",
+        });
+      }
 
-    const user = decodeTokenPayload(token)["user_id"];
+      const user = decodeTokenPayload(token)["user_id"];
 
-    await likeService.deleteLike({ user, feed: feedId });
-    res.status(200).end();
-  }),
+      await bookmarkService.deleteBookmark({ user, feed: feedId });
+      res.status(200).end();
+    },
+  ),
 };
 
-export default likeController;
+export default boomarkController;
