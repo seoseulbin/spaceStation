@@ -1,7 +1,7 @@
 import { useCategoryFeed } from "../Feed.hooks";
 import ApiBoundary from "../../common/ApiBoundary";
 import InfiniteFeedOverview from "../InfiniteFeedOverview";
-import { PATH } from "@/global/constants";
+import { FEED_COLUMN, PATH } from "@/global/constants";
 
 type Props = { categoryId: string };
 
@@ -19,7 +19,7 @@ function ApiComponent({ categoryId }: Props) {
   return (
     <>
       <InfiniteFeedOverview
-        column={2}
+        column={FEED_COLUMN.category}
         pages={data.pages}
         setTarget={setTarget}
         hasNextPage={hasNextPage}

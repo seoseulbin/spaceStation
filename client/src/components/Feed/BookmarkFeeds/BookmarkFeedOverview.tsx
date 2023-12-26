@@ -1,29 +1,27 @@
-import { useProfileFeed } from "../Feed.hooks";
+import { useMyBookmardFeed } from "../Feed.hooks";
 import ApiBoundary from "../../common/ApiBoundary";
 import InfiniteFeedOverview from "../InfiniteFeedOverview";
 import { FEED_COLUMN, PATH } from "@/global/constants";
 
-type Props = { userId: string };
-
-export default function ProfileFeedOverview(props: Props) {
+export default function BookmarkFeedOverview() {
   return (
     <ApiBoundary>
-      <ApiComponent {...props} />
+      <ApiComponent />
     </ApiBoundary>
   );
 }
 
-function ApiComponent({ userId }: Props) {
-  const { data, setTarget, hasNextPage } = useProfileFeed(userId);
+function ApiComponent() {
+  const { data, setTarget, hasNextPage } = useMyBookmardFeed();
 
   return (
     <>
       <InfiniteFeedOverview
-        column={FEED_COLUMN.profile}
+        column={FEED_COLUMN.bookmark}
         pages={data.pages}
         setTarget={setTarget}
         hasNextPage={hasNextPage}
-        detailLink={PATH.profileFeedDetail(userId, "")}
+        detailLink={PATH.bookmarkFeedDetail("")}
       />
     </>
   );
