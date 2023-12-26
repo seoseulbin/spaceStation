@@ -1,0 +1,46 @@
+[{
+  "_id": {
+    "$oid": "657ae3e09566ca0e802a2676"
+  },
+  "nickname": "멋진 머리끈",
+  "snsId": "11234",
+  "profileImgUrl": "https://media.istockphoto.com/id/1388127049/ko/%EC%82%AC%EC%A7%84/%EC%82%AC%ED%8B%B4-%EC%8A%A4%ED%81%AC%EB%9F%B0%EC%B9%98-%EA%B3%A0%EB%A6%BD.jpg?s=612x612&w=0&k=20&c=SaX7g6s6uOB8D52WL49annX60vtpcjIs27SNFdVg-Uw=",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "657c89bb7e02fb18144b1dc0"
+  },
+  "nickname": "고양이",
+  "snsId": "112332",
+  "profileImgUrl": "https://media.bunjang.co.kr/product/234850301_1_1697015521_w360.jpg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "657cfb9506e580e55b05c05a"
+  },
+  "nickname": "루피",
+  "snsId": "1234",
+  "profileImgUrl": "https://tistory1.daumcdn.net/tistory/4186442/attach/94c591e9597a4b3abb61fcd83e71385a",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "657eaea5bd8aac80ad715239"
+  },
+  "nickname": "엘리스토끼",
+  "snsId": "3228134055",
+  "profileImgUrl": "http://res.cloudinary.com/dkfw4ounq/image/upload/v1702901046/profileimg_uexksl.jpg",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "657ad316527f73fdac869c9e"
+  },
+  "nickname": "아이유",
+  "snsId": "123445",
+  "profileImgUrl": "https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2023/04/27/0e83f60f-51d4-49b2-919c-92ec2ff928c5.jpg",
+  "__v": 0
+}]

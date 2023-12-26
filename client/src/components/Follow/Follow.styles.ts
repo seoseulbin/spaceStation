@@ -2,18 +2,22 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: grid;
-  width: 80vw;
-  max-width: 80vw;
+  cursor: pointer;
   align-items: center;
+  max-width: 80vw;
+  gap: 25px;
+  width: 450px;
   justify-content: center;
 `;
 
 export const UserContainer = styled.div`
   display: flex;
-
+  width: 350px;
   align-items: center;
-  gap: 60px;
-  padding: 20px;
+  padding: 10px 10px 25px;
+  box-sizing: border-content;
+  justify-content: space-between;
+  max-width: 70vw;
   border-bottom: 1px solid #eee;
   font-size: ${({ theme }) => theme.size.md}px;
 `;
