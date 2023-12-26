@@ -1,11 +1,10 @@
-import Category from "@/components/Feed/Category/Category";
-import CategoryFeed from "@/components/Feed/CategoryFeeds/CategoryFeedOverview";
+import ProfileFeedDetail from "@/components/Feed/ProfileFeeds/ProfileFeedDetail";
 import Header from "@/components/Header/Header";
 import Navbar from "@/components/Navbar/Navbar";
 import { useParams } from "react-router-dom";
 
-export default function CategoryPage() {
-  const { categoryId } = useParams();
+export default function ProfileFeedDetailPage() {
+  const { userId, cursor } = useParams();
 
   //TODO : 검색 기능 추가
   const handleSearchButton = () => {
@@ -21,8 +20,7 @@ export default function CategoryPage() {
         functionIconType={"search"}
         onClickFunction={handleSearchButton}
       />
-      <Category categoryId={categoryId!} />
-      <CategoryFeed categoryId={categoryId!} />
+      <ProfileFeedDetail userId={userId!} cursor={Number(cursor!)} />
       <Navbar />
     </>
   );

@@ -16,7 +16,9 @@ import CategoryPage from "./pages/CategoryPage";
 import * as Sample from "./components/common/Modal/Sample";
 import { storage, storageKeys } from "./global/storage";
 import ProfileUpdatePage from "./pages/ProfileUpdatePage";
-import NotFound from "./pages/NotFound";
+import NotFoundPage from "./pages/NotFoundPage";
+import CategoryDetailPage from "./pages/CategoryDetailPage";
+import ProfileFeedDetailPage from "./pages/ProfileFeedDetailPage";
 
 // 인증을 수행하지 않고 storage에 인증정보의 유무만 검사 함
 const CheckHasAuth = () => {
@@ -34,10 +36,17 @@ const router = createBrowserRouter([
     path: PATH.root,
     element: <MainPage />,
   },
-
   {
-    path: PATH.category(),
+    path: PATH.category(":categoryId"),
     element: <CategoryPage />,
+  },
+  {
+    path: PATH.categoryDetail(":categoryId", ":cursor"),
+    element: <CategoryDetailPage />,
+  },
+  {
+    path: PATH.profileFeedDetail(":userId", ":cursor"),
+    element: <ProfileFeedDetailPage />,
   },
   {
     path: PATH.login,
@@ -83,7 +92,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <NotFound />,
+    element: <NotFoundPage />,
   },
 ]);
 

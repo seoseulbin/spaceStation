@@ -19,3 +19,14 @@ export type FeedType = {
   // TODO: 위치 정보 사용시 활성화
   // geoLocation: Array<string>
 };
+
+export type FeedInifiteQueryHookType = {
+  pages: {
+    data: FeedType[];
+    nextCursor: number;
+  }[];
+  hasNextPage: boolean;
+  setTarget: React.Dispatch<
+    React.SetStateAction<HTMLElement | null | undefined>
+  >;
+};
