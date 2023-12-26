@@ -7,7 +7,7 @@ export function validateToken(req: Request, res: Response, next: NextFunction) {
   const userToken = req.cookies.service_token;
   if (!userToken) {
     throw new CustomError({
-      status: 400,
+      status: 401,
       message: "토큰이 없습니다.",
     });
   }
