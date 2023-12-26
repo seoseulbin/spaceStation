@@ -58,6 +58,9 @@ export const TextContainer = styled.p`
   white-space: pre-wrap;
   word-wrap: break-word;
   word-break: break-all;
+  & a {
+    color: ${({ theme }) => theme.colors.sub};
+  }
 `;
 
 export const MoreReadButton = styled.button`
