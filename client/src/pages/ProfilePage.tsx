@@ -1,4 +1,5 @@
-import UserFeed from "@/components/Feed/UserFeed";
+import UserFeed from "@/components/Feed/ProfileFeeds/ProfileFeedOverview";
+import Navbar from "@/components/Navbar/Navbar";
 import ProfileTop from "@/components/Profile/ProfileTop";
 import { PATH } from "@/global/constants";
 import { storage } from "@/global/storage";
@@ -15,6 +16,7 @@ export default function ProfilePage() {
     <>
       <ProfileTop userId={userId} />
       <UserFeed userId={userId} />
+      <Navbar />
     </>
   );
 }
