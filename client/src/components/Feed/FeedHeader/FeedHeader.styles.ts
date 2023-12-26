@@ -22,4 +22,17 @@ export const FeedHeader = styled.div`
     align-items: center;
     gap: 15px;
   }
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: ${({ theme }) => theme.size.md}px;
+    text-align: center;
+  }
+  img {
+    width: 35px;
+    height: 35px;
+    border-radius: 70%;
+  }
 `;
