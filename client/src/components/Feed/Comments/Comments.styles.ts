@@ -18,8 +18,9 @@ export const CommentWindowContainer = styled.div`
 
   position: fixed;
   bottom: 0;
-  background-color: lightgray;
+  background-color: white;
   width: 100%;
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
   height: 80%;
   max-height: 70vh;
   overflow-y: auto;
@@ -27,9 +28,10 @@ export const CommentWindowContainer = styled.div`
   display: flex;
   flex-direction: column;
   z-index: 2;
+  border: none;
 
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 `;
 
 export const CloseButton = styled.button`
@@ -71,11 +73,13 @@ export const Container = styled.div`
 export const UserInfo = styled.div`
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 200px;
 `;
 
 export const Comment = styled.p`
-  margin-top: 6px;
+  margin-left: 38px;
+  color: "#666666";
+  font-size: ${({ theme }) => theme.size.rg}px;
 `;
 
 export const CommentDate = styled.p`
@@ -87,6 +91,7 @@ export const CommentDate = styled.p`
 export const DeleteButton = styled(MdDelete)`
   cursor: pointer;
   margin: 7px;
+  color: lightgray;
 `;
 
 export const User = styled.div`
@@ -109,6 +114,7 @@ export const InputWrapper = styled.form`
   align-items: center;
   width: 100%;
   bottom: 0;
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
 `;
 
 export const InputField = styled.input`
