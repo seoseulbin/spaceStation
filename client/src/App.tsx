@@ -16,6 +16,7 @@ import CategoryPage from "./pages/CategoryPage";
 import * as Sample from "./components/common/Modal/Sample";
 import { storage, storageKeys } from "./global/storage";
 import ProfileUpdatePage from "./pages/ProfileUpdatePage";
+import NotFoundPage from "./pages/NotFoundPage";
 import CategoryDetailPage from "./pages/CategoryDetailPage";
 import ProfileFeedDetailPage from "./pages/ProfileFeedDetailPage";
 
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
         <Sample.SampleConfirmWithInput />
       </>
     ),
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
 
