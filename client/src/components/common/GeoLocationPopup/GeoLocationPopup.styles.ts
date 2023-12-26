@@ -1,6 +1,6 @@
 import Modal from "styled-react-modal";
 
-export const BottomSheet = Modal.styled`
+export const GeoLocationPopupLayout = Modal.styled`
   width: 500px;
   max-width: 90vw;
   height: 480px;

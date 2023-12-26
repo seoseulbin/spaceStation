@@ -9,7 +9,8 @@ import Header from "../Header/Header";
 import ApiBoundary from "../common/ApiBoundary";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
-import GeoLocationPopup from "../common/GeoLocationPopup/GeoLocaitonPopup";
+import GeoLocationPopup from "../common/GeoLocationPopup/GeoLocationPopup";
+import { useCustomDialog } from "../common/hooks/useCustomDialog";
 
 export default function CreateFeed() {
   return (
@@ -39,6 +40,9 @@ function ApiComponent() {
     updateTagInfo,
     getTagInfo,
   } = useTagButtonHandler();
+
+  const { toggleDialog, afterOpenDialog, beforeCloseDialog, opacity, isOpen } =
+    useCustomDialog();
 
   // ImgTagButton 갱신을 위한 effect 훅
   useEffect(() => {
@@ -220,8 +224,21 @@ function ApiComponent() {
         </S.CategoryContainer>
         <S.MapContainer>
           <S.Label htmlFor="geolocation">위치</S.Label>
-          <button onClick={() => {}}>위치 정보 검색하기</button>
-          <GeoLocationPopup />
+          <button
+            onClick={() => {
+              console.log(isOpen);
+              toggleDialog();
+            }}
+          >
+            위치 정보 검색하기
+          </button>
+          <GeoLocationPopup
+            isOpen={isOpen}
+            afterOpenDialog={afterOpenDialog}
+            beforeCloseDialog={beforeCloseDialog}
+            toggleDialog={toggleDialog}
+            opacity={opacity}
+          />
         </S.MapContainer>
       </S.Container>
     </>
