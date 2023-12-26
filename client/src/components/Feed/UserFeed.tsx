@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useUserFeed } from "./Feed.hooks";
 import * as S from "./Feed.styles";
 import { PATH } from "@/global/constants";
-import Loading from "../common/Loading";
+import Loading from "../common/Modal/Loading/Loading";
 import ApiBoundary from "../common/ApiBoundary";
 
 type Props = { userId: string };

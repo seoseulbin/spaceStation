@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useFeed } from "./Feed.hooks";
 import FeedItem from "./FeedItem";
-import Loading from "../common/Loading";
+import Loading from "../common/Modal/Loading/Loading";
 import ApiBoundary from "../common/ApiBoundary";
 import Category from "./Category/Category";
 
