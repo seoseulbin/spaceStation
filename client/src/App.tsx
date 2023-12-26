@@ -41,20 +41,21 @@ const router = createBrowserRouter([
         index: true,
         element: <MainPage />,
       },
+      {
+        path: PATH.category(":categoryId"),
+        element: <CategoryPage />,
+      },
+      {
+        path: PATH.categoryDetail(":categoryId", ":cursor"),
+        element: <CategoryDetailPage />,
+      },
+      {
+        path: PATH.profileFeedDetail(":userId", ":cursor"),
+        element: <ProfileFeedDetailPage />,
+      },
     ],
   },
-  {
-    path: PATH.category(":categoryId"),
-    element: <CategoryPage />,
-  },
-  {
-    path: PATH.categoryDetail(":categoryId", ":cursor"),
-    element: <CategoryDetailPage />,
-  },
-  {
-    path: PATH.profileFeedDetail(":userId", ":cursor"),
-    element: <ProfileFeedDetailPage />,
-  },
+
   {
     path: PATH.login,
     element: <LoginPage />,
