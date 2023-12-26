@@ -4,12 +4,17 @@ import { FollowType } from "./Follow.type";
 import followAPI from "./Follow.api";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import { PATH } from "@/global/constants";
+import { useNavigate } from "react-router-dom";
+
 const localUserData = localStorage.getItem("currentUser");
 
 /**
  * 팔로우 훅
  */
 export const useFollow = (userid: string) => {
+  const navigate = useNavigate();
+
   const { data: follows, ...rest } = useSuspenseQuery<
     { follower: FollowType[]; following: FollowType[] },
     Error
@@ -33,6 +38,12 @@ export const useFollow = (userid: string) => {
     mutationFn: followAPI.deleteFollow,
     onSuccess: invalidateFollowQuery,
     onError: (err) => {
+      if (err instanceof AxiosError && err.response?.status == 401) {
+        toast.error(err.response?.data.error);
+        navigate(PATH.login);
+        return;
+      }
+
       toast.error(err instanceof AxiosError ? err.message : "unknown error");
     },
   }).mutateAsync;
@@ -41,6 +52,12 @@ export const useFollow = (userid: string) => {
     mutationFn: followAPI.postFollow,
     onSuccess: invalidateFollowQuery,
     onError: (err) => {
+      if (err instanceof AxiosError && err.response?.status == 401) {
+        toast.error(err.response?.data.error);
+        navigate(PATH.login);
+        return;
+      }
+
       toast.error(err instanceof AxiosError ? err.message : "unknown error");
     },
   }).mutateAsync;
