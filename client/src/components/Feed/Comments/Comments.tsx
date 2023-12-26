@@ -5,6 +5,7 @@ import * as S from "./Comments.styles";
 import { storage } from "../../../global/storage";
 import ApiBoundary from "../../common/ApiBoundary";
 import { IoClose } from "react-icons/io5";
+import toast from "react-hot-toast";
 
 interface CommentProps {
   feedId: string;
@@ -31,12 +32,17 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Submit button clicked");
 
     try {
-      if (!currentUser) throw new Error("로그인이 필요합니다.");
+      //로그인을 안 했을 때의 오류 문자
+      if (!currentUser) {
+        toast.error("로그인이 필요합니다.");
+        return;
+      }
+
+      //삭제된 게시물에 댓글을 달 때의 오류문자
       if (!feedId) {
-        console.error("해당된 피드가 없습니다.");
+        toast.error("해당된 피드가 없습니다.");
         return;
       }
 

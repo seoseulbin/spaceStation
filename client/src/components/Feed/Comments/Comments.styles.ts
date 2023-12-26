@@ -68,7 +68,7 @@ export const CloseButton = styled.button`
 export const CommentsCollection = styled.div`
   position: relative;
   margin-top: 46px;
-  margin-bottom: 36px;
+  margin-bottom: 46px;
 `;
 
 export const Container = styled.div`

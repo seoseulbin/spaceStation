@@ -10,7 +10,7 @@ export const Container = styled.div`
 `;
 
 export const CustomSlider = styled(Slider)`
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 
   & .slick-dots li {
     margin: 0;
