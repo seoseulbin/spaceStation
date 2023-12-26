@@ -4,8 +4,12 @@ import { CommentType } from "./Comments.type";
 import commentAPI from "./Comments.api";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import { PATH } from "@/global/constants";
+import { useNavigate } from "react-router-dom";
 
 export const useComment = (feedId: string) => {
+  const navigate = useNavigate();
+
   const { data: comments, ...rest } = useSuspenseQuery<CommentType[], Error>({
     queryKey: [queryKeys.comment, feedId],
     queryFn: () => {
@@ -36,6 +40,12 @@ export const useComment = (feedId: string) => {
       invalidateCommentQuery();
     },
     onError: (err) => {
+      if (err instanceof AxiosError && err.response?.status == 401) {
+        toast.error(err.response?.data.error);
+        navigate(PATH.login);
+        return;
+      }
+
       toast.error(
         err instanceof AxiosError ? err.message : "댓글 못 달았어 에러다 에러",
       );
@@ -51,6 +61,12 @@ export const useComment = (feedId: string) => {
       invalidateCommentQuery();
     },
     onError: (err) => {
+      if (err instanceof AxiosError && err.response?.status == 401) {
+        toast.error(err.response?.data.error);
+        navigate(PATH.login);
+        return;
+      }
+
       console.error("Error deleting comment:", err);
       toast.error(err instanceof AxiosError ? err.message : "Unknown error");
     },
