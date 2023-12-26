@@ -25,6 +25,11 @@ export const useCreateFeed = () => {
       navigate(PATH.root);
     },
     onError: (err) => {
+      if (err instanceof AxiosError && err.response?.status == 401) {
+        toast.error(err.response?.data.error);
+        navigate(PATH.login);
+        return;
+      }
       toast.error(
         err instanceof AxiosError ? "정보가 부족합니다." : "unknown error",
       );
