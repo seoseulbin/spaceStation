@@ -1,6 +1,7 @@
 import { Router } from "express";
 import feedController from "./feed.controller.js";
 import { validateQueryParams } from "../middleware/validation/queryParams.js";
+import { validateToken } from "../middleware/validation/validateToken.js";
 
 const feedRouter = Router();
 
@@ -33,8 +34,8 @@ feedRouter.get(
   feedController.getProfileFeeds,
 );
 
-feedRouter.post("/", feedController.createFeed);
-feedRouter.put("/:id", feedController.updateFeed);
-feedRouter.delete("/:id", feedController.deleteFeed);
+feedRouter.post("/", validateToken, feedController.createFeed);
+feedRouter.put("/:id", validateToken, feedController.updateFeed);
+feedRouter.delete("/:id", validateToken, feedController.deleteFeed);
 
 export default feedRouter;
