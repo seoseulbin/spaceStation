@@ -1,19 +1,26 @@
-import * as S from "../hooks/useCustomDialog.styles.ts";
-import { GeoLocationPopupLayout } from "./GeoLocationPopup.styles.ts";
+import { Label } from "@/components/CreateFeed/CreateFeed.styles.ts";
+import * as SDialog from "../hooks/useCustomDialog.styles.ts";
+import { GeoLocationInnerLayout } from "./GeoLocationPopup.styles.ts";
+import { useCustomDialog } from "../hooks/useCustomDialog";
+//import { useEffect } from "react";
+//import { Map } from 'react-kakao-maps-sdk';
 
-export default function GeoLocationPopup({
-  isOpen,
-  afterOpenDialog,
-  beforeCloseDialog,
-  toggleDialog,
-  opacity,
-}: {
-  isOpen: boolean;
-  afterOpenDialog: () => void;
-  beforeCloseDialog: () => void;
-  toggleDialog: () => void;
-  opacity: number;
-}) {
+// declare global {
+//   interface Window {
+//     kakao: any;
+//   }
+// }
+
+export default function GeoLocationPopup() {
+  const {
+    toggleDialog,
+    afterOpenDialog,
+    beforeCloseDialog,
+    opacity,
+    isOpen,
+    ConfirmPopupLayout,
+  } = useCustomDialog();
+
   const buttons = [
     {
       name: "취소",
@@ -23,7 +30,7 @@ export default function GeoLocationPopup({
       },
     },
     {
-      name: "저장",
+      name: "위치 정보 저장",
       usage: "SUBMIT",
       onClick: () => {
         toggleDialog();
@@ -31,28 +38,63 @@ export default function GeoLocationPopup({
     },
   ];
 
+  // useEffect(() => {
+  //   const container = document.getElementById('map');
+  //   const options = {
+  //     center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+  //     level: 3
+  //   };
+
+  //   let map = new window.kakao.maps.Map(container, options);
+  // }, []);
+
   return (
-    <S.ConfirmPopup
-      isOpen={isOpen}
-      afterOpen={afterOpenDialog}
-      beforeClose={beforeCloseDialog}
-      onBackgroundClick={toggleDialog}
-      onEscapeKeydown={toggleDialog}
-      opacity={opacity}
-      backgroundProps={{ opacity }}
-      children={
-        <GeoLocationPopupLayout
-          opacity={opacity}
-          description="위치 정보 검색"
-          buttons={buttons}
-        >
-          <p>
-            레이아웃 템플릿에 지정된 내용 외에도, 엘리먼트 또는 컴포넌트를 직접
-            추가하여 내용 표시도 가능합니다.
-          </p>
-          <div id="map"></div>
-        </GeoLocationPopupLayout>
-      }
-    ></S.ConfirmPopup>
+    <>
+      <Label htmlFor="geolocation">위치</Label>
+      <button
+        onClick={() => {
+          toggleDialog();
+        }}
+      >
+        위치 정보 추가하기
+      </button>
+      <SDialog.ConfirmPopup
+        isOpen={isOpen}
+        afterOpen={afterOpenDialog}
+        beforeClose={beforeCloseDialog}
+        onBackgroundClick={toggleDialog}
+        onEscapeKeydown={toggleDialog}
+        opacity={opacity}
+        backgroundProps={{ opacity }}
+        children={
+          <ConfirmPopupLayout buttons={buttons}>
+            <GeoLocationInnerLayout>
+              <section>
+                <label>위치 정보</label>
+                <div className="input-w-button">
+                  <input
+                    name="geoInfo"
+                    type="text"
+                    placeholder="위치를 입력해주세요"
+                    onChange={() => {
+                      console.log("change");
+                    }}
+                  />
+                  <button
+                    disabled={false}
+                    onClick={() => {
+                      console.log("go");
+                    }}
+                  >
+                    미리보기
+                  </button>
+                </div>
+              </section>
+              <div id="map"></div>
+            </GeoLocationInnerLayout>
+          </ConfirmPopupLayout>
+        }
+      ></SDialog.ConfirmPopup>
+    </>
   );
 }
