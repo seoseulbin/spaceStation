@@ -1,4 +1,5 @@
-import Feed from "@/components/Feed/Feed";
+import Category from "@/components/Feed/Category/Category";
+import MainFeed from "@/components/Feed/MainFeeds/MainFeed";
 import Header from "@/components/Header/Header";
 import Navbar from "@/components/Navbar/Navbar";
 
@@ -17,7 +18,8 @@ export default function MainPage() {
         functionIconType={"search"}
         onClickFunction={handleSearchButton}
       />
-      <Feed />
+      <Category categoryId="" />
+      <MainFeed />
       <Navbar />
     </>
   );

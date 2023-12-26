@@ -28,32 +28,38 @@ const feedController = {
   }),
 
   getFeeds: asyncHandler(async (req, res) => {
-    const { cursor, limit, userId, category } = req.query;
+    const { cursor, limit } = req.query;
+    const feeds = await feedService.getFeeds({
+      cursor: Number(cursor),
+      limit: Number(limit),
+    });
 
-    if (userId) {
-      const feeds = await feedService.getUserFeeds({
-        userId: new ObjectId(userId as string),
-        cursor: Number(cursor),
-        limit: Number(limit),
-      });
+    res.json(feeds);
+  }),
 
-      res.json(feeds);
-    } else if (category) {
-      const feeds = await feedService.getCategoryFeeds({
-        category: new ObjectId(category as string),
-        cursor: Number(cursor),
-        limit: Number(limit),
-      });
+  getProfileFeeds: asyncHandler(async (req, res) => {
+    const { userId } = req.params;
+    const { cursor, limit } = req.query;
+    const feeds = await feedService.getUserFeeds({
+      userId: new ObjectId(userId as string),
+      cursor: Number(cursor),
+      limit: Number(limit),
+    });
 
-      res.json(feeds);
-    } else {
-      const feeds = await feedService.getFeeds({
-        cursor: Number(cursor),
-        limit: Number(limit),
-      });
+    res.json(feeds);
+  }),
 
-      res.json(feeds);
-    }
+  getCategoryFeeds: asyncHandler(async (req, res) => {
+    const { categoryId } = req.params;
+    const { cursor, limit } = req.query;
+
+    const feeds = await feedService.getCategoryFeeds({
+      category: new ObjectId(categoryId as string),
+      cursor: Number(cursor),
+      limit: Number(limit),
+    });
+
+    res.json(feeds);
   }),
 
   createFeed: asyncHandler(async (req: Request<{}, {}, FeedType>, res) => {
