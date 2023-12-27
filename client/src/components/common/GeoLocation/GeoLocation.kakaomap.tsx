@@ -173,7 +173,7 @@ export default function KakaoMap() {
           <FiMapPin size={18} />
           <input
             value={
-              geoLocationMarker.content !== ""
+              geoLocationMarker && geoLocationMarker.content !== ""
                 ? geoLocationMarker.content
                 : "선택된 장소가 표시됩니다."
             }

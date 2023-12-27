@@ -10,8 +10,11 @@ import Header from "../Header/Header";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
 import GeoLocation from "../common/GeoLocation/GeoLocation";
-import { useRecoilState } from "recoil";
-import { geoLocationAtom } from "../Atoms/GeoLocationAtom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  geoLocationAtom,
+  geoLocationMarkerAtom,
+} from "../Atoms/GeoLocationAtom";
 
 export interface UpdateFeedProps {
   feedId: string;
@@ -37,6 +40,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
 
   const [geoLocation, setGeoLocation] = useRecoilState(geoLocationAtom);
+  const setGeoLocationMarker = useSetRecoilState(geoLocationMarkerAtom);
 
   const {
     setTarget,
@@ -190,8 +194,9 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
       setCategory(feed.category);
       setActiveCategory(feed.category);
       setGeoLocation(feed.geoLocation);
+      setGeoLocationMarker(feed.geoLocation);
     }
-  }, [feed, setGeoLocation, setImgList]);
+  }, [feed, setGeoLocation, setGeoLocationMarker, setImgList]);
 
   return (
     <>

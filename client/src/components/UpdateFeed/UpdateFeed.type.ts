@@ -13,4 +13,11 @@ export type UpdateFeedType = {
     }>;
   }>;
   content: string;
+  geoLocation: {
+    content: string;
+    position: {
+      lat: number;
+      lng: number;
+    };
+  };
 };
