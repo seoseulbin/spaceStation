@@ -104,7 +104,7 @@ function ApiComponent({ userInfo: { userId, nickname } }: Props) {
         navigate("/profile");
       }, 400);
     } catch (error) {
-      console.error("Error updating profile:", error);
+      throw new Error(`Error updating profile: ${error}`);
     }
   };
 

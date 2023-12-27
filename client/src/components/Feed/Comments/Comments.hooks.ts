@@ -37,7 +37,9 @@ export const useComment = (feedId: string) => {
     },
     onError: (err) => {
       toast.error(
-        err instanceof AxiosError ? err.message : "댓글 못 달았어 에러다 에러",
+        err instanceof AxiosError
+          ? err.response?.data.error
+          : "댓글 못 달았어 에러다 에러",
       );
     },
   }).mutateAsync;
@@ -52,7 +54,9 @@ export const useComment = (feedId: string) => {
     },
     onError: (err) => {
       console.error("Error deleting comment:", err);
-      toast.error(err instanceof AxiosError ? err.message : "Unknown error");
+      toast.error(
+        err instanceof AxiosError ? err.response?.data.error : "Unknown error",
+      );
     },
   }).mutateAsync;
 
