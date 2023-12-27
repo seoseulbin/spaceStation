@@ -13,7 +13,9 @@ export const queryClient = new QueryClient({
           throw err;
         }
         toast.error(
-          err instanceof AxiosError ? "정보가 부족합니다." : "unknown error",
+          err instanceof AxiosError
+            ? err.response?.data.error
+            : "unknown error",
         );
       },
     },
