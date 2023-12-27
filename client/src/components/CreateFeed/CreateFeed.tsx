@@ -10,6 +10,8 @@ import ApiBoundary from "../common/ApiBoundary";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
 import GeoLocation from "../common/GeoLocation/GeoLocation";
+import { useRecoilValue } from "recoil";
+import { geoLocationAtom } from "../Atoms/GeoLocationAtom";
 
 export default function CreateFeed() {
   return (
@@ -29,6 +31,7 @@ function ApiComponent() {
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
+  const geoLocation = useRecoilValue(geoLocationAtom);
 
   const {
     setTarget,
@@ -158,11 +161,11 @@ function ApiComponent() {
     );
 
     const result = imgList.map((image, idx) => ({ ...image, url: list[idx] })); // createObjectURL을 cloudinary url로 변경
-
     await createFeed({
       category: category,
       content: contents,
       imgUrls: result,
+      geoLocation: geoLocation,
     });
   };
 

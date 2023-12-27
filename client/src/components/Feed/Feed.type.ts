@@ -16,8 +16,13 @@ export type FeedType = {
   }>;
   content: string;
   createdAt: Date;
-  // TODO: 위치 정보 사용시 활성화
-  // geoLocation: Array<string>
+  geoLocation: {
+    content: string;
+    position: {
+      lat: number;
+      lng: number;
+    };
+  };
 };
 
 export type FeedInifiteQueryHookType = {

@@ -2,13 +2,19 @@ import { axiosInstance } from "@/global/axiosInstance";
 import { CreateFeedType } from "./CreateFeed.type";
 
 const feedAPI = {
-  async createFeed({ category, content, imgUrls }: CreateFeedType) {
+  async createFeed({
+    category,
+    content,
+    imgUrls,
+    geoLocation,
+  }: CreateFeedType) {
     const response = await axiosInstance.post(
       `/feeds`,
       {
         category,
         content,
         imgUrls,
+        geoLocation,
       },
       {
         withCredentials: true,
