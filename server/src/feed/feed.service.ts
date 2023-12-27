@@ -46,6 +46,22 @@ const feedService = {
     return feeds;
   },
 
+  async getSearchFeeds(props: {
+    query: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { query, cursor, limit } = props;
+    const feeds = await FeedModel.find({
+      content: { $regex: new RegExp(query, "i") },
+    })
+      .skip(cursor)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    return feeds;
+  },
+
   async getUserBookmarkFeeds(props: {
     userId: Types.ObjectId;
     cursor: number;

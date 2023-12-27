@@ -62,6 +62,19 @@ const feedController = {
     res.json(feeds);
   }),
 
+  getSearchFeeds: asyncHandler(async (req, res) => {
+    const { query } = req.params;
+    const { cursor, limit } = req.query;
+
+    const feeds = await feedService.getSearchFeeds({
+      query,
+      cursor: Number(cursor),
+      limit: Number(limit),
+    });
+
+    res.json(feeds);
+  }),
+
   getMyBookmarkFeeds: asyncHandler(async (req, res) => {
     const { cursor, limit } = req.query;
 

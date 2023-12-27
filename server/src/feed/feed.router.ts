@@ -34,6 +34,15 @@ feedRouter.get(
 );
 
 feedRouter.get(
+  "/search/:query",
+  validateQueryParams([
+    { key: "limit", isNumber: true },
+    { key: "cursor", isNumber: true },
+  ]),
+  feedController.getSearchFeeds,
+);
+
+feedRouter.get(
   "/bookmarks/mine",
   validateQueryParams([
     { key: "limit", isNumber: true },
