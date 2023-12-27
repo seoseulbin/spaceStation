@@ -25,7 +25,7 @@ export function validateToken(req: Request, res: Response, next: NextFunction) {
     }
 
     throw new CustomError({
-      status: 400,
+      status: 401,
       message: "유효한 토큰이 아닙니다.",
     });
   }
