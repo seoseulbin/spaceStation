@@ -1,7 +1,7 @@
 export type GeoLocationType = {
-  content: string | undefined;
+  content: string;
   position: {
-    lat: number | undefined;
-    lng: number | undefined;
+    lat: number;
+    lng: number;
   };
 };

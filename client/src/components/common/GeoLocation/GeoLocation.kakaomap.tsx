@@ -1,24 +1,24 @@
-import { useRef, useState } from "react";
+import {
+  geoLocationAtom,
+  geoLocationMarkerAtom,
+} from "@/components/Atoms/GeoLocationAtom";
+import { storage, storageKeys } from "@/global/storage";
+import { GeoLocationType } from "@/global/types/geoLocation";
+import { useEffect, useRef, useState } from "react";
+import { FiMapPin } from "react-icons/fi";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
-import { storage, storageKeys } from "../../../global/storage";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 export default function KakaoMap() {
   const mapRef = useRef<kakao.maps.Map>(null);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [info, setInfo] = useState<{
-    content: string;
-    position: {
-      lat: number;
-      lng: number;
-    };
-  }>();
-  const [markers, setMarkers] = useState<
-    {
-      content: string;
-      position: { lat: number; lng: number };
-    }[]
-  >([]);
-  //const [map, setMap] = useState();
+  const [info, setInfo] = useState<GeoLocationType>();
+  const [markers, setMarkers] = useState<GeoLocationType[]>([]);
+
+  const geoLocation = useRecoilValue(geoLocationAtom);
+  const [geoLocationMarker, setGeoLocationMarker] = useRecoilState(
+    geoLocationMarkerAtom,
+  );
 
   // 장소를 검색하는 함수입니다.
   function searchPlace(keyword: string) {
@@ -67,14 +67,10 @@ export default function KakaoMap() {
     map.setLevel(map.getLevel() + 1);
   };
 
-  function setGeoLocationInfo(marker: {
-    content: string;
-    position: {
-      lat: number;
-      lng: number;
-    };
-  }) {
+  // 위치 정보를 저장하는 함수
+  function setGeoLocationInfo(marker: GeoLocationType) {
     setInfo(marker);
+    setGeoLocationMarker(marker);
     storage.set(storageKeys.geoLocation, {
       content: marker.content,
       position: {
@@ -84,10 +80,16 @@ export default function KakaoMap() {
     });
   }
 
+  useEffect(() => {
+    if (geoLocation.content) {
+      setMarkers([geoLocation]);
+    }
+  }, [geoLocation, geoLocation.content]);
+
   return (
     <>
       <section>
-        <label>장소 검색</label>
+        {/* <label>장소 검색</label> */}
         <div className="input-w-button">
           <input
             value={searchKeyword}
@@ -117,8 +119,10 @@ export default function KakaoMap() {
         ref={mapRef}
         id="map"
         center={{
-          lat: 37.566826,
-          lng: 126.9786567,
+          lat: geoLocation.position.lat ? geoLocation.position.lat : 37.566826,
+          lng: geoLocation.position.lng
+            ? geoLocation.position.lng
+            : 126.9786567,
         }}
         style={{
           width: "100%",
@@ -130,7 +134,9 @@ export default function KakaoMap() {
           <MapMarker
             key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
             position={marker.position}
-            onClick={() => setGeoLocationInfo(marker)}
+            onClick={() => {
+              setGeoLocationInfo(marker);
+            }}
           >
             {info && info.content === marker.content && (
               <div
@@ -159,12 +165,22 @@ export default function KakaoMap() {
         </span>
       </div>
       {/* selected map info field (read-only) */}
-      <input
-        value={info ? info.content : "선택된 장소가 표시됩니다."}
-        name="geoSelectedInfo"
-        type="text"
-        readOnly
-      />
+      <section>
+        <label>선택된 장소</label>
+        <div>
+          <FiMapPin size={18} />
+          <input
+            value={
+              geoLocationMarker.content !== undefined
+                ? geoLocationMarker.content
+                : "선택된 장소가 표시됩니다."
+            }
+            name="geoSelectedInfo"
+            type="text"
+            readOnly
+          />
+        </div>
+      </section>
     </>
   );
 }

@@ -1,5 +1,18 @@
 import { styled } from "styled-components";
 
+export const GeoLocationInput = styled.input`
+  width: 100%;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid ${({ theme }) => theme.colors.deepback};
+  box-sizing: border-box;
+  font-size: ${({ theme }) => theme.size.md}px;
+  padding: ${({ theme }) => theme.size.sm}px ${({ theme }) => theme.size.rg}px;
+  background-color: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.sub};
+  cursor: not-allowed;
+`;
+
 export const GeoLocationInnerLayout = styled.div`
   width: 500px;
   max-width: 100%;
@@ -32,17 +45,33 @@ export const GeoLocationInnerLayout = styled.div`
       font-size: 14px;
     }
 
-    & ~ input {
-      width: 100%;
-      border-radius: 5px;
-      outline: none;
-      border: 1px solid ${({ theme }) => theme.colors.deepback};
-      box-sizing: border-box;
-      font-size: ${({ theme }) => theme.size.md}px;
-      padding: ${({ theme }) => theme.size.sm}px
-        ${({ theme }) => theme.size.rg}px;
-      background-color: ${({ theme }) => theme.colors.background};
-      color: ${({ theme }) => theme.colors.sub};
+    & ~ section {
+      padding-top: 0.5em;
+
+      & div {
+        position: relative;
+      }
+
+      & svg {
+        position: absolute;
+        top: 12px;
+        left: 14px;
+        color: ${({ theme }) => theme.colors.sub};
+      }
+
+      & input {
+        width: 100%;
+        border-radius: 5px;
+        outline: none;
+        border: 1px solid ${({ theme }) => theme.colors.deepback};
+        box-sizing: border-box;
+        font-size: ${({ theme }) => theme.size.md}px;
+        padding: ${({ theme }) => theme.size.sm}px
+          ${({ theme }) => theme.size.rg}px;
+        background-color: ${({ theme }) => theme.colors.background};
+        color: ${({ theme }) => theme.colors.sub};
+        padding-left: ${({ theme }) => theme.size.md * 2.5}px;
+      }
     }
     & + .custom_zoomcontrol {
       border: 1px solid #919191;
