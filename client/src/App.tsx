@@ -40,12 +40,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <>
-            <Splash />
-            <MainPage />
-          </>
-        ),
+        element: <MainPage />,
       },
       {
         path: PATH.category(":categoryId"),
@@ -118,6 +113,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
+      <Splash />
       <RouterProvider router={router} />
     </>
   );

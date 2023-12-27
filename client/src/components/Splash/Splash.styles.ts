@@ -13,7 +13,7 @@ to {
 `;
 
 export const SplashContainer = styled.div`
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.deepback};
   display: flex;
   width: 100%;
   max-width: ${({ theme }) => theme.size.maxWidth}px;
@@ -21,10 +21,11 @@ export const SplashContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  animation: ${bigger} 0.7s 1.1s ease-out;
+  animation: ${bigger} 0.7s 1s ease-out;
   position: fixed;
+  left: 0;
+  right: 0;
   top: 0;
-
   z-index: 1000; /* 스플래시 화면을 항상 위에 표시하기 위한 z-index 설정 */
 `;
 const rotate = keyframes`
@@ -62,7 +63,7 @@ export const Door = styled.img`
   perspective: 1000px;
   transition: 0.5s;
 
-  animation: ${open} 1s 1s ease-out;
+  animation: ${open} 1s 0.9s ease-out;
 `;
 
 export const DoorFrame = styled.img`
