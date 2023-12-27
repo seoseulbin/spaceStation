@@ -4,12 +4,8 @@ import { bookmarkAPI } from "./Bookmark.api";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { BookmarkType } from "./Bookmark.type";
-import { PATH } from "@/global/constants";
-import { useNavigate } from "react-router-dom";
 
 export const useBookmark = (feedId: string) => {
-  const navigate = useNavigate();
-
   const { data: bookmarks, ...rest } = useSuspenseQuery<BookmarkType[]>({
     queryKey: [queryKeys.bookmark, feedId],
     queryFn: () => bookmarkAPI.getBookmarkByFeedId(feedId),
@@ -31,13 +27,9 @@ export const useBookmark = (feedId: string) => {
       invalidateQuery(feedId);
     },
     onError: (err) => {
-      if (err instanceof AxiosError && err.response?.status == 401) {
-        toast.error(err.response?.data.error);
-        navigate(PATH.login);
-        return;
-      }
-
-      toast.error(err instanceof AxiosError ? err.message : "unknown error");
+      toast.error(
+        err instanceof AxiosError ? err.response?.data.error : "unknown error",
+      );
     },
   }).mutateAsync;
 
@@ -47,13 +39,9 @@ export const useBookmark = (feedId: string) => {
       invalidateQuery(feedId);
     },
     onError: (err) => {
-      if (err instanceof AxiosError && err.response?.status == 401) {
-        toast.error(err.response?.data.error);
-        navigate(PATH.login);
-        return;
-      }
-
-      toast.error(err instanceof AxiosError ? err.message : "unknown error");
+      toast.error(
+        err instanceof AxiosError ? err.response?.data.error : "unknown error",
+      );
     },
   }).mutateAsync;
 
