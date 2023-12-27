@@ -21,7 +21,7 @@ export const SplashContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  animation: ${bigger} 0.7s 1s ease-out;
+  animation: ${bigger} 0.7s 1s linear;
   position: fixed;
   left: 0;
   right: 0;
@@ -63,7 +63,7 @@ export const Door = styled.img`
   perspective: 1000px;
   transition: 0.5s;
 
-  animation: ${open} 1s 0.9s ease-out;
+  animation: ${open} 1s 0.9s linear;
 `;
 
 export const DoorFrame = styled.img`
