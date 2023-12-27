@@ -56,13 +56,13 @@ export default function GeoLocation() {
     <>
       <S.GeoLocationInputSection>
         <Label htmlFor="geolocation">위치</Label>
-        {geoLocation.content !== "" && (
+        {geoLocation && geoLocation.content !== "" && (
           <div>
             <FiMapPin size={18} />
             <S.GeoLocationInput
               value={
-                geoLocation.content
-                  ? geoLocation.content
+                geoLocation?.content
+                  ? geoLocation?.content
                   : "선택된 장소가 표시됩니다."
               }
               name="geoSelectedInfo"

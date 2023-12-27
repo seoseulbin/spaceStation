@@ -81,10 +81,10 @@ export default function KakaoMap() {
   }
 
   useEffect(() => {
-    if (geoLocation.content) {
+    if (geoLocation && geoLocation.content !== "") {
       setMarkers([geoLocation]);
     }
-  }, [geoLocation, geoLocation.content]);
+  }, [geoLocation, geoLocation?.content]);
 
   return (
     <>
@@ -119,10 +119,10 @@ export default function KakaoMap() {
         ref={mapRef}
         id="map"
         center={{
-          lat: geoLocation.position.lat
+          lat: geoLocation?.position.lat
             ? geoLocation.position.lat
             : 37.5468522347172,
-          lng: geoLocation.position.lng
+          lng: geoLocation?.position.lng
             ? geoLocation.position.lng
             : 127.066289337018,
         }}

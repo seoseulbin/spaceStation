@@ -11,6 +11,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: #fffcf8;
+  padding-bottom: 3rem;
 `;
 
 export const ImageContainer = styled.div`
@@ -132,4 +133,14 @@ export const CategoryItem = styled.div<{
   &:active {
     transform: scale(1.1);
   }
+`;
+
+export const MapContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-items: flex-start;
+  width: 350px;
+  padding-bottom: 48px;
+  gap: 8px;
 `;

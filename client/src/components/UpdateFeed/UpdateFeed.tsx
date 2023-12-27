@@ -9,6 +9,9 @@ import ApiBoundary from "../common/ApiBoundary";
 import Header from "../Header/Header";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
+import GeoLocation from "../common/GeoLocation/GeoLocation";
+import { useRecoilState } from "recoil";
+import { geoLocationAtom } from "../Atoms/GeoLocationAtom";
 
 export interface UpdateFeedProps {
   feedId: string;
@@ -32,6 +35,8 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
+
+  const [geoLocation, setGeoLocation] = useRecoilState(geoLocationAtom);
 
   const {
     setTarget,
@@ -171,6 +176,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
       category: category,
       content: contents,
       imgUrls: result,
+      geoLocation: geoLocation,
     });
   };
 
@@ -183,8 +189,9 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
       setContents(feed.content);
       setCategory(feed.category);
       setActiveCategory(feed.category);
+      setGeoLocation(feed.geoLocation);
     }
-  }, [feed, setImgList]);
+  }, [feed, setGeoLocation, setImgList]);
 
   return (
     <>
@@ -292,6 +299,9 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
             })}
           </S.CategoryWrapper>
         </S.CategoryContainer>
+        <S.MapContainer>
+          <GeoLocation />
+        </S.MapContainer>
       </S.Container>
     </>
   );
