@@ -32,14 +32,14 @@ const feedService = {
     return feeds;
   },
 
-  async getFeedsSearchedByQuery(props: {
-    query: { key: keyof FeedSchemaType; value: string };
+  async getFeedsSearchedByRegExp(props: {
+    query: { key: keyof FeedSchemaType; regExp: RegExp };
     cursor: number;
     limit: number;
   }) {
     const { query, cursor, limit } = props;
     const feeds = await FeedModel.find({
-      [query.key]: { $regex: new RegExp(query.value, "i") },
+      [query.key]: { $regex: query.regExp },
     })
       .skip(cursor)
       .limit(limit)

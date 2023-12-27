@@ -67,21 +67,8 @@ const feedController = {
     const { query } = req.params;
     const { cursor, limit } = req.query;
 
-    const feeds = await feedService.getFeedsSearchedByQuery({
-      query: { key: "content", value: query },
-      cursor: Number(cursor),
-      limit: Number(limit),
-    });
-
-    res.json(feeds);
-  }),
-
-  getFeedsSearchedByHashtag: asyncHandler(async (req, res) => {
-    const { query } = req.params;
-    const { cursor, limit } = req.query;
-
-    const feeds = await feedService.getFeedsSearchedByQuery({
-      query: { key: "hashtag", value: query },
+    const feeds = await feedService.getFeedsSearchedByRegExp({
+      query: { key: "content", regExp: new RegExp(query, "i") },
       cursor: Number(cursor),
       limit: Number(limit),
     });

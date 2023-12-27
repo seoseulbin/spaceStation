@@ -34,12 +34,12 @@ feedRouter.get(
 );
 
 feedRouter.get(
-  "/search/:query",
+  "/search/content/:query",
   validateQueryParams([
     { key: "limit", isNumber: true },
     { key: "cursor", isNumber: true },
   ]),
-  feedController.getSearchFeeds,
+  feedController.getFeedsSearchedByContent,
 );
 
 feedRouter.get(

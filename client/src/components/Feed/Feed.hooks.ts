@@ -76,7 +76,7 @@ export const useSearchFeed = (query: string, cursor?: number) => {
   const results = useSuspenseInfiniteQuery({
     queryKey: [queryKeys.feedCategory, query, cursor],
     queryFn: ({ pageParam }) =>
-      feedAPI.getSearchFeeds({
+      feedAPI.getFeedsSearchedByContent({
         query,
         cursor: pageParam,
         limit: FEED_COLUMN.search * 4,
