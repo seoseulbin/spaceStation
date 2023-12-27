@@ -37,21 +37,23 @@ export default function ProfilePage() {
   return (
     <>
       <ProfileTop userId={userId} />
-      <StyledLayout>
-        <NavLinkWrapper to={`${PATH.profile}`}>
-          <StyledNavLink to={`${PATH.profile}`} $isActive={!isMyBookmark}>
-            피드
-          </StyledNavLink>
-        </NavLinkWrapper>
-        <NavLinkWrapper to={`${PATH.profile}?is-bookmark=true`}>
-          <StyledNavLink
-            to={`${PATH.profile}?is-bookmark=true`}
-            $isActive={!!isMyBookmark}
-          >
-            북마크
-          </StyledNavLink>
-        </NavLinkWrapper>
-      </StyledLayout>
+      {currentUser?.userId == userId ? (
+        <StyledLayout>
+          <NavLinkWrapper to={`${PATH.profile}`}>
+            <StyledNavLink to={`${PATH.profile}`} $isActive={!isMyBookmark}>
+              피드
+            </StyledNavLink>
+          </NavLinkWrapper>
+          <NavLinkWrapper to={`${PATH.profile}?is-bookmark=true`}>
+            <StyledNavLink
+              to={`${PATH.profile}?is-bookmark=true`}
+              $isActive={!!isMyBookmark}
+            >
+              북마크
+            </StyledNavLink>
+          </NavLinkWrapper>
+        </StyledLayout>
+      ) : null}
       {isMyBookmark ? <BookmarkFeedOverview /> : <UserFeed userId={userId} />}
       <Navbar />
     </>
