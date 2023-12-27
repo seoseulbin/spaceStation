@@ -24,6 +24,7 @@ export const FeedHeader = styled.div`
     display: flex;
     align-items: center;
     gap: 15px;
+    font-weight: bold;
   }
 
   div {

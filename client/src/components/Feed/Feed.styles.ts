@@ -53,14 +53,13 @@ export const ImageSquareFrame = styled.div`
 `;
 
 export const TextContainer = styled.p`
-  font-size: 14px;
   color: ${({ theme }) => theme.colors.textPrimary};
   line-height: 20px;
   overflow: hidden;
   white-space: pre-wrap;
   word-wrap: break-word;
   word-break: break-all;
-  padding: 5px 15px;
+  padding: 8px 15px;
   & a {
     color: ${({ theme }) => theme.colors.sub};
   }
@@ -69,10 +68,9 @@ export const TextContainer = styled.p`
 export const MoreReadButton = styled.button`
   font-family: inherit;
   background-color: transparent;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: ${({ theme }) => theme.colors.textDisable};
   border: 0;
   padding: 0;
-
   line-height: 14px;
 `;
 
