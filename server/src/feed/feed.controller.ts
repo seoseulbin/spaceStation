@@ -11,11 +11,11 @@ type FeedType = {
   content: string;
   imgUrls: string[];
   hashtag?: string[];
-  geoLocation: {
-    content: string;
-    position: {
-      lat: number;
-      lng: number;
+  geoLocation?: {
+    content?: string;
+    position?: {
+      lat?: number;
+      lng?: number;
     };
   };
 };

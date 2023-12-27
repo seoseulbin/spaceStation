@@ -74,11 +74,11 @@ const feedService = {
     content: string;
     imgUrls: string[];
     hashtag?: string[];
-    geoLocation: {
-      content: string;
-      position: {
-        lat: number;
-        lng: number;
+    geoLocation?: {
+      content?: string;
+      position?: {
+        lat?: number;
+        lng?: number;
       };
     };
   }) {
@@ -107,11 +107,11 @@ const feedService = {
     content: string;
     imgUrls: string[];
     hashtag?: string[];
-    geoLocation: {
-      content: string;
-      position: {
-        lat: number;
-        lng: number;
+    geoLocation?: {
+      content?: string;
+      position?: {
+        lat?: number;
+        lng?: number;
       };
     };
   }) {
