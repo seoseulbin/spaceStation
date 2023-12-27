@@ -29,5 +29,5 @@ export const Spinner = styled.div`
   border-bottom-color: white;
 
   border-radius: 100%;
-  animation: ${spin} 1s ease-in-out infinite; // Use the keyframes variable here
+  animation: ${spin} 1s ease-in-out infinite;
 `;

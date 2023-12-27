@@ -7,14 +7,21 @@ interface CommentItemProps {
   item: CommentType;
   feedUserId: string;
   onDelete: (commentId: string) => void;
+  flash: boolean;
 }
 
 const currentUser = storage.get("currentUser");
 
-const CommentItem = ({ item, feedUserId, onDelete }: CommentItemProps) => {
+const CommentItem = ({
+  item,
+  feedUserId,
+  onDelete,
+  flash,
+}: CommentItemProps) => {
+  // console.log('Flash prop:', flash);
   return (
     <>
-      <S.Container>
+      <S.Container flash={flash}>
         <S.UserInfo>
           {/* 유저의 프로필과 이름 => useritem 에서 사용 */}
           <User userId={item.userId} />
@@ -34,6 +41,10 @@ const CommentItem = ({ item, feedUserId, onDelete }: CommentItemProps) => {
     </>
   );
 };
+
+/**
+ * 댓글 올린 시간을 몇분 전으로 표시
+ */
 
 function timeAgo(date: string): string {
   const currentDate: Date = new Date();

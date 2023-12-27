@@ -29,7 +29,7 @@ const commentAPI = {
       const res = await instance.delete(`/${commentId}`);
       return res.data;
     } catch (error) {
-      console.error("Delete comment error:", error);
+      console.error("삭제 댓글 에러", error);
       throw error;
     }
   },
