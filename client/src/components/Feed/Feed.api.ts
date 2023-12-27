@@ -51,6 +51,19 @@ const feedAPI = {
 
     return { data: data.map((d) => d.feedId), nextCursor: cursor + limit };
   },
+
+  async getSearchFeeds(props: {
+    query: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { query, cursor, limit } = props;
+    const { data } = await instance.get<FeedType[]>(
+      `/search/${query}?cursor=${cursor}&limit=${limit}`,
+    );
+
+    return { data, nextCursor: cursor + limit };
+  },
 };
 
 export default feedAPI;

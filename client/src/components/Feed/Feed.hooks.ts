@@ -6,7 +6,7 @@ import { FEED_COLUMN } from "@/global/constants";
 
 export const useMainFeed = () => {
   const results = useSuspenseInfiniteQuery({
-    queryKey: [queryKeys.feed],
+    queryKey: [queryKeys.feedMain],
     queryFn: ({ pageParam }) =>
       feedAPI.getMainFeeds({ cursor: pageParam, limit: 4 }),
     initialPageParam: 0,
@@ -26,7 +26,7 @@ export const useMainFeed = () => {
 
 export const useProfileFeed = (userId: string, cursor?: number) => {
   const results = useSuspenseInfiniteQuery({
-    queryKey: [queryKeys.feedUser, userId, cursor],
+    queryKey: [queryKeys.feedProfile, userId, cursor],
     queryFn: ({ pageParam }) =>
       feedAPI.getProfileFeeds({
         userId,
@@ -56,6 +56,30 @@ export const useCategoryFeed = (categoryId: string, cursor?: number) => {
         categoryId,
         cursor: pageParam,
         limit: FEED_COLUMN.category * 4,
+      }),
+    initialPageParam: cursor ?? 0,
+    getNextPageParam: ({ data, nextCursor }) => {
+      if (data.length === 0) return null;
+      return nextCursor;
+    },
+  });
+
+  const { setTarget } = useIntersectionObserver({
+    onIntersect: results.fetchNextPage,
+    shouldBeBlocked: !results.hasNextPage || results.isError,
+  });
+
+  return { ...results, setTarget };
+};
+
+export const useSearchFeed = (query: string, cursor?: number) => {
+  const results = useSuspenseInfiniteQuery({
+    queryKey: [queryKeys.feedCategory, query, cursor],
+    queryFn: ({ pageParam }) =>
+      feedAPI.getSearchFeeds({
+        query,
+        cursor: pageParam,
+        limit: FEED_COLUMN.search * 4,
       }),
     initialPageParam: cursor ?? 0,
     getNextPageParam: ({ data, nextCursor }) => {

@@ -9,7 +9,7 @@ import { AxiosError } from "axios";
 export const useDeleteFeed = () => {
   const invalidateFeedQuery = () => {
     queryClient.invalidateQueries({
-      queryKey: [queryKeys.feed],
+      queryKey: [queryKeys.feedMain],
     });
   };
 

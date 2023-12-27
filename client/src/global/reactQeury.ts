@@ -9,14 +9,15 @@ export const queryClient = new QueryClient({
 });
 
 export const queryKeys = {
-  feed: "FEED",
   category: "CATEGORY",
   follow: "FOLLOW",
   user: "USER",
-  feedUser: "FEED_USER",
+  feedMain: "FEED_MAIN",
+  feedProfile: "FEED_PROFILE",
   feedCategory: "FEED_CATEGORY",
   feedBookmark: "FEED_BOOKMARK",
-  comment: "FEED_COMMENT",
+  feedSearch: "FEED_SEARCH",
+  comment: "COMMENT",
   like: "LIKE",
   bookmark: "BOOKMARK",
 };

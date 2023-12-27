@@ -12,7 +12,7 @@ export default function MainHeader() {
         headerTitle={"Space-station🚉"}
         isFunctionAcitve={true}
         functionIconType={"search"}
-        onClickFunction={() => navigate(PATH.search)}
+        onClickFunction={() => navigate(PATH.search())}
       />
     </>
   );
