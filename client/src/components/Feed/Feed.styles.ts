@@ -3,14 +3,16 @@ import styled from "styled-components";
 import { FaRegComment } from "react-icons/fa6";
 
 export const Container = styled.div`
-  margin-bottom: 3rem;
+  background-color: white;
+  // margin-bottom: 3rem;
+  padding-bottom: 3rem;
   &:last-child {
     margin-bottom: 0;
   }
 `;
 
 export const CustomSlider = styled(Slider)`
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 
   & .slick-dots li {
     margin: 0;

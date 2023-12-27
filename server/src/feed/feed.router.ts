@@ -33,6 +33,15 @@ feedRouter.get(
   feedController.getProfileFeeds,
 );
 
+feedRouter.get(
+  "/bookmarks/mine",
+  validateQueryParams([
+    { key: "limit", isNumber: true },
+    { key: "cursor", isNumber: true },
+  ]),
+  feedController.getMyBookmarkFeeds,
+);
+
 feedRouter.post("/", feedController.createFeed);
 feedRouter.put("/:id", feedController.updateFeed);
 feedRouter.delete("/:id", feedController.deleteFeed);

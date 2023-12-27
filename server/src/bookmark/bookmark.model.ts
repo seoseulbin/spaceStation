@@ -1,6 +1,6 @@
 import { Schema, Types, model } from "mongoose";
 
-type BookmarkSchemaType = {
+export type BookmarkSchemaType = {
   _id: Types.ObjectId;
   userId: Types.ObjectId;
   feedId: Types.ObjectId;
@@ -19,6 +19,6 @@ const BookmarkSchema = new Schema<BookmarkSchemaType>({
   },
 });
 
-const BookmarkModel = model("bookmarks", BookmarkSchema);
+const BookmarkModel = model("bookmark", BookmarkSchema);
 
 export default BookmarkModel;

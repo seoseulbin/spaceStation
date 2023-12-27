@@ -20,6 +20,8 @@ import Layout from "./pages/Layout";
 import NotFoundPage from "./pages/NotFoundPage";
 import CategoryDetailPage from "./pages/CategoryDetailPage";
 import ProfileFeedDetailPage from "./pages/ProfileFeedDetailPage";
+import BookmarkDetailPage from "./pages/BookmarkDetailPage";
+import Splash from "./components/Splash/Splash";
 
 // 인증을 수행하지 않고 storage에 인증정보의 유무만 검사 함
 const CheckHasAuth = () => {
@@ -49,9 +51,18 @@ const router = createBrowserRouter([
         path: PATH.categoryDetail(":categoryId", ":cursor"),
         element: <CategoryDetailPage />,
       },
+
+      {
+        path: PATH.profile,
+        element: <ProfilePage />,
+      },
       {
         path: PATH.profileFeedDetail(":userId", ":cursor"),
         element: <ProfileFeedDetailPage />,
+      },
+      {
+        path: PATH.bookmarkFeedDetail(":cursor"),
+        element: <BookmarkDetailPage />,
       },
     ],
   },
@@ -73,10 +84,6 @@ const router = createBrowserRouter([
           {
             path: PATH.updateFeed(),
             element: <UpdateFeedPage />,
-          },
-          {
-            path: PATH.profile,
-            element: <ProfilePage />,
           },
           {
             path: PATH.profileUpdate,
@@ -112,6 +119,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
+      <Splash />
       <RouterProvider router={router} />
     </>
   );

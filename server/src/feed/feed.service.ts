@@ -1,3 +1,4 @@
+import BookmarkModel from "../bookmark/bookmark.model.js";
 import FeedModel from "./feed.model.js";
 import mongoose, { Types } from "mongoose";
 
@@ -44,6 +45,22 @@ const feedService = {
 
     return feeds;
   },
+
+  async getUserBookmarkFeeds(props: {
+    userId: Types.ObjectId;
+    cursor: number;
+    limit: number;
+  }) {
+    const { userId, cursor, limit } = props;
+    const feeds = await BookmarkModel.find({ userId })
+      .skip(cursor)
+      .limit(limit)
+      .sort({ created: -1 })
+      .populate({ path: "feedId", strictPopulate: false });
+
+    return feeds;
+  },
+
   async createFeed({
     userId,
     category,
@@ -83,6 +100,7 @@ const feedService = {
       },
     );
   },
+
   async deleteFeed({ id }: { id: string }) {
     const objectId = new mongoose.Types.ObjectId(id);
 

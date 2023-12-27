@@ -5,21 +5,21 @@ export const Container = styled.div`
   display: grid;
   place-items: center;
   gap: 20px;
-  padding: 30px;
+  padding: 30px 0 30px;
   color: ${theme.colors.textPrimary};
   font-size: ${({ theme }) => theme.size.md}px;
   .profileContainer {
     display: flex;
-    gap: 30px;
+    gap: 6vw;
     align-items: center;
     height: 140px;
     justify-content: center;
     box-sizing: border;
   }
   input {
-    width: 100%;
+    width: 80%;
     padding: 10px;
-    border-radius: 3px;
+    border-radius: 5px;
   }
   input[type="button"] {
     padding: 6px;
@@ -51,13 +51,12 @@ export const ProfileImg = styled.img`
 export const Follow = styled.ul`
   width: 100%;
   display: flex;
-
   justify-content: center;
 `;
 
 export const Following = styled.li`
   display: grid;
-  padding: 20px;
+  padding: 20px 20px 20px 20px;
   gap: 10px;
   cursor: pointer;
   width: 40px;
