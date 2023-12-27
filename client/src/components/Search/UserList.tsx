@@ -1,6 +1,6 @@
-import { useSearchUsers } from "./User.hooks";
+import { useSearchUsers } from "../User/User.hooks";
 import ApiBoundary from "../common/ApiBoundary";
-import User from "./User";
+import User from "../User/User";
 import { Fragment } from "react";
 import Loading from "../common/Loading/Loading";
 

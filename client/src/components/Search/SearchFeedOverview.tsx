@@ -1,6 +1,6 @@
-import { useSearchFeed } from "../Feed.hooks";
-import ApiBoundary from "../../common/ApiBoundary";
-import InfiniteFeedOverview from "../InfiniteFeedOverview";
+import { useSearchFeed } from "../Feed/Feed.hooks";
+import ApiBoundary from "../common/ApiBoundary";
+import InfiniteFeedOverview from "../Feed/InfiniteFeedOverview";
 import { FEED_COLUMN, PATH } from "@/global/constants";
 
 type Props = {

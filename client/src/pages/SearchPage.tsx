@@ -1,5 +1,5 @@
-import SearchFeedOverview from "@/components/Feed/SearchFeeds/SearchFeedOverview";
-import SearchedUserList from "@/components/User/UserList";
+import SearchFeedOverview from "@/components/Search/SearchFeedOverview";
+import SearchedUserList from "@/components/Search/UserList";
 import { PATH, SEARCH_SCOPE, SearchScopeType } from "@/global/constants";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import toast from "react-hot-toast";
@@ -13,11 +13,11 @@ import styled from "styled-components";
 
 export default function SearchPage() {
   const navigate = useNavigate();
-  const [queryInput, setQueryInput] = useState("");
   const [searchParams] = useSearchParams();
-
   const query = searchParams.get("query");
   const queryScope = searchParams.get("scope") as SearchScopeType;
+
+  const [queryInput, setQueryInput] = useState(query ?? "");
 
   if (query && !Object.values(SEARCH_SCOPE).includes(queryScope)) {
     toast.error("잘못된 접근입니다");
@@ -36,7 +36,7 @@ export default function SearchPage() {
   return (
     <>
       <form onSubmit={onSearch}>
-        <SearchInputBar onChange={onTypeQueryInput} />
+        <SearchInputBar onChange={onTypeQueryInput} value={queryInput} />
       </form>
       <NavLink to={PATH.search(queryInput, "feed")}>피드</NavLink>
       <NavLink to={PATH.search(queryInput, "account")}>계정</NavLink>

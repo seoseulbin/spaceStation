@@ -1,6 +1,6 @@
-import ApiBoundary from "../../common/ApiBoundary";
-import { useSearchFeed } from "../Feed.hooks";
-import InfiniteFeedDetail from "../InfiniteFeedDetail";
+import ApiBoundary from "../common/ApiBoundary";
+import { useSearchFeed } from "../Feed/Feed.hooks";
+import InfiniteFeedDetail from "../Feed/InfiniteFeedDetail";
 
 type Props = {
   query: string;
