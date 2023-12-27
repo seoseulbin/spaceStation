@@ -82,13 +82,15 @@ const feedService = {
     category,
     content,
     imgUrls,
+    hashtag,
   }: {
     userId: string;
     category: string;
     content: string;
     imgUrls: string[];
+    hashtag?: string[];
   }) {
-    return FeedModel.create({ userId, category, content, imgUrls });
+    return FeedModel.create({ userId, category, content, imgUrls, hashtag });
   },
 
   async updateFeed({
@@ -97,12 +99,14 @@ const feedService = {
     category,
     content,
     imgUrls,
+    hashtag,
   }: {
     id: string;
     userId: string;
     category: string;
     content: string;
     imgUrls: string[];
+    hashtag?: string[];
   }) {
     const objectId = new mongoose.Types.ObjectId(id);
 
@@ -113,6 +117,7 @@ const feedService = {
         category,
         content,
         imgUrls,
+        hashtag,
       },
     );
   },

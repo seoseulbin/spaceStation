@@ -16,6 +16,7 @@ export type FeedType = {
   }>;
   content: string;
   createdAt: Date;
+  hashtag?: string[];
   // TODO: 위치 정보 사용시 활성화
   // geoLocation: Array<string>
 };
