@@ -108,3 +108,11 @@ export const ButtonRightDiv = styled.div`
   justify-content: flex-end;
   align-items: center;
 `;
+
+export const GeoLocationContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: ${({ theme }) => theme.size.rg}px;
+  padding: 8px 16px;
+`;
