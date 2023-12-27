@@ -58,7 +58,7 @@ function ApiComponent({ userId }: { userId: string }) {
             />
           </BasicModalLayout>
         }
-      ></M.BasicModal>
+      />
 
       <Header
         backArrow={true}
