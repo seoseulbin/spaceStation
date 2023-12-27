@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import * as S from "./Splash.styles";
 
 const Splash = () => {
-  const [isVisible, setIsVisible] = useState(true);
+  const hasSeenSplash = localStorage.getItem("hasSeenSplash") === "true";
+  const [isVisible, setIsVisible] = useState(!hasSeenSplash);
 
   useEffect(() => {
-    // 예시로 2초 후에 스플래시 화면을 숨김
+    localStorage.setItem("hasSeenSplash", "true");
+
     const timeoutId = setTimeout(() => {
       setIsVisible(false);
     }, 1500);

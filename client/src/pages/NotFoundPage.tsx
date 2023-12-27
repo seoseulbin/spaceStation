@@ -4,7 +4,7 @@ import styled from "styled-components";
 const StylesdLayout = styled.div`
   max-width: ${({ theme }) => theme.size.maxWidth}px;
   margin: 0 auto;
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.deepback};
   height: 100vh;
   position: fixed;
   left: 0;
