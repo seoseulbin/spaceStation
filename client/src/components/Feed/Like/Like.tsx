@@ -7,6 +7,7 @@ import { FeedType } from "../Feed.type";
 import { storage } from "@/global/storage";
 import { PATH } from "@/global/constants";
 import ApiBoundary from "@/components/common/ApiBoundary";
+import { theme } from "@/global/styles/theme";
 
 type Props = { feedId: FeedType["_id"] };
 
@@ -46,8 +47,8 @@ function ApiComponent({ feedId }: Props) {
     <S.Container>
       <S.heartButtonDiv>
         <S.heartButton id={feedId} onClick={handleLikeButton}>
-          {isLiked && <FaHeart color="red" />}
-          {!isLiked && <FaRegHeart />}
+          {isLiked && <FaHeart size="25" color="red" />}
+          {!isLiked && <FaRegHeart color={theme.colors.main} size="25" />}
         </S.heartButton>
         <S.likesNumDiv>
           {likes.length !== 0 && `좋아요 ${likes.length} 개`}

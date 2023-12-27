@@ -57,6 +57,13 @@ export const TextContainer = styled.p`
   color: ${({ theme }) => theme.colors.textPrimary};
   line-height: 20px;
   overflow: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
+  padding: 5px 15px;
+  & a {
+    color: ${({ theme }) => theme.colors.sub};
+  }
 `;
 
 export const MoreReadButton = styled.button`
@@ -79,10 +86,12 @@ export const GridFeedItem = styled.div<{ $column: number }>`
 
 export const CommentContainer = styled(FaRegComment)`
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
   margin-right: 10px;
   overflow-y: auto;
+  margin-bottom: 1px;
+  color: ${({ theme }) => theme.colors.main};
 `;
 
 export const ButtonContainer = styled.div`

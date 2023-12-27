@@ -12,4 +12,5 @@ export type CreateFeedType = {
     }[];
   }[];
   content: string;
+  hashtag: string;
 };

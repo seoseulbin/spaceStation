@@ -11,6 +11,7 @@ type FeedSchemaType = {
     tagInfo: Array<{ name: string; url: string }>;
   }>;
   content: string;
+  hashtag: Array<string>;
   createdAt: Date;
   // TODO: 위치 정보 사용시 활성화
   // geoLocation: Array<Types.ObjectId>
@@ -40,6 +41,10 @@ const FeedSchema = new Schema<FeedSchemaType>(
     content: {
       type: String,
       required: true,
+    },
+    hashtag: {
+      type: [String],
+      default: [],
     },
   },
   {
