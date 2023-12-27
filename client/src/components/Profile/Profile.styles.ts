@@ -43,6 +43,8 @@ export const Container = styled.div`
 export const ProfileImg = styled.img`
   width: 120px;
   height: 120px;
+  max-width: 30vw;
+  max-height: 30vw;
   border-radius: 70%;
   padding: 10px;
   object-fit: cover;
@@ -51,12 +53,13 @@ export const ProfileImg = styled.img`
 export const Follow = styled.ul`
   width: 100%;
   display: flex;
+  padding-bottom: 5px;
   justify-content: center;
 `;
 
 export const Following = styled.li`
   display: grid;
-  padding: 20px 20px 20px 20px;
+  padding: 15px;
   gap: 10px;
   cursor: pointer;
   width: 40px;
