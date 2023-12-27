@@ -5,6 +5,8 @@ import { Outlet } from "react-router-dom";
 const StylesdLayout = styled.div`
   max-width: ${({ theme }) => theme.size.maxWidth}px;
   margin: 0 auto;
+  background-color: ${({ theme }) => theme.colors.background};
+  height: 100vh;
 `;
 
 const Layout = () => {

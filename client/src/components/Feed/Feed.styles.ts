@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { FaRegComment } from "react-icons/fa6";
 
 export const Container = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.background};
   // margin-bottom: 3rem;
-  padding-bottom: 3rem;
+  padding-bottom: 2rem;
   &:last-child {
     margin-bottom: 0;
   }
@@ -13,7 +13,6 @@ export const Container = styled.div`
 
 export const CustomSlider = styled(Slider)`
   margin-bottom: 2rem;
-
   & .slick-dots li {
     margin: 0;
     width: 0.875rem;
@@ -53,14 +52,14 @@ export const ImageSquareFrame = styled.div`
 `;
 
 export const TextContainer = styled.p`
-  font-size: 14px;
   color: ${({ theme }) => theme.colors.textPrimary};
   line-height: 20px;
   overflow: hidden;
   white-space: pre-wrap;
   word-wrap: break-word;
   word-break: break-all;
-  padding: 5px 15px;
+  padding: 8px 15px;
+  font-size: ${({ theme }) => theme.size.md}px;
   & a {
     color: ${({ theme }) => theme.colors.sub};
   }
@@ -68,11 +67,11 @@ export const TextContainer = styled.p`
 
 export const MoreReadButton = styled.button`
   font-family: inherit;
+  font-size: ${({ theme }) => theme.size.md}px;
   background-color: transparent;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: ${({ theme }) => theme.colors.textDisable};
   border: 0;
   padding: 0;
-
   line-height: 14px;
 `;
 

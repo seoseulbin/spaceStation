@@ -1,6 +1,7 @@
 import { Router } from "express";
 import userController from "./user.controller.js";
 import { validateQueryParams } from "../middleware/validation/queryParams.js";
+import { validateToken } from "../middleware/validation/validateToken.js";
 
 const userRouter = Router();
 
@@ -14,6 +15,6 @@ userRouter.get(
   userController.getUsersByQuery,
 );
 userRouter.get("/:userid", userController.getUser);
-userRouter.put("/", userController.updateUser);
+userRouter.put("/", validateToken, userController.updateUser);
 
 export default userRouter;

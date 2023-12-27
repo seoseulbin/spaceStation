@@ -3,6 +3,7 @@ import { queryClient, queryKeys } from "@/global/reactQeury";
 import feedAPI from "./FeedOption.api";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+
 /**
  * 샘플 훅
  */
@@ -22,7 +23,9 @@ export const useDeleteFeed = () => {
       invalidateFeedQuery();
     },
     onError: (err) => {
-      toast.error(err instanceof AxiosError ? err.message : "unknown error");
+      toast.error(
+        err instanceof AxiosError ? err.response?.data.error : "unknown error",
+      );
     },
   }).mutateAsync;
 
