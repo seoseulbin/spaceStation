@@ -13,4 +13,5 @@ export type UpdateFeedType = {
     }>;
   }>;
   content: string;
+  hashtag: string[];
 };
