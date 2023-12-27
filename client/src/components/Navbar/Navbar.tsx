@@ -53,9 +53,8 @@ export default function Navbar() {
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.deepback};
   width: 100%;
-  height: 3rem;
+  height: 3.2rem;
   display: flex;
-  padding: 10px;
   justify-content: space-around;
   position: fixed;
   bottom: 0;
@@ -72,7 +71,7 @@ const LinkWrrapper = styled.div<{ $isActive?: boolean }>`
   justify-content: center;
   width: 5rem;
   height: 100%;
-  gap: 0.125rem;
+  gap: 0.225rem;
   color: ${({ $isActive }) =>
     $isActive ? ({ theme }) => theme.colors.main : "gray"};
 `;
