@@ -15,8 +15,45 @@ export const GeoLocationInnerLayout = styled.div`
 
   & #map {
     width: 100%;
-    height: 400px;
+    height: 300px;
     background-color: #ededed;
     border-radius: 5px;
+
+    .custom_zoomcontrol {
+      border: 1px solid #919191;
+      border-radius: 5px;
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 36px;
+      height: 80px;
+      overflow: hidden;
+      z-index: 2;
+      background-color: #fff;
+
+      & span {
+        display: block;
+        width: 36px;
+        height: 40px;
+        text-align: center;
+        cursor: pointer;
+
+        &:first-child {
+          border-bottom: 1px solid #bfbfbf;
+        }
+
+        &:hover {
+          filter: brightness(0.95);
+          background-color: #fcfcfc;
+        }
+
+        img {
+          width: 15px;
+          height: 15px;
+          padding: 12px 0;
+          border: none;
+        }
+      }
+    }
   }
 `;
