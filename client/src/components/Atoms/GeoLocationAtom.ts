@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { GeoLocationType } from "@/global/types/geoLocation";
+import { GeoLocationType } from "@/global/types/GeoLocation";
 
 export const geoLocationAtom = atom<GeoLocationType>({
   key: "geoLocation",

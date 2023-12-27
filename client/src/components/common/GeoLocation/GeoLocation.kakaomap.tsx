@@ -3,7 +3,7 @@ import {
   geoLocationMarkerAtom,
 } from "@/components/Atoms/GeoLocationAtom";
 import { storage, storageKeys } from "@/global/storage";
-import { GeoLocationType } from "@/global/types/geoLocation";
+import { GeoLocationType } from "@/global/types/GeoLocation";
 import { useEffect, useRef, useState } from "react";
 import { FiMapPin } from "react-icons/fi";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
