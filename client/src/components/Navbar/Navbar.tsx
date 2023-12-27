@@ -61,7 +61,7 @@ const Container = styled.div`
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  font-size: ${({ theme }) => theme.size.rg}px;
+  font-size: ${({ theme }) => theme.size.sm}px;
   max-width: ${({ theme }) => theme.size.maxWidth}px;
 `;
 
@@ -73,5 +73,6 @@ const LinkWrrapper = styled.div<{ $isActive?: boolean }>`
   width: 5rem;
   height: 100%;
   gap: 0.125rem;
-  color: ${({ $isActive }) => ($isActive ? "black" : "gray")};
+  color: ${({ $isActive }) =>
+    $isActive ? ({ theme }) => theme.colors.main : "gray"};
 `;
