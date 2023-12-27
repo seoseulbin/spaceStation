@@ -45,6 +45,7 @@ feedRouter.get(
 
 feedRouter.get(
   "/bookmarks/mine",
+  validateToken,
   validateQueryParams([
     { key: "limit", isNumber: true },
     { key: "cursor", isNumber: true },
