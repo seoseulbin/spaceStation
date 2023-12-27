@@ -7,6 +7,7 @@ import { storage, storageKeys } from "@/global/storage";
 import { useRecoilState } from "recoil";
 import { geoLocationAtom } from "../../Atoms/GeoLocationAtom";
 import toast from "react-hot-toast";
+import { FiMapPin } from "react-icons/fi";
 
 export default function GeoLocation() {
   const [geoLocation, setGeoLocation] = useRecoilState(geoLocationAtom);
@@ -53,24 +54,31 @@ export default function GeoLocation() {
 
   return (
     <>
-      <Label htmlFor="geolocation">위치</Label>
-      {geoLocation.content !== "" && (
-        <S.GeoLocationInput
-          value={
-            geoLocation ? geoLocation.content : "선택된 장소가 표시됩니다."
-          }
-          name="geoSelectedInfo"
-          type="text"
-          readOnly
-        />
-      )}
-      <button
-        onClick={() => {
-          toggleDialog();
-        }}
-      >
-        위치 정보 설정하기
-      </button>
+      <S.GeoLocationInputSection>
+        <Label htmlFor="geolocation">위치</Label>
+        {geoLocation.content !== "" && (
+          <div>
+            <FiMapPin size={18} />
+            <S.GeoLocationInput
+              value={
+                geoLocation.content
+                  ? geoLocation.content
+                  : "선택된 장소가 표시됩니다."
+              }
+              name="geoSelectedInfo"
+              type="text"
+              readOnly
+            />
+          </div>
+        )}
+        <button
+          onClick={() => {
+            toggleDialog();
+          }}
+        >
+          위치 정보 설정하기
+        </button>
+      </S.GeoLocationInputSection>
       <SDialog.ConfirmPopup
         isOpen={isOpen}
         afterOpen={afterOpenDialog}

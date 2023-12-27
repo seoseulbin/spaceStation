@@ -1,5 +1,42 @@
 import { styled } from "styled-components";
 
+export const GeoLocationInputSection = styled.section`
+  gap: 8px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  & div {
+    position: relative;
+
+    & svg {
+      position: absolute;
+      top: 12px;
+      left: 14px;
+      color: ${({ theme }) => theme.colors.sub};
+    }
+  }
+  & button {
+    width: 100%;
+    border: 1px solid ${({ theme }) => theme.colors.main};
+    color: ${({ theme }) => theme.colors.main};
+    background-color: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    font-size: ${({ theme }) => theme.size.md}px;
+    padding: ${({ theme }) => theme.size.rg}px ${({ theme }) => theme.size.lg}px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.deepback};
+    }
+  }
+`;
+
 export const GeoLocationInput = styled.input`
   width: 100%;
   border-radius: 5px;
@@ -8,9 +45,9 @@ export const GeoLocationInput = styled.input`
   box-sizing: border-box;
   font-size: ${({ theme }) => theme.size.md}px;
   padding: ${({ theme }) => theme.size.sm}px ${({ theme }) => theme.size.rg}px;
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.deepback};
   color: ${({ theme }) => theme.colors.sub};
-  cursor: not-allowed;
+  padding-left: ${({ theme }) => theme.size.md * 2.5}px;
 `;
 
 export const GeoLocationInnerLayout = styled.div`
