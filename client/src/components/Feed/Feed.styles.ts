@@ -3,14 +3,16 @@ import styled from "styled-components";
 import { FaRegComment } from "react-icons/fa6";
 
 export const Container = styled.div`
-  margin-bottom: 3rem;
+  background-color: white;
+  // margin-bottom: 3rem;
+  padding-bottom: 3rem;
   &:last-child {
     margin-bottom: 0;
   }
 `;
 
 export const CustomSlider = styled(Slider)`
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 
   & .slick-dots li {
     margin: 0;
@@ -58,6 +60,7 @@ export const TextContainer = styled.p`
   white-space: pre-wrap;
   word-wrap: break-word;
   word-break: break-all;
+  padding: 5px 15px;
   & a {
     color: ${({ theme }) => theme.colors.sub};
   }
@@ -83,11 +86,12 @@ export const GridFeedItem = styled.div<{ $column: number }>`
 
 export const CommentContainer = styled(FaRegComment)`
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
   margin-right: 10px;
   overflow-y: auto;
-  z-index: 2;
+  margin-bottom: 1px;
+  color: ${({ theme }) => theme.colors.main};
 `;
 
 export const ButtonContainer = styled.div`

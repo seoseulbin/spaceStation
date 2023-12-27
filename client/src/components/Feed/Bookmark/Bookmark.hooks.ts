@@ -15,6 +15,9 @@ export const useBookmark = (feedId: string) => {
     queryClient.invalidateQueries({
       queryKey: [queryKeys.bookmark, feedId],
     });
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.feedBookmark, feedId],
+    });
   };
 
   const postBookmark = useMutation({

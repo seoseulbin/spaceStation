@@ -105,7 +105,7 @@ export function useCustomDialog() {
     buttons,
     children,
   }: {
-    description?: string;
+    description?: React.ReactNode | string;
     buttons?:
       | { name: string; usage: string; onClick: () => void }[]
       | undefined;

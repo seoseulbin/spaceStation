@@ -62,3 +62,19 @@ export const MetaDataContainer = styled.div`
     word-wrap: break-word;
   }
 `;
+
+export const NoPreview = styled.span`
+  padding: 1.5em 0 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  border-radius: 5px;
+  background-color: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.sub};
+
+  & svg {
+    height: 32px;
+    width: 32px;
+  }
+`;

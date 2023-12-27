@@ -1,4 +1,7 @@
+import { useState } from "react";
 import * as S from "../ImageAnchorButton/ImageAnchorButton.styles";
+import { useCustomDialog } from "../hooks/useCustomDialog";
+import * as SDialog from "../hooks/useCustomDialog.styles";
 
 export default function ImageFeedTagButton({
   x,
@@ -21,6 +24,35 @@ export default function ImageFeedTagButton({
   };
   index: string;
 }) {
+  const {
+    ConfirmPopupLayout,
+    toggleDialog,
+    afterOpenDialog,
+    beforeCloseDialog,
+    opacity,
+    isOpen,
+  } = useCustomDialog();
+
+  const buttons = [
+    {
+      name: "취소",
+      usage: "NEUTRAL",
+      onClick: () => {
+        toggleDialog();
+      },
+    },
+    {
+      name: "이동",
+      usage: "SUBMIT",
+      onClick: () => {
+        toggleDialog();
+        window.open(tagUrl, "_blank");
+      },
+    },
+  ];
+
+  const [tagUrl, setTagUrl] = useState("");
+
   return (
     <>
       <S.AnchorButton
@@ -30,11 +62,30 @@ export default function ImageFeedTagButton({
         title={index}
         x={x}
         y={y}
-        onClick={(e: React.BaseSyntheticEvent) => {
+        onClick={() => {
           const targetUrl = currentImage.tagInfo[parseInt(index)].url;
-          console.log(e.target.title, targetUrl);
-          window.open(targetUrl, "_blank");
+          setTagUrl(targetUrl);
+          toggleDialog();
         }}
+      />
+      <SDialog.ConfirmPopup
+        isOpen={isOpen}
+        afterOpen={afterOpenDialog}
+        beforeClose={beforeCloseDialog}
+        onBackgroundClick={toggleDialog}
+        onEscapeKeydown={toggleDialog}
+        opacity={opacity}
+        backgroundProps={{ opacity }}
+        children={
+          <ConfirmPopupLayout
+            description={
+              <>
+                <em>{tagUrl}</em> 로 이동합니다.
+              </>
+            }
+            buttons={buttons}
+          ></ConfirmPopupLayout>
+        }
       />
     </>
   );

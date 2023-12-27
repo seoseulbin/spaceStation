@@ -3,6 +3,7 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
 import decodeTokenPayload from "../utils/decodeTokenPayload.js";
 import bookmarkService from "./bookmark.service.js";
+import { Types } from "mongoose";
 
 const boomarkController = {
   getBookmarksByFeedId: asyncHandler(
@@ -11,16 +12,36 @@ const boomarkController = {
       if (!feedId) {
         throw new CustomError({
           status: 400,
-          message: "전달된 내용이 없습니다.",
+          message: `feedId를 전달 받지 못했습니다.`,
         });
       }
 
       const bookmarks = await bookmarkService.getBookmarksByFeedId({
-        feed: feedId,
+        feedId: new Types.ObjectId(feedId),
       });
+
       res.json(bookmarks);
     },
   ),
+
+  getBookmarksMine: asyncHandler(async (req, res) => {
+    const token = req.cookies.service_token;
+
+    if (!token) {
+      throw new CustomError({
+        status: 401,
+        message: "토큰을 전달받지 못했습니다.",
+      });
+    }
+
+    const userId = decodeTokenPayload(token)["user_id"];
+
+    const bookmarks = await bookmarkService.getBookmarksByUserId({
+      userId: new Types.ObjectId(userId),
+    });
+
+    res.json(bookmarks);
+  }),
 
   postBookmark: asyncHandler(
     async (req: Request<{}, {}, { feedId: string }>, res) => {
@@ -29,7 +50,7 @@ const boomarkController = {
       if (!feedId) {
         throw new CustomError({
           status: 400,
-          message: "전달된 내용이 없습니다.",
+          message: `feedId를 전달 받지 못했습니다.`,
         });
       }
 
@@ -38,14 +59,18 @@ const boomarkController = {
       if (!token) {
         throw new CustomError({
           status: 401,
-          message: "잘못된 접근 방식입니다.",
+          message: "토큰을 전달받지 못했습니다.",
         });
       }
 
       const userId = decodeTokenPayload(token)["user_id"];
-      await bookmarkService.postBookmark({ user: userId, feed: feedId });
 
-      res.status(200).end();
+      await bookmarkService.postBookmark({
+        userId: new Types.ObjectId(userId),
+        feedId: new Types.ObjectId(feedId),
+      });
+
+      res.status(201).end();
     },
   ),
 
@@ -53,24 +78,29 @@ const boomarkController = {
     async (req: Request<{ feedId?: string }>, res) => {
       const { feedId } = req.params;
 
-      if (!feedId)
+      if (!feedId) {
         throw new CustomError({
           status: 400,
-          message: "전달된 내용이 없습니다.",
+          message: `feedId를 전달 받지 못했습니다.`,
         });
+      }
 
       const token = req.cookies.service_token;
 
       if (!token) {
         throw new CustomError({
           status: 401,
-          message: "잘못된 접근 방식입니다.",
+          message: "토큰을 전달받지 못했습니다.",
         });
       }
 
-      const user = decodeTokenPayload(token)["user_id"];
+      const userId = decodeTokenPayload(token)["user_id"];
 
-      await bookmarkService.deleteBookmark({ user, feed: feedId });
+      await bookmarkService.deleteBookmark({
+        userId: new Types.ObjectId(userId),
+        feedId: new Types.ObjectId(feedId),
+      });
+
       res.status(200).end();
     },
   ),

@@ -1,50 +1,35 @@
-import UserModel from "../user/user.model.js";
-import FeedModel from "../feed/feed.model.js";
-import BookmarkModel from "./bookmark.model.js";
+import BookmarkModel, { BookmarkSchemaType } from "./bookmark.model.js";
 import { CustomError } from "../middleware/errorHandler.js";
 
-type bookmarkType = {
-  user: string;
-  feed: string;
-};
-
 const bookmarkService = {
-  async getBookmarksByFeedId({ feed }: { feed: bookmarkType["feed"] }) {
-    return await BookmarkModel.find({ feedId: feed });
+  async getBookmarksByFeedId(props: { feedId: BookmarkSchemaType["feedId"] }) {
+    const { feedId } = props;
+    return await BookmarkModel.find({ feedId });
   },
 
-  async getBookmarks({ user }: { user: bookmarkType["user"] }) {
-    return await BookmarkModel.find({ userId: user });
+  async getBookmarksByUserId(props: { userId: BookmarkSchemaType["userId"] }) {
+    const { userId } = props;
+    return await BookmarkModel.find({ userId });
   },
 
-  async postBookmark({ user, feed }: bookmarkType) {
-    const findUser = await UserModel.findOne({ _id: user }).exec();
-    const findFeed = await FeedModel.findOne({ _id: feed }).exec();
-
-    if (!findFeed || !findUser) {
-      throw new CustomError({
-        status: 404,
-        message: "요청한 Id가 존재하지 않습니다",
-      });
-    }
-
-    const isExistBookmark = await BookmarkModel.findOne({
-      userId: findUser._id,
-      feedId: findFeed._id,
-    });
+  async postBookmark(props: Pick<BookmarkSchemaType, "userId" | "feedId">) {
+    const { userId, feedId } = props;
+    const isExistBookmark = await BookmarkModel.findOne({ userId, feedId });
 
     if (isExistBookmark) {
       return;
     }
 
-    return await BookmarkModel.create({
-      userId: findUser._id,
-      feedId: findFeed._id,
-    });
+    return await BookmarkModel.create({ userId, feedId });
   },
 
-  async deleteBookmark({ user, feed }: bookmarkType) {
-    return await BookmarkModel.deleteOne({ userId: user, feedId: feed });
+  async deleteBookmark(props: Pick<BookmarkSchemaType, "userId" | "feedId">) {
+    const { userId, feedId } = props;
+
+    const result = await BookmarkModel.deleteOne({ userId, feedId });
+
+    if (result.deletedCount === 0)
+      throw new CustomError({ status: 500, message: "삭제 실패" });
   },
 };
 
