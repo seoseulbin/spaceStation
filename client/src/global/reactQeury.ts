@@ -1,6 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import toast from "react-hot-toast";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -8,16 +7,8 @@ export const queryClient = new QueryClient({
       retry: 1,
     },
     mutations: {
-      onError: (err) => {
-        if (err instanceof AxiosError && err.response?.status == 401) {
-          throw err;
-        }
-        toast.error(
-          err instanceof AxiosError
-            ? err.response?.data.error
-            : "unknown error",
-        );
-      },
+      throwOnError: (err) =>
+        err instanceof AxiosError && err.response?.status == 401,
     },
   },
 });
