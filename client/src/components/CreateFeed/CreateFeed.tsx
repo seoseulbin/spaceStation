@@ -296,9 +296,6 @@ function ApiComponent() {
             })}
           </S.CategoryWrapper>
         </S.CategoryContainer>
-        <S.MapContainer>
-          <GeoLocation />
-        </S.MapContainer>
         <S.TextareaContainer>
           <S.Label htmlFor="feedHashtag">#해시태그</S.Label>
           <S.Textarea
@@ -309,6 +306,9 @@ function ApiComponent() {
             placeholder="'#' 태그를 꼭 붙여주세요 ⸜( ˙ ˘ ˙)⸝♡"
           ></S.Textarea>
         </S.TextareaContainer>
+        <S.MapContainer>
+          <GeoLocation />
+        </S.MapContainer>
       </S.Container>
     </>
   );

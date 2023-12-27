@@ -4,7 +4,7 @@ export const Container = styled.div`
   background-color: white;
   font-size: ${({ theme }) => theme.size.md}px;
   max-width: calc(${({ theme }) => theme.size.maxWidth}px - 10px);
-  height: 100%;
+  height: auto;
   margin: 0 auto;
   border: 1px solid #e7e7e7;
   display: flex;
@@ -17,6 +17,7 @@ export const Container = styled.div`
 export const ImageContainer = styled.div`
   width: 350px;
   height: 300px;
+  min-height: 300px;
   border: 1px solid #b4b4b4;
   display: flex;
   justify-content: center;

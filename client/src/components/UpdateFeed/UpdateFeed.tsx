@@ -197,7 +197,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
       setCategory(feed.category);
       setActiveCategory(feed.category);
 
-      setUpdateHashTag(feed.hashtag.join(""));
+      setUpdateHashTag(feed.hashtag?.join(""));
       setGeoLocation(feed.geoLocation);
       setGeoLocationMarker(feed.geoLocation);
     }
@@ -316,9 +316,6 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
             })}
           </S.CategoryWrapper>
         </S.CategoryContainer>
-        <S.MapContainer>
-          <GeoLocation />
-        </S.MapContainer>
         <S.TextareaContainer>
           <S.Label htmlFor="feedHashtag">#해시태그</S.Label>
           <S.Textarea
@@ -329,6 +326,9 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
             }}
           ></S.Textarea>
         </S.TextareaContainer>
+        <S.MapContainer>
+          <GeoLocation />
+        </S.MapContainer>
       </S.Container>
     </>
   );
