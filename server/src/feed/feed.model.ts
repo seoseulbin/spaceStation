@@ -12,8 +12,13 @@ type FeedSchemaType = {
   }>;
   content: string;
   createdAt: Date;
-  // TODO: 위치 정보 사용시 활성화
-  // geoLocation: Array<Types.ObjectId>
+  geoLocation: {
+    content: string;
+    position: {
+      lat: number;
+      lng: number;
+    };
+  };
 };
 
 const FeedSchema = new Schema<FeedSchemaType>(
@@ -40,6 +45,12 @@ const FeedSchema = new Schema<FeedSchemaType>(
     content: {
       type: String,
       required: true,
+    },
+    geoLocation: {
+      type: {
+        content: String,
+        position: {},
+      },
     },
   },
   {
