@@ -8,6 +8,7 @@ import Comment from "./Comments/Comments";
 import Like from "./Like/Like";
 import Bookmark from "./Bookmark/Bookmark";
 import ImageFeedTagButton from "../common/ImageFeedTagButton/ImageFeedTagButton";
+import { Link } from "react-router-dom";
 import { FiMapPin } from "react-icons/fi";
 
 const sliderSettings = {
@@ -74,11 +75,21 @@ export default function FeedItem(feed: FeedType) {
         )}
 
         <S.TextContainer>
-          {feed.content.length < 60 || more ? (
-            <>{feed.content}</>
+          {(feed.content.length < 60 &&
+            feed.content.split("\n").length === 1) ||
+          more ? (
+            <>
+              {feed.content}
+              <br />
+              {feed.hashtag?.map((tag) => {
+                //TODO : 검색 링크로 이어져야함
+                return <Link to="/">{tag}</Link>;
+              })}
+            </>
           ) : (
             <>
-              {feed.content.slice(0, 60)} ...{" "}
+              {feed.content.split("\n")[0].slice(0, 60)}
+              ...{" "}
               <S.MoreReadButton onClick={() => setMore((prev) => !prev)}>
                 더보기
               </S.MoreReadButton>

@@ -16,6 +16,7 @@ export type FeedType = {
   }>;
   content: string;
   createdAt: Date;
+  hashtag?: string[];
   geoLocation: {
     content: string;
     position: {

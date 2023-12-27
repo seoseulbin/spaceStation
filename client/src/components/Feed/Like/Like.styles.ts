@@ -24,4 +24,7 @@ export const heartButton = styled.div`
 
 export const likesNumDiv = styled.div`
   font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

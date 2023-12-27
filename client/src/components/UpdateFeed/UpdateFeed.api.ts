@@ -12,6 +12,7 @@ const feedAPI = {
     category,
     content,
     imgUrls,
+    hashtag,
     geoLocation,
   }: UpdateFeedType) => {
     const response = await axiosInstance.put(
@@ -20,6 +21,7 @@ const feedAPI = {
         category,
         content,
         imgUrls,
+        hashtag,
         geoLocation,
       },
       {

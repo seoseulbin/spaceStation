@@ -4,8 +4,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: grid;
   place-items: center;
-  gap: 20px;
-  padding: 30px 0 30px;
+  padding: 3vh 0 4vh;
   color: ${theme.colors.textPrimary};
   font-size: ${({ theme }) => theme.size.md}px;
   .profileContainer {
@@ -23,7 +22,8 @@ export const Container = styled.div`
   }
   input[type="button"] {
     padding: 6px;
-    width: 100%;
+    width: 160px;
+    max-width: 50vw;
     text-align: center;
     border-radius: 3px;
     border: 0px;
@@ -43,6 +43,8 @@ export const Container = styled.div`
 export const ProfileImg = styled.img`
   width: 120px;
   height: 120px;
+  max-width: 30vw;
+  max-height: 30vw;
   border-radius: 70%;
   padding: 10px;
   object-fit: cover;
@@ -50,18 +52,21 @@ export const ProfileImg = styled.img`
 
 export const Follow = styled.ul`
   width: 100%;
+  max-width: 50vw;
   display: flex;
+  padding-bottom: 5px;
   justify-content: center;
 `;
 
 export const Following = styled.li`
   display: grid;
-  padding: 20px 20px 20px 20px;
+  padding: 15px;
   gap: 10px;
   cursor: pointer;
   width: 40px;
   text-align: center;
   font-size: ${({ theme }) => theme.size.rg}px;
+
   span {
     font-size: ${({ theme }) => theme.size.lg}px;
     font-weight: bold;

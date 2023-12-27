@@ -11,6 +11,7 @@ type FeedSchemaType = {
     tagInfo: Array<{ name: string; url: string }>;
   }>;
   content: string;
+  hashtag: Array<string>;
   createdAt: Date;
   geoLocation: {
     content: string;
@@ -45,6 +46,10 @@ const FeedSchema = new Schema<FeedSchemaType>(
     content: {
       type: String,
       required: true,
+    },
+    hashtag: {
+      type: [String],
+      default: [],
     },
     geoLocation: {
       type: {

@@ -38,6 +38,8 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
+  const [hashtag, setHashtag] = useState<string[]>([]); // 해시태그
+  const [updateHashTag, setUpdateHashTag] = useState<string>("");
 
   const [geoLocation, setGeoLocation] = useRecoilState(geoLocationAtom);
   const setGeoLocationMarker = useSetRecoilState(geoLocationMarkerAtom);
@@ -180,6 +182,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
       category: category,
       content: contents,
       imgUrls: result,
+      hashtag,
       geoLocation: geoLocation,
     });
   };
@@ -193,11 +196,20 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
       setContents(feed.content);
       setCategory(feed.category);
       setActiveCategory(feed.category);
+
+      setUpdateHashTag(feed.hashtag.join(""));
       setGeoLocation(feed.geoLocation);
       setGeoLocationMarker(feed.geoLocation);
     }
   }, [feed, setGeoLocation, setGeoLocationMarker, setImgList]);
 
+  const handleUpadatHashtag = (newTag: string) => {
+    setUpdateHashTag(newTag);
+    const removeWhiteSpace = newTag.replace(/\s/g, "");
+    const newHashTag = removeWhiteSpace.match(/#[ㄱ-ㅎ가-힣a-zA-Z0-9]+/g);
+
+    if (newHashTag !== null) setHashtag(newHashTag);
+  };
   return (
     <>
       <Header
@@ -307,6 +319,16 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
         <S.MapContainer>
           <GeoLocation />
         </S.MapContainer>
+        <S.TextareaContainer>
+          <S.Label htmlFor="feedHashtag">#해시태그</S.Label>
+          <S.Textarea
+            id="feedHashtag"
+            value={updateHashTag}
+            onChange={(e) => {
+              handleUpadatHashtag(e.target.value);
+            }}
+          ></S.Textarea>
+        </S.TextareaContainer>
       </S.Container>
     </>
   );

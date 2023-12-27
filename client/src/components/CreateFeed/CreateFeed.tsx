@@ -34,6 +34,7 @@ function ApiComponent() {
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
+  const [hashtag, setHashtag] = useState<string>(""); // 해시태그
 
   const [geoLocation, setGeoLocation] = useRecoilState(geoLocationAtom);
   const setGeoLocationMarker = useSetRecoilState(geoLocationMarkerAtom);
@@ -185,6 +186,7 @@ function ApiComponent() {
       category: category,
       content: contents,
       imgUrls: result,
+      hashtag: hashtag,
       geoLocation: geoLocation,
     });
   };
@@ -297,6 +299,16 @@ function ApiComponent() {
         <S.MapContainer>
           <GeoLocation />
         </S.MapContainer>
+        <S.TextareaContainer>
+          <S.Label htmlFor="feedHashtag">#해시태그</S.Label>
+          <S.Textarea
+            id="feedHashtag"
+            onChange={(e) => {
+              setHashtag(e.target.value);
+            }}
+            placeholder="'#' 태그를 꼭 붙여주세요 ⸜( ˙ ˘ ˙)⸝♡"
+          ></S.Textarea>
+        </S.TextareaContainer>
       </S.Container>
     </>
   );

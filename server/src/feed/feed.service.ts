@@ -66,12 +66,14 @@ const feedService = {
     category,
     content,
     imgUrls,
+    hashtag,
     geoLocation,
   }: {
     userId: string;
     category: string;
     content: string;
     imgUrls: string[];
+    hashtag?: string[];
     geoLocation: {
       content: string;
       position: {
@@ -85,6 +87,7 @@ const feedService = {
       category,
       content,
       imgUrls,
+      hashtag,
       geoLocation,
     });
   },
@@ -95,6 +98,7 @@ const feedService = {
     category,
     content,
     imgUrls,
+    hashtag,
     geoLocation,
   }: {
     id: string;
@@ -102,6 +106,7 @@ const feedService = {
     category: string;
     content: string;
     imgUrls: string[];
+    hashtag?: string[];
     geoLocation: {
       content: string;
       position: {
@@ -119,6 +124,7 @@ const feedService = {
         category,
         content,
         imgUrls,
+        hashtag,
         geoLocation,
       },
     );
