@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import * as S from "./Feed.styles";
-import Loading from "../common/Loading";
+import Loading from "../common/Loading/Loading";
 import { FeedInifiteQueryHookType } from "./Feed.type";
 import { Fragment } from "react";
 

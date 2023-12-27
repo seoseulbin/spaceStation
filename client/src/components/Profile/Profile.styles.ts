@@ -51,13 +51,12 @@ export const ProfileImg = styled.img`
 export const Follow = styled.ul`
   width: 100%;
   display: flex;
-
   justify-content: center;
 `;
 
 export const Following = styled.li`
   display: grid;
-  padding: 20px;
+  padding: 20px 20px 20px 20px;
   gap: 10px;
   cursor: pointer;
   width: 40px;

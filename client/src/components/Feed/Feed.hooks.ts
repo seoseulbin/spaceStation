@@ -2,6 +2,7 @@ import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { queryKeys } from "@/global/reactQeury";
 import feedAPI from "./Feed.api";
 import { useIntersectionObserver } from "../common/hooks/useIntersectionObserver";
+import { FEED_COLUMN } from "@/global/constants";
 
 export const useMainFeed = () => {
   const results = useSuspenseInfiniteQuery({
@@ -27,7 +28,11 @@ export const useProfileFeed = (userId: string, cursor?: number) => {
   const results = useSuspenseInfiniteQuery({
     queryKey: [queryKeys.feedUser, userId, cursor],
     queryFn: ({ pageParam }) =>
-      feedAPI.getProfileFeeds({ userId, cursor: pageParam, limit: 12 }),
+      feedAPI.getProfileFeeds({
+        userId,
+        cursor: pageParam,
+        limit: FEED_COLUMN.profile * 4,
+      }),
     initialPageParam: cursor ?? 0,
     getNextPageParam: ({ data, nextCursor }) => {
       if (data.length === 0) return null;
@@ -47,7 +52,34 @@ export const useCategoryFeed = (categoryId: string, cursor?: number) => {
   const results = useSuspenseInfiniteQuery({
     queryKey: [queryKeys.feedCategory, categoryId, cursor],
     queryFn: ({ pageParam }) =>
-      feedAPI.getCategoryFeeds({ categoryId, cursor: pageParam, limit: 8 }),
+      feedAPI.getCategoryFeeds({
+        categoryId,
+        cursor: pageParam,
+        limit: FEED_COLUMN.category * 4,
+      }),
+    initialPageParam: cursor ?? 0,
+    getNextPageParam: ({ data, nextCursor }) => {
+      if (data.length === 0) return null;
+      return nextCursor;
+    },
+  });
+
+  const { setTarget } = useIntersectionObserver({
+    onIntersect: results.fetchNextPage,
+    shouldBeBlocked: !results.hasNextPage || results.isError,
+  });
+
+  return { ...results, setTarget };
+};
+
+export const useMyBookmardFeed = (cursor?: number) => {
+  const results = useSuspenseInfiniteQuery({
+    queryKey: [queryKeys.feedBookmark, cursor],
+    queryFn: ({ pageParam }) =>
+      feedAPI.getMyBookmarkFeeds({
+        cursor: pageParam,
+        limit: FEED_COLUMN.bookmark * 4,
+      }),
     initialPageParam: cursor ?? 0,
     getNextPageParam: ({ data, nextCursor }) => {
       if (data.length === 0) return null;
