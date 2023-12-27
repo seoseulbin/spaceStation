@@ -7,7 +7,7 @@ from {
   opacity : 1;
 } 
 to {
-  transform: scale(2.5);
+  transform: scale(2.8);
   opacity : 0;
 }
 `;
@@ -15,14 +15,16 @@ to {
 export const SplashContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
   display: flex;
+  width: 100%;
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
+  margin: 0 auto;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  animation: ${bigger} 1s 1.1s ease-out;
+  animation: ${bigger} 0.7s 1.1s ease-out;
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100%;
+
   z-index: 1000; /* 스플래시 화면을 항상 위에 표시하기 위한 z-index 설정 */
 `;
 const rotate = keyframes`
@@ -39,7 +41,7 @@ from{
     transform: rotateY(0deg);
 }
 to{
-    transform: rotateY(-160deg);
+    transform: rotateY(-200deg);
 }
 `;
 
