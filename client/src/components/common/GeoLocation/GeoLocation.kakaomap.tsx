@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { storage, storageKeys } from "../../../global/storage";
 
 export default function KakaoMap() {
   const mapRef = useRef<kakao.maps.Map>(null);
@@ -66,6 +67,23 @@ export default function KakaoMap() {
     map.setLevel(map.getLevel() + 1);
   };
 
+  function setGeoLocationInfo(marker: {
+    content: string;
+    position: {
+      lat: number;
+      lng: number;
+    };
+  }) {
+    setInfo(marker);
+    storage.set(storageKeys.geoLocation, {
+      content: marker.content,
+      position: {
+        lat: marker.position.lat,
+        lng: marker.position.lng,
+      },
+    });
+  }
+
   return (
     <>
       <section>
@@ -112,7 +130,7 @@ export default function KakaoMap() {
           <MapMarker
             key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
             position={marker.position}
-            onClick={() => setInfo(marker)}
+            onClick={() => setGeoLocationInfo(marker)}
           >
             {info && info.content === marker.content && (
               <div

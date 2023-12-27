@@ -48,7 +48,7 @@ export const GeoLocationInnerLayout = styled.div`
       border: 1px solid #919191;
       border-radius: 5px;
       position: absolute;
-      top: 70px;
+      top: 90px;
       right: 16px;
       width: 36px;
       height: 80px;

@@ -1,6 +1,7 @@
 export const storageKeys = {
   currentUser: "currentUser",
   temp: "temp",
+  geoLocation: "geoLocation",
 } as const;
 
 type StorageKeysType = keyof typeof storageKeys;
@@ -11,6 +12,13 @@ type StorageValuesType = {
     nickname: string;
   };
   temp: string;
+  geoLocation: {
+    content: string;
+    position: {
+      lng: number;
+      lat: number;
+    };
+  };
 };
 
 export const storage = {
