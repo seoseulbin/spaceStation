@@ -84,7 +84,7 @@ const feedController = {
     const userToken = req.cookies.service_token;
     const userId = decodeTokenPayload(userToken)["user_id"];
 
-    if (!category || !content || !imgUrls) {
+    if (!category || !content || imgUrls.length == 0) {
       throw new CustomError({
         status: 400,
         message: "요청에 필요한 정보가 부족합니다.",

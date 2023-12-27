@@ -10,6 +10,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #fffcf8;
 `;
 
 export const ImageContainer = styled.div`
@@ -22,6 +23,7 @@ export const ImageContainer = styled.div`
   margin-top: 20px;
   margin-bottom: 15px;
   position: relative;
+  background-color: #fffcf8;
 `;
 
 export const FeedImage = styled.img`
@@ -52,15 +54,14 @@ export const InputImageButton = styled.div`
   align-items: center;
   width: 50px;
   height: 50px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #f9f1e9;
   border-radius: 3px;
-  background-color: #f0f0f0;
   margin-right: 15px;
+  background-color: #f9f1e9;
 `;
 
 export const ImagePreviewWrapper = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 80px;
   overflow: auto;
@@ -79,7 +80,7 @@ export const ImagePreview = styled.img`
 export const ImageDeleteButton = styled.button`
   position: absolute;
   right: 0;
-  width: 20px;
+  width: 21px;
   appearance: none;
   border: none;
   background-color: transparent;
@@ -116,8 +117,13 @@ export const CategoryWrapper = styled.div`
   margin-top: 5px;
 `;
 
-export const CategoryItem = styled.div<{ $isActive: boolean }>`
-  background-color: ${(props) => (props.$isActive ? "#9c9c9c" : "#d9d9d9")};
+export const CategoryItem = styled.div<{
+  $isActive: boolean;
+  $fontColor: string;
+}>`
+  color: ${(props) => (props.$isActive ? "white" : "black")};
+  background-color: ${(props) =>
+    props.$isActive ? props.$fontColor : "#F9F1E9"};
   padding: 15px;
   text-align: center;
   border-radius: 5px;
