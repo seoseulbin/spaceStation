@@ -110,7 +110,7 @@ const feedController = {
 
   updateFeed: asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { category, content, imgUrls }: FeedType = req.body;
+    const { category, content, imgUrls, geoLocation }: FeedType = req.body;
     const userToken = req.cookies.service_token;
     const userId = decodeTokenPayload(userToken)["user_id"];
 
@@ -121,7 +121,14 @@ const feedController = {
       });
     }
 
-    feedService.updateFeed({ id, userId, category, content, imgUrls });
+    feedService.updateFeed({
+      id,
+      userId,
+      category,
+      content,
+      imgUrls,
+      geoLocation,
+    });
     res.status(200).end();
   }),
 

@@ -95,12 +95,20 @@ const feedService = {
     category,
     content,
     imgUrls,
+    geoLocation,
   }: {
     id: string;
     userId: string;
     category: string;
     content: string;
     imgUrls: string[];
+    geoLocation: {
+      content: string;
+      position: {
+        lat: number;
+        lng: number;
+      };
+    };
   }) {
     const objectId = new mongoose.Types.ObjectId(id);
 
@@ -111,6 +119,7 @@ const feedService = {
         category,
         content,
         imgUrls,
+        geoLocation,
       },
     );
   },
