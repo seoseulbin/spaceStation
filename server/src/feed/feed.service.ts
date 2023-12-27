@@ -66,13 +66,27 @@ const feedService = {
     category,
     content,
     imgUrls,
+    geoLocation,
   }: {
     userId: string;
     category: string;
     content: string;
     imgUrls: string[];
+    geoLocation: {
+      content: string;
+      position: {
+        lat: number;
+        lng: number;
+      };
+    };
   }) {
-    return FeedModel.create({ userId, category, content, imgUrls });
+    return FeedModel.create({
+      userId,
+      category,
+      content,
+      imgUrls,
+      geoLocation,
+    });
   },
 
   async updateFeed({

@@ -10,6 +10,13 @@ type FeedType = {
   category: string;
   content: string;
   imgUrls: string[];
+  geoLocation: {
+    content: string;
+    position: {
+      lat: number;
+      lng: number;
+    };
+  };
 };
 
 const feedController = {
@@ -86,7 +93,7 @@ const feedController = {
   }),
 
   createFeed: asyncHandler(async (req: Request<{}, {}, FeedType>, res) => {
-    const { category, content, imgUrls } = req.body;
+    const { category, content, imgUrls, geoLocation } = req.body;
     const userToken = req.cookies.service_token;
     const userId = decodeTokenPayload(userToken)["user_id"];
 
@@ -97,7 +104,7 @@ const feedController = {
       });
     }
 
-    feedService.createFeed({ userId, category, content, imgUrls });
+    feedService.createFeed({ userId, category, content, imgUrls, geoLocation });
     res.status(200).end();
   }),
 
