@@ -9,7 +9,7 @@ import Header from "../Header/Header";
 import ApiBoundary from "../common/ApiBoundary";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
-import GeoLocationPopup from "../common/GeoLocationPopup/GeoLocationPopup";
+import GeoLocation from "../common/GeoLocation/GeoLocation";
 
 export default function CreateFeed() {
   return (
@@ -219,7 +219,7 @@ function ApiComponent() {
           </S.CategoryWrapper>
         </S.CategoryContainer>
         <S.MapContainer>
-          <GeoLocationPopup />
+          <GeoLocation />
         </S.MapContainer>
       </S.Container>
     </>

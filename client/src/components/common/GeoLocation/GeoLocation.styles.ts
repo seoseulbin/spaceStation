@@ -19,12 +19,37 @@ export const GeoLocationInnerLayout = styled.div`
     background-color: #ededed;
     border-radius: 5px;
 
-    .custom_zoomcontrol {
+    .MapMarker {
+      width: 152px;
+      height: 34px;
+      color: rgb(0, 0, 0);
+      padding: 3px 8px 8px;
+      text-align: center;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    & ~ input {
+      width: 100%;
+      border-radius: 5px;
+      outline: none;
+      border: 1px solid ${({ theme }) => theme.colors.deepback};
+      box-sizing: border-box;
+      font-size: ${({ theme }) => theme.size.md}px;
+      padding: ${({ theme }) => theme.size.sm}px
+        ${({ theme }) => theme.size.rg}px;
+      background-color: ${({ theme }) => theme.colors.background};
+      color: ${({ theme }) => theme.colors.sub};
+    }
+    & + .custom_zoomcontrol {
       border: 1px solid #919191;
       border-radius: 5px;
       position: absolute;
-      top: 24px;
-      right: 24px;
+      top: 70px;
+      right: 16px;
       width: 36px;
       height: 80px;
       overflow: hidden;

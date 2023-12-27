@@ -1,10 +1,10 @@
 import { Label } from "@/components/CreateFeed/CreateFeed.styles.ts";
 import * as SDialog from "../hooks/useCustomDialog.styles.ts";
-import { GeoLocationInnerLayout } from "./GeoLocationPopup.styles.ts";
-import { useCustomDialog } from "../hooks/useCustomDialog";
-import KakaoMap from "./GeoLocationPopup.kakaomap.tsx";
+import { GeoLocationInnerLayout } from "./GeoLocation.styles.ts";
+import { useCustomDialog } from "../hooks/useCustomDialog.tsx";
+import KakaoMap from "./GeoLocation.Popup.kakaomap.tsx";
 
-export default function GeoLocationPopup() {
+export default function GeoLocation() {
   const {
     toggleDialog,
     afterOpenDialog,
