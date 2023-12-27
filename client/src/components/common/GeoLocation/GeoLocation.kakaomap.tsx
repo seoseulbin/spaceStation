@@ -119,10 +119,12 @@ export default function KakaoMap() {
         ref={mapRef}
         id="map"
         center={{
-          lat: geoLocation.position.lat ? geoLocation.position.lat : 37.566826,
+          lat: geoLocation.position.lat
+            ? geoLocation.position.lat
+            : 37.5468522347172,
           lng: geoLocation.position.lng
             ? geoLocation.position.lng
-            : 126.9786567,
+            : 127.066289337018,
         }}
         style={{
           width: "100%",
@@ -171,7 +173,7 @@ export default function KakaoMap() {
           <FiMapPin size={18} />
           <input
             value={
-              geoLocationMarker.content !== undefined
+              geoLocationMarker.content !== ""
                 ? geoLocationMarker.content
                 : "선택된 장소가 표시됩니다."
             }

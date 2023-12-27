@@ -6,6 +6,7 @@ import KakaoMap from "./GeoLocation.kakaomap.tsx";
 import { storage, storageKeys } from "@/global/storage";
 import { useRecoilState } from "recoil";
 import { geoLocationAtom } from "../../Atoms/GeoLocationAtom";
+import toast from "react-hot-toast";
 
 export default function GeoLocation() {
   const [geoLocation, setGeoLocation] = useRecoilState(geoLocationAtom);
@@ -33,11 +34,18 @@ export default function GeoLocation() {
       usage: "SUBMIT",
       onClick: () => {
         const geoLocationMarker = storage.get(storageKeys.geoLocation);
+
+        if (!geoLocation && !geoLocationMarker) {
+          toast.error("장소를 선택해주세요.");
+          return;
+        }
+
         if (geoLocationMarker) {
           console.log(geoLocationMarker);
           setGeoLocation(geoLocationMarker);
           storage.remove(storageKeys.geoLocation);
         }
+
         toggleDialog();
       },
     },
@@ -46,7 +54,7 @@ export default function GeoLocation() {
   return (
     <>
       <Label htmlFor="geolocation">위치</Label>
-      {geoLocation.content !== undefined && (
+      {geoLocation.content !== "" && (
         <S.GeoLocationInput
           value={
             geoLocation ? geoLocation.content : "선택된 장소가 표시됩니다."
