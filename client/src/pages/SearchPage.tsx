@@ -1,7 +1,14 @@
 import SearchFeedOverview from "@/components/Feed/SearchFeeds/SearchFeedOverview";
-import { PATH, SEARCH_SCOPE } from "@/global/constants";
+import SearchedUserList from "@/components/User/UserList";
+import { PATH, SEARCH_SCOPE, SearchScopeType } from "@/global/constants";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
-import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import {
+  NavLink,
+  Navigate,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import styled from "styled-components";
 
 export default function SearchPage() {
@@ -10,7 +17,12 @@ export default function SearchPage() {
   const [searchParams] = useSearchParams();
 
   const query = searchParams.get("query");
-  const queryScope = searchParams.get("scope") as "feed";
+  const queryScope = searchParams.get("scope") as SearchScopeType;
+
+  if (query && !Object.values(SEARCH_SCOPE).includes(queryScope)) {
+    toast.error("잘못된 접근입니다");
+    return <Navigate replace to={PATH.search()} />;
+  }
 
   const onTypeQueryInput: ChangeEventHandler<HTMLInputElement> = (e) => {
     setQueryInput(e.currentTarget.value);
@@ -31,6 +43,9 @@ export default function SearchPage() {
       <NavLink to={PATH.search(queryInput, "tag")}>태그</NavLink>
       {query && queryScope === SEARCH_SCOPE.FEED && (
         <SearchFeedOverview query={query} />
+      )}
+      {query && queryScope === SEARCH_SCOPE.ACCOUNT && (
+        <SearchedUserList query={query} />
       )}
     </>
   );
