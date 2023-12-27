@@ -1,6 +1,6 @@
 import { Schema, Types, model } from "mongoose";
 
-type FeedSchemaType = {
+export type FeedSchemaType = {
   _id: Types.ObjectId;
   userId: Types.ObjectId;
   comments: Array<Types.ObjectId>;

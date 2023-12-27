@@ -1,5 +1,5 @@
 import BookmarkModel from "../bookmark/bookmark.model.js";
-import FeedModel from "./feed.model.js";
+import FeedModel, { FeedSchemaType } from "./feed.model.js";
 import mongoose, { Types } from "mongoose";
 
 const feedService = {
@@ -18,13 +18,13 @@ const feedService = {
     return feeds;
   },
 
-  async getUserFeeds(props: {
-    userId: Types.ObjectId;
+  async getFeedsFindByProp<T extends keyof FeedSchemaType>(props: {
+    prop: { key: T; value: FeedSchemaType[T] };
     cursor: number;
     limit: number;
   }) {
-    const { userId, cursor, limit } = props;
-    const feeds = await FeedModel.find({ userId })
+    const { prop, cursor, limit } = props;
+    const feeds = await FeedModel.find({ [prop.key]: prop.value })
       .skip(cursor)
       .limit(limit)
       .sort({ createdAt: -1 });
@@ -32,28 +32,14 @@ const feedService = {
     return feeds;
   },
 
-  async getCategoryFeeds(props: {
-    category: Types.ObjectId;
-    cursor: number;
-    limit: number;
-  }) {
-    const { category, cursor, limit } = props;
-    const feeds = await FeedModel.find({ category })
-      .skip(cursor)
-      .limit(limit)
-      .sort({ createdAt: -1 });
-
-    return feeds;
-  },
-
-  async getSearchFeeds(props: {
-    query: string;
+  async getFeedsSearchedByQuery(props: {
+    query: { key: keyof FeedSchemaType; value: string };
     cursor: number;
     limit: number;
   }) {
     const { query, cursor, limit } = props;
     const feeds = await FeedModel.find({
-      content: { $regex: new RegExp(query, "i") },
+      [query.key]: { $regex: new RegExp(query.value, "i") },
     })
       .skip(cursor)
       .limit(limit)

@@ -41,8 +41,8 @@ const feedController = {
   getProfileFeeds: asyncHandler(async (req, res) => {
     const { userId } = req.params;
     const { cursor, limit } = req.query;
-    const feeds = await feedService.getUserFeeds({
-      userId: new ObjectId(userId as string),
+    const feeds = await feedService.getFeedsFindByProp({
+      prop: { key: "userId", value: new ObjectId(userId as string) },
       cursor: Number(cursor),
       limit: Number(limit),
     });
@@ -54,8 +54,8 @@ const feedController = {
     const { categoryId } = req.params;
     const { cursor, limit } = req.query;
 
-    const feeds = await feedService.getCategoryFeeds({
-      category: new ObjectId(categoryId as string),
+    const feeds = await feedService.getFeedsFindByProp({
+      prop: { key: "category", value: new ObjectId(categoryId as string) },
       cursor: Number(cursor),
       limit: Number(limit),
     });
@@ -63,12 +63,25 @@ const feedController = {
     res.json(feeds);
   }),
 
-  getSearchFeeds: asyncHandler(async (req, res) => {
+  getFeedsSearchedByContent: asyncHandler(async (req, res) => {
     const { query } = req.params;
     const { cursor, limit } = req.query;
 
-    const feeds = await feedService.getSearchFeeds({
-      query,
+    const feeds = await feedService.getFeedsSearchedByQuery({
+      query: { key: "content", value: query },
+      cursor: Number(cursor),
+      limit: Number(limit),
+    });
+
+    res.json(feeds);
+  }),
+
+  getFeedsSearchedByHashtag: asyncHandler(async (req, res) => {
+    const { query } = req.params;
+    const { cursor, limit } = req.query;
+
+    const feeds = await feedService.getFeedsSearchedByQuery({
+      query: { key: "hashtag", value: query },
       cursor: Number(cursor),
       limit: Number(limit),
     });
