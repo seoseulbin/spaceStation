@@ -8,7 +8,7 @@ const Splash = () => {
     // 예시로 2초 후에 스플래시 화면을 숨김
     const timeoutId = setTimeout(() => {
       setIsVisible(false);
-    }, 1600);
+    }, 1500);
 
     return () => clearTimeout(timeoutId);
   }, []);
@@ -16,7 +16,6 @@ const Splash = () => {
   return isVisible ? (
     <S.SplashContainer>
       <S.SpinDisk src="../disk.png" />
-
       <S.DoorFrame src="../doorframe.png" />
       <S.Door src="../door.png" />
     </S.SplashContainer>
