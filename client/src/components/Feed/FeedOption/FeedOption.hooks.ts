@@ -23,7 +23,7 @@ export const useDeleteFeed = () => {
       return feedAPI.deleteFeed(_id);
     },
     onSuccess: () => {
-      toast.success("피드가 삭제되었습니다.");
+      toast.success("삭제가 완료되었습니다.");
       invalidateFeedQuery();
     },
     onError: (err) => {

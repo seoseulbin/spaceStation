@@ -21,5 +21,13 @@ export const PATH = {
 
   profileSetting: "/profile/setting",
 
+  bookmarkFeedDetail: (cursor: string) => `/bookmark/cursor/${cursor}`,
+
   sample: "/sample",
+} as const;
+
+export const FEED_COLUMN = {
+  category: 2,
+  profile: 3,
+  bookmark: 3,
 } as const;

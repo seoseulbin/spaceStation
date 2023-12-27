@@ -16,9 +16,11 @@ import CategoryPage from "./pages/CategoryPage";
 import * as Sample from "./components/common/Modal/Sample";
 import { storage, storageKeys } from "./global/storage";
 import ProfileUpdatePage from "./pages/ProfileUpdatePage";
+import Layout from "./pages/Layout";
 import NotFoundPage from "./pages/NotFoundPage";
 import CategoryDetailPage from "./pages/CategoryDetailPage";
 import ProfileFeedDetailPage from "./pages/ProfileFeedDetailPage";
+import BookmarkDetailPage from "./pages/BookmarkDetailPage";
 
 // 인증을 수행하지 않고 storage에 인증정보의 유무만 검사 함
 const CheckHasAuth = () => {
@@ -34,20 +36,36 @@ const CheckHasAuth = () => {
 const router = createBrowserRouter([
   {
     path: PATH.root,
-    element: <MainPage />,
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <MainPage />,
+      },
+      {
+        path: PATH.category(":categoryId"),
+        element: <CategoryPage />,
+      },
+      {
+        path: PATH.categoryDetail(":categoryId", ":cursor"),
+        element: <CategoryDetailPage />,
+      },
+
+      {
+        path: PATH.profile,
+        element: <ProfilePage />,
+      },
+      {
+        path: PATH.profileFeedDetail(":userId", ":cursor"),
+        element: <ProfileFeedDetailPage />,
+      },
+      {
+        path: PATH.bookmarkFeedDetail(":cursor"),
+        element: <BookmarkDetailPage />,
+      },
+    ],
   },
-  {
-    path: PATH.category(":categoryId"),
-    element: <CategoryPage />,
-  },
-  {
-    path: PATH.categoryDetail(":categoryId", ":cursor"),
-    element: <CategoryDetailPage />,
-  },
-  {
-    path: PATH.profileFeedDetail(":userId", ":cursor"),
-    element: <ProfileFeedDetailPage />,
-  },
+
   {
     path: PATH.login,
     element: <LoginPage />,
@@ -56,24 +74,25 @@ const router = createBrowserRouter([
     element: <CheckHasAuth />,
     children: [
       {
-        path: PATH.createFeed,
-        element: <CreateFeedPage />,
-      },
-      {
-        path: PATH.updateFeed(),
-        element: <UpdateFeedPage />,
-      },
-      {
-        path: PATH.profile,
-        element: <ProfilePage />,
-      },
-      {
-        path: PATH.profileUpdate,
-        element: <ProfileUpdatePage />,
-      },
-      {
-        path: PATH.profileSetting,
-        element: <ProfileSetting />,
+        element: <Layout />,
+        children: [
+          {
+            path: PATH.createFeed,
+            element: <CreateFeedPage />,
+          },
+          {
+            path: PATH.updateFeed(),
+            element: <UpdateFeedPage />,
+          },
+          {
+            path: PATH.profileUpdate,
+            element: <ProfileUpdatePage />,
+          },
+          {
+            path: PATH.profileSetting,
+            element: <ProfileSetting />,
+          },
+        ],
       },
     ],
   },

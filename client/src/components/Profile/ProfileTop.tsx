@@ -54,10 +54,11 @@ function ApiComponent({ userId }: { userId: string }) {
             <FollowModal
               followList={followState ? follows?.follower : follows?.following}
               followState={followState}
+              onClickCallback={() => toggleDialog()}
             />
           </BasicModalLayout>
         }
-      ></M.BasicModal>
+      />
 
       <Header
         backArrow={true}

@@ -22,6 +22,7 @@ function ApiComponent() {
   const { categorys } = useCategory();
   const { createFeed } = useCreateFeed();
 
+  const [imageFiles, setImageFiles] = useState<(File | undefined)[]>([]); //cloudinary 파일 변환을 위한 상태
   const [showImage, setShowImage] = useState<string>(""); //대표 이미지
   const [images, setImages] = useState<string[]>([]); // 피드 이미지 배열
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
@@ -31,6 +32,7 @@ function ApiComponent() {
   const {
     setTarget,
     imgList,
+    setImgList,
     currentImage,
     setCurrentImage,
     addNewImage,
@@ -44,6 +46,28 @@ function ApiComponent() {
     setCurrentImage(imgList.find((item) => item.url === showImage));
   }, [imgList, setCurrentImage, showImage]);
 
+  function fontColorSet(category: string) {
+    switch (category) {
+      case "집":
+        return "#E58D5C";
+      case "카페":
+        return "#D5267A";
+      case "회사":
+        return "#A452DE";
+      case "학원":
+        return "#FFA000";
+      case "학교":
+        return "#ADE085";
+      case "회의실":
+        return "#FE87CE";
+      case "유치원":
+        return "#97DDF3";
+      case "서점":
+        return "#6D8DFF";
+      default:
+        return "white";
+    }
+  }
   /**
    * cloudinary 이미지 저장 함수
    */
@@ -81,11 +105,13 @@ function ApiComponent() {
         throw new Error("이미지 파일이 없습니다.");
       }
       //TODO:추후 업로드 버튼을 눌렀을 시 cloudinary에 이미지가 저장되도록 변경 예정
-      const uploaded = await imageUploader(e.target.files[0]);
+      // const uploaded = await imageUploader(e.target.files[0]);
+      const fileUrl = URL.createObjectURL(e.target.files[0]);
 
-      setImages((arr) => [...arr, uploaded.url]);
-      setShowImage(uploaded.url);
-      addNewImage(uploaded.url); // useTagButtonHandler에 image 추가
+      setImageFiles((arr) => [...arr, e.target.files?.[0]]); // cloudinary 파일 변환을 위한 상태
+      setImages((arr) => [...arr, fileUrl]);
+      setShowImage(fileUrl);
+      addNewImage(fileUrl); // useTagButtonHandler에 image 추가
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
       else console.log(String(error));
@@ -97,17 +123,46 @@ function ApiComponent() {
    */
   const onClickPreviewDeleteBtn = async (
     e: React.MouseEvent<HTMLButtonElement>,
+    index: number,
   ) => {
     e.preventDefault();
-    const previousSibling = e.currentTarget.previousSibling;
 
-    //if문은 타입 확인 && 값이 존재하는 지
-    if (previousSibling && previousSibling instanceof HTMLImageElement) {
-      const imageUrl = previousSibling.getAttribute("src");
-      //TODO: cloudinary 이미지 삭제
-      setShowImage("");
-      setImages((images) => images.filter((image) => image !== imageUrl));
-    }
+    setShowImage("");
+    setImageFiles((images) => {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      return newImages;
+    });
+    setImages((images) => {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      return newImages;
+    });
+    setImgList((images) => {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      return newImages;
+    });
+  };
+
+  const onClickUploadFeedBtn = async () => {
+    const list = await Promise.all(
+      //cloudinary url 받아오기
+      imageFiles.map(async (image) => {
+        if (image) {
+          const uploaded = await imageUploader(image);
+          return uploaded.url;
+        }
+      }),
+    );
+
+    const result = imgList.map((image, idx) => ({ ...image, url: list[idx] })); // createObjectURL을 cloudinary url로 변경
+
+    await createFeed({
+      category: category,
+      content: contents,
+      imgUrls: result,
+    });
   };
 
   return (
@@ -117,13 +172,8 @@ function ApiComponent() {
         headerTitle="게시글 업로드"
         isFunctionAcitve={true}
         functionIconType={"upload"}
-        onClickFunction={async () => {
-          console.log(imgList);
-          await createFeed({
-            category: category,
-            content: contents,
-            imgUrls: imgList, // 중요 : imgList 로 변경됨
-          });
+        onClickFunction={() => {
+          onClickUploadFeedBtn();
         }}
       />
       <S.Container>
@@ -133,7 +183,7 @@ function ApiComponent() {
             addImageAnchor(showImage, event)
           }
         >
-          {showImage != "" ? (
+          {showImage !== "" ? (
             <S.FeedImage src={showImage} alt="피드 이미지" />
           ) : (
             <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
@@ -179,8 +229,10 @@ function ApiComponent() {
                       setShowImage(e.currentTarget.src);
                     }}
                   />
-                  <S.ImageDeleteButton onClick={onClickPreviewDeleteBtn}>
-                    <GoX color="gray" size="14" />
+                  <S.ImageDeleteButton
+                    onClick={(e) => onClickPreviewDeleteBtn(e, index)}
+                  >
+                    <GoX color="white" size="16" />
                   </S.ImageDeleteButton>
                 </S.ImagePreviewList>
               );
@@ -204,6 +256,7 @@ function ApiComponent() {
                 <S.CategoryItem
                   key={item._id}
                   $isActive={item._id === activeCategory ? true : false}
+                  $fontColor={fontColorSet(item.category)}
                   onClick={() => {
                     setActiveCategory((prev) =>
                       prev === item._id ? null : item._id,

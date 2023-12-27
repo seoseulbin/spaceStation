@@ -34,6 +34,24 @@ feedRouter.get(
   feedController.getProfileFeeds,
 );
 
+feedRouter.get(
+  "/bookmarks/mine",
+  validateQueryParams([
+    { key: "limit", isNumber: true },
+    { key: "cursor", isNumber: true },
+  ]),
+  feedController.getMyBookmarkFeeds,
+);
+
+feedRouter.get(
+  "/bookmarks/mine",
+  validateQueryParams([
+    { key: "limit", isNumber: true },
+    { key: "cursor", isNumber: true },
+  ]),
+  feedController.getMyBookmarkFeeds,
+);
+
 feedRouter.post("/", validateToken, feedController.createFeed);
 feedRouter.put("/:id", validateToken, feedController.updateFeed);
 feedRouter.delete("/:id", validateToken, feedController.deleteFeed);
