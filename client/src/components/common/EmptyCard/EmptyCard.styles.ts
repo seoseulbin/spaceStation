@@ -7,9 +7,9 @@ export const EmptyCardContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 240px;
-  padding: 3em 0;
+  padding: 2em 0;
 
   & img {
-    max-width: 120px;
+    max-width: 100px;
   }
 `;
