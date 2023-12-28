@@ -34,7 +34,7 @@ export default function FeedItem(feed: FeedType) {
         <S.CustomSlider {...sliderSettings}>
           {feed.imgUrls.map((imgUrl, i) => (
             <Fragment key={`${imgUrl.url} + ${i}`}>
-              <S.ImageSquareFrame>
+              <S.ImageSquareFrame imgurl={imgUrl.url}>
                 <img src={imgUrl.url} alt={"피드 이미지"} />
                 {imgUrl &&
                   imgUrl.tagPosition?.map((item, index) => (

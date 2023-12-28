@@ -2,6 +2,10 @@ import Slider from "react-slick";
 import styled from "styled-components";
 import { FaRegComment } from "react-icons/fa6";
 
+interface FeedImageSquareFrameProps {
+  imgurl: string;
+}
+
 export const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
   // margin-bottom: 3rem;
@@ -29,12 +33,27 @@ export const CustomSliderPrevArrow = styled.button`
   z-index: 1;
 `;
 
-export const ImageSquareFrame = styled.div`
+export const ImageSquareFrame = styled.div<FeedImageSquareFrameProps>`
   width: 100%;
   height: 0;
   padding-bottom: 100%;
   position: relative;
   flex-shrink: 0;
+  overflow: hidden;
+
+  &:before {
+    content: "";
+    position: absolute;
+    background-image: url(${(props) => props.imgurl});
+    width: 125%;
+    height: 125%;
+    left: -12%;
+    top: -12%;
+    background-size: cover;
+    background-position: center center;
+    filter: blur(40px);
+    z-index: -1;
+  }
 
   & > img {
     position: absolute;
