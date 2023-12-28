@@ -40,8 +40,8 @@ export const HeaderTitleDiv = styled.div`
 
   & img:first-child {
     margin-right: 5px;
-    width: 36px;
-    height: 24px;
+    width: 32px;
+    margin: 0px 8px 2px 0px;
   }
 `;
 
