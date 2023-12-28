@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import * as S from "./Feed.styles";
 import { Fragment, useState } from "react";
 import FeedHeader from "./FeedHeader/FeedHeader";
-import Comment from "./Comments/Comments";
+import CommentContainer from "./Comments/CommentContainer";
 import Like from "./Like/Like";
 import Bookmark from "./Bookmark/Bookmark";
 import ImageFeedTagButton from "../common/ImageFeedTagButton/ImageFeedTagButton";
@@ -65,7 +65,7 @@ export default function FeedItem(feed: FeedType) {
         </S.ButtonContainer>
 
         {isCommentModalOpen && (
-          <Comment
+          <CommentContainer
             feedId={feed._id}
             feedUser={feed.userId}
             onClickClose={() => setIsCommentModalOpen(false)}

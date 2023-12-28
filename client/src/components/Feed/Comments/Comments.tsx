@@ -4,13 +4,11 @@ import CommentItem from "./CommentItems";
 import * as S from "./Comments.styles";
 import { storage } from "../../../global/storage";
 import ApiBoundary from "../../common/ApiBoundary";
-import { IoClose } from "react-icons/io5";
 import toast from "react-hot-toast";
 
 interface CommentProps {
   feedId: string;
   feedUser: string;
-  onClickClose: () => void;
 }
 
 export default function Comment(props: CommentProps) {
@@ -21,7 +19,7 @@ export default function Comment(props: CommentProps) {
   );
 }
 
-function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
+function ApiComponent({ feedId, feedUser }: CommentProps) {
   const { comments, postComment, deleteComment } = useComment(feedId);
   const [comment, setComment] = useState<string>("");
   const [isFlashActive, setFlash] = useState<boolean>(false);
@@ -130,12 +128,8 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
   }, [comments]);
 
   return (
-    <S.CommentWindowContainer ref={commentWindowRef}>
-      <S.CloseButton onClick={onClickClose}>
-        <IoClose />
-      </S.CloseButton>
-
-      <S.CommentsCollection>
+    <>
+      <S.CommentsCollection ref={commentWindowRef}>
         {comments &&
           comments
             .map((comment, index) => (
@@ -162,6 +156,6 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
 
         {comment && <S.SubmitButton type="submit">전송</S.SubmitButton>}
       </S.InputWrapper>
-    </S.CommentWindowContainer>
+    </>
   );
 }

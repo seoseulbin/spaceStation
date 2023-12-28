@@ -2,7 +2,7 @@ import { useSearchUsers } from "../User/User.hooks";
 import ApiBoundary from "../common/ApiBoundary";
 import User from "../User/User";
 import { Fragment } from "react";
-import Loading from "../common/Loading/Loading";
+import { Loading } from "../common/Loading/Loading";
 
 export default function SearchedUserList({ query }: { query: string }) {
   return (
