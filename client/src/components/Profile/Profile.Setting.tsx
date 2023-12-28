@@ -19,7 +19,6 @@ function ProfileSetting() {
   return (
     <S.Container>
       <Header backArrow={true} headerTitle="설정" />
-      <div>프로필 설정 페이지</div>
       <S.ListContainer>
         <S.ListItem>
           <FiLogOut size={24} color={theme.colors.textPrimary} />
