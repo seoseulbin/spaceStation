@@ -18,7 +18,6 @@ export default function SearchPage() {
   const queryScope = searchParams.get("scope") as SearchScopeType;
 
   const [queryInput, setQueryInput] = useState(query ?? "");
-  const [isActive, setIsActive] = useState("");
 
   if (query && !Object.values(SEARCH_SCOPE).includes(queryScope)) {
     toast.error("잘못된 접근입니다");
@@ -40,10 +39,10 @@ export default function SearchPage() {
         <SearchInputBar onChange={onTypeQueryInput} value={queryInput} />
       </form>
       <SeachNavBarContainer>
-        <SearchNavLink $isActive={isActive} onClick={() => setIsActive("피드")}>
+        <SearchNavLink $isActive={queryScope}>
           <NavLink to={PATH.search(queryInput, "feed")}>피드</NavLink>
         </SearchNavLink>
-        <SearchNavLink $isActive={isActive} onClick={() => setIsActive("계정")}>
+        <SearchNavLink $isActive={queryScope}>
           <NavLink to={PATH.search(queryInput, "account")}>계정</NavLink>
         </SearchNavLink>
       </SeachNavBarContainer>
@@ -88,22 +87,23 @@ const SearchNavLink = styled.div<{ $isActive: string }>`
   }
   &:nth-child(1) {
     & a {
-      color: ${(props) => (props.$isActive === "피드" ? "#81b2cc" : "black")};
+      color: ${(props) => (props.$isActive === "feed" ? "#81b2cc" : "black")};
     }
     border-bottom: 2px solid
       ${(props) =>
-        props.$isActive === "피드"
+        props.$isActive === "feed"
           ? "#81b2cc"
           : "${({ theme }) => theme.colors.deepback}"};
   }
 
   &:nth-child(2) {
     & a {
-      color: ${(props) => (props.$isActive === "계정" ? "#e0756a" : "black")};
+      color: ${(props) =>
+        props.$isActive === "account" ? "#e0756a" : "black"};
     }
     border-bottom: 2px solid
       ${(props) =>
-        props.$isActive === "계정"
+        props.$isActive === "account"
           ? "#e0756a"
           : "${({ theme }) => theme.colors.deepback}"};
   }
