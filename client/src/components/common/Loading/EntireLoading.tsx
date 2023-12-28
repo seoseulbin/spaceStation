@@ -32,7 +32,7 @@ export default function EntireLoading() {
   return isEntireLoading ? (
     <S.Overlay>
       <S.Container>
-        <S.Spinner src="../disk.png" />
+        <S.Spinner src="/disk.png" />
         <S.LoadingText>잠시만 기다려 주세요.</S.LoadingText>
       </S.Container>
     </S.Overlay>
