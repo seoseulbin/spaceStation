@@ -52,6 +52,12 @@ export const ImageSquareFrame = styled.div`
   }
 `;
 
+export const ImageCoverSquareFrame = styled(ImageSquareFrame)`
+  & > img {
+    object-fit: cover;
+  }
+`;
+
 export const TextContainer = styled.p`
   color: ${({ theme }) => theme.colors.textPrimary};
   line-height: 20px;
