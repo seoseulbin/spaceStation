@@ -3,6 +3,7 @@ import * as S from "./Feed.styles";
 import Loading from "../common/Loading/Loading";
 import { FeedInifiteQueryHookType } from "./Feed.type";
 import { Fragment } from "react";
+import EmptyCard from "../common/EmptyCard/EmptyCard";
 
 type Props = {
   column: number;
@@ -13,7 +14,7 @@ export default function InfiniteFeedOverview(props: Props) {
   const { column, detailLink, pages, hasNextPage, setTarget } = props;
   return (
     <>
-      {pages[0].data.length === 0 && "피드가 없습니다."}
+      {pages[0].data.length === 0 && <EmptyCard type="피드" />}
       {pages.map(({ data: feeds }, pageIndex) => (
         <S.GridFeedItem $column={column} key={"gridFeedItem" + pageIndex}>
           {feeds.map((feed, feedIndex) => (
