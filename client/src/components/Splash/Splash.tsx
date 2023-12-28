@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import * as S from "./Splash.styles";
+import { storage } from "../../global/storage";
 
 const Splash = () => {
-  const hasSeenSplash = localStorage.getItem("hasSeenSplash") === "true";
+  const hasSeenSplash = storage.get("hasSeenSplash");
   const [isVisible, setIsVisible] = useState(!hasSeenSplash);
 
   useEffect(() => {
-    localStorage.setItem("hasSeenSplash", "true");
+    storage.set("hasSeenSplash", true);
 
     const timeoutId = setTimeout(() => {
       setIsVisible(false);
