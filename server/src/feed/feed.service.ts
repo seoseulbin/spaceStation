@@ -65,6 +65,22 @@ const feedService = {
     return feeds;
   },
 
+  async getFeedsGeoLocation(props: {
+    geoLocationContent: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { geoLocationContent, cursor, limit } = props;
+    const feeds = await FeedModel.find({
+      "geoLocation.content": geoLocationContent,
+    })
+      .skip(cursor)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    return feeds;
+  },
+
   async getUserBookmarkFeeds(props: {
     userId: Types.ObjectId;
     cursor: number;
