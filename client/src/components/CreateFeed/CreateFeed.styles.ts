@@ -3,19 +3,20 @@ import styled from "styled-components";
 export const Container = styled.div`
   background-color: white;
   font-size: ${({ theme }) => theme.size.md}px;
-  max-width: calc(${({ theme }) => theme.size.maxWidth}px - 10px);
-  height: 100%;
+  max-width: calc(${({ theme }) => theme.size.maxWidth}px);
+  height: 100vh;
   margin: 0 auto;
   border: 1px solid #e7e7e7;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #fffcf8;
+  padding-bottom: 68px;
 `;
 
 export const ImageContainer = styled.div`
   width: 350px;
-  height: 300px;
+  height: 350px;
   border: 1px solid #b4b4b4;
   display: flex;
   justify-content: center;
@@ -27,8 +28,8 @@ export const ImageContainer = styled.div`
 `;
 
 export const FeedImage = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 350px;
+  height: 350px;
 `;
 
 export const FeedImageEmpty = styled.div`
