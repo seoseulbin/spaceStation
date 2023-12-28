@@ -9,7 +9,7 @@ export default function MainHeader() {
     <>
       <Header
         backArrow={false}
-        headerTitle={"Space-station🚉"}
+        headerUrl={true}
         isFunctionAcitve={true}
         functionIconType={"search"}
         onClickFunction={() => navigate(PATH.search())}

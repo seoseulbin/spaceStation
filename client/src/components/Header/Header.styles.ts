@@ -36,6 +36,13 @@ export const HeaderTitleDiv = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 20px;
+  font-weight: 600;
+
+  & img:first-child {
+    margin-right: 5px;
+    width: 36px;
+    height: 24px;
+  }
 `;
 
 export const ContainerRightDiv = styled.div`
