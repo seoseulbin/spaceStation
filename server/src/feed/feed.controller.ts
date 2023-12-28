@@ -11,6 +11,13 @@ type FeedType = {
   content: string;
   imgUrls: string[];
   hashtag?: string[];
+  geoLocation?: {
+    content?: string;
+    position?: {
+      lat?: number;
+      lng?: number;
+    };
+  };
 };
 
 const feedController = {
@@ -100,7 +107,7 @@ const feedController = {
   }),
 
   createFeed: asyncHandler(async (req: Request<{}, {}, FeedType>, res) => {
-    const { category, content, imgUrls, hashtag } = req.body;
+    const { category, content, imgUrls, hashtag, geoLocation } = req.body;
     const userToken = req.cookies.service_token;
     const userId = decodeTokenPayload(userToken)["user_id"];
 
@@ -111,13 +118,21 @@ const feedController = {
       });
     }
 
-    feedService.createFeed({ userId, category, content, imgUrls, hashtag });
+    feedService.createFeed({
+      userId,
+      category,
+      content,
+      imgUrls,
+      hashtag,
+      geoLocation,
+    });
     res.status(200).end();
   }),
 
   updateFeed: asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { category, content, imgUrls, hashtag }: FeedType = req.body;
+    const { category, content, imgUrls, hashtag, geoLocation }: FeedType =
+      req.body;
     const userToken = req.cookies.service_token;
     const userId = decodeTokenPayload(userToken)["user_id"];
 
@@ -128,7 +143,15 @@ const feedController = {
       });
     }
 
-    feedService.updateFeed({ id, userId, category, content, imgUrls, hashtag });
+    feedService.updateFeed({
+      id,
+      userId,
+      category,
+      content,
+      imgUrls,
+      hashtag,
+      geoLocation,
+    });
     res.status(200).end();
   }),
 

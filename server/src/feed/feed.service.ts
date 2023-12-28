@@ -69,14 +69,29 @@ const feedService = {
     content,
     imgUrls,
     hashtag,
+    geoLocation,
   }: {
     userId: string;
     category: string;
     content: string;
     imgUrls: string[];
     hashtag?: string[];
+    geoLocation?: {
+      content?: string;
+      position?: {
+        lat?: number;
+        lng?: number;
+      };
+    };
   }) {
-    return FeedModel.create({ userId, category, content, imgUrls, hashtag });
+    return FeedModel.create({
+      userId,
+      category,
+      content,
+      imgUrls,
+      hashtag,
+      geoLocation,
+    });
   },
 
   async updateFeed({
@@ -86,6 +101,7 @@ const feedService = {
     content,
     imgUrls,
     hashtag,
+    geoLocation,
   }: {
     id: string;
     userId: string;
@@ -93,6 +109,13 @@ const feedService = {
     content: string;
     imgUrls: string[];
     hashtag?: string[];
+    geoLocation?: {
+      content?: string;
+      position?: {
+        lat?: number;
+        lng?: number;
+      };
+    };
   }) {
     const objectId = new mongoose.Types.ObjectId(id);
 
@@ -104,6 +127,7 @@ const feedService = {
         content,
         imgUrls,
         hashtag,
+        geoLocation,
       },
     );
   },

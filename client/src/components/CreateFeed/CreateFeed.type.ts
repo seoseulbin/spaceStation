@@ -13,4 +13,11 @@ export type CreateFeedType = {
   }[];
   content: string;
   hashtag: string;
+  geoLocation: {
+    content: string;
+    position: {
+      lat: number;
+      lng: number;
+    };
+  };
 };
