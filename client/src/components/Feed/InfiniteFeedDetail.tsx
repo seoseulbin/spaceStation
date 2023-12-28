@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import FeedItem from "./FeedItem";
-import Loading from "../common/Loading/Loading";
+import { Loading } from "../common/Loading/Loading";
 import { FeedInifiteQueryHookType } from "./Feed.type";
 
 type Props = FeedInifiteQueryHookType;

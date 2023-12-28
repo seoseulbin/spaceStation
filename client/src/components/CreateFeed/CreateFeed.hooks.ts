@@ -5,9 +5,7 @@ import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "@/global/constants";
-/**
- * 샘플 훅
- */
+
 export const useCreateFeed = () => {
   const navigate = useNavigate();
 

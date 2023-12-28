@@ -1,7 +1,7 @@
 import * as S from "./Loading.styles";
 
 // TODO: 스타일링
-export default function Loading() {
+export function Loading() {
   return (
     <>
       <S.Spinner />

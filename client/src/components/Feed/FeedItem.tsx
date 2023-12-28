@@ -4,12 +4,13 @@ import "slick-carousel/slick/slick-theme.css";
 import * as S from "./Feed.styles";
 import { Fragment, useState } from "react";
 import FeedHeader from "./FeedHeader/FeedHeader";
-import Comment from "./Comments/Comments";
+import CommentContainer from "./Comments/CommentContainer";
 import Like from "./Like/Like";
 import Bookmark from "./Bookmark/Bookmark";
 import ImageFeedTagButton from "../common/ImageFeedTagButton/ImageFeedTagButton";
 import { Link } from "react-router-dom";
 import { IoIosPin } from "react-icons/io";
+import { PATH } from "@/global/constants";
 
 const sliderSettings = {
   dots: true,
@@ -34,7 +35,7 @@ export default function FeedItem(feed: FeedType) {
         <S.CustomSlider {...sliderSettings}>
           {feed.imgUrls.map((imgUrl, i) => (
             <Fragment key={`${imgUrl.url} + ${i}`}>
-              <S.ImageSquareFrame>
+              <S.ImageSquareFrame imgurl={imgUrl.url}>
                 <img src={imgUrl.url} alt={"피드 이미지"} />
                 {imgUrl &&
                   imgUrl.tagPosition?.map((item, index) => (
@@ -65,7 +66,7 @@ export default function FeedItem(feed: FeedType) {
         </S.ButtonContainer>
 
         {isCommentModalOpen && (
-          <Comment
+          <CommentContainer
             feedId={feed._id}
             feedUser={feed.userId}
             onClickClose={() => setIsCommentModalOpen(false)}
@@ -85,9 +86,11 @@ export default function FeedItem(feed: FeedType) {
               {feed.content}
               <br />
               {feed.hashtag?.map((tag, index) => {
-                //TODO : 검색 링크로 이어져야함
                 return (
-                  <Link key={`${feed._id}_${index}`} to="/">
+                  <Link
+                    key={`${feed._id}_${index}`}
+                    to={PATH.hashtagFeedOverview(tag.slice(1))}
+                  >
                     {tag}
                   </Link>
                 );

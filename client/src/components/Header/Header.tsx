@@ -7,6 +7,8 @@ import { RiSaveLine } from "react-icons/ri";
 import { IoSearch } from "react-icons/io5";
 import { FiUpload } from "react-icons/fi";
 import { theme } from "@/global/styles/theme";
+import { PATH } from "@/global/constants";
+import { NavLink } from "react-router-dom";
 
 interface HeaderType {
   backArrow: boolean;
@@ -64,10 +66,10 @@ export default function Header({
           <S.HeaderTitleDiv>{headerTitle}</S.HeaderTitleDiv>
         ) : (
           <S.HeaderTitleDiv>
-            <div>
+            <NavLink to={PATH.root}>
               <img src="/logo.png" />
               <img src="/logo_124_80.svg" />
-            </div>
+            </NavLink>
           </S.HeaderTitleDiv>
         )}
       </S.ContainerLeftDiv>

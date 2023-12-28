@@ -1,20 +1,17 @@
-import { PATH } from "@/global/constants";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const StylesdLayout = styled.div`
+export const Container = styled.div`
   max-width: ${({ theme }) => theme.size.maxWidth}px;
   margin: 0 auto;
-  background-color: ${({ theme }) => theme.colors.deepback};
+  background-color: ${({ theme }) => theme.colors.background};
   height: 100vh;
-  position: fixed;
-  left: 0;
   display: flex;
-  right: 0;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 1em;
+  color: ${({ theme }) => theme.colors.main};
+  font-weight: 600;
 
   & button {
     border: none;
@@ -35,30 +32,13 @@ const StylesdLayout = styled.div`
     background-color: transparent;
 
     &:hover {
-      filter: brightness(0.9);
+      background-color: ${({ theme }) => theme.colors.deepback};
     }
   }
 `;
 
-const NotFoundImg = styled.img`
+export const RequestFailedImg = styled.img`
   width: 25vw;
   position: relative;
   max-width: 180px;
 `;
-
-export default function NotFoundPage() {
-  const navigate = useNavigate();
-
-  function returnToMain() {
-    navigate(PATH.root);
-  }
-
-  return (
-    <>
-      <StylesdLayout>
-        <NotFoundImg src="../notfound.png" />
-        <button onClick={() => returnToMain()}>메인으로 이동</button>
-      </StylesdLayout>
-    </>
-  );
-}

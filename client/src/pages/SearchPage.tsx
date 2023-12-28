@@ -18,6 +18,7 @@ export default function SearchPage() {
   const queryScope = searchParams.get("scope") as SearchScopeType;
 
   const [queryInput, setQueryInput] = useState(query ?? "");
+  const [isActive, setIsActive] = useState("");
 
   if (query && !Object.values(SEARCH_SCOPE).includes(queryScope)) {
     toast.error("잘못된 접근입니다");
@@ -38,9 +39,14 @@ export default function SearchPage() {
       <form onSubmit={onSearch}>
         <SearchInputBar onChange={onTypeQueryInput} value={queryInput} />
       </form>
-      <NavLink to={PATH.search(queryInput, "feed")}>피드</NavLink>
-      <NavLink to={PATH.search(queryInput, "account")}>계정</NavLink>
-      <NavLink to={PATH.search(queryInput, "tag")}>태그</NavLink>
+      <SeachNavBarContainer>
+        <SearchNavLink $isActive={isActive} onClick={() => setIsActive("피드")}>
+          <NavLink to={PATH.search(queryInput, "feed")}>피드</NavLink>
+        </SearchNavLink>
+        <SearchNavLink $isActive={isActive} onClick={() => setIsActive("계정")}>
+          <NavLink to={PATH.search(queryInput, "account")}>계정</NavLink>
+        </SearchNavLink>
+      </SeachNavBarContainer>
       {query && queryScope === SEARCH_SCOPE.FEED && (
         <SearchFeedOverview query={query} />
       )}
@@ -59,4 +65,46 @@ const SearchInputBar = styled.input`
   border-radius: 2.5rem;
   border: 1px solid ${({ theme }) => theme.colors.deepback};
   padding: 0 1rem;
+`;
+
+const SeachNavBarContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.deepback};
+`;
+
+const SearchNavLink = styled.div<{ $isActive: string }>`
+  width: 20%;
+  height: 50px;
+  margin: 0 10px;
+  & a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+  }
+  &:nth-child(1) {
+    & a {
+      color: ${(props) => (props.$isActive === "피드" ? "#81b2cc" : "black")};
+    }
+    border-bottom: 2px solid
+      ${(props) =>
+        props.$isActive === "피드"
+          ? "#81b2cc"
+          : "${({ theme }) => theme.colors.deepback}"};
+  }
+
+  &:nth-child(2) {
+    & a {
+      color: ${(props) => (props.$isActive === "계정" ? "#e0756a" : "black")};
+    }
+    border-bottom: 2px solid
+      ${(props) =>
+        props.$isActive === "계정"
+          ? "#e0756a"
+          : "${({ theme }) => theme.colors.deepback}"};
+  }
 `;
