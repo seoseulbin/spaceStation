@@ -123,4 +123,5 @@ export const GeoLocationContainer = styled.div`
   gap: 4px;
   font-size: ${({ theme }) => theme.size.rg}px;
   padding: 8px 16px;
+  color: ${({ theme }) => theme.colors.main};
 `;
