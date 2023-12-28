@@ -6,7 +6,7 @@ export const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
   // margin-bottom: 3rem;
   padding-bottom: 2rem;
-  border-bottom: 1em solid ${({ theme }) => theme.colors.deepback};
+  border-bottom: 8px solid ${({ theme }) => theme.colors.deepback};
   &:last-child {
     margin-bottom: 0;
   }
