@@ -1,5 +1,5 @@
 import BookmarkFeedOverview from "@/components/Feed/BookmarkFeeds/BookmarkFeedOverview";
-import UserFeed from "@/components/Feed/ProfileFeeds/ProfileFeedOverview";
+import ProfileFeed from "@/components/Feed/ProfileFeeds/ProfileFeedOverview";
 import Navbar from "@/components/Navbar/Navbar";
 import ProfileTop from "@/components/Profile/ProfileTop";
 import { PATH } from "@/global/constants";
@@ -34,6 +34,7 @@ export default function ProfilePage() {
 
   const userId = userIdFromParams || currentUser?.userId;
   if (!userId) return <Navigate to={PATH.login} />;
+
   return (
     <>
       <ProfileTop userId={userId} />
@@ -54,7 +55,11 @@ export default function ProfilePage() {
           </NavLinkWrapper>
         </StyledLayout>
       ) : null}
-      {isMyBookmark ? <BookmarkFeedOverview /> : <UserFeed userId={userId} />}
+      {isMyBookmark ? (
+        <BookmarkFeedOverview />
+      ) : (
+        <ProfileFeed userId={userId} />
+      )}
       <Navbar />
     </>
   );

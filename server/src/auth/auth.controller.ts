@@ -24,7 +24,7 @@ const authController = {
 
       const userInfo = await authService.getUserInfo(data.accessToken);
 
-      const isNewUser = await userService.searchUsers(userInfo.id);
+      const isNewUser = await userService.findUserWithSnsId(userInfo.id);
 
       const action = isNewUser.length === 0 ? "join" : "login";
 

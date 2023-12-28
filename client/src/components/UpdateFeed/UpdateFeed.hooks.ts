@@ -13,13 +13,13 @@ export const useUpdateFeed = (_id: string) => {
   const navigate = useNavigate();
 
   const { data: feed } = useSuspenseQuery<UpdateFeedType, Error>({
-    queryKey: [queryKeys.feed, _id],
+    queryKey: [queryKeys.feedMain, _id],
     queryFn: () => feedAPI.getFeed(_id),
   });
 
   const invalidateFeedQuery = () => {
     queryClient.invalidateQueries({
-      queryKey: [queryKeys.feed],
+      queryKey: [queryKeys.feedMain],
     });
   };
 
