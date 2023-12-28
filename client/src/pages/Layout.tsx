@@ -7,14 +7,6 @@ const StylesdLayout = styled.div`
   margin: 0 auto;
   background-color: ${({ theme }) => theme.colors.background};
   height: 100vh;
-  width: 100vw;
-  position: fixed;
-  left: 50%;
-  top: 0;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-  overflow-x: hidden;
-  overflow-y: auto;
 `;
 
 const Layout = () => {
