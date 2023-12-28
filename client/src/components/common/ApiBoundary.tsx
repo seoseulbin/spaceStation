@@ -1,7 +1,7 @@
 import { ReactNode, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import Loading from "./Loading/Loading";
+import { Loading } from "./Loading/Loading";
 import ApiErrorFallback from "./ApiErrorFallback";
 
 export default function ApiBoundary({ children }: { children: ReactNode }) {
