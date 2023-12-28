@@ -13,13 +13,13 @@ type StorageValuesType = {
     nickname: string;
   };
   temp: string;
+  hasSeenSplash: string;
   geoLocation: {
     content: string;
     position: {
       lng: number;
       lat: number;
     };
-    hasSeenSplash: boolean;
   };
 };
 
