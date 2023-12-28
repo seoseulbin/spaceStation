@@ -1,5 +1,5 @@
 // 랜덤 닉네임을 생성하는 함수
-export default function generateNickname() {
+export function generateNickname() {
   const adjectives = [
     "재빠른",
     "빙빙도는",
@@ -27,4 +27,17 @@ export default function generateNickname() {
   const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
 
   return `${randomAdjective}${randomNoun}`;
+}
+
+// 프로필 이미지 경로 랜덤으로 리턴하는 함수
+export function generateRandomProfile() {
+  const profileUrl = [
+    "/profile_default_image01.png",
+    "/profile_default_image02.png",
+    "/profile_default_image03.png",
+  ];
+
+  const randomUrl = profileUrl[Math.floor(Math.random() * profileUrl.length)];
+
+  return randomUrl;
 }
