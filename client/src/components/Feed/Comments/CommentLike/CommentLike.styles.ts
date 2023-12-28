@@ -24,5 +24,5 @@ export const likesNumDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: ${({ theme }) => theme.size.sm - 10}px;
+  font-size: ${({ theme }) => theme.size.sm}px;
 `;
