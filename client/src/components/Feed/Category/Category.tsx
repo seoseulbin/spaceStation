@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useCategory } from "./Category.hooks";
 import * as S from "./Category.styles";
 import ApiBoundary from "@/components/common/ApiBoundary";
@@ -19,7 +18,6 @@ export default function Category(props: CategoryProps) {
 function ApiComponent({ categoryId }: CategoryProps) {
   const navigate = useNavigate();
   const { categorys } = useCategory();
-  const [activeCategory, setActiveCategory] = useState(categoryId); // 활성화된 카테고리 검증
 
   const dict = categorys.reduce<{ [key: string]: number }>(
     (acc, category, index) => {
@@ -27,9 +25,6 @@ function ApiComponent({ categoryId }: CategoryProps) {
     },
     {},
   );
-
-  // const [checkIndex, setCheckIndex] = useState(0);
-  // const [once, setOnce] = useState(false);
 
   function fontColorSet(index: number) {
     switch (index) {
@@ -62,9 +57,8 @@ function ApiComponent({ categoryId }: CategoryProps) {
             return (
               <S.Category
                 key={category._id}
-                $isActive={category._id === activeCategory}
+                $isActive={category._id === categoryId}
                 onClick={() => {
-                  setActiveCategory(category._id);
                   navigate(`/category/${category._id}`);
                 }}
               >
@@ -72,10 +66,10 @@ function ApiComponent({ categoryId }: CategoryProps) {
               </S.Category>
             );
           })}
-          {activeCategory && (
+          {categoryId && (
             <S.CategoryStyle
-              $index={dict[activeCategory]}
-              $fontColor={fontColorSet(dict[activeCategory])}
+              $index={dict[categoryId]}
+              $fontColor={fontColorSet(dict[categoryId])}
             />
           )}
         </S.CategoryList>
