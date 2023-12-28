@@ -5,7 +5,7 @@ import {
 import { storage, storageKeys } from "@/global/storage";
 import { GeoLocationType } from "@/global/types/GeoLocation";
 import { useEffect, useRef, useState } from "react";
-import { FiMapPin } from "react-icons/fi";
+import { IoIosPin } from "react-icons/io";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useRecoilState, useRecoilValue } from "recoil";
 
@@ -145,7 +145,7 @@ export default function KakaoMap() {
                 className="MapMarker"
                 style={{ color: "#000", padding: "3px 8px 4px" }}
               >
-                {marker.content}
+                ✅ {marker.content}
               </div>
             )}
           </MapMarker>
@@ -170,7 +170,7 @@ export default function KakaoMap() {
       <section>
         <label>선택된 장소</label>
         <div>
-          <FiMapPin size={18} />
+          <IoIosPin size={18} />
           <input
             value={
               geoLocationMarker && geoLocationMarker.content !== ""

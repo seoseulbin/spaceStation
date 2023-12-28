@@ -7,7 +7,7 @@ import { storage, storageKeys } from "@/global/storage";
 import { useRecoilState } from "recoil";
 import { geoLocationAtom } from "../../Atoms/GeoLocationAtom";
 import toast from "react-hot-toast";
-import { FiMapPin } from "react-icons/fi";
+import { IoIosPin } from "react-icons/io";
 
 export default function GeoLocation() {
   const [geoLocation, setGeoLocation] = useRecoilState(geoLocationAtom);
@@ -58,7 +58,7 @@ export default function GeoLocation() {
         <Label htmlFor="geolocation">위치</Label>
         {geoLocation && geoLocation.content !== "" && (
           <div>
-            <FiMapPin size={18} />
+            <IoIosPin size={18} />
             <S.GeoLocationInput
               value={
                 geoLocation?.content
