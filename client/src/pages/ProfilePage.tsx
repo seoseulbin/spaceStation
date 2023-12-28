@@ -1,6 +1,5 @@
 import BookmarkFeedOverview from "@/components/Feed/BookmarkFeeds/BookmarkFeedOverview";
 import ProfileFeed from "@/components/Feed/ProfileFeeds/ProfileFeedOverview";
-import Navbar from "@/components/Navbar/Navbar";
 import ProfileTop from "@/components/Profile/ProfileTop";
 import { PATH } from "@/global/constants";
 import { storage } from "@/global/storage";
@@ -33,7 +32,7 @@ export default function ProfilePage() {
   const currentUser = storage.get("currentUser");
 
   const userId = userIdFromParams || currentUser?.userId;
-  if (!userId) return <Navigate to={PATH.login} />;
+  if (!userId) return <Navigate replace to={PATH.login} />;
 
   return (
     <>
@@ -60,7 +59,6 @@ export default function ProfilePage() {
       ) : (
         <ProfileFeed userId={userId} />
       )}
-      <Navbar />
     </>
   );
 }

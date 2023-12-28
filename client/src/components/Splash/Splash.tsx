@@ -17,9 +17,9 @@ const Splash = () => {
 
   return isVisible ? (
     <S.SplashContainer>
-      <S.SpinDisk src="../disk.png" />
-      <S.DoorFrame src="../doorframe.png" />
-      <S.Door src="../door.png" />
+      <S.SpinDisk src="/disk.png" />
+      <S.DoorFrame src="/doorframe.png" />
+      <S.Door src="/door.png" />
     </S.SplashContainer>
   ) : null;
 };

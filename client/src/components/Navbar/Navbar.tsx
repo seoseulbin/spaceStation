@@ -1,28 +1,25 @@
 import { PATH } from "@/global/constants";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { MdHome } from "react-icons/md";
-import { FaPlus } from "react-icons/fa6";
-import { CgProfile } from "react-icons/cg";
 import { Fragment } from "react";
 
 const items = [
   {
     path: PATH.root,
-    activeIcon: <MdHome size={25} />,
-    defaultIcon: <MdHome size={25} color={"gray"} />,
+    activeIcon: <img src="/main.png" />,
+    defaultIcon: <img src="/main.png" style={{ filter: "grayscale(1)" }} />,
     text: "메인",
   },
   {
     path: PATH.createFeed,
-    activeIcon: <FaPlus size={25} />,
-    defaultIcon: <FaPlus size={25} color={"gray"} />,
+    activeIcon: <img src="/upload.png" />,
+    defaultIcon: <img src="/upload.png" style={{ filter: "grayscale(1)" }} />,
     text: "업로드",
   },
   {
     path: PATH.profile,
-    activeIcon: <CgProfile size={25} />,
-    defaultIcon: <CgProfile size={25} color={"gray"} />,
+    activeIcon: <img src="/mypage.png" />,
+    defaultIcon: <img src="/mypage.png" style={{ filter: "grayscale(1)" }} />,
     text: "마이페이지",
   },
 ];
@@ -58,8 +55,6 @@ const Container = styled.div`
   justify-content: space-around;
   position: fixed;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
   font-size: ${({ theme }) => theme.size.sm}px;
   max-width: ${({ theme }) => theme.size.maxWidth}px;
 `;
@@ -74,4 +69,9 @@ const LinkWrrapper = styled.div<{ $isActive?: boolean }>`
   gap: 0.225rem;
   color: ${({ $isActive }) =>
     $isActive ? ({ theme }) => theme.colors.main : "gray"};
+
+  & img {
+    width: 15px;
+    width: 25px;
+  }
 `;

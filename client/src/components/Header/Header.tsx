@@ -6,11 +6,14 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { RiSaveLine } from "react-icons/ri";
 import { IoSearch } from "react-icons/io5";
 import { FiUpload } from "react-icons/fi";
+import { theme } from "@/global/styles/theme";
+import { PATH } from "@/global/constants";
+import { NavLink } from "react-router-dom";
 
 interface HeaderType {
   backArrow: boolean;
   headerTitle?: string;
-  headerUrl?: string | undefined;
+  headerUrl?: boolean | undefined;
   isFunctionAcitve?: boolean;
   functionIconType?: string | undefined;
   onClickFunction?: (
@@ -39,7 +42,7 @@ export default function Header({
       return <IoSettingsSharp size="20" />;
     }
     if (iconType === "search") {
-      return <IoSearch size="25" />;
+      return <IoSearch color={theme.colors.main} size="25" />;
     }
     if (iconType === "upload") {
       return <FiUpload size="20" />;
@@ -59,11 +62,14 @@ export default function Header({
         ) : (
           <></>
         )}
-        {headerTitle.length > 0 ? (
+        {!headerUrl && headerTitle.length > 0 ? (
           <S.HeaderTitleDiv>{headerTitle}</S.HeaderTitleDiv>
         ) : (
           <S.HeaderTitleDiv>
-            <img src={headerUrl} />
+            <NavLink to={PATH.root}>
+              <img src="/logo.png" />
+              <img src="/logo_124_80.svg" />
+            </NavLink>
           </S.HeaderTitleDiv>
         )}
       </S.ContainerLeftDiv>

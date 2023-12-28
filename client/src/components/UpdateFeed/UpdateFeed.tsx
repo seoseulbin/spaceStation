@@ -119,7 +119,6 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
       if (!e.target.files?.[0]) {
         throw new Error("이미지 파일이 없습니다.");
       }
-      //TODO:추후 업로드 버튼을 눌렀을 시 cloudinary에 이미지가 저장되도록 변경 예정
       const fileUrl = URL.createObjectURL(e.target.files[0]);
 
       setImageFiles((arr) => [...arr, e.target.files?.[0]]); // cloudinary 파일 변환을 위한 상태

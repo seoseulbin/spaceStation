@@ -23,7 +23,14 @@ export const PATH = {
   searchFeedDetail: (query: string, cursor: string) =>
     `/feeds/search/${query}/cursor/${cursor}`,
 
-  sample: "/sample",
+  hashtagFeedOverview: (hashtag: string) => `/feeds/hashtag/${hashtag}`,
+  hashtagFeedDetail: (hashtag: string, cursor: string) =>
+    `/feeds/hashtag/${hashtag}/cursor/${cursor}`,
+
+  geoLocationFeedOverview: (geoLocationContent: string) =>
+    `/feeds/geo-location-content/${geoLocationContent}`,
+  geoLocationFeedDetail: (geoLocationContent: string, cursor: string) =>
+    `/feeds/geo-location-content/${geoLocationContent}/cursor/${cursor}`,
 } as const;
 
 export const FEED_COLUMN = {

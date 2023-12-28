@@ -1,13 +1,24 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background-color: white;
   font-size: ${({ theme }) => theme.size.md}px;
-  max-width: ${({ theme }) => theme.size.maxWidth}px);
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
   height: 40px;
   margin: 0 auto;
-  border-bottom: 1px solid #e7e7e7;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.deepback};
   overflow-x: auto;
+  background-color: #fffcf8;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 4px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.sub};
+    border-radius: 6px;
+  }
 `;
 
 export const CategoryList = styled.div`

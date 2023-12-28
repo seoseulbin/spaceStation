@@ -5,25 +5,30 @@ import {
   createBrowserRouter,
   useLocation,
 } from "react-router-dom";
+import {
+  MainPage,
+  CreateFeedPage,
+  LoginPage,
+  UpdateFeedPage,
+  ProfilePage,
+  ProfileSetting,
+  CategoryPage,
+  ProfileUpdatePage,
+  Layout,
+  NotFoundPage,
+  CategoryDetailPage,
+  ProfileFeedDetailPage,
+  BookmarkDetailPage,
+  SearchPage,
+  SearchFeedDetailPage,
+  HashtagFeedOverviewPage,
+  HashtagFeedDetailPage,
+} from "./pages";
 import { PATH } from "./global/constants";
-import MainPage from "./pages/MainPage";
-import CreateFeedPage from "./pages/CreateFeedPage";
-import LoginPage from "./pages/LoginPage";
-import UpdateFeedPage from "./pages/UpdateFeedPage";
-import ProfilePage from "./pages/ProfilePage";
-import ProfileSetting from "./components/Profile/Profile.Setting";
-import CategoryPage from "./pages/CategoryPage";
-import * as Sample from "./components/common/Modal/Sample";
 import { storage, storageKeys } from "./global/storage";
-import ProfileUpdatePage from "./pages/ProfileUpdatePage";
-import Layout from "./pages/Layout";
-import NotFoundPage from "./pages/NotFoundPage";
-import CategoryDetailPage from "./pages/CategoryDetailPage";
-import ProfileFeedDetailPage from "./pages/ProfileFeedDetailPage";
-import BookmarkDetailPage from "./pages/BookmarkDetailPage";
 import Splash from "./components/Splash/Splash";
-import SearchPage from "./pages/SearchPage";
-import SearchFeedDetailPage from "./pages/SearchFeedDetailPage";
+import GeoLocationFeedOverviewPage from "./pages/GeoLocationFeedOverviewPage";
+import GeoLocationFeedDetailPage from "./pages/GeoLocationFeedDetailPage";
 
 // 인증을 수행하지 않고 storage에 인증정보의 유무만 검사 함
 const CheckHasAuth = () => {
@@ -72,6 +77,22 @@ const router = createBrowserRouter([
         path: PATH.searchFeedDetail(":query", ":cursor"),
         element: <SearchFeedDetailPage />,
       },
+      {
+        path: PATH.hashtagFeedOverview(":hashtag"),
+        element: <HashtagFeedOverviewPage />,
+      },
+      {
+        path: PATH.hashtagFeedDetail(":hashtag", ":cursor"),
+        element: <HashtagFeedDetailPage />,
+      },
+      {
+        path: PATH.geoLocationFeedOverview(":geoLocationContent"),
+        element: <GeoLocationFeedOverviewPage />,
+      },
+      {
+        path: PATH.geoLocationFeedDetail(":geoLocationContent", ":cursor"),
+        element: <GeoLocationFeedDetailPage />,
+      },
     ],
   },
   {
@@ -105,18 +126,6 @@ const router = createBrowserRouter([
     ],
   },
 
-  //TODO : useCutsomDialog 설명을 위한 데모 페이지. 공유 되면 삭제 예정
-  {
-    path: PATH.sample,
-    element: (
-      <>
-        <Sample.SampleModal />
-        <Sample.SampleDialog />
-        <Sample.SampleConfirm />
-        <Sample.SampleConfirmWithInput />
-      </>
-    ),
-  },
   {
     path: "*",
     element: <NotFoundPage />,

@@ -1,6 +1,7 @@
 import BookmarkModel from "../bookmark/bookmark.model.js";
+import LikeModel from "../like/like.model.js";
 import FeedModel, { FeedSchemaType } from "./feed.model.js";
-import mongoose, { Types } from "mongoose";
+import mongoose, { Types, startSession } from "mongoose";
 
 const feedService = {
   async getFeed({ id }: { id: string }) {
@@ -40,6 +41,38 @@ const feedService = {
     const { query, cursor, limit } = props;
     const feeds = await FeedModel.find({
       [query.key]: { $regex: query.regExp },
+    })
+      .skip(cursor)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    return feeds;
+  },
+
+  async getFeedsHashtag(props: {
+    hashtag: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { hashtag, cursor, limit } = props;
+    const feeds = await FeedModel.find({
+      hashtag: { $in: [`#${hashtag}`] },
+    })
+      .skip(cursor)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    return feeds;
+  },
+
+  async getFeedsGeoLocation(props: {
+    geoLocationContent: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { geoLocationContent, cursor, limit } = props;
+    const feeds = await FeedModel.find({
+      "geoLocation.content": geoLocationContent,
     })
       .skip(cursor)
       .limit(limit)
@@ -133,9 +166,20 @@ const feedService = {
   },
 
   async deleteFeed({ id }: { id: string }) {
-    const objectId = new mongoose.Types.ObjectId(id);
+    const session = await startSession();
+    session.startTransaction();
+    try {
+      const deleteFeedResult = await FeedModel.findByIdAndDelete(id);
+      if (!deleteFeedResult) throw new Error("삭제 실패");
 
-    return FeedModel.deleteOne({ _id: objectId });
+      await LikeModel.findOneAndDelete({ feedId: id });
+
+      await BookmarkModel.deleteMany({ feedId: id });
+
+      await session.commitTransaction();
+    } finally {
+      session.endSession();
+    }
   },
 };
 

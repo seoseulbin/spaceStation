@@ -44,6 +44,24 @@ feedRouter.get(
 );
 
 feedRouter.get(
+  "/hashtag/:hashtag",
+  validateQueryParams([
+    { key: "limit", isNumber: true },
+    { key: "cursor", isNumber: true },
+  ]),
+  feedController.getFeedsHashtag,
+);
+
+feedRouter.get(
+  "/geoLocationContent/:geoLocationContent",
+  validateQueryParams([
+    { key: "limit", isNumber: true },
+    { key: "cursor", isNumber: true },
+  ]),
+  feedController.getFeedsGeoLocationContent,
+);
+
+feedRouter.get(
   "/bookmarks/mine",
   validateQueryParams([
     { key: "limit", isNumber: true },

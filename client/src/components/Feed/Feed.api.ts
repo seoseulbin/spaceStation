@@ -64,6 +64,44 @@ const feedAPI = {
 
     return { data, nextCursor: cursor + limit };
   },
+
+  async getHashtagFeeds(props: {
+    hashtag: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { hashtag, cursor, limit } = props;
+    const { data } = await instance.get<FeedType[]>(
+      `/hashtag/${hashtag}?cursor=${cursor}&limit=${limit}`,
+    );
+
+    return { data, nextCursor: cursor + limit };
+  },
+
+  async getGeoLocationFeeds(props: {
+    geoLocationContent: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { geoLocationContent, cursor, limit } = props;
+    const { data } = await instance.get<FeedType[]>(
+      `/geoLocationContent/${geoLocationContent}?cursor=${cursor}&limit=${limit}`,
+    );
+
+    return { data, nextCursor: cursor + limit };
+  },
+
+  async deleteFeed(_id: string) {
+    try {
+      const response = await instance.delete(`/${_id}`, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      if (error instanceof Error) console.log(error.message);
+      else console.log(String(error));
+    }
+  },
 };
 
 export default feedAPI;

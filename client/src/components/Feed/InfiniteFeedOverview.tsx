@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import * as S from "./Feed.styles";
-import Loading from "../common/Loading/Loading";
+import { Loading } from "../common/Loading/Loading";
 import { FeedInifiteQueryHookType } from "./Feed.type";
 import { Fragment } from "react";
+import EmptyCard from "../common/EmptyCard/EmptyCard";
 
 type Props = {
   column: number;
@@ -13,15 +14,15 @@ export default function InfiniteFeedOverview(props: Props) {
   const { column, detailLink, pages, hasNextPage, setTarget } = props;
   return (
     <>
-      {pages[0].data.length === 0 && "피드가 없습니다."}
+      {pages[0].data.length === 0 && <EmptyCard type="피드" />}
       {pages.map(({ data: feeds }, pageIndex) => (
         <S.GridFeedItem $column={column} key={"gridFeedItem" + pageIndex}>
           {feeds.map((feed, feedIndex) => (
             <Fragment key={feed._id}>
               <Link to={`${detailLink}${pageIndex * column * 4 + feedIndex}`}>
-                <S.ImageSquareFrame>
+                <S.ImageCoverSquareFrame imgurl={feed.imgUrls[0].url}>
                   <img src={feed.imgUrls[0].url} alt="피드 이미지" />
-                </S.ImageSquareFrame>
+                </S.ImageCoverSquareFrame>
               </Link>
             </Fragment>
           ))}
