@@ -13,6 +13,7 @@ const feedAPI = {
     content,
     imgUrls,
     hashtag,
+    geoLocation,
   }: UpdateFeedType) => {
     const response = await axiosInstance.put(
       `/feeds/${_id}`,
@@ -21,6 +22,7 @@ const feedAPI = {
         content,
         imgUrls,
         hashtag,
+        geoLocation,
       },
       {
         withCredentials: true,

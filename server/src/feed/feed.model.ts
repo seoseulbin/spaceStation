@@ -1,6 +1,6 @@
 import { Schema, Types, model } from "mongoose";
 
-type FeedSchemaType = {
+export type FeedSchemaType = {
   _id: Types.ObjectId;
   userId: Types.ObjectId;
   comments: Array<Types.ObjectId>;
@@ -13,8 +13,13 @@ type FeedSchemaType = {
   content: string;
   hashtag: Array<string>;
   createdAt: Date;
-  // TODO: 위치 정보 사용시 활성화
-  // geoLocation: Array<Types.ObjectId>
+  geoLocation: {
+    content: string;
+    position: {
+      lat: number;
+      lng: number;
+    };
+  };
 };
 
 const FeedSchema = new Schema<FeedSchemaType>(
@@ -45,6 +50,12 @@ const FeedSchema = new Schema<FeedSchemaType>(
     hashtag: {
       type: [String],
       default: [],
+    },
+    geoLocation: {
+      type: {
+        content: String,
+        position: {},
+      },
     },
   },
   {

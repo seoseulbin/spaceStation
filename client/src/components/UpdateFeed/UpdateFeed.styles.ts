@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   background-color: white;
   font-size: ${({ theme }) => theme.size.md}px;
-  max-width: calc(${({ theme }) => theme.size.maxWidth}px - 10px);
+  max-width: calc(${({ theme }) => theme.size.maxWidth}px);
   height: 100%;
   margin: 0 auto;
   border: 1px solid #e7e7e7;
@@ -11,11 +11,13 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: #fffcf8;
+  padding-bottom: 68px;
 `;
 
 export const ImageContainer = styled.div`
   width: 350px;
   height: 300px;
+  min-height: 300px;
   border: 1px solid #b4b4b4;
   display: flex;
   justify-content: center;
@@ -132,4 +134,14 @@ export const CategoryItem = styled.div<{
   &:active {
     transform: scale(1.1);
   }
+`;
+
+export const MapContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-items: flex-start;
+  width: 350px;
+  padding-bottom: 48px;
+  gap: 8px;
 `;

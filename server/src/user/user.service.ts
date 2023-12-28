@@ -10,13 +10,28 @@ const userService = {
     return UserModel.findOne({ _id });
   },
 
+  /** nickname 기준으로 탐색 */
+  async getUsersByQuery(props: {
+    query: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { query, cursor, limit } = props;
+
+    return UserModel.find({ nickname: { $regex: new RegExp(query, "i") } })
+      .skip(cursor)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+  },
+
   async updateUser(_id: string, { nickname, profileImgUrl }: UserType) {
     return UserModel.findOneAndUpdate({ _id }, { nickname, profileImgUrl });
   },
 
-  async searchUsers(snsId: string) {
+  async findUserWithSnsId(snsId: string) {
     return await UserModel.find({ snsId: snsId });
   },
+
   async signUp(snsId: string) {
     const user = {
       snsId,
