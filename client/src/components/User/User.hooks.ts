@@ -19,7 +19,7 @@ export const useUser = (userid: string) => {
 
   const invalidateUserQuery = () => {
     queryClient.invalidateQueries({
-      queryKey: [queryKeys.user],
+      queryKey: [queryKeys.user, userid],
     });
   };
 
