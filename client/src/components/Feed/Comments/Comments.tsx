@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState, FormEvent, useRef } from "react";
 import { useComment } from "./Comments.hooks";
 import CommentItem from "./CommentItems";
 import * as S from "./Comments.styles";
@@ -24,14 +24,16 @@ export default function Comment(props: CommentProps) {
 function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
   const { comments, postComment, deleteComment } = useComment(feedId);
   const [comment, setComment] = useState<string>("");
+  const [isFlashActive, setFlash] = useState<boolean>(false);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setComment(e.target.value);
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => setComment(e.target.value);
 
   const currentUser = storage.get("currentUser");
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async (e?: FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
 
     try {
       //로그인을 안 했을 때의 오류 문자
@@ -60,8 +62,30 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
 
       //게시한 후 비워주기
       setComment("");
+
+      //게시후 3초동안 백그라운드
+      setFlash(true);
+      setTimeout(() => {
+        setFlash(false);
+      }, 3000);
     } catch (err) {
       console.error("게시 오류", err);
+    }
+  };
+
+  const onKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    //엔터만 치면 onsubmit으로
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      onSubmit();
+    }
+    //쉬프트 엔터를 치면 행 변환
+    else if (e.key === "Enter" && e.shiftKey) {
+      e.preventDefault();
+      // 새로운 행 추가
+      setComment((prevComment) => prevComment + "\n");
     }
   };
 
@@ -73,7 +97,9 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
     }
   };
 
-  //댓글창 뜨면 뒤에 스크롤 금지
+  /*
+   * 댓글창 뜨면 뒤에 스크롤 금지
+   */
   useEffect(() => {
     document.body.style.cssText = `
     position: fixed; 
@@ -87,33 +113,51 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
     };
   }, []);
 
+  /**
+   * 댓글치면 댓글창 맨 위로 올라가서 댓글을 보여주는 기능
+   */
+  const commentWindowRef = useRef<HTMLDivElement>(null);
+  //맨 밑으로 내리는
+  // useEffect(() => {
+  //   commentWindowRef.current?.scrollTo(0, commentWindowRef.current.scrollHeight);
+  // }, [comments]);
+
+  //맨 위로 올리는
+  useEffect(() => {
+    if (commentWindowRef.current) {
+      commentWindowRef.current.scrollTop = 0;
+    }
+  }, [comments]);
+
   return (
-    <S.CommentWindowContainer>
+    <S.CommentWindowContainer ref={commentWindowRef}>
       <S.CloseButton onClick={onClickClose}>
         <IoClose />
       </S.CloseButton>
 
       <S.CommentsCollection>
         {comments &&
-          comments.map((comment) => (
-            <CommentItem
-              key={comment._id}
-              item={comment}
-              feedUserId={feedUser}
-              onDelete={onDeleteComment}
-            />
-          ))}
+          comments
+            .map((comment, index) => (
+              <CommentItem
+                key={comment._id}
+                item={comment}
+                feedUserId={feedUser}
+                onDelete={onDeleteComment}
+                flash={index === comments.length - 1 && isFlashActive}
+              />
+            ))
+            .reverse()}
       </S.CommentsCollection>
 
       <S.CommentHeader>댓글</S.CommentHeader>
 
       <S.InputWrapper onSubmit={onSubmit}>
         <S.InputField
-          type="text"
-          placeholder="댓글달기..."
-          name="contentInfo"
+          placeholder="댓글 달기..."
           value={comment}
           onChange={onChange}
+          onKeyDown={onKeyDown}
         />
 
         {comment && <S.SubmitButton type="submit">전송</S.SubmitButton>}

@@ -32,15 +32,12 @@ export const useComment = (feedId: string) => {
       return commentAPI.postComment({ content, userId, feedId });
     },
     onSuccess: () => {
-      toast.success("댓글 달기 성공!");
+      toast.success("댓글을 달았습니다.");
       invalidateCommentQuery();
     },
     onError: (err) => {
-      toast.error(
-        err instanceof AxiosError
-          ? err.response?.data.error
-          : "댓글 못 달았어 에러다 에러",
-      );
+      //AxiosError면 에러메세지, 일반 에러면 "댓글 포스트 실패" 전송
+      toast.error(err instanceof AxiosError ? err.message : "댓글 포스트 실패");
     },
   }).mutateAsync;
 
@@ -49,14 +46,12 @@ export const useComment = (feedId: string) => {
       return commentAPI.deleteComment(commentId);
     },
     onSuccess: () => {
-      toast.success("Comment deleted successfully");
+      toast.success("댓글을 삭제하였습니다.");
       invalidateCommentQuery();
     },
     onError: (err) => {
-      console.error("Error deleting comment:", err);
-      toast.error(
-        err instanceof AxiosError ? err.response?.data.error : "Unknown error",
-      );
+      console.error("댓글 삭제 에러", err);
+      toast.error(err instanceof AxiosError ? err.message : "알 수 없는 에러");
     },
   }).mutateAsync;
 

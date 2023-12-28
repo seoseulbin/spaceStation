@@ -59,9 +59,7 @@ export default function FeedItem(feed: FeedType) {
             <S.CommentContainer
               key={feed._id}
               onClick={() => setIsCommentModalOpen(true)}
-            >
-              댓글
-            </S.CommentContainer>
+            />
             <Bookmark feedId={feed._id} />
           </S.ButtonRightDiv>
         </S.ButtonContainer>

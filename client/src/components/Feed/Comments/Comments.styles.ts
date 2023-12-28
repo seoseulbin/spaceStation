@@ -67,20 +67,29 @@ export const CloseButton = styled.button`
 
 export const CommentsCollection = styled.div`
   position: relative;
-  margin-top: 46px;
+  margin-top: 50px;
   margin-bottom: 46px;
 `;
 
-export const Container = styled.div`
-  background-color: none;
+export const Container = styled.div<{ flash?: boolean }>`
   font-size: ${({ theme }) => theme.size.md}px;
   width: 96%;
-  &:hover {
-    background-color: lightgray;
-  }
-
-  padding: 5px;
   margin-bottom: 10px;
+  animation: ${({ flash }) =>
+    flash &&
+    `
+      flashAnimation 3s ease;
+      @keyframes flashAnimation {
+        0% {
+          background-color: gray;
+        }
+        100% {
+          background-color: lightgray;
+        }
+      }
+    `};
+
+  padding: 10px;
 `;
 
 export const UserInfo = styled.div`
@@ -109,6 +118,8 @@ export const Comment = styled.p`
   margin-top: 2px;
   color: "#666666";
   font-size: ${({ theme }) => theme.size.md}px;
+
+  white-space: pre-line;
 `;
 
 export const CommentDate = styled.p`
@@ -138,6 +149,8 @@ export const FeedCommentButton = styled.button`
 `;
 
 export const InputWrapper = styled.form`
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
+
   position: fixed;
   background-color: none;
   display: flex;
@@ -146,13 +159,15 @@ export const InputWrapper = styled.form`
   bottom: 0;
 `;
 
-export const InputField = styled.input`
+export const InputField = styled.textarea`
   padding: 16px;
   border: none;
   outline: none;
   background-color: ivory;
   width: 100%;
   height: 20px;
+  //텍스트가 여러 줄 보이도록 css 속성 지정하기
+  word-break: break-all;
 `;
 
 export const SubmitButton = styled.button`
