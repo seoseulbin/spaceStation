@@ -3,6 +3,7 @@ import ApiBoundary from "../common/ApiBoundary";
 import User from "../User/User";
 import { Fragment } from "react";
 import { Loading } from "../common/Loading/Loading";
+import * as S from "./UserList.style";
 
 export default function SearchedUserList({ query }: { query: string }) {
   return (
@@ -25,7 +26,9 @@ function ApiComponent({ query }: { query: string }) {
       {pages.map(({ data: users }) =>
         users.map((user) => (
           <Fragment key={user._id}>
-            <User userId={user._id} />
+            <S.UserProfileContainer>
+              <User userId={user._id} />
+            </S.UserProfileContainer>
           </Fragment>
         )),
       )}
