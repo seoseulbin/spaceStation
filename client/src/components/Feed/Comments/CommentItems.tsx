@@ -10,15 +10,14 @@ interface CommentItemProps {
   flash: boolean;
 }
 
-const currentUser = storage.get("currentUser");
-
 const CommentItem = ({
   item,
   feedUserId,
   onDelete,
   flash,
 }: CommentItemProps) => {
-  // console.log('Flash prop:', flash);
+  const currentUser = storage.get("currentUser");
+
   return (
     <>
       <S.Container flash={flash}>
