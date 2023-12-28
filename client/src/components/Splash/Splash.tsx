@@ -3,8 +3,7 @@ import * as S from "./Splash.styles";
 import { storage } from "../../global/storage";
 
 const Splash = () => {
-  const hasSeenSplash = storage.get("hasSeenSplash") === "true";
-  console.log(storage.get("hasSeenSplash"));
+  const hasSeenSplash = storage.get("hasSeenSplash") === null;
   const [isVisible, setIsVisible] = useState(hasSeenSplash);
 
   useEffect(() => {
