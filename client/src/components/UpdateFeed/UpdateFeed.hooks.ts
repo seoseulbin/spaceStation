@@ -6,9 +6,7 @@ import { AxiosError } from "axios";
 import { UpdateFeedType } from "./UpdateFeed.type";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "@/global/constants";
-/**
- * 샘플 훅
- */
+
 export const useUpdateFeed = (_id: string) => {
   const navigate = useNavigate();
 

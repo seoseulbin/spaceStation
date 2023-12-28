@@ -4,9 +4,6 @@ import feedAPI from "./FeedOption.api";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
-/**
- * 샘플 훅
- */
 export const useDeleteFeed = () => {
   const invalidateFeedQuery = () => {
     queryClient.invalidateQueries({
