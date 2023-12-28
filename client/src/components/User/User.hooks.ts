@@ -10,8 +10,11 @@ import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import userAPI from "./User.api";
 import { useIntersectionObserver } from "../common/hooks/useIntersectionObserver";
+import { loadingAtom } from "../common/Loading/EntireLoading";
+import { useRecoilState } from "recoil";
 
 export const useUser = (userid: string) => {
+  const [isLoading, setisLoading] = useRecoilState(loadingAtom);
   const { data: user, ...rest } = useSuspenseQuery<UserType, Error>({
     queryKey: [queryKeys.user, userid],
     queryFn: () => UserAPI.getUser(userid),
@@ -25,9 +28,15 @@ export const useUser = (userid: string) => {
 
   const putUser = useMutation({
     mutationFn: UserAPI.putUser,
+    onMutate: () => {
+      setisLoading(!isLoading);
+    },
     onSuccess: invalidateUserQuery,
     onError: (err) => {
       toast.error(err instanceof AxiosError ? err.message : "unknown error");
+    },
+    onSettled: () => {
+      setisLoading(!isLoading);
     },
   }).mutateAsync;
 
