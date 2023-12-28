@@ -23,7 +23,9 @@ export const PATH = {
   searchFeedDetail: (query: string, cursor: string) =>
     `/feeds/search/${query}/cursor/${cursor}`,
 
-  sample: "/sample",
+  hashtagFeedOverview: (hashtag: string) => `/feeds/hashtag/${hashtag}`,
+  hashtagFeedDetail: (hashtag: string, cursor: string) =>
+    `/feeds/hashtag/${hashtag}/cursor/${cursor}`,
 } as const;
 
 export const FEED_COLUMN = {

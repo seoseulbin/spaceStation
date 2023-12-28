@@ -44,6 +44,15 @@ feedRouter.get(
 );
 
 feedRouter.get(
+  "/hashtag/:hashtag",
+  validateQueryParams([
+    { key: "limit", isNumber: true },
+    { key: "cursor", isNumber: true },
+  ]),
+  feedController.getFeedsHashtag,
+);
+
+feedRouter.get(
   "/bookmarks/mine",
   validateQueryParams([
     { key: "limit", isNumber: true },
