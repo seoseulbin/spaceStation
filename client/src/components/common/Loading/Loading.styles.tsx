@@ -18,16 +18,10 @@ const spin = keyframes`
   }
 `;
 
-export const Spinner = styled.div`
+export const Spinner = styled.img`
   margin: calc(50% - 25px) auto;
-  width: 50px;
-  height: 50px;
-  border: 7px solid rgba(0, 0, 0, 1);
-  box-sizing: border-box;
-
-  border-top-color: white;
-  border-bottom-color: white;
-
-  border-radius: 100%;
+  display: block;
+  width: 20vw;
+  height: 20vw;
   animation: ${spin} 1s ease-in-out infinite;
 `;

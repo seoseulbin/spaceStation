@@ -101,7 +101,7 @@ function ApiComponent({ userInfo: { userId, nickname } }: Props) {
 
       setTimeout(() => {
         navigate("/profile");
-      }, 900);
+      }, 400);
     } catch (error) {
       throw new Error(`Error updating profile: ${error}`);
     }

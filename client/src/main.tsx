@@ -9,6 +9,7 @@ import { queryClient } from "./global/reactQeury.ts";
 import GlobalStyle from "./global/styles/GlobalStyle.ts";
 import { ModalProvider } from "styled-react-modal";
 import { RecoilRoot } from "recoil";
+import EntireLoading from "./components/common/Loading/EntireLoading.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Toaster />
         <RecoilRoot>
           <ModalProvider>
+            <EntireLoading />
             <App />
           </ModalProvider>
         </RecoilRoot>
