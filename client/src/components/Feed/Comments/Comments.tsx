@@ -24,7 +24,7 @@ export default function Comment(props: CommentProps) {
 function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
   const { comments, postComment, deleteComment } = useComment(feedId);
   const [comment, setComment] = useState<string>("");
-  const [isFlashActive, setFlash] = useState<boolean>(true);
+  const [isFlashActive, setFlash] = useState<boolean>(false);
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
