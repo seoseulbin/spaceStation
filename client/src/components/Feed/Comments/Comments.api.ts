@@ -21,12 +21,16 @@ const commentAPI = {
     content: CommentType["content"];
     feedId: CommentType["feedId"];
   }) {
-    return instance.post(`/`, props);
+    return instance.post(`/`, props, {
+      withCredentials: true,
+    });
   },
 
   async deleteComment(commentId: string) {
     try {
-      const res = await instance.delete(`/${commentId}`);
+      const res = await instance.delete(`/${commentId}`, {
+        withCredentials: true,
+      });
       return res.data;
     } catch (error) {
       console.error("삭제 댓글 에러", error);

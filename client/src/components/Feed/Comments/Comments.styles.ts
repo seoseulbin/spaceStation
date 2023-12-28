@@ -75,7 +75,6 @@ export const Container = styled.div<{ flash?: boolean }>`
   font-size: ${({ theme }) => theme.size.md}px;
   width: 96%;
   margin-bottom: 10px;
-  console.log('Container flash:', flash);
   animation: ${({ flash }) =>
     flash &&
     `
@@ -90,7 +89,7 @@ export const Container = styled.div<{ flash?: boolean }>`
       }
     `};
 
-    padding: 10px;
+  padding: 10px;
 `;
 
 export const UserInfo = styled.div`
