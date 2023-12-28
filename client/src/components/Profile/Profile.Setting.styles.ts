@@ -20,8 +20,7 @@ export const ListItem = styled.div`
   align-items: center;
   border-bottom: 1px solid #eee;
   position: relative;
-  padding: ${({ theme }) => theme.size.sm / 2}px
-    ${({ theme }) => theme.size.sm * 2}px;
+  padding: ${({ theme }) => theme.size.sm / 2}px 0;
 
   & > svg {
     position: absolute;
@@ -32,6 +31,8 @@ export const ListItem = styled.div`
   & > a {
     width: 100%;
     max-width: 100%;
+    text-align: left;
+    padding-left: 3.5em;
   }
 
   &.withdraw * {
