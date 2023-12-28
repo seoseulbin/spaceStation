@@ -84,9 +84,13 @@ export default function FeedItem(feed: FeedType) {
             <>
               {feed.content}
               <br />
-              {feed.hashtag?.map((tag) => {
+              {feed.hashtag?.map((tag, index) => {
                 //TODO : 검색 링크로 이어져야함
-                return <Link to="/">{tag}</Link>;
+                return (
+                  <Link key={`${feed._id}_${index}`} to="/">
+                    {tag}
+                  </Link>
+                );
               })}
             </>
           ) : (
