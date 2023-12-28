@@ -31,11 +31,7 @@ export function generateNickname() {
 
 // 프로필 이미지 경로 랜덤으로 리턴하는 함수
 export function generateRandomProfile() {
-  const profileUrl = [
-    "/profile_default_image01.png",
-    "/profile_default_image02.png",
-    "/profile_default_image03.png",
-  ];
+  const profileUrl = ["/default1.png", "/default2.png", "/default3.png"];
 
   const randomUrl = profileUrl[Math.floor(Math.random() * profileUrl.length)];
 
