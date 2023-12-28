@@ -144,7 +144,7 @@ function ApiComponent({ feedId, feedUser, onClickClose }: CommentProps) {
                 item={comment}
                 feedUserId={feedUser}
                 onDelete={onDeleteComment}
-                flash={index === comments.length - 1 && isFlashActive}
+                flash={isFlashActive && index === comments.length - 1}
               />
             ))
             .reverse()}

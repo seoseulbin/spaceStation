@@ -79,6 +79,7 @@ export const Container = styled.div<{ flash?: boolean }>`
     flash &&
     `
       flashAnimation 3s ease;
+      
       @keyframes flashAnimation {
         0% {
           background-color: gray;

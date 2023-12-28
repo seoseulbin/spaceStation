@@ -18,7 +18,6 @@ const CommentItem = ({
   onDelete,
   flash,
 }: CommentItemProps) => {
-  // console.log('Flash prop:', flash);
   return (
     <>
       <S.Container flash={flash}>
