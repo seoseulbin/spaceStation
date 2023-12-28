@@ -18,9 +18,8 @@ export const useCommentLikes = (commentId: string) => {
   };
 
   const postLike = useMutation({
-    mutationFn: async (commentId: string) =>
-      await commentLikeAPI.postLikes(commentId),
-    onSuccess: (_, commentId) => {
+    mutationFn: commentLikeAPI.postLikes,
+    onSuccess: () => {
       invalidateQuery(commentId);
     },
     onError: (err) => {

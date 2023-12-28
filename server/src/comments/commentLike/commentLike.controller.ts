@@ -21,8 +21,11 @@ const commentLikeController = {
   ),
 
   postLikes: asyncHandler(
-    async (req: Request<{}, {}, { commentId: string }>, res) => {
-      const { commentId } = req.body;
+    async (
+      req: Request<{}, {}, { commentId: string; feedId: string }>,
+      res,
+    ) => {
+      const { commentId, feedId } = req.body;
 
       if (!commentId) {
         throw new CustomError({
@@ -41,17 +44,21 @@ const commentLikeController = {
       }
 
       const userId = decodeTokenPayload(token)["user_id"];
-      await commentLikeService.postLike({ user: userId, comment: commentId });
+      await commentLikeService.postLike({
+        user: userId,
+        comment: commentId,
+        feed: feedId,
+      });
 
       res.status(200).end();
     },
   ),
 
   deleteLikes: asyncHandler(
-    async (req: Request<{ commentId?: string }>, res) => {
-      const { commentId } = req.params;
+    async (req: Request<{ commentId?: string; feedId?: string }>, res) => {
+      const { commentId, feedId } = req.params;
 
-      if (!commentId)
+      if (!commentId || !feedId)
         throw new CustomError({
           status: 400,
           message: "전달된 내용이 없습니다.",
@@ -68,7 +75,11 @@ const commentLikeController = {
 
       const user = decodeTokenPayload(token)["user_id"];
 
-      await commentLikeService.deleteLike({ user, comment: commentId });
+      await commentLikeService.deleteLike({
+        user,
+        comment: commentId,
+        feed: feedId,
+      });
       res.status(200).end();
     },
   ),

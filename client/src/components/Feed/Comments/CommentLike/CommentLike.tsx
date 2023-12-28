@@ -8,8 +8,9 @@ import { storage } from "@/global/storage";
 import { PATH } from "@/global/constants";
 import ApiBoundary from "@/components/common/ApiBoundary";
 import { theme } from "@/global/styles/theme";
+import { FeedType } from "../../Feed.type";
 
-type Props = { commentId: CommentType["_id"] };
+type Props = { commentId: CommentType["_id"]; feedId: FeedType["_id"] };
 
 export default function CommentLike(props: Props) {
   return (
@@ -19,7 +20,7 @@ export default function CommentLike(props: Props) {
   );
 }
 
-function ApiComponent({ commentId }: Props) {
+function ApiComponent({ commentId, feedId }: Props) {
   const navigate = useNavigate();
   const { commentLikes, postLike, deleteLike } = useCommentLikes(commentId);
   const currentUser = storage.get("currentUser");
@@ -40,7 +41,9 @@ function ApiComponent({ commentId }: Props) {
       return;
     }
 
-    isCommentLiked ? await deleteLike(commentId) : await postLike(commentId);
+    isCommentLiked
+      ? await deleteLike(commentId)
+      : await postLike({ commentId, feedId });
 
     isFetching = false;
   };

@@ -9,10 +9,16 @@ export const commentLikeAPI = {
     return res.data;
   },
 
-  async postLikes(commentId: string) {
+  async postLikes({
+    commentId,
+    feedId,
+  }: {
+    commentId: string;
+    feedId: string;
+  }) {
     const res = await axiosInstance.post(
       `/commentLikes`,
-      { commentId },
+      { commentId, feedId }, // Add feedId to the request body
       { withCredentials: true },
     );
     return res.data;

@@ -37,7 +37,7 @@ const CommentItem = ({
               </S.DeleteButton>
             )}
           </S.CommentBoxIn>
-          <CommentLike commentId={item._id} />
+          <CommentLike commentId={item._id} feedId={item.feedId} />
         </S.CommentBoxOut>
       </S.Container>
     </>

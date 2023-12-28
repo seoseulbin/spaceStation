@@ -2,6 +2,9 @@ import BookmarkModel from "../bookmark/bookmark.model.js";
 import LikeModel from "../like/like.model.js";
 import FeedModel, { FeedSchemaType } from "./feed.model.js";
 import mongoose, { Types, startSession } from "mongoose";
+import CommentModel from "../comments/comments.model.js";
+
+import CommentLikeModel from "../comments/commentLike/commentLike.model.js";
 
 const feedService = {
   async getFeed({ id }: { id: string }) {
@@ -176,6 +179,8 @@ const feedService = {
 
       await BookmarkModel.deleteMany({ feedId: id });
 
+      await CommentModel.deleteMany({ feedId: id });
+      await CommentLikeModel.deleteMany({ feedId: id });
       await session.commitTransaction();
     } finally {
       session.endSession();
