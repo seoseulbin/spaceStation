@@ -11,7 +11,6 @@ export const loadingAtom = atom<boolean>({
 export default function EntireLoading() {
   const isEntireLoading = useRecoilValue(loadingAtom);
 
-  console.log(loadingAtom.key);
   // 스크롤 금지
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
