@@ -72,9 +72,11 @@ export default function FeedItem(feed: FeedType) {
           />
         )}
         {feed.geoLocation?.content && (
-          <S.GeoLocationContainer>
-            <IoIosPin size={18} />
-            {feed.geoLocation?.content}
+          <S.GeoLocationContainer onClick={() => console.log("click")}>
+            <div>
+              <IoIosPin size={18} />
+              <span>{feed.geoLocation?.content}</span>
+            </div>
           </S.GeoLocationContainer>
         )}
         <S.TextContainer>

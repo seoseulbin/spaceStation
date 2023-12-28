@@ -125,10 +125,19 @@ export const ButtonRightDiv = styled.div`
 `;
 
 export const GeoLocationContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: ${({ theme }) => theme.size.rg}px;
-  padding: 8px 16px;
-  color: ${({ theme }) => theme.colors.main};
+  display: inline-block;
+
+  & div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: ${({ theme }) => theme.size.rg}px;
+    padding: 8px 16px;
+    color: ${({ theme }) => theme.colors.main};
+  }
+
+  & span {
+    flex: 0 0 auto;
+    width: auto;
+  }
 `;
