@@ -94,14 +94,16 @@ function ApiComponent({ userInfo: { userId, nickname } }: Props) {
       };
       storage.set("currentUser", { userId, nickname: newNickname });
       // 프로필 업데이트 요청
-      await putUser(updateData);
+      if (newNickname != "") {
+        await putUser(updateData);
+        storage.set("currentUser", { userId, nickname: newNickname });
 
-      // 성공적으로 업데이트되면 다시 사용자 정보를 가져오기
-      toast.success("프로필 업데이트 성공");
-
-      setTimeout(() => {
-        navigate("/profile");
-      }, 400);
+        // 성공적으로 업데이트되면 다시 사용자 정보를 가져오기
+        toast.success("프로필 업데이트 성공");
+        setTimeout(() => {
+          navigate("/profile");
+        }, 400);
+      } else toast.error("닉네임을 입력해주세요");
     } catch (error) {
       throw new Error(`Error updating profile: ${error}`);
     }

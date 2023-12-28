@@ -2,7 +2,7 @@ import { PATH } from "@/global/constants";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const StylesdLayout = styled.div`
+const StyledLayout = styled.div`
   max-width: ${({ theme }) => theme.size.maxWidth}px;
   margin: 0 auto;
   background-color: ${({ theme }) => theme.colors.deepback};
@@ -55,10 +55,10 @@ export default function NotFoundPage() {
 
   return (
     <>
-      <StylesdLayout>
+      <StyledLayout>
         <NotFoundImg src="/notfound.png" />
         <button onClick={() => returnToMain()}>메인으로 이동</button>
-      </StylesdLayout>
+      </StyledLayout>
     </>
   );
 }
