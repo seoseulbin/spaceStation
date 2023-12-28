@@ -21,7 +21,7 @@ export const SplashContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  animation: ${bigger} 0.7s 1s linear;
+  animation: ${bigger} 0.7s 1s ease-out;
   position: fixed;
   left: 0;
   right: 0;
