@@ -89,7 +89,7 @@ export const Container = styled.div<{ flash?: boolean }>`
       }
     `};
 
-  padding: 10px;
+  padding-bottom: 10px;
 `;
 
 export const UserInfo = styled.div`
