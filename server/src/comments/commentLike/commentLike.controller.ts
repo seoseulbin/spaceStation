@@ -55,10 +55,10 @@ const commentLikeController = {
   ),
 
   deleteLikes: asyncHandler(
-    async (req: Request<{ commentId?: string; feedId?: string }>, res) => {
-      const { commentId, feedId } = req.params;
+    async (req: Request<{ commentId?: string }>, res) => {
+      const { commentId } = req.params;
 
-      if (!commentId || !feedId)
+      if (!commentId)
         throw new CustomError({
           status: 400,
           message: "전달된 내용이 없습니다.",
@@ -78,7 +78,6 @@ const commentLikeController = {
       await commentLikeService.deleteLike({
         user,
         comment: commentId,
-        feed: feedId,
       });
       res.status(200).end();
     },
