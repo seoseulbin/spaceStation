@@ -1,0 +1,13 @@
+{
+  "name": "스페이스테이션",
+  "start_url": "/",
+  "id": "space-station",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/logo_square.webp",
+      "type": "image/webp",
+      "sizes": "512x512"
+    }
+  ]
+}
