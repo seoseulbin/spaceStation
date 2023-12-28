@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 
 type CustomDivProps = {
@@ -11,21 +11,6 @@ type CustomDivElement = Omit<
   keyof CustomDivProps
 > &
   CustomDivProps;
-
-const scaleAnimation = keyframes`
-  0% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-  50% {
-    -webkit-transform: scale(0.85);
-    transform: scale(0.85);
-  }
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-`;
 
 export const AnchorButton = styled.div<CustomDivElement>`
   position: absolute;
@@ -49,21 +34,18 @@ export const AnchorButton = styled.div<CustomDivElement>`
     bottom: 3px;
   }
 
-  // &:before {
-  //   content: "";
-  //   display: block;
-  //   width: 48px;
-  //   height: 48px;
-  //   background-color: #bf5789;
-  //   opacity: 0.3;
-  //   border-radius: 40px;
-  //   top: -16px;
-  //   left: -16px;
-  //   /* transform: translate(-10px, -10px);*/
-  //   -webkit-animation: ${scaleAnimation} 1.75s ease-in-out infinite;
-  //   animation: ${scaleAnimation} 1.75s ease-in-out infinite;
-  //   position: absolute;
-  // }
+  &:before {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 48px;
+    background-color: transparent;
+    opacity: 0.3;
+    border-radius: 40px;
+    top: -16px;
+    left: -16px;
+    position: absolute;
+  }
 `;
 
 export const PreveiwInfo = styled.div`

@@ -8,6 +8,7 @@ import { theme } from "./global/styles/theme.ts";
 import { queryClient } from "./global/reactQeury.ts";
 import GlobalStyle from "./global/styles/GlobalStyle.ts";
 import { ModalProvider } from "styled-react-modal";
+import { RecoilRoot } from "recoil";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -15,9 +16,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Toaster />
-        <ModalProvider>
-          <App />
-        </ModalProvider>
+        <RecoilRoot>
+          <ModalProvider>
+            <App />
+          </ModalProvider>
+        </RecoilRoot>
       </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>,

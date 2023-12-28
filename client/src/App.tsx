@@ -22,6 +22,8 @@ import CategoryDetailPage from "./pages/CategoryDetailPage";
 import ProfileFeedDetailPage from "./pages/ProfileFeedDetailPage";
 import BookmarkDetailPage from "./pages/BookmarkDetailPage";
 import Splash from "./components/Splash/Splash";
+import SearchPage from "./pages/SearchPage";
+import SearchFeedDetailPage from "./pages/SearchFeedDetailPage";
 
 // 인증을 수행하지 않고 storage에 인증정보의 유무만 검사 함
 const CheckHasAuth = () => {
@@ -36,11 +38,10 @@ const CheckHasAuth = () => {
 
 const router = createBrowserRouter([
   {
-    path: PATH.root,
     element: <Layout />,
     children: [
       {
-        index: true,
+        path: PATH.root,
         element: <MainPage />,
       },
       {
@@ -51,7 +52,6 @@ const router = createBrowserRouter([
         path: PATH.categoryDetail(":categoryId", ":cursor"),
         element: <CategoryDetailPage />,
       },
-
       {
         path: PATH.profile,
         element: <ProfilePage />,
@@ -64,9 +64,16 @@ const router = createBrowserRouter([
         path: PATH.bookmarkFeedDetail(":cursor"),
         element: <BookmarkDetailPage />,
       },
+      {
+        path: PATH.search(),
+        element: <SearchPage />,
+      },
+      {
+        path: PATH.searchFeedDetail(":query", ":cursor"),
+        element: <SearchFeedDetailPage />,
+      },
     ],
   },
-
   {
     path: PATH.login,
     element: <LoginPage />,
@@ -82,7 +89,7 @@ const router = createBrowserRouter([
             element: <CreateFeedPage />,
           },
           {
-            path: PATH.updateFeed(),
+            path: PATH.updateFeed(":id"),
             element: <UpdateFeedPage />,
           },
           {

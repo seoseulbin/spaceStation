@@ -150,3 +150,13 @@ export const CategoryItem = styled.div<{
     transform: scale(1.1);
   }
 `;
+
+export const MapContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-items: flex-start;
+  width: 350px;
+  padding-bottom: 48px;
+  gap: 8px;
+`;

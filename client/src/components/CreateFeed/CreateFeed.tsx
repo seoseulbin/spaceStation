@@ -9,6 +9,12 @@ import Header from "../Header/Header";
 import ApiBoundary from "../common/ApiBoundary";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
+import GeoLocation from "../common/GeoLocation/GeoLocation";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  geoLocationAtom,
+  geoLocationMarkerAtom,
+} from "../Atoms/GeoLocationAtom";
 
 export default function CreateFeed() {
   return (
@@ -28,6 +34,10 @@ function ApiComponent() {
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
+  const [hashtag, setHashtag] = useState<string>(""); // 해시태그
+
+  const [geoLocation, setGeoLocation] = useRecoilState(geoLocationAtom);
+  const setGeoLocationMarker = useSetRecoilState(geoLocationMarkerAtom);
 
   const {
     setTarget,
@@ -45,6 +55,21 @@ function ApiComponent() {
   useEffect(() => {
     setCurrentImage(imgList.find((item) => item.url === showImage));
   }, [imgList, setCurrentImage, showImage]);
+
+  // 최초 진입 시 초기화
+  useEffect(() => {
+    const initGeoLocation = {
+      content: "",
+      position: {
+        lat: 0,
+        lng: 0,
+      },
+    };
+
+    setGeoLocation(initGeoLocation);
+    setGeoLocationMarker(initGeoLocation);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function fontColorSet(category: string) {
     switch (category) {
@@ -157,11 +182,12 @@ function ApiComponent() {
     );
 
     const result = imgList.map((image, idx) => ({ ...image, url: list[idx] })); // createObjectURL을 cloudinary url로 변경
-
     await createFeed({
       category: category,
       content: contents,
       imgUrls: result,
+      hashtag: hashtag,
+      geoLocation: geoLocation,
     });
   };
 
@@ -270,6 +296,19 @@ function ApiComponent() {
             })}
           </S.CategoryWrapper>
         </S.CategoryContainer>
+        <S.TextareaContainer>
+          <S.Label htmlFor="feedHashtag">#해시태그</S.Label>
+          <S.Textarea
+            id="feedHashtag"
+            onChange={(e) => {
+              setHashtag(e.target.value);
+            }}
+            placeholder="'#' 태그를 꼭 붙여주세요 ⸜( ˙ ˘ ˙)⸝♡"
+          ></S.Textarea>
+        </S.TextareaContainer>
+        <S.MapContainer>
+          <GeoLocation />
+        </S.MapContainer>
       </S.Container>
     </>
   );
