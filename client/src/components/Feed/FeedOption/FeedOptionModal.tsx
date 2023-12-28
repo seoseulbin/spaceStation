@@ -5,8 +5,8 @@ import * as S from "../../common/hooks/useCustomDialog.styles";
 import { PATH } from "@/global/constants";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { storage, storageKeys } from "@/global/storage";
-import { useDeleteFeed } from "./FeedOption.hooks";
 import { useState } from "react";
+import { useDeleteFeed } from "../Feed.hooks";
 
 export function FeedOptionModal({
   feedId,
@@ -31,7 +31,6 @@ export function FeedOptionModal({
   const navigate = useNavigate();
 
   const localUserData = storage.get(storageKeys.currentUser);
-  // const currentUser = JSON.parse(localUserData as string);
 
   function toggleDialog2() {
     setIsOpen2(!isOpen2);

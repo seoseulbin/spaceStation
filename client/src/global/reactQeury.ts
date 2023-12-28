@@ -18,6 +18,7 @@ export const queryKeys = {
   follow: "FOLLOW",
   user: "USER",
   findUsers: "FIND_USERS",
+  feed: "FEED",
   feedMain: "FEED_MAIN",
   feedProfile: "FEED_PROFILE",
   feedCategory: "FEED_CATEGORY",
