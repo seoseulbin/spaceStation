@@ -26,13 +26,23 @@ export default function Login() {
 
   return (
     <S.Container>
-      <AnchorButton
-        bgcolor="#fde433"
-        textcolor="#333"
-        href={kakaoAuthorizeURL}
-        onClick={() => {}}
-        children="카카오 계정으로 로그인"
-      />
+      <S.ImageContainer>
+        <img src="/logo_124_80.svg" />
+        <h3>
+          간편하게 로그인하시고 <br />
+          여러분의 공간을 공유해주세요.
+        </h3>
+      </S.ImageContainer>
+      <S.ButtonContainer>
+        <img src="/kakaotalk-logo.svg" />
+        <AnchorButton
+          bgcolor="#fde433"
+          textcolor="#333"
+          href={kakaoAuthorizeURL}
+          onClick={() => {}}
+          children="카카오 계정으로 로그인"
+        />
+      </S.ButtonContainer>
     </S.Container>
   );
 }
