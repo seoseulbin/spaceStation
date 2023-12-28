@@ -16,7 +16,7 @@ export const Container = styled.div`
 
 export const ImageContainer = styled.div`
   width: 350px;
-  height: 300px;
+  height: 350px;
   border: 1px solid #b4b4b4;
   display: flex;
   justify-content: center;
@@ -30,6 +30,8 @@ export const ImageContainer = styled.div`
 export const FeedImage = styled.img`
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  object-position: center;
 `;
 
 export const FeedImageEmpty = styled.div`
@@ -76,16 +78,30 @@ export const ImagePreviewList = styled.div`
 export const ImagePreview = styled.img`
   width: 75px;
   height: 75px;
+  object-fit: contain;
+  object-position: center;
 `;
 
 export const ImageDeleteButton = styled.button`
   position: absolute;
   right: 0;
-  width: 21px;
+  top: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
   appearance: none;
+  border-radius: 50%;
   border: none;
-  background-color: transparent;
+  background-color: red; //TODO : 전문디자인팀 담당
   cursor: pointer;
+  display: flex;
+  justify-contents: center;
+  align-items: center;
+  & svg {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+  }
 `;
 
 export const TextareaContainer = styled.div`
