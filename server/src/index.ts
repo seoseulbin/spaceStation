@@ -8,6 +8,7 @@ import commentRouter from "./comments/comments.router.js";
 import errorHandler from "./middleware/errorHandler.js";
 import feedRouter from "./feed/feed.router.js";
 import likeRouter from "./like/like.router.js";
+import commentLikeRouter from "./comments/commentLike/commentLike.router.js";
 import categoryRouter from "./category/category.router.js";
 import followRouter from "./follow/follow.router.js";
 import userRouter from "./user/user.router.js";
@@ -41,6 +42,7 @@ app.use(cookieParser());
 
 app.use("/api/feeds", feedRouter);
 app.use("/api/likes", likeRouter);
+app.use("/api/commentLikes", commentLikeRouter);
 app.use("/api/categorys", categoryRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/follows", followRouter);
