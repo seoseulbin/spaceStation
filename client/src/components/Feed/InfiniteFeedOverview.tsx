@@ -19,9 +19,9 @@ export default function InfiniteFeedOverview(props: Props) {
           {feeds.map((feed, feedIndex) => (
             <Fragment key={feed._id}>
               <Link to={`${detailLink}${pageIndex * column * 4 + feedIndex}`}>
-                <S.ImageSquareFrame>
+                <S.ImageCoverSquareFrame>
                   <img src={feed.imgUrls[0].url} alt="피드 이미지" />
-                </S.ImageSquareFrame>
+                </S.ImageCoverSquareFrame>
               </Link>
             </Fragment>
           ))}

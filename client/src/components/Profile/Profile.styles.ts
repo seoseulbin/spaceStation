@@ -16,8 +16,9 @@ export const Container = styled.div`
     box-sizing: border;
   }
   input {
-    width: 80%;
+    width: 50%;
     padding: 10px;
+    background-color: transparent;
     border-radius: 5px;
   }
   input[type="button"] {
@@ -87,7 +88,7 @@ export const UpdateInput = styled.input`
   box-sizing: border-box;
   items-align: center;
   text-align: center;
-
+  margin-top: 2vh;
   font-size: ${({ theme }) => theme.size.md}px;
   border: 1px solid #ddd;
   justify-content: center;
