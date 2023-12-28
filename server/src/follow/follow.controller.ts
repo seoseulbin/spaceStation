@@ -8,7 +8,6 @@ const followController = {
   getFollows: asyncHandler(async (req: Request<{ userid?: string }>, res) => {
     const { userid } = req.params;
     if (!userid)
-      //TODO: follower ID 검증
       throw new CustomError({
         status: 400,
         message: "유효하지 않은 ID입니다.",

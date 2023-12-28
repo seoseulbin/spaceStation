@@ -64,6 +64,19 @@ const feedAPI = {
 
     return { data, nextCursor: cursor + limit };
   },
+
+  async getHashtagFeeds(props: {
+    hashtag: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { hashtag, cursor, limit } = props;
+    const { data } = await instance.get<FeedType[]>(
+      `/hashtag/${hashtag}?cursor=${cursor}&limit=${limit}`,
+    );
+
+    return { data, nextCursor: cursor + limit };
+  },
 };
 
 export default feedAPI;
