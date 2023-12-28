@@ -85,11 +85,23 @@ const feedController = {
 
   getFeedsHashtag: asyncHandler(async (req, res) => {
     const { hashtag } = req.params;
-
     const { cursor, limit } = req.query;
 
     const feeds = await feedService.getFeedsHashtag({
       hashtag,
+      cursor: Number(cursor),
+      limit: Number(limit),
+    });
+
+    res.json(feeds);
+  }),
+
+  getFeedsGeoLocationContent: asyncHandler(async (req, res) => {
+    const { geoLocationContent } = req.params;
+    const { cursor, limit } = req.query;
+
+    const feeds = await feedService.getFeedsGeoLocation({
+      geoLocationContent,
       cursor: Number(cursor),
       limit: Number(limit),
     });

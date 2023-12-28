@@ -8,7 +8,7 @@ import CommentContainer from "./Comments/CommentContainer";
 import Like from "./Like/Like";
 import Bookmark from "./Bookmark/Bookmark";
 import ImageFeedTagButton from "../common/ImageFeedTagButton/ImageFeedTagButton";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { IoIosPin } from "react-icons/io";
 import { PATH } from "@/global/constants";
 
@@ -73,10 +73,12 @@ export default function FeedItem(feed: FeedType) {
           />
         )}
         {feed.geoLocation?.content && (
-          <S.GeoLocationContainer>
-            <IoIosPin size={18} />
-            {feed.geoLocation?.content}
-          </S.GeoLocationContainer>
+          <NavLink to={PATH.geoLocationFeedOverview(feed.geoLocation.content)}>
+            <S.GeoLocationContainer>
+              <IoIosPin size={18} />
+              {feed.geoLocation.content}
+            </S.GeoLocationContainer>
+          </NavLink>
         )}
         <S.TextContainer>
           {(feed.content.length < 60 &&

@@ -56,7 +56,7 @@ export default function NotFoundPage() {
   return (
     <>
       <StylesdLayout>
-        <NotFoundImg src="../notfound.png" />
+        <NotFoundImg src="/notfound.png" />
         <button onClick={() => returnToMain()}>메인으로 이동</button>
       </StylesdLayout>
     </>

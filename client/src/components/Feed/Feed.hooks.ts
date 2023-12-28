@@ -122,6 +122,38 @@ export const useHashtagFeed = (hashtag: string, cursor?: number) => {
   return { ...results, setTarget };
 };
 
+export const useGeoLocationFeed = (
+  geoLocationContent: string,
+  cursor?: number,
+) => {
+  const results = useSuspenseInfiniteQuery({
+    queryKey: [
+      queryKeys.feed,
+      queryKeys.feedGeoLocation,
+      geoLocationContent,
+      cursor,
+    ],
+    queryFn: ({ pageParam }) =>
+      feedAPI.getGeoLocationFeeds({
+        geoLocationContent,
+        cursor: pageParam,
+        limit: FEED_COLUMN.search * 4,
+      }),
+    initialPageParam: cursor ?? 0,
+    getNextPageParam: ({ data, nextCursor }) => {
+      if (data.length === 0) return null;
+      return nextCursor;
+    },
+  });
+
+  const { setTarget } = useIntersectionObserver({
+    onIntersect: results.fetchNextPage,
+    shouldBeBlocked: !results.hasNextPage || results.isError,
+  });
+
+  return { ...results, setTarget };
+};
+
 export const useMyBookmardFeed = (cursor?: number) => {
   const results = useSuspenseInfiniteQuery({
     queryKey: [queryKeys.feed, queryKeys.feedBookmark, cursor],

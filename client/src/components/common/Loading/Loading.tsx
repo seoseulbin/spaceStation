@@ -4,7 +4,7 @@ import * as S from "./Loading.styles";
 export function Loading() {
   return (
     <>
-      <S.Spinner />
+      <S.Spinner src="/disk.png" />
       <S.LoadingText>잠시만 기다려 주세요.</S.LoadingText>
     </>
   );
