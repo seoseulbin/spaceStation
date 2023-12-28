@@ -2,6 +2,8 @@ import { useState } from "react";
 import * as S from "../ImageAnchorButton/ImageAnchorButton.styles";
 import { useCustomDialog } from "../hooks/useCustomDialog";
 import * as SDialog from "../hooks/useCustomDialog.styles";
+import { FiPlus } from "react-icons/fi";
+import { IoTriangle } from "react-icons/io5";
 
 export default function ImageFeedTagButton({
   x,
@@ -52,6 +54,7 @@ export default function ImageFeedTagButton({
   ];
 
   const [tagUrl, setTagUrl] = useState("");
+  const [isActive, setIsActive] = useState(false);
 
   return (
     <>
@@ -59,15 +62,26 @@ export default function ImageFeedTagButton({
         data-disabled={
           currentImage.tagInfo[parseInt(index)].url ? "" : "disabled"
         }
-        title={index}
         x={x}
         y={y}
         onClick={() => {
-          const targetUrl = currentImage.tagInfo[parseInt(index)].url;
-          setTagUrl(targetUrl);
-          toggleDialog();
+          setIsActive(!isActive);
         }}
-      />
+      >
+        <FiPlus className="plus" size="12" color="white" />
+        {isActive && (
+          <S.PreveiwInfo
+            onClick={() => {
+              const targetUrl = currentImage.tagInfo[parseInt(index)].url;
+              setTagUrl(targetUrl);
+              toggleDialog();
+            }}
+          >
+            <IoTriangle className="triangle" color="#bf5789" size="8" />
+            {currentImage.tagInfo[parseInt(index)].name}
+          </S.PreveiwInfo>
+        )}
+      </S.AnchorButton>
       <SDialog.ConfirmPopup
         isOpen={isOpen}
         afterOpen={afterOpenDialog}

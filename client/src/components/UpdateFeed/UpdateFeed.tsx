@@ -64,19 +64,19 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
   function fontColorSet(category: string) {
     switch (category) {
       case "집":
-        return "#E58D5C";
+        return "#765E47";
       case "카페":
-        return "#D5267A";
+        return "#E0756A";
       case "회사":
-        return "#A452DE";
+        return "#81B2CC";
       case "학원":
-        return "#FFA000";
+        return "#ACCC71";
       case "학교":
-        return "#ADE085";
+        return "#FFC469";
       case "회의실":
         return "#FE87CE";
       case "유치원":
-        return "#97DDF3";
+        return "#D089DB";
       case "서점":
         return "#6D8DFF";
       default:
@@ -277,7 +277,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
                   <S.ImageDeleteButton
                     onClick={(e) => onClickPreviewDeleteBtn(e, index)}
                   >
-                    <GoX color="white" size="14" />
+                    <GoX size="14" color="#2B2B2B" />
                   </S.ImageDeleteButton>
                 </S.ImagePreviewList>
               );
