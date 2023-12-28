@@ -4,7 +4,7 @@ export const Container = styled.div`
   background-color: white;
   font-size: ${({ theme }) => theme.size.md}px;
   max-width: calc(${({ theme }) => theme.size.maxWidth}px);
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   border: 1px solid #e7e7e7;
   display: flex;
@@ -16,7 +16,7 @@ export const Container = styled.div`
 
 export const ImageContainer = styled.div`
   width: 350px;
-  height: 350px;
+  height: 300px;
   border: 1px solid #b4b4b4;
   display: flex;
   justify-content: center;
@@ -28,8 +28,8 @@ export const ImageContainer = styled.div`
 `;
 
 export const FeedImage = styled.img`
-  width: 350px;
-  height: 350px;
+  width: 100%;
+  height: 100%;
 `;
 
 export const FeedImageEmpty = styled.div`

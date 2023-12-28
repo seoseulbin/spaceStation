@@ -19,27 +19,35 @@ export default function Category(props: CategoryProps) {
 function ApiComponent({ categoryId }: CategoryProps) {
   const navigate = useNavigate();
   const { categorys } = useCategory();
-  const [activeCategory, setActiveCategory] = useState<string | null>(
-    categoryId,
-  ); // 활성화된 카테고리 검증
+  const [activeCategory, setActiveCategory] = useState(categoryId); // 활성화된 카테고리 검증
 
-  function fontColorSet(category: string) {
-    switch (category) {
-      case "집":
-        return "#E58D5C";
-      case "카페":
-        return "#D5267A";
-      case "회사":
-        return "#A452DE";
-      case "학원":
-        return "#FFA000";
-      case "학교":
-        return "#ADE085";
-      case "회의실":
+  const dict = categorys.reduce<{ [key: string]: number }>(
+    (acc, category, index) => {
+      return { ...acc, [category._id]: index };
+    },
+    {},
+  );
+
+  // const [checkIndex, setCheckIndex] = useState(0);
+  // const [once, setOnce] = useState(false);
+
+  function fontColorSet(index: number) {
+    switch (index) {
+      case 0:
+        return "#765E47";
+      case 1:
+        return "#E0756A";
+      case 2:
+        return "#81B2CC";
+      case 3:
+        return "#ACCC71";
+      case 4:
+        return "#FFC469";
+      case 5:
         return "#FE87CE";
-      case "유치원":
-        return "#97DDF3";
-      case "서점":
+      case 6:
+        return "#D089DB";
+      case 7:
         return "#6D8DFF";
       default:
         return "white";
@@ -54,8 +62,7 @@ function ApiComponent({ categoryId }: CategoryProps) {
             return (
               <S.Category
                 key={category._id}
-                $isActive={category._id === activeCategory ? true : false}
-                $fontColor={fontColorSet(category.category)}
+                $isActive={category._id === activeCategory}
                 onClick={() => {
                   setActiveCategory(category._id);
                   navigate(`/category/${category._id}`);
@@ -65,6 +72,12 @@ function ApiComponent({ categoryId }: CategoryProps) {
               </S.Category>
             );
           })}
+          {activeCategory && (
+            <S.CategoryStyle
+              $index={dict[activeCategory]}
+              $fontColor={fontColorSet(dict[activeCategory])}
+            />
+          )}
         </S.CategoryList>
       </S.Container>
     </>

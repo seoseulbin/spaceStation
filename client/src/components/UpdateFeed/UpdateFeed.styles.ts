@@ -4,19 +4,19 @@ export const Container = styled.div`
   background-color: white;
   font-size: ${({ theme }) => theme.size.md}px;
   max-width: calc(${({ theme }) => theme.size.maxWidth}px);
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   border: 1px solid #e7e7e7;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #fffcf8;
-  padding-bottom: 118px;
+  padding-bottom: 68px;
 `;
 
 export const ImageContainer = styled.div`
   width: 350px;
-  height: 350px;
+  height: 300px;
   border: 1px solid #b4b4b4;
   display: flex;
   justify-content: center;
