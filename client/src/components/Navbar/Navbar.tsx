@@ -53,15 +53,14 @@ export default function Navbar() {
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.deepback};
   width: 100%;
-  height: 3rem;
+  height: 3.2rem;
   display: flex;
-  padding: 10px;
   justify-content: space-around;
   position: fixed;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  font-size: ${({ theme }) => theme.size.rg}px;
+  font-size: ${({ theme }) => theme.size.sm}px;
   max-width: ${({ theme }) => theme.size.maxWidth}px;
 `;
 
@@ -72,6 +71,7 @@ const LinkWrrapper = styled.div<{ $isActive?: boolean }>`
   justify-content: center;
   width: 5rem;
   height: 100%;
-  gap: 0.125rem;
-  color: ${({ $isActive }) => ($isActive ? "black" : "gray")};
+  gap: 0.225rem;
+  color: ${({ $isActive }) =>
+    $isActive ? ({ theme }) => theme.colors.main : "gray"};
 `;

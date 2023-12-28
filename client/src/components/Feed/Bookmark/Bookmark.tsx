@@ -8,6 +8,7 @@ import { useBookmark } from "./Bookmark.hooks";
 import { PATH } from "@/global/constants";
 import { storage } from "@/global/storage";
 import ApiBoundary from "@/components/common/ApiBoundary";
+import { theme } from "@/global/styles/theme";
 
 type Props = { feedId: FeedType["_id"] };
 
@@ -47,8 +48,8 @@ function ApiComponent({ feedId }: { feedId: FeedType["_id"] }) {
 
   return (
     <S.bookmarkButtonDiv id={feedId} onClick={handleBookmarkButton}>
-      {isMyBookmark && <FaBookmark size="20" />}
-      {!isMyBookmark && <FaRegBookmark size="20" />}
+      {isMyBookmark && <FaBookmark color={theme.colors.main} size="25" />}
+      {!isMyBookmark && <FaRegBookmark color={theme.colors.main} size="25" />}
     </S.bookmarkButtonDiv>
   );
 }

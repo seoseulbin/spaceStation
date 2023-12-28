@@ -15,6 +15,9 @@ export const useBookmark = (feedId: string) => {
     queryClient.invalidateQueries({
       queryKey: [queryKeys.bookmark, feedId],
     });
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.feedBookmark, feedId],
+    });
   };
 
   const postBookmark = useMutation({
@@ -24,7 +27,9 @@ export const useBookmark = (feedId: string) => {
       invalidateQuery(feedId);
     },
     onError: (err) => {
-      toast.error(err instanceof AxiosError ? err.message : "unknown error");
+      toast.error(
+        err instanceof AxiosError ? err.response?.data.error : "unknown error",
+      );
     },
   }).mutateAsync;
 
@@ -34,7 +39,9 @@ export const useBookmark = (feedId: string) => {
       invalidateQuery(feedId);
     },
     onError: (err) => {
-      toast.error(err instanceof AxiosError ? err.message : "unknown error");
+      toast.error(
+        err instanceof AxiosError ? err.response?.data.error : "unknown error",
+      );
     },
   }).mutateAsync;
 

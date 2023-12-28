@@ -76,7 +76,6 @@ export default function ImageAnchorButton({
       usage: "NEUTRAL",
       onClick: () => {
         toggleDialog();
-        setMetaData(undefined);
       },
     },
     {
@@ -111,6 +110,7 @@ export default function ImageAnchorButton({
           const tagInfo = getTagInfo(currentImage);
           setTagName(tagInfo[parseInt(index)].name);
           setTagUrl(tagInfo[parseInt(index)].url);
+          if (!tagInfo[parseInt(index)].url) setMetaData(undefined);
           toggleDialog();
           setCurrentTag(e.target.title);
         }}

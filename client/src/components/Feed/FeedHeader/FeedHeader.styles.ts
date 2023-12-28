@@ -8,19 +8,23 @@ export const FeedHeader = styled.div`
   input {
     background-color: transparent;
     border: 0;
-    margin: -1px 0px -10px 0px;
+    margin: 0px 0px -5px 0px;
     text-align: center;
   }
+
   .follow {
     color: ${({ theme }) => theme.colors.main};
   }
+
   .cancel {
     color: ${({ theme }) => theme.colors.textDisable};
   }
+
   .user {
     display: flex;
     align-items: center;
     gap: 15px;
+    font-weight: bold;
   }
 
   div {
@@ -30,9 +34,10 @@ export const FeedHeader = styled.div`
     font-size: ${({ theme }) => theme.size.md}px;
     text-align: center;
   }
+
   img {
-    width: 35px;
-    height: 35px;
+    width: 32px;
+    height: 32px;
     border-radius: 70%;
     object-fit: cover;
   }

@@ -105,7 +105,7 @@ export function useCustomDialog() {
     buttons,
     children,
   }: {
-    description?: string;
+    description?: React.ReactNode | string;
     buttons?:
       | { name: string; usage: string; onClick: () => void }[]
       | undefined;
@@ -113,9 +113,11 @@ export function useCustomDialog() {
   }) {
     return (
       <S.ConfirmPopupLayoutStyle>
-        <header>
-          <h3>{description}</h3>
-        </header>
+        {description && (
+          <header>
+            <h3>{description}</h3>
+          </header>
+        )}
         {children && <div>{children}</div>}
         <footer>
           {buttons?.map((item, index) => (

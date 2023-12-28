@@ -172,6 +172,14 @@ export const ConfirmPopupLayoutStyle = styled.div`
       font-weight: bold;
       flex-grow: 1;
       text-align: center;
+      word-wrap: break-word;
+      word-break: break-all;
+      padding: 0 0.5em;
+
+      & em {
+        color: ${({ theme }) => theme.colors.sub};
+        font-style: italic;
+      }
     }
   }
   & > div {
@@ -184,6 +192,7 @@ export const ConfirmPopupLayoutStyle = styled.div`
       display: flex;
       flex-direction: column;
       gap: 8px;
+      width: 100%;
 
       & label {
         font-size: ${({ theme }) => theme.size.sm}px;

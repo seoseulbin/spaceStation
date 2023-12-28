@@ -9,9 +9,8 @@ export const Container = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-
-  box-shadow: 0 2px 3px 1px gray;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.background};
+  border-bottom: 1px solid #eee;
   position: sticky;
   top: 0;
   z-index: 29;

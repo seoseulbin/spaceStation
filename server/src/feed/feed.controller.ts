@@ -10,6 +10,14 @@ type FeedType = {
   category: string;
   content: string;
   imgUrls: string[];
+  hashtag?: string[];
+  geoLocation?: {
+    content?: string;
+    position?: {
+      lat?: number;
+      lng?: number;
+    };
+  };
 };
 
 const feedController = {
@@ -40,8 +48,8 @@ const feedController = {
   getProfileFeeds: asyncHandler(async (req, res) => {
     const { userId } = req.params;
     const { cursor, limit } = req.query;
-    const feeds = await feedService.getUserFeeds({
-      userId: new ObjectId(userId as string),
+    const feeds = await feedService.getFeedsFindByProp({
+      prop: { key: "userId", value: new ObjectId(userId as string) },
       cursor: Number(cursor),
       limit: Number(limit),
     });
@@ -53,8 +61,44 @@ const feedController = {
     const { categoryId } = req.params;
     const { cursor, limit } = req.query;
 
-    const feeds = await feedService.getCategoryFeeds({
-      category: new ObjectId(categoryId as string),
+    const feeds = await feedService.getFeedsFindByProp({
+      prop: { key: "category", value: new ObjectId(categoryId as string) },
+      cursor: Number(cursor),
+      limit: Number(limit),
+    });
+
+    res.json(feeds);
+  }),
+
+  getFeedsSearchedByContent: asyncHandler(async (req, res) => {
+    const { query } = req.params;
+    const { cursor, limit } = req.query;
+
+    const feeds = await feedService.getFeedsSearchedByRegExp({
+      query: { key: "content", regExp: new RegExp(query, "i") },
+      cursor: Number(cursor),
+      limit: Number(limit),
+    });
+
+    res.json(feeds);
+  }),
+
+  getMyBookmarkFeeds: asyncHandler(async (req, res) => {
+    const { cursor, limit } = req.query;
+
+    const token = req.cookies.service_token;
+
+    if (!token) {
+      throw new CustomError({
+        status: 401,
+        message: "토큰을 전달받지 못했습니다.",
+      });
+    }
+
+    const userId = decodeTokenPayload(token)["user_id"];
+
+    const feeds = await feedService.getUserBookmarkFeeds({
+      userId: new ObjectId(userId),
       cursor: Number(cursor),
       limit: Number(limit),
     });
@@ -63,7 +107,7 @@ const feedController = {
   }),
 
   createFeed: asyncHandler(async (req: Request<{}, {}, FeedType>, res) => {
-    const { category, content, imgUrls } = req.body;
+    const { category, content, imgUrls, hashtag, geoLocation } = req.body;
     const userToken = req.cookies.service_token;
     const userId = decodeTokenPayload(userToken)["user_id"];
 
@@ -74,24 +118,40 @@ const feedController = {
       });
     }
 
-    feedService.createFeed({ userId, category, content, imgUrls });
+    feedService.createFeed({
+      userId,
+      category,
+      content,
+      imgUrls,
+      hashtag,
+      geoLocation,
+    });
     res.status(200).end();
   }),
 
   updateFeed: asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { category, content, imgUrls }: FeedType = req.body;
+    const { category, content, imgUrls, hashtag, geoLocation }: FeedType =
+      req.body;
     const userToken = req.cookies.service_token;
     const userId = decodeTokenPayload(userToken)["user_id"];
 
-    if (!category || !content || !imgUrls) {
+    if (!category || !content || imgUrls.length == 0) {
       throw new CustomError({
         status: 400,
         message: "요청에 필요한 정보가 부족합니다.",
       });
     }
 
-    feedService.updateFeed({ id, userId, category, content, imgUrls });
+    feedService.updateFeed({
+      id,
+      userId,
+      category,
+      content,
+      imgUrls,
+      hashtag,
+      geoLocation,
+    });
     res.status(200).end();
   }),
 

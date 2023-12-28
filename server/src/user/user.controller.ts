@@ -16,6 +16,19 @@ const userController = {
     res.json(user);
   }),
 
+  getUsersByQuery: asyncHandler(async (req, res) => {
+    const { query } = req.params;
+    const { cursor, limit } = req.query;
+
+    const users = await userService.getUsersByQuery({
+      query,
+      cursor: Number(cursor),
+      limit: Number(limit),
+    });
+
+    res.json(users);
+  }),
+
   updateUser: asyncHandler(async (req, res) => {
     const { nickname, profileImgUrl } = req.body;
     const userToken = req.cookies.service_token;

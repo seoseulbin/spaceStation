@@ -39,6 +39,31 @@ const feedAPI = {
 
     return { data, nextCursor: cursor + limit };
   },
+
+  async getMyBookmarkFeeds(props: { cursor: number; limit: number }) {
+    const { cursor, limit } = props;
+    const { data } = await instance.get<{ feedId: FeedType }[]>(
+      `/bookmarks/mine?cursor=${cursor}&limit=${limit}`,
+      {
+        withCredentials: true,
+      },
+    );
+
+    return { data: data.map((d) => d.feedId), nextCursor: cursor + limit };
+  },
+
+  async getFeedsSearchedByContent(props: {
+    query: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { query, cursor, limit } = props;
+    const { data } = await instance.get<FeedType[]>(
+      `/search/content/${query}?cursor=${cursor}&limit=${limit}`,
+    );
+
+    return { data, nextCursor: cursor + limit };
+  },
 };
 
 export default feedAPI;

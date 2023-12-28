@@ -9,6 +9,12 @@ import ApiBoundary from "../common/ApiBoundary";
 import Header from "../Header/Header";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
+import GeoLocation from "../common/GeoLocation/GeoLocation";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  geoLocationAtom,
+  geoLocationMarkerAtom,
+} from "../Atoms/GeoLocationAtom";
 
 export interface UpdateFeedProps {
   feedId: string;
@@ -26,11 +32,17 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
   const { categorys } = useCategory();
   const { updateFeed, feed } = useUpdateFeed(feedId);
 
+  const [imageFiles, setImageFiles] = useState<(File | undefined)[]>([]); //cloudinary 파일 변환을 위한 상태
   const [showImage, setShowImage] = useState<string>(""); //대표 이미지
   const [images, setImages] = useState<string[]>([]); // 피드 이미지 배열
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
+  const [hashtag, setHashtag] = useState<string[]>([]); // 해시태그
+  const [updateHashTag, setUpdateHashTag] = useState<string>("");
+
+  const [geoLocation, setGeoLocation] = useRecoilState(geoLocationAtom);
+  const setGeoLocationMarker = useSetRecoilState(geoLocationMarkerAtom);
 
   const {
     setTarget,
@@ -49,6 +61,28 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
     setCurrentImage(imgList.find((item) => item.url === showImage));
   }, [imgList, setCurrentImage, showImage]);
 
+  function fontColorSet(category: string) {
+    switch (category) {
+      case "집":
+        return "#765E47";
+      case "카페":
+        return "#E0756A";
+      case "회사":
+        return "#81B2CC";
+      case "학원":
+        return "#ACCC71";
+      case "학교":
+        return "#FFC469";
+      case "회의실":
+        return "#FE87CE";
+      case "유치원":
+        return "#D089DB";
+      case "서점":
+        return "#6D8DFF";
+      default:
+        return "white";
+    }
+  }
   /**
    * cloudinary 이미지 저장 함수
    */
@@ -86,11 +120,12 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
         throw new Error("이미지 파일이 없습니다.");
       }
       //TODO:추후 업로드 버튼을 눌렀을 시 cloudinary에 이미지가 저장되도록 변경 예정
-      const uploaded = await imageUploader(e.target.files[0]);
+      const fileUrl = URL.createObjectURL(e.target.files[0]);
 
-      setImages((arr) => [...arr, uploaded.url]);
-      setShowImage(uploaded.url);
-      addNewImage(uploaded.url); // useTagButtonHandler에 image 추가
+      setImageFiles((arr) => [...arr, e.target.files?.[0]]); // cloudinary 파일 변환을 위한 상태
+      setImages((arr) => [...arr, fileUrl]);
+      setShowImage(fileUrl);
+      addNewImage(fileUrl); // useTagButtonHandler에 image 추가
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
       else console.log(String(error));
@@ -101,17 +136,55 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
    */
   const onClickPreviewDeleteBtn = async (
     e: React.MouseEvent<HTMLButtonElement>,
+    index: number,
   ) => {
     e.preventDefault();
-    const previousSibling = e.currentTarget.previousSibling;
 
-    //if문은 타입 확인 && 값이 존재하는 지
-    if (previousSibling && previousSibling instanceof HTMLImageElement) {
-      const imageUrl = previousSibling.getAttribute("src");
-      //TODO: cloudinary 이미지 삭제
-      setShowImage("");
-      setImages((images) => images.filter((image) => image !== imageUrl));
-    }
+    setShowImage("");
+    setImageFiles((images) => {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      return newImages;
+    });
+    setImages((images) => {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      return newImages;
+    });
+    setImgList((images) => {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      return newImages;
+    });
+  };
+
+  const onClickUploadFeedBtn = async () => {
+    const list = await Promise.all(
+      //cloudinary url 받아오기
+      imageFiles.map(async (image) => {
+        if (image) {
+          const uploaded = await imageUploader(image);
+          return uploaded.url;
+        }
+      }),
+    );
+
+    const result = imgList.map((image) => {
+      if (image.url && image.url.startsWith("blob")) {
+        //url이 "blob"으로 시작하는 요소만 list의 요소로 변경시켜줌
+        return { ...image, url: list.shift() };
+      }
+      return image;
+    }); // createObjectURL을 cloudinary url로 변경
+
+    await updateFeed({
+      _id: feedId,
+      category: category,
+      content: contents,
+      imgUrls: result,
+      hashtag,
+      geoLocation: geoLocation,
+    });
   };
 
   useEffect(() => {
@@ -123,9 +196,20 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
       setContents(feed.content);
       setCategory(feed.category);
       setActiveCategory(feed.category);
-    }
-  }, [feed, setImgList]);
 
+      setUpdateHashTag(feed.hashtag?.join(""));
+      setGeoLocation(feed.geoLocation);
+      setGeoLocationMarker(feed.geoLocation);
+    }
+  }, [feed, setGeoLocation, setGeoLocationMarker, setImgList]);
+
+  const handleUpadatHashtag = (newTag: string) => {
+    setUpdateHashTag(newTag);
+    const removeWhiteSpace = newTag.replace(/\s/g, "");
+    const newHashTag = removeWhiteSpace.match(/#[ㄱ-ㅎ가-힣a-zA-Z0-9]+/g);
+
+    if (newHashTag !== null) setHashtag(newHashTag);
+  };
   return (
     <>
       <Header
@@ -133,13 +217,8 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
         headerTitle="게시글 수정하기"
         isFunctionAcitve={true}
         functionIconType={"upload"}
-        onClickFunction={async () => {
-          await updateFeed({
-            _id: feedId,
-            category: category,
-            content: contents,
-            imgUrls: imgList,
-          });
+        onClickFunction={() => {
+          onClickUploadFeedBtn();
         }}
       />
       <S.Container>
@@ -195,8 +274,10 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
                       setShowImage(e.currentTarget.src);
                     }}
                   />
-                  <S.ImageDeleteButton onClick={onClickPreviewDeleteBtn}>
-                    <GoX color="gray" size="14" />
+                  <S.ImageDeleteButton
+                    onClick={(e) => onClickPreviewDeleteBtn(e, index)}
+                  >
+                    <GoX size="14" color="#2B2B2B" />
                   </S.ImageDeleteButton>
                 </S.ImagePreviewList>
               );
@@ -220,6 +301,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
               return (
                 <S.CategoryItem
                   key={item._id}
+                  $fontColor={fontColorSet(item.category)}
                   $isActive={item._id === activeCategory ? true : false}
                   onClick={() => {
                     setActiveCategory((prev) =>
@@ -234,6 +316,19 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
             })}
           </S.CategoryWrapper>
         </S.CategoryContainer>
+        <S.TextareaContainer>
+          <S.Label htmlFor="feedHashtag">#해시태그</S.Label>
+          <S.Textarea
+            id="feedHashtag"
+            value={updateHashTag}
+            onChange={(e) => {
+              handleUpadatHashtag(e.target.value);
+            }}
+          ></S.Textarea>
+        </S.TextareaContainer>
+        <S.MapContainer>
+          <GeoLocation />
+        </S.MapContainer>
       </S.Container>
     </>
   );

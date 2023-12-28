@@ -1,7 +1,7 @@
 import { useProfileFeed } from "../Feed.hooks";
 import ApiBoundary from "../../common/ApiBoundary";
 import InfiniteFeedOverview from "../InfiniteFeedOverview";
-import { PATH } from "@/global/constants";
+import { FEED_COLUMN, PATH } from "@/global/constants";
 
 type Props = { userId: string };
 
@@ -19,7 +19,7 @@ function ApiComponent({ userId }: Props) {
   return (
     <>
       <InfiniteFeedOverview
-        column={3}
+        column={FEED_COLUMN.profile}
         pages={data.pages}
         setTarget={setTarget}
         hasNextPage={hasNextPage}

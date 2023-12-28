@@ -1,23 +1,29 @@
 import { QueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 1,
     },
+    mutations: {
+      throwOnError: (err) =>
+        err instanceof AxiosError && err.response?.status == 401,
+    },
   },
 });
 
 export const queryKeys = {
-  // TODO: 프로젝트 구조를 보여주기위한 샘플 키임. 구조 잡히면 지우기.
-  sample: "SAMPLE",
-  feed: "FEED",
   category: "CATEGORY",
   follow: "FOLLOW",
   user: "USER",
-  feedUser: "FEED_USER",
+  findUsers: "FIND_USERS",
+  feedMain: "FEED_MAIN",
+  feedProfile: "FEED_PROFILE",
   feedCategory: "FEED_CATEGORY",
-  comment: "FEED_COMMENT",
+  feedBookmark: "FEED_BOOKMARK",
+  feedSearch: "FEED_SEARCH",
+  comment: "COMMENT",
   like: "LIKE",
   bookmark: "BOOKMARK",
 };

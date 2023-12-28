@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ApiBoundary from "../common/ApiBoundary";
 import Header from "../Header/Header";
+import { storage } from "@/global/storage";
 
 type Props = {
   userInfo: { userId: string; nickname: string };
@@ -89,11 +90,9 @@ function ApiComponent({ userInfo: { userId, nickname } }: Props) {
 
       const updateData: UpdateProfileData = {
         nickname: newNickname,
-        profileImgUrl: uploadedUrl
-          ? uploadedUrl
-          : "/profile_default_image.jpeg",
+        profileImgUrl: uploadedUrl ? uploadedUrl : "/default1.png",
       };
-
+      storage.set("currentUser", { userId, nickname: newNickname });
       // 프로필 업데이트 요청
       await putUser(updateData);
 
@@ -102,9 +101,9 @@ function ApiComponent({ userInfo: { userId, nickname } }: Props) {
 
       setTimeout(() => {
         navigate("/profile");
-      }, 400);
+      }, 900);
     } catch (error) {
-      console.error("Error updating profile:", error);
+      throw new Error(`Error updating profile: ${error}`);
     }
   };
 

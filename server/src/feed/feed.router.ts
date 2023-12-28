@@ -1,6 +1,7 @@
 import { Router } from "express";
 import feedController from "./feed.controller.js";
 import { validateQueryParams } from "../middleware/validation/queryParams.js";
+import { validateToken } from "../middleware/validation/validateToken.js";
 
 const feedRouter = Router();
 
@@ -33,8 +34,36 @@ feedRouter.get(
   feedController.getProfileFeeds,
 );
 
-feedRouter.post("/", feedController.createFeed);
-feedRouter.put("/:id", feedController.updateFeed);
-feedRouter.delete("/:id", feedController.deleteFeed);
+feedRouter.get(
+  "/search/content/:query",
+  validateQueryParams([
+    { key: "limit", isNumber: true },
+    { key: "cursor", isNumber: true },
+  ]),
+  feedController.getFeedsSearchedByContent,
+);
+
+feedRouter.get(
+  "/bookmarks/mine",
+  validateQueryParams([
+    { key: "limit", isNumber: true },
+    { key: "cursor", isNumber: true },
+  ]),
+  feedController.getMyBookmarkFeeds,
+);
+
+feedRouter.get(
+  "/bookmarks/mine",
+  validateToken,
+  validateQueryParams([
+    { key: "limit", isNumber: true },
+    { key: "cursor", isNumber: true },
+  ]),
+  feedController.getMyBookmarkFeeds,
+);
+
+feedRouter.post("/", validateToken, feedController.createFeed);
+feedRouter.put("/:id", validateToken, feedController.updateFeed);
+feedRouter.delete("/:id", validateToken, feedController.deleteFeed);
 
 export default feedRouter;

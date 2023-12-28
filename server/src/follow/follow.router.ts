@@ -8,7 +8,7 @@ const followRouter = Router();
 followRouter.get("/:userid", followController.getFollows);
 followRouter.get("/follower/:userid", followController.getFollowers);
 followRouter.get("/following/:userid", followController.getFollowings);
-followRouter.post("/", followController.postFollow);
+followRouter.post("/", validateToken, followController.postFollow);
 followRouter.delete("/:follower", validateToken, followController.deleteFollow);
 
 export default followRouter;

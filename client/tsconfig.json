@@ -26,9 +26,7 @@
       "@/*": ["src/*"]
     },
 
-    "types": [
-      "kakao.maps.d.ts", /* kakao map sdk type */
-    ],
+    "types": ["kakao.maps.d.ts" /* kakao map sdk type */]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
