@@ -134,6 +134,7 @@ function ApiComponent({ userInfo: { userId, nickname } }: Props) {
         />
         <S.UpdateInput
           value={newNickname}
+          maxLength={12}
           onChange={handleNicknameChange}
           placeholder="닉네임을 입력하세요"
         />
