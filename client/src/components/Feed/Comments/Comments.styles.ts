@@ -29,6 +29,17 @@ export const CommentWindowContainer = styled.div`
 
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 5px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.sub};
+    border-radius: 6px;
+  }
 `;
 
 export const CommentHeader = styled.div`

@@ -8,6 +8,17 @@ export const Container = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.deepback};
   overflow-x: auto;
   background-color: #fffcf8;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 4px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.sub};
+    border-radius: 6px;
+  }
 `;
 
 export const CategoryList = styled.div`
