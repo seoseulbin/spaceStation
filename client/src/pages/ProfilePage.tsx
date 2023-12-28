@@ -32,7 +32,7 @@ export default function ProfilePage() {
   const currentUser = storage.get("currentUser");
 
   const userId = userIdFromParams || currentUser?.userId;
-  if (!userId) return <Navigate to={PATH.login} />;
+  if (!userId) return <Navigate replace to={PATH.login} />;
 
   return (
     <>
