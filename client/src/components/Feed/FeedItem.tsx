@@ -9,6 +9,7 @@ import Like from "./Like/Like";
 import Bookmark from "./Bookmark/Bookmark";
 import ImageFeedTagButton from "../common/ImageFeedTagButton/ImageFeedTagButton";
 import { Link } from "react-router-dom";
+import { IoIosPin } from "react-icons/io";
 
 const sliderSettings = {
   dots: true,
@@ -72,7 +73,12 @@ export default function FeedItem(feed: FeedType) {
             onClickClose={() => setIsCommentModalOpen(false)}
           />
         )}
-
+        {feed.geoLocation?.content && (
+          <S.GeoLocationContainer>
+            <IoIosPin size={18} />
+            {feed.geoLocation?.content}
+          </S.GeoLocationContainer>
+        )}
         <S.TextContainer>
           {(feed.content.length < 60 &&
             feed.content.split("\n").length === 1) ||

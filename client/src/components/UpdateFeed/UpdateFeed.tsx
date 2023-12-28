@@ -9,6 +9,12 @@ import ApiBoundary from "../common/ApiBoundary";
 import Header from "../Header/Header";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
+import GeoLocation from "../common/GeoLocation/GeoLocation";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  geoLocationAtom,
+  geoLocationMarkerAtom,
+} from "../Atoms/GeoLocationAtom";
 
 export interface UpdateFeedProps {
   feedId: string;
@@ -34,6 +40,9 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
   const [hashtag, setHashtag] = useState<string[]>([]); // 해시태그
   const [updateHashTag, setUpdateHashTag] = useState<string>("");
+
+  const [geoLocation, setGeoLocation] = useRecoilState(geoLocationAtom);
+  const setGeoLocationMarker = useSetRecoilState(geoLocationMarkerAtom);
 
   const {
     setTarget,
@@ -174,6 +183,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
       content: contents,
       imgUrls: result,
       hashtag,
+      geoLocation: geoLocation,
     });
   };
 
@@ -187,9 +197,11 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
       setCategory(feed.category);
       setActiveCategory(feed.category);
 
-      setUpdateHashTag(feed.hashtag.join(""));
+      setUpdateHashTag(feed.hashtag?.join(""));
+      setGeoLocation(feed.geoLocation);
+      setGeoLocationMarker(feed.geoLocation);
     }
-  }, [feed, setImgList]);
+  }, [feed, setGeoLocation, setGeoLocationMarker, setImgList]);
 
   const handleUpadatHashtag = (newTag: string) => {
     setUpdateHashTag(newTag);
@@ -314,6 +326,9 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
             }}
           ></S.Textarea>
         </S.TextareaContainer>
+        <S.MapContainer>
+          <GeoLocation />
+        </S.MapContainer>
       </S.Container>
     </>
   );

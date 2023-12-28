@@ -51,12 +51,12 @@ export function FeedOptionModal({
   const options = [
     {
       name: "수정",
-      usage: "수정",
+      usage: "POSITIVE",
       onClick: () => navigate(PATH.updateFeed(feedId)),
     },
     {
       name: "삭제",
-      usage: "삭제",
+      usage: "ALERT",
       onClick: () => {
         toggleDialog();
         toggleDialog2();
@@ -66,7 +66,7 @@ export function FeedOptionModal({
   const options2 = [
     {
       name: "신고하기",
-      usage: "신고하기",
+      usage: "ALERT",
       onClick: async () => {
         toast.success("신고가 완료되었습니다.");
         toggleDialog();
@@ -76,12 +76,12 @@ export function FeedOptionModal({
   const buttons = [
     {
       name: "취소",
-      usage: "취소",
+      usage: "NEUTRAL",
       onClick: () => toggleDialog2(),
     },
     {
       name: "확인",
-      usage: "확인",
+      usage: "SUBMIT",
       onClick: async () => {
         await deleteFeed(feedId);
         toggleDialog2();

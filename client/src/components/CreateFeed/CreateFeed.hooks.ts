@@ -13,7 +13,7 @@ export const useCreateFeed = () => {
 
   const invalidateFeedQuery = () => {
     queryClient.invalidateQueries({
-      queryKey: [queryKeys.feed],
+      queryKey: [queryKeys.feedMain],
     });
   };
 
