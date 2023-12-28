@@ -156,12 +156,9 @@ const feedService = {
       const deleteFeedResult = await FeedModel.findByIdAndDelete(id);
       if (!deleteFeedResult) throw new Error("삭제 실패");
 
-      const deleteLikeResult = await LikeModel.findOneAndDelete({ feedId: id });
-      if (!deleteLikeResult) throw new Error("삭제 실패");
+      await LikeModel.findOneAndDelete({ feedId: id });
 
-      await BookmarkModel.deleteMany({
-        feedId: id,
-      });
+      await BookmarkModel.deleteMany({ feedId: id });
 
       await session.commitTransaction();
     } finally {
