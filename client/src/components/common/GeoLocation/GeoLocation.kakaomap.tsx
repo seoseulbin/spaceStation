@@ -128,7 +128,7 @@ export default function KakaoMap() {
         }}
         style={{
           width: "100%",
-          height: "300px",
+          height: "240px",
         }}
         level={3} // 지도의 확대 레벨
       >

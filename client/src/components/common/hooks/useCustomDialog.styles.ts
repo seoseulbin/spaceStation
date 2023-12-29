@@ -216,7 +216,8 @@ export const ConfirmPopupLayoutStyle = styled.div`
         gap: ${({ theme }) => theme.size.sm / 2}px;
 
         & input {
-          flex-grow: 1;
+          flex: 1 0 0px;
+          width: 100%;
         }
       }
     }
