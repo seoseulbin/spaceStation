@@ -48,23 +48,26 @@ export const AnchorButton = styled.div<CustomDivElement>`
   }
 `;
 
-export const PreveiwInfo = styled.div`
+export const PreveiwInfo = styled.div<{ x: number; y: number; length: number }>`
   position: relative;
-  right: 44px;
-  top: 1px;
-  width: 100px;
+  right: ${(props) => props.x}px;
+  bottom: ${(props) => (props.y > 85 ? 44 : -1)}px;
+  width: ${(props) => (props.length * 15 <= 100 ? 100 : props.length * 15)}px;
   padding: 5px;
   padding-top: 2px;
 
   border-radius: 5px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #bf5789;
   color: white;
   z-index: 30;
 
   .triangle {
     position: absolute;
-    bottom: 20px;
-    left: 46px;
+    bottom: ${(props) => (props.y > 85 ? -5 : 20)}px;
+    transform: ${(props) => (props.y > 85 ? "scaleY(-1)" : "scaleY(1)")};
+    left: ${(props) => 2 + props.x}px;
   }
 `;

@@ -71,6 +71,9 @@ export default function ImageFeedTagButton({
         <FiPlus className="plus" size="12" color="white" />
         {isActive && (
           <S.PreveiwInfo
+            x={x}
+            y={y}
+            length={currentImage.tagInfo[parseInt(index)].name.length}
             onClick={() => {
               const targetUrl = currentImage.tagInfo[parseInt(index)].url;
               setTagUrl(targetUrl);
