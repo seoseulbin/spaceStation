@@ -128,6 +128,8 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
       else console.log(String(error));
+    } finally {
+      e.target.value = "";
     }
   };
   /**
@@ -140,21 +142,9 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
     e.preventDefault();
 
     setShowImage("");
-    setImageFiles((images) => {
-      const newImages = [...images];
-      newImages.splice(index, 1);
-      return newImages;
-    });
-    setImages((images) => {
-      const newImages = [...images];
-      newImages.splice(index, 1);
-      return newImages;
-    });
-    setImgList((images) => {
-      const newImages = [...images];
-      newImages.splice(index, 1);
-      return newImages;
-    });
+    setImageFiles((images) => images.filter((_, idx) => idx !== index));
+    setImages((images) => images.filter((_, idx) => idx !== index));
+    setImgList((images) => images.filter((_, idx) => idx !== index));
   };
 
   const onClickUploadFeedBtn = async () => {
