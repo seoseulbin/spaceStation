@@ -38,7 +38,6 @@ export function ImageAnchorButtonPopup({
 
   useEffect(() => {
     const tagInfo = getTagInfo(currentImage);
-    console.log(tagInfo);
 
     if (isOpen) {
       if (tagNameRef.current)
@@ -47,10 +46,12 @@ export function ImageAnchorButtonPopup({
         tagUrlRef.current.value = tagInfo[parseInt(index)].url;
     }
 
-    setTagName(tagInfo[parseInt(index)].name);
-    setTagUrl(tagInfo[parseInt(index)].url);
-    if (!tagInfo[parseInt(index)].url) setMetaData(undefined);
-    setCurrentTag(index);
+    if (tagInfo) {
+      setTagName(tagInfo[parseInt(index)].name);
+      setTagUrl(tagInfo[parseInt(index)].url);
+      if (!tagInfo[parseInt(index)].url) setMetaData(undefined);
+      setCurrentTag(index);
+    }
   }, [currentImage, getTagInfo, index, isOpen]);
 
   useEffect(() => {
