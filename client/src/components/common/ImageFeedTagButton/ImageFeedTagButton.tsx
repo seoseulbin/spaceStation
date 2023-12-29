@@ -97,7 +97,12 @@ export default function ImageFeedTagButton({
           <ConfirmPopupLayout
             description={
               <>
-                <em>{tagUrl}</em> 로 이동합니다.
+                <em>
+                  {tagUrl.length > 60
+                    ? tagUrl.split("\n")[0].slice(0, 60) + "..."
+                    : tagUrl}
+                </em>{" "}
+                로 이동합니다.
               </>
             }
             buttons={buttons}

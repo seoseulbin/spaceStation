@@ -3,6 +3,7 @@ import SearchedUserList from "@/components/Search/UserList";
 import { PATH, SEARCH_SCOPE, SearchScopeType } from "@/global/constants";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import toast from "react-hot-toast";
+import { IoIosArrowBack } from "react-icons/io";
 import {
   NavLink,
   Navigate,
@@ -27,6 +28,9 @@ export default function SearchPage() {
   const onTypeQueryInput: ChangeEventHandler<HTMLInputElement> = (e) => {
     setQueryInput(e.currentTarget.value);
   };
+  const handleBackArrowFunction = () => {
+    window.history.back();
+  };
 
   const onSearch: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -35,13 +39,16 @@ export default function SearchPage() {
 
   return (
     <>
-      <form onSubmit={onSearch}>
+      <HeaderContainer onSubmit={onSearch}>
+        <ArrowButtonDiv onClick={handleBackArrowFunction}>
+          <IoIosArrowBack size="35" />
+        </ArrowButtonDiv>
         <SearchInputBar
           onChange={onTypeQueryInput}
           value={queryInput}
           placeholder="검색어를 입력해주세요 ദ്ദി˙∇˙)ว"
         />
-      </form>
+      </HeaderContainer>
       <SeachNavBarContainer>
         <SearchNavLink $isActive={queryScope}>
           <NavLink to={PATH.search(queryInput, "feed")}>피드</NavLink>
@@ -60,6 +67,14 @@ export default function SearchPage() {
   );
 }
 
+const HeaderContainer = styled.form`
+  display: flex;
+  padding-inline: 15px;
+  align-items: center;
+`;
+const ArrowButtonDiv = styled.div`
+  cursor: pointer;
+`;
 const SearchInputBar = styled.input`
   box-sizing: border-box;
   width: calc(100% - 2rem);
