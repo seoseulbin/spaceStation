@@ -10,7 +10,7 @@ export const Container = styled.header`
   align-items: center;
   padding: 15px;
   background-color: ${({ theme }) => theme.colors.background};
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.deepback};
   position: sticky;
   top: 0;
   z-index: 29;
