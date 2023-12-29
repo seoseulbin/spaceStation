@@ -44,6 +44,7 @@ export default function SearchPage() {
           <IoIosArrowBack size="35" />
         </ArrowButtonDiv>
         <SearchInputBar
+          autoFocus
           onChange={onTypeQueryInput}
           value={queryInput}
           placeholder="검색어를 입력해주세요 ദ്ദി˙∇˙)ว"
