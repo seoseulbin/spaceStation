@@ -75,8 +75,10 @@ export default function FeedItem(feed: FeedType) {
         {feed.geoLocation?.content && (
           <NavLink to={PATH.geoLocationFeedOverview(feed.geoLocation.content)}>
             <S.GeoLocationContainer>
-              <IoIosPin size={18} />
-              {feed.geoLocation.content}
+              <div>
+                <IoIosPin size={18} />
+                {feed.geoLocation.content}
+              </div>
             </S.GeoLocationContainer>
           </NavLink>
         )}

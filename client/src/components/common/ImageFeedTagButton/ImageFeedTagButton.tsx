@@ -68,9 +68,12 @@ export default function ImageFeedTagButton({
           setIsActive(!isActive);
         }}
       >
-        <FiPlus className="plus" size="12" color="white" />
+        <FiPlus className="plus" size="12" color="white" strokeWidth="3" />
         {isActive && (
           <S.PreveiwInfo
+            x={x}
+            y={y}
+            length={currentImage.tagInfo[parseInt(index)].name.length}
             onClick={() => {
               const targetUrl = currentImage.tagInfo[parseInt(index)].url;
               setTagUrl(targetUrl);
@@ -94,7 +97,12 @@ export default function ImageFeedTagButton({
           <ConfirmPopupLayout
             description={
               <>
-                <em>{tagUrl}</em> 로 이동합니다.
+                <em>
+                  {tagUrl.length > 60
+                    ? tagUrl.split("\n")[0].slice(0, 60) + "..."
+                    : tagUrl}
+                </em>{" "}
+                로 이동합니다.
               </>
             }
             buttons={buttons}

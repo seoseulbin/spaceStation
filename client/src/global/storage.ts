@@ -3,6 +3,7 @@ export const storageKeys = {
   temp: "temp",
   geoLocation: "geoLocation",
   hasSeenSplash: "hasSeenSplash",
+  tagInfo: "tagInfo",
 } as const;
 
 type StorageKeysType = keyof typeof storageKeys;
@@ -20,6 +21,10 @@ type StorageValuesType = {
       lng: number;
       lat: number;
     };
+  };
+  tagInfo: {
+    name: string;
+    url: string;
   };
 };
 

@@ -43,11 +43,10 @@ const commentLikeService = {
     });
   },
 
-  async deleteLike({ user, comment, feed }: CommentlikePostType) {
+  async deleteLike({ user, comment }: Omit<CommentlikePostType, "feed">) {
     return await CommentLikeModel.deleteOne({
       userId: user,
       commentId: comment,
-      feedId: feed,
     });
   },
 };

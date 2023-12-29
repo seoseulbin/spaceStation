@@ -6,6 +6,7 @@ import { storage } from "../../../global/storage";
 import ApiBoundary from "../../common/ApiBoundary";
 import toast from "react-hot-toast";
 import { CommentType } from "./Comments.type";
+import EmptyCard from "@/components/common/EmptyCard/EmptyCard";
 
 interface CommentProps {
   feedId: string;
@@ -141,6 +142,7 @@ function ApiComponent({ feedId, feedUser }: CommentProps) {
   return (
     <>
       <S.CommentsCollection ref={commentWindowRef}>
+        {comments.length === 0 && <EmptyCard type="COMMENT" />}
         {comments &&
           comments
             .filter((comment) => !comment.parentCommentId)

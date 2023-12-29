@@ -124,7 +124,7 @@ export function useTagButtonHandler() {
   // 태그 정보를 반환하는 함수
   function getTagInfo(currentImage: string) {
     const imageIndex = imgList.findIndex((item) => item.url === currentImage);
-    const currentTagInfo = imgList[imageIndex].tagInfo;
+    const currentTagInfo = imgList[imageIndex]?.tagInfo;
     return currentTagInfo;
   }
 
