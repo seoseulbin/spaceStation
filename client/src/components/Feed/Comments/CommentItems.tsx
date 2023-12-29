@@ -23,7 +23,7 @@ const CommentItem = ({
   const currentUser = storage.get("currentUser");
 
   const handleReply = () => {
-    onReply(item._id); // Call the onReply callback with the current comment's ID
+    onReply(item._id);
   };
 
   return (
