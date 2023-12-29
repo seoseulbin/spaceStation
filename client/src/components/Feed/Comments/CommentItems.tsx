@@ -8,6 +8,8 @@ interface CommentItemProps {
   feedUserId: string;
   onDelete: (commentId: string) => void;
   flash: boolean;
+  onReply: (parentCommentId: string) => void;
+  isReply: boolean;
 }
 
 const CommentItem = ({
@@ -15,12 +17,18 @@ const CommentItem = ({
   feedUserId,
   onDelete,
   flash,
+  onReply,
+  isReply = false,
 }: CommentItemProps) => {
   const currentUser = storage.get("currentUser");
 
+  const handleReply = () => {
+    onReply(item._id); // Call the onReply callback with the current comment's ID
+  };
+
   return (
     <>
-      <S.Container flash={flash}>
+      <S.Container flash={flash} isReply={isReply}>
         <S.UserInfo>
           {/* 유저의 프로필과 이름 => useritem 에서 사용 */}
           <User userId={item.userId} />
@@ -30,13 +38,17 @@ const CommentItem = ({
         <S.CommentBoxOut>
           <S.CommentBoxIn>
             <S.Comment>{item.content}</S.Comment>
-            {(item.userId === currentUser?.userId ||
-              currentUser?.userId === feedUserId) && (
-              <S.DeleteButton onClick={() => onDelete(item._id)}>
-                삭제
-              </S.DeleteButton>
-            )}
+            <S.DeleteAndReply>
+              <S.ReplyButton onClick={handleReply}>댓글쓰기</S.ReplyButton>
+              {(item.userId === currentUser?.userId ||
+                currentUser?.userId === feedUserId) && (
+                <S.DeleteButton onClick={() => onDelete(item._id)}>
+                  삭제
+                </S.DeleteButton>
+              )}
+            </S.DeleteAndReply>
           </S.CommentBoxIn>
+
           <CommentLike commentId={item._id} feedId={item.feedId} />
         </S.CommentBoxOut>
       </S.Container>

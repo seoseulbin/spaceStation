@@ -4,4 +4,5 @@ export type CommentType = {
   content: string;
   userId: string;
   createdAt: string;
+  parentCommentId: string | null;
 };

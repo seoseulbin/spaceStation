@@ -76,15 +76,19 @@ export const CloseButton = styled.button`
   }
 `;
 
+export const CancelButton = styled.button`
+  background-color: red;
+`;
+
 export const CommentsCollection = styled.div`
   position: relative;
   margin-top: 50px;
   margin-bottom: 46px;
 `;
 
-export const Container = styled.div<{ flash?: boolean }>`
+export const Container = styled.div<{ flash?: boolean; isReply: boolean }>`
   font-size: ${({ theme }) => theme.size.md}px;
-  width: 97%;
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
   margin-bottom: 2px;
   margin-left: 7px;
   animation: ${({ flash }) =>
@@ -102,7 +106,25 @@ export const Container = styled.div<{ flash?: boolean }>`
       }
     `};
 
+  position: relative;
+
+  ${(props) =>
+    props.isReply &&
+    `
+      margin-left: 60px;
+    `}
+
   padding-bottom: 10px;
+`;
+
+export const ReplyButton = styled.div`
+  cursor: pointer;
+  border: none;
+  background-color: none;
+  margin-left: 55px;
+
+  color: black;
+  font-size: ${({ theme }) => theme.size.sm}px;
 `;
 
 export const UserInfo = styled.div`
@@ -140,6 +162,13 @@ export const CommentBoxIn = styled.div`
   width: 100%;
 `;
 
+export const DeleteAndReply = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 7px;
+`;
+
 export const Comment = styled.p`
   display: flex;
   margin-left: 56px;
@@ -160,8 +189,8 @@ export const CommentDate = styled.p`
 
 export const DeleteButton = styled.div`
   cursor: pointer;
-  margin-left: 55px;
-  margin-top: 7px;
+  margin-left: 10px;
+
   color: black;
   font-size: ${({ theme }) => theme.size.sm}px;
 `;
@@ -183,6 +212,17 @@ export const InputWrapper = styled.form`
 
   position: fixed;
   background-color: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  bottom: 0;
+`;
+
+export const InputReplyWrapper = styled.form`
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
+
+  position: fixed;
+  background-color: red;
   display: flex;
   align-items: center;
   width: 100%;

@@ -20,6 +20,7 @@ const commentAPI = {
     userId: CommentType["userId"];
     content: CommentType["content"];
     feedId: CommentType["feedId"];
+    parentCommentId?: CommentType["parentCommentId"];
   }) {
     return instance.post(`/`, props, {
       withCredentials: true,
