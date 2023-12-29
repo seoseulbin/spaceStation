@@ -11,18 +11,55 @@ const StyledLayout = styled.div<{ $isActive?: boolean }>`
   align-items: center;
   display: flex;
   gap: 20vw;
-  padding-bottom: 2vh;
   text-align: center;
 `;
 
-const NavLinkWrapper = styled(NavLink)`
-  text-decoration: none;
+const NavLinkWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.deepback};
 `;
 
-const StyledNavLink = styled(NavLink)<{ $isActive?: boolean }>`
-  color: ${({ $isActive, theme }) =>
-    $isActive ? theme.colors.main : theme.colors.textDisable};
-  font-weight: ${({ $isActive }) => ($isActive ? "bold" : "normal")};
+const StyledNavLink = styled.div<{ $isActive: boolean }>`
+  width: 20%;
+  height: 50px;
+  margin: 0 10px;
+  & a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+  }
+  &:nth-child(1) {
+    & a {
+      color: ${(props) =>
+        props.$isActive === true
+          ? "#81b2cc"
+          : "${({ theme }) => theme.colors.deepback}"};
+    }
+    border-bottom: 2px solid
+      ${(props) =>
+        props.$isActive === true
+          ? "#81b2cc"
+          : "${({ theme }) => theme.colors.deepback}"};
+  }
+
+  &:nth-child(2) {
+    & a {
+      color: ${(props) =>
+        props.$isActive === true
+          ? "#e0756a"
+          : "${({ theme }) => theme.colors.deepback}"};
+    }
+    border-bottom: 2px solid
+      ${(props) =>
+        props.$isActive === true
+          ? "#e0756a"
+          : "${({ theme }) => theme.colors.deepback}"};
+  }
 `;
 
 export default function ProfilePage() {
@@ -39,17 +76,12 @@ export default function ProfilePage() {
       <ProfileTop userId={userId} />
       {currentUser?.userId == userId ? (
         <StyledLayout>
-          <NavLinkWrapper to={`${PATH.profile}`}>
-            <StyledNavLink to={`${PATH.profile}`} $isActive={!isMyBookmark}>
-              피드
+          <NavLinkWrapper>
+            <StyledNavLink $isActive={!isMyBookmark}>
+              <NavLink to={`${PATH.profile}`}>피드</NavLink>
             </StyledNavLink>
-          </NavLinkWrapper>
-          <NavLinkWrapper to={`${PATH.profile}?is-bookmark=true`}>
-            <StyledNavLink
-              to={`${PATH.profile}?is-bookmark=true`}
-              $isActive={!!isMyBookmark}
-            >
-              북마크
+            <StyledNavLink $isActive={!!isMyBookmark}>
+              <NavLink to={`${PATH.profile}?is-bookmark=true`}>북마크</NavLink>
             </StyledNavLink>
           </NavLinkWrapper>
         </StyledLayout>
