@@ -6,6 +6,7 @@ type CommentSchemaType = {
   feedId: Types.ObjectId;
   content: string;
   createdAt: Date;
+  parentCommentId: Types.ObjectId | null;
 };
 
 const CommentSchema = new Schema<CommentSchemaType>(
@@ -23,6 +24,11 @@ const CommentSchema = new Schema<CommentSchemaType>(
     content: {
       type: String,
       required: true,
+    },
+    parentCommentId: {
+      type: Schema.Types.ObjectId,
+      ref: "comment",
+      default: null,
     },
   },
   {
