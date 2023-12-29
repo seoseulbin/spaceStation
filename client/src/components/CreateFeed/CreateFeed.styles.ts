@@ -82,23 +82,25 @@ export const ImagePreview = styled.img`
 
 export const ImageDeleteButton = styled.button`
   position: absolute;
-  right: 0;
-  top: 0;
+  right: -4px;
+  top: -2px;
   padding: 0;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   appearance: none;
   border-radius: 50%;
   border: none;
-  background-color: red; //TODO : 전문디자인팀 담당
+  background-color: ${({ theme }) => theme.colors.point};
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+
   & svg {
     flex-shrink: 0;
     width: 16px;
     height: 16px;
+    color: #fff;
   }
 `;
 
