@@ -4,6 +4,7 @@ import User from "../User/User";
 import { Fragment } from "react";
 import { Loading } from "../common/Loading/Loading";
 import * as S from "./UserList.style";
+import EmptyCard from "../common/EmptyCard/EmptyCard";
 
 export default function SearchedUserList({ query }: { query: string }) {
   return (
@@ -22,7 +23,7 @@ function ApiComponent({ query }: { query: string }) {
 
   return (
     <>
-      {pages[0].data.length === 0 && "찾은 유저가 없습니다"}
+      {pages[0].data.length === 0 && <EmptyCard type="USER" />}
       {pages.map(({ data: users }) =>
         users.map((user) => (
           <Fragment key={user._id}>

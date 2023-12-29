@@ -7,7 +7,7 @@ const StyledInnerLayout = styled.div`
   margin: 0 auto;
   background-color: ${({ theme }) => theme.colors.background};
   padding-bottom: 50px;
-  min-height: 100%;
+  min-height: 100vh;
   box-sizing: border-box;
 `;
 

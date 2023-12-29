@@ -256,7 +256,7 @@ function ApiComponent() {
                   <S.ImageDeleteButton
                     onClick={(e) => onClickPreviewDeleteBtn(e, index)}
                   >
-                    <GoX color="white" size="16" />
+                    <GoX color="white" size="16" strokeWidth="2" />
                   </S.ImageDeleteButton>
                 </S.ImagePreviewList>
               );

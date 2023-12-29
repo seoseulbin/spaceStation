@@ -276,7 +276,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
                   <S.ImageDeleteButton
                     onClick={(e) => onClickPreviewDeleteBtn(e, index)}
                   >
-                    <GoX size="14" color="#2B2B2B" />
+                    <GoX color="white" size="16" strokeWidth="2" />
                   </S.ImageDeleteButton>
                 </S.ImagePreviewList>
               );

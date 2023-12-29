@@ -5,6 +5,7 @@ import * as S from "./Comments.styles";
 import { storage } from "../../../global/storage";
 import ApiBoundary from "../../common/ApiBoundary";
 import toast from "react-hot-toast";
+import EmptyCard from "@/components/common/EmptyCard/EmptyCard";
 
 interface CommentProps {
   feedId: string;
@@ -130,6 +131,7 @@ function ApiComponent({ feedId, feedUser }: CommentProps) {
   return (
     <>
       <S.CommentsCollection ref={commentWindowRef}>
+        {comments.length === 0 && <EmptyCard type="COMMENT" />}
         {comments &&
           comments
             .map((comment, index) => (

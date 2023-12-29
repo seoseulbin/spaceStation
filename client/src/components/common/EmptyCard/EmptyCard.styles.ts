@@ -11,5 +11,10 @@ export const EmptyCardContainer = styled.div`
 
   & img {
     max-width: 100px;
+
+    &[alt="USER"],
+    &[alt="COMMENT"] {
+      max-width: 126px;
+    }
   }
 `;
