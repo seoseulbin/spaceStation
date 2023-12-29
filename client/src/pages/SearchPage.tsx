@@ -45,6 +45,7 @@ export default function SearchPage() {
         </ArrowButtonDiv>
         <SearchInputBar
           autoFocus
+          type="search"
           onChange={onTypeQueryInput}
           value={queryInput}
           placeholder="검색어를 입력해주세요 ദ്ദി˙∇˙)ว"
