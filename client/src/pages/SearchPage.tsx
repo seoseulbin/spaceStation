@@ -36,7 +36,11 @@ export default function SearchPage() {
   return (
     <>
       <form onSubmit={onSearch}>
-        <SearchInputBar onChange={onTypeQueryInput} value={queryInput} />
+        <SearchInputBar
+          onChange={onTypeQueryInput}
+          value={queryInput}
+          placeholder="검색어를 입력해주세요 ദ്ദി˙∇˙)ว"
+        />
       </form>
       <SeachNavBarContainer>
         <SearchNavLink $isActive={queryScope}>
@@ -87,7 +91,10 @@ const SearchNavLink = styled.div<{ $isActive: string }>`
   }
   &:nth-child(1) {
     & a {
-      color: ${(props) => (props.$isActive === "feed" ? "#81b2cc" : "black")};
+      color: ${(props) =>
+        props.$isActive === "feed"
+          ? "#81b2cc"
+          : "${({ theme }) => theme.colors.deepback}"};
     }
     border-bottom: 2px solid
       ${(props) =>
@@ -99,7 +106,9 @@ const SearchNavLink = styled.div<{ $isActive: string }>`
   &:nth-child(2) {
     & a {
       color: ${(props) =>
-        props.$isActive === "account" ? "#e0756a" : "black"};
+        props.$isActive === "account"
+          ? "#e0756a"
+          : "${({ theme }) => theme.colors.deepback}"};
     }
     border-bottom: 2px solid
       ${(props) =>
