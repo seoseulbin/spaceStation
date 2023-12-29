@@ -116,6 +116,7 @@ export const ActionSheetLayoutStyle = styled.div`
     max-width: ${({ theme }) => theme.size.maxWidth}px;
     font-size: ${({ theme }) => theme.size.lg}px;
     padding: ${({ theme }) => theme.size.md}px ${({ theme }) => theme.size.lg}px;
+    color: ${({ theme }) => theme.colors.textPrimary};
 
     &:hover {
       background-color: #f5f5f5;
@@ -246,6 +247,7 @@ export const ConfirmPopupLayoutStyle = styled.div`
     text-overflow: ellipsis;
     flex-shrink: 0;
     line-height: 1;
+    color: ${({ theme }) => theme.colors.textPrimary};
 
     &[disabled] {
       cursor: not-allowed;
