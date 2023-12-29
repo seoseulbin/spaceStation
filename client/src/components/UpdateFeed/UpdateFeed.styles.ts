@@ -1,29 +1,27 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background-color: white;
   font-size: ${({ theme }) => theme.size.md}px;
   max-width: ${({ theme }) => theme.size.maxWidth}px;
   margin: 0 auto;
-  border: 1px solid ${({ theme }) => theme.colors.deepback};
+  border: 1px solid ${({ theme }) => theme.colors.background};
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fffcf8;
-  padding-bottom: 20px;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const ImageContainer = styled.div`
   width: 350px;
   height: 350px;
-  border: 1px solid #b4b4b4;
+  border: 1px solid ${({ theme }) => theme.colors.contextBorder};
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
   margin-bottom: 15px;
   position: relative;
-  background-color: #fffcf8;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const FeedImage = styled.img`
@@ -35,7 +33,7 @@ export const FeedImage = styled.img`
 
 export const FeedImageEmpty = styled.div`
   font-weight: 600;
-  color: #b4b4b4;
+  color: ${({ theme }) => theme.colors.textDisable};
 `;
 
 export const ImagePreveiwContainer = styled.form`
@@ -56,10 +54,10 @@ export const InputImageButton = styled.div`
   align-items: center;
   width: 50px;
   height: 50px;
-  border: 1px solid #f9f1e9;
+  border: 1px solid ${({ theme }) => theme.colors.deepback};
   border-radius: 3px;
   margin-right: 15px;
-  background-color: #f9f1e9;
+  background-color: ${({ theme }) => theme.colors.deepback};
 `;
 
 export const ImagePreviewWrapper = styled.div`
@@ -91,7 +89,7 @@ export const ImageDeleteButton = styled.button`
   appearance: none;
   border-radius: 50%;
   border: none;
-  background-color: red;
+  background-color: red; //TODO : 전문디자인팀 담당
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -117,7 +115,7 @@ export const Label = styled.label`
 export const Textarea = styled.textarea`
   width: 350px;
   height: 100px;
-  border: 1px solid #b4b4b4;
+  border: 1px solid ${({ theme }) => theme.colors.contextBorder};
 `;
 
 export const CategoryContainer = styled.div`
@@ -156,6 +154,6 @@ export const MapContainer = styled.div`
   align-items: center;
   align-items: flex-start;
   width: 350px;
-  padding-bottom: 48px;
+  padding-bottom: 20px;
   gap: 8px;
 `;
