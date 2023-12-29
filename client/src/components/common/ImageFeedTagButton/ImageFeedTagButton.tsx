@@ -69,21 +69,20 @@ export default function ImageFeedTagButton({
         }}
       >
         <FiPlus className="plus" size="12" color="white" strokeWidth="3" />
-        {isActive && (
-          <S.PreveiwInfo
-            x={x}
-            y={y}
-            length={currentImage.tagInfo[parseInt(index)].name.length}
-            onClick={() => {
-              const targetUrl = currentImage.tagInfo[parseInt(index)].url;
-              setTagUrl(targetUrl);
-              toggleDialog();
-            }}
-          >
-            <IoTriangle className="triangle" color="#bf5789" size="8" />
-            {currentImage.tagInfo[parseInt(index)].name}
-          </S.PreveiwInfo>
-        )}
+        <S.PreveiwInfo
+          isactive={isActive}
+          x={x}
+          y={y}
+          length={currentImage.tagInfo[parseInt(index)].name.length}
+          onClick={() => {
+            const targetUrl = currentImage.tagInfo[parseInt(index)].url;
+            setTagUrl(targetUrl);
+            toggleDialog();
+          }}
+        >
+          <IoTriangle className="triangle" size="8" />
+          {currentImage.tagInfo[parseInt(index)].name}
+        </S.PreveiwInfo>
       </S.AnchorButton>
       <SDialog.ConfirmPopup
         isOpen={isOpen}
