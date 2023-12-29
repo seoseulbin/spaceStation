@@ -26,7 +26,7 @@ export const useFollow = (userid: string) => {
 
   const invalidateFollowQuery = () => {
     queryClient.invalidateQueries({
-      queryKey: [queryKeys.follow],
+      queryKey: [queryKeys.follow, userid],
     });
   };
 

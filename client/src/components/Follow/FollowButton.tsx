@@ -16,8 +16,12 @@ export default function FollowButton({ userId }: { userId: string }) {
 
 function ApiComponent({ userId }: { userId: string }) {
   const navigate = useNavigate();
-  const { checkFollow, postFollow, deleteFollow } = useFollow(userId);
+  const { follows, postFollow, deleteFollow } = useFollow(userId);
   const currentUser = storage.get("currentUser");
+  const checkFollow = follows?.follower.find((obj) =>
+    obj.following === currentUser?.userId ? true : false,
+  );
+
   const isLoggedIn = !!currentUser;
   const [followControl, setFollowControl] = useState(
     checkFollow ? checkFollow : false,
@@ -38,10 +42,10 @@ function ApiComponent({ userId }: { userId: string }) {
 
       if (!followControl) {
         await postFollow({ follower: userId });
-        setFollowControl(true);
+        setFollowControl(!followControl);
       } else {
         await deleteFollow(userId);
-        setFollowControl(false);
+        setFollowControl(!followControl);
       }
     } catch (error) {
       console.error("Error handling follow:", error);
