@@ -68,7 +68,7 @@ export default function ImageFeedTagButton({
           setIsActive(!isActive);
         }}
       >
-        <FiPlus className="plus" size="12" color="white" />
+        <FiPlus className="plus" size="12" color="white" strokeWidth="3" />
         {isActive && (
           <S.PreveiwInfo
             x={x}

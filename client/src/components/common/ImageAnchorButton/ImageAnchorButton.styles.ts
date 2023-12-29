@@ -23,6 +23,7 @@ export const AnchorButton = styled.div<CustomDivElement>`
   background-color: #bf5789;
   border-radius: 20px;
   cursor: pointer;
+  padding: 2px;
 
   &[data-disabled="disabled"] {
     visibility: hidden;
