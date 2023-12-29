@@ -49,14 +49,12 @@ const commentService = {
     //존재를 하고, parentCommentId가 null이면 = 최상단이면
     if (deletedComment && deletedComment.parentCommentId === null) {
       // 댓글들의 parentCommentId 중에서 deletedComment의 댓글이랑 같으면 댓글 지우고
-      const replyComment = await CommentModel.findById({
-        parentCommentId: deletedComment._id,
-      });
-
-      await CommentModel.deleteMany(replyComment?.id);
+      await CommentModel.deleteMany({ parentCommentId: deletedComment._id });
 
       // // 그 댓글 안에 있는 좋아요까지 지우기
-      await CommentLikeModel.deleteMany({ commentId: replyComment?._id });
+      await CommentLikeModel.deleteMany({
+        parentCommentId: deletedComment._id,
+      });
     }
 
     // 마지막으로 젤 상단의 댓글 지우기
