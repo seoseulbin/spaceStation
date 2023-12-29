@@ -1,4 +1,5 @@
 import CommentModel from "./comments.model.js";
+import CommentLikeModel from "./commentLike/commentLike.model.js";
 
 const commentService = {
   //각각 피드 아이디에 맞는 댓글들만 분류해서 가져오기
@@ -22,7 +23,8 @@ const commentService = {
 
   //댓글 아이디를 가져와서 해당 아이디만 삭제
   async deleteComment(commentId: string) {
-    return CommentModel.findByIdAndDelete(commentId);
+    await CommentModel.findByIdAndDelete(commentId);
+    await CommentLikeModel.deleteMany({ commentId });
   },
 };
 

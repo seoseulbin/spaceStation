@@ -2,6 +2,9 @@ import BookmarkModel from "../bookmark/bookmark.model.js";
 import LikeModel from "../like/like.model.js";
 import FeedModel, { FeedSchemaType } from "./feed.model.js";
 import mongoose, { Types, startSession } from "mongoose";
+import CommentModel from "../comments/comments.model.js";
+
+import CommentLikeModel from "../comments/commentLike/commentLike.model.js";
 
 const feedService = {
   async getFeed({ id }: { id: string }) {
@@ -57,6 +60,22 @@ const feedService = {
     const { hashtag, cursor, limit } = props;
     const feeds = await FeedModel.find({
       hashtag: { $in: [`#${hashtag}`] },
+    })
+      .skip(cursor)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    return feeds;
+  },
+
+  async getFeedsGeoLocation(props: {
+    geoLocationContent: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { geoLocationContent, cursor, limit } = props;
+    const feeds = await FeedModel.find({
+      "geoLocation.content": geoLocationContent,
     })
       .skip(cursor)
       .limit(limit)
@@ -160,6 +179,8 @@ const feedService = {
 
       await BookmarkModel.deleteMany({ feedId: id });
 
+      await CommentModel.deleteMany({ feedId: id });
+      await CommentLikeModel.deleteMany({ feedId: id });
       await session.commitTransaction();
     } finally {
       session.endSession();

@@ -2,7 +2,7 @@ import * as S from "./Comments.styles";
 import { CommentType } from "./Comments.type";
 import User from "../../User/User";
 import { storage } from "../../../global/storage";
-
+import CommentLike from "./CommentLike/CommentLike";
 interface CommentItemProps {
   item: CommentType;
   feedUserId: string;
@@ -24,18 +24,21 @@ const CommentItem = ({
         <S.UserInfo>
           {/* 유저의 프로필과 이름 => useritem 에서 사용 */}
           <User userId={item.userId} />
-
           <S.CommentDate>{timeAgo(item.createdAt)}</S.CommentDate>
-
-          {(item.userId === currentUser?.userId ||
-            currentUser?.userId === feedUserId) && (
-            <S.DeleteButton onClick={() => onDelete(item._id)}>
-              삭제
-            </S.DeleteButton>
-          )}
         </S.UserInfo>
 
-        <S.Comment>{item.content}</S.Comment>
+        <S.CommentBoxOut>
+          <S.CommentBoxIn>
+            <S.Comment>{item.content}</S.Comment>
+            {(item.userId === currentUser?.userId ||
+              currentUser?.userId === feedUserId) && (
+              <S.DeleteButton onClick={() => onDelete(item._id)}>
+                삭제
+              </S.DeleteButton>
+            )}
+          </S.CommentBoxIn>
+          <CommentLike commentId={item._id} feedId={item.feedId} />
+        </S.CommentBoxOut>
       </S.Container>
     </>
   );

@@ -29,6 +29,17 @@ export const CommentWindowContainer = styled.div`
 
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 5px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.sub};
+    border-radius: 6px;
+  }
 `;
 
 export const CommentHeader = styled.div`
@@ -73,12 +84,14 @@ export const CommentsCollection = styled.div`
 
 export const Container = styled.div<{ flash?: boolean }>`
   font-size: ${({ theme }) => theme.size.md}px;
-  width: 96%;
-  margin-bottom: 10px;
+  width: 97%;
+  margin-bottom: 2px;
+  margin-left: 7px;
   animation: ${({ flash }) =>
     flash &&
     `
       flashAnimation 3s ease;
+      
       @keyframes flashAnimation {
         0% {
           background-color: gray;
@@ -113,13 +126,30 @@ export const UserInfo = styled.div`
   }
 `;
 
+export const CommentBoxOut = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-right: 5px;
+
+  line-break: anywhere;
+`;
+
+export const CommentBoxIn = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
 export const Comment = styled.p`
+  display: flex;
   margin-left: 56px;
+  margin-right: 10px;
   margin-top: 2px;
   color: "#666666";
   font-size: ${({ theme }) => theme.size.md}px;
 
   white-space: pre-line;
+  min-height: 27px;
 `;
 
 export const CommentDate = styled.p`
@@ -130,8 +160,8 @@ export const CommentDate = styled.p`
 
 export const DeleteButton = styled.div`
   cursor: pointer;
-  margin-left: auto;
-  margin-right: 10px;
+  margin-left: 55px;
+  margin-top: 7px;
   color: black;
   font-size: ${({ theme }) => theme.size.sm}px;
 `;

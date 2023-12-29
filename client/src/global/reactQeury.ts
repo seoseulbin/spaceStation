@@ -23,6 +23,7 @@ export const queryKeys = {
   feedProfile: "FEED_PROFILE",
   feedCategory: "FEED_CATEGORY",
   feedBookmark: "FEED_BOOKMARK",
+  feedGeoLocation: "FEED_GEO_LOCATION",
   feedSearch: "FEED_SEARCH",
   comment: "COMMENT",
   like: "LIKE",

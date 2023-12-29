@@ -27,6 +27,8 @@ import {
 import { PATH } from "./global/constants";
 import { storage, storageKeys } from "./global/storage";
 import Splash from "./components/Splash/Splash";
+import GeoLocationFeedOverviewPage from "./pages/GeoLocationFeedOverviewPage";
+import GeoLocationFeedDetailPage from "./pages/GeoLocationFeedDetailPage";
 
 // 인증을 수행하지 않고 storage에 인증정보의 유무만 검사 함
 const CheckHasAuth = () => {
@@ -82,6 +84,14 @@ const router = createBrowserRouter([
       {
         path: PATH.hashtagFeedDetail(":hashtag", ":cursor"),
         element: <HashtagFeedDetailPage />,
+      },
+      {
+        path: PATH.geoLocationFeedOverview(":geoLocationContent"),
+        element: <GeoLocationFeedOverviewPage />,
+      },
+      {
+        path: PATH.geoLocationFeedDetail(":geoLocationContent", ":cursor"),
+        element: <GeoLocationFeedDetailPage />,
       },
     ],
   },

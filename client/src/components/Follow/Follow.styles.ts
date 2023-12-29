@@ -15,7 +15,7 @@ export const UserContainer = styled.div`
   width: 350px;
   align-items: center;
   padding: 10px 10px 20px;
-  box-sizing: border-content;
+  box-sizing: border-box;
   justify-content: space-between;
   max-width: 70vw;
   border-bottom: 1px solid #eee;
@@ -23,7 +23,7 @@ export const UserContainer = styled.div`
 `;
 
 export const ProfileImg = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 70%;
 `;
