@@ -1,11 +1,11 @@
 import * as S from "./EmptyCard.styles";
 
 export default function EmptyCard({ type }: { type: string }) {
-  const emptyImageLink = type === "USER" ? "/nouser.png" : "/nofeed.png";
-
   return (
     <S.EmptyCardContainer>
-      <img src={emptyImageLink} alt={type} />
+      {type === "USER" && <img src="/nouser.png" alt={type} />}
+      {type === "COMMENT" && <img src="/nocomment.png" alt={type} />}
+      {type === "FEED" && <img src="/nofeed.png" alt={type} />}
     </S.EmptyCardContainer>
   );
 }
