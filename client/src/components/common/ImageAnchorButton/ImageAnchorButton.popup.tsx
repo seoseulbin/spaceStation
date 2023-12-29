@@ -34,6 +34,8 @@ export function ImageAnchorButtonPopup({
   const tagNameRef = useRef<HTMLInputElement | null>(null);
   const tagUrlRef = useRef<HTMLInputElement | null>(null);
 
+  const tagNameMaxLength = 15; // 태그명 최대 글자 수
+
   useEffect(() => {
     const tagInfo = getTagInfo(currentImage);
     console.log(tagInfo);
@@ -145,7 +147,7 @@ export function ImageAnchorButtonPopup({
             buttons={buttons}
           >
             <section>
-              <label>태그 이름</label>
+              <label>태그 이름 (최대 {tagNameMaxLength}글자)</label>
               <input
                 ref={tagNameRef}
                 name="tagname"
@@ -155,6 +157,7 @@ export function ImageAnchorButtonPopup({
                   inputOnchangeHandler(e.target.name, e.target.value);
                 }}
                 defaultValue={tagName}
+                maxLength={tagNameMaxLength}
               />
             </section>
             <section>
