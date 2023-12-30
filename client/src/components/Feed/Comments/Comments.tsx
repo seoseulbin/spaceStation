@@ -1,10 +1,11 @@
-import { useEffect, useState, FormEvent, useRef } from "react";
+import React, { useEffect, useState, FormEvent, useRef } from "react";
 import { useComment } from "./Comments.hooks";
 import CommentItem from "./CommentItems";
 import * as S from "./Comments.styles";
 import { storage } from "../../../global/storage";
 import ApiBoundary from "../../common/ApiBoundary";
 import toast from "react-hot-toast";
+import { CommentType } from "./Comments.type";
 import EmptyCard from "@/components/common/EmptyCard/EmptyCard";
 
 interface CommentProps {
@@ -24,6 +25,7 @@ function ApiComponent({ feedId, feedUser }: CommentProps) {
   const { comments, postComment, deleteComment } = useComment(feedId);
   const [comment, setComment] = useState<string>("");
   const [isFlashActive, setFlash] = useState<boolean>(false);
+  const [parentCommentId, setParentCommentId] = useState<string>(""); // Add state for parentCommentId
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -57,6 +59,7 @@ function ApiComponent({ feedId, feedUser }: CommentProps) {
         content: comment,
         userId: currentUser.userId,
         feedId: feedId,
+        parentCommentId: parentCommentId,
       });
 
       //게시한 후 비워주기
@@ -67,6 +70,8 @@ function ApiComponent({ feedId, feedUser }: CommentProps) {
       setTimeout(() => {
         setFlash(false);
       }, 3000);
+
+      setParentCommentId("");
     } catch (err) {
       console.error("게시 오류", err);
     }
@@ -91,9 +96,15 @@ function ApiComponent({ feedId, feedUser }: CommentProps) {
   const onDeleteComment = async (commentId: string) => {
     try {
       await deleteComment(commentId);
+      setComment("");
+      setParentCommentId("");
     } catch (err) {
       console.error("댓글 삭제 에러:", err);
     }
+  };
+
+  const onReply = (parentCommentId: string) => {
+    setParentCommentId(parentCommentId);
   };
 
   /*
@@ -134,14 +145,20 @@ function ApiComponent({ feedId, feedUser }: CommentProps) {
         {comments.length === 0 && <EmptyCard type="COMMENT" />}
         {comments &&
           comments
+            .filter((comment) => !comment.parentCommentId)
             .map((comment, index) => (
-              <CommentItem
-                key={comment._id}
-                item={comment}
-                feedUserId={feedUser}
-                onDelete={onDeleteComment}
-                flash={isFlashActive && index === comments.length - 1}
-              />
+              <React.Fragment key={comment._id}>
+                <CommentItem
+                  item={comment}
+                  feedUserId={feedUser}
+                  onDelete={onDeleteComment}
+                  onReply={() => onReply(comment._id)}
+                  flash={isFlashActive && index === comments.length - 1}
+                  isReply={false}
+                />
+
+                {renderReplies(comment._id, comments)}
+              </React.Fragment>
             ))
             .reverse()}
       </S.CommentsCollection>
@@ -150,7 +167,7 @@ function ApiComponent({ feedId, feedUser }: CommentProps) {
 
       <S.InputWrapper onSubmit={onSubmit}>
         <S.InputField
-          placeholder="댓글 달기..."
+          placeholder={parentCommentId ? "대댓글 달기..." : "댓글 달기..."}
           value={comment}
           onChange={onChange}
           onKeyDown={onKeyDown}
@@ -160,4 +177,23 @@ function ApiComponent({ feedId, feedUser }: CommentProps) {
       </S.InputWrapper>
     </>
   );
+
+  function renderReplies(parentCommentId: string, allComments: CommentType[]) {
+    return allComments
+      .filter((reply) => reply.parentCommentId === parentCommentId)
+      .map((reply, replyIndex) => (
+        <React.Fragment key={reply._id}>
+          <CommentItem
+            item={reply}
+            feedUserId={feedUser}
+            onDelete={onDeleteComment}
+            onReply={() => onReply(reply._id)}
+            flash={isFlashActive && replyIndex === comments.length - 1}
+            isReply={true}
+          />
+
+          {renderReplies(reply._id, allComments)}
+        </React.Fragment>
+      ));
+  }
 }

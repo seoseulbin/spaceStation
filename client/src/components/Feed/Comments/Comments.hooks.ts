@@ -24,12 +24,19 @@ export const useComment = (feedId: string) => {
       content,
       userId,
       feedId,
+      parentCommentId,
     }: {
       content: string;
       userId: string;
       feedId: string;
+      parentCommentId?: string;
     }) => {
-      return commentAPI.postComment({ content, userId, feedId });
+      return commentAPI.postComment({
+        content,
+        userId,
+        feedId,
+        parentCommentId,
+      });
     },
     onSuccess: () => {
       toast.success("댓글을 달았습니다.");

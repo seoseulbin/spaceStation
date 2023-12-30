@@ -19,10 +19,19 @@ const commentController = {
 
   postComment: asyncHandler(
     async (
-      req: Request<{}, {}, { feedId: string; userId: string; content: string }>,
+      req: Request<
+        {},
+        {},
+        {
+          feedId: string;
+          userId: string;
+          content: string;
+          parentCommentId?: string;
+        }
+      >,
       res,
     ) => {
-      const { content, feedId, userId } = req.body;
+      const { content, feedId, userId, parentCommentId } = req.body;
       if (!content)
         throw new CustomError({
           status: 400,
@@ -33,6 +42,7 @@ const commentController = {
         content,
         feedId,
         userId,
+        parentCommentId,
       });
       res.status(200).json({
         message: "성공적으로 댓글이 만들어짐",

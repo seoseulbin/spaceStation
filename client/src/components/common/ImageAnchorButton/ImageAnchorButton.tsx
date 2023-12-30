@@ -1,6 +1,7 @@
 import * as S from "./ImageAnchorButton.styles";
 import { useCustomDialog } from "../hooks/useCustomDialog";
 import { ImageAnchorButtonPopup } from "./ImageAnchorButton.popup";
+import { FiPlus } from "react-icons/fi";
 
 export default function ImageAnchorButton({
   x,
@@ -33,7 +34,9 @@ export default function ImageAnchorButton({
         onClick={() => {
           toggleDialog();
         }}
-      />
+      >
+        <FiPlus className="plus" size="12" color="white" strokeWidth="3" />
+      </S.AnchorButton>
       <ImageAnchorButtonPopup
         isOpen={isOpen}
         index={index}

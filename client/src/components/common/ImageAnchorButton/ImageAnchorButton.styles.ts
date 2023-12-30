@@ -23,6 +23,7 @@ export const AnchorButton = styled.div<CustomDivElement>`
   background-color: #bf5789;
   border-radius: 20px;
   cursor: pointer;
+  padding: 2px;
 
   &[data-disabled="disabled"] {
     visibility: hidden;
@@ -48,10 +49,15 @@ export const AnchorButton = styled.div<CustomDivElement>`
   }
 `;
 
-export const PreveiwInfo = styled.div<{ x: number; y: number; length: number }>`
+export const PreveiwInfo = styled.div<{
+  x: number;
+  y: number;
+  length: number;
+  isactive: boolean;
+}>`
   position: relative;
   right: ${(props) => props.x}px;
-  bottom: ${(props) => (props.y > 85 ? 44 : -1)}px;
+  bottom: ${(props) => (props.y > 85 ? 50 : -6)}px;
   width: ${(props) => (props.length * 15 <= 100 ? 100 : props.length * 15)}px;
   padding: 5px;
   padding-top: 2px;
@@ -64,7 +70,20 @@ export const PreveiwInfo = styled.div<{ x: number; y: number; length: number }>`
   color: white;
   z-index: 30;
 
+  pointer-events: ${(props) => (props.isactive === true ? "auto" : "none")};
+  opacity: ${(props) => (props.isactive === true ? 1 : 0)};
+
+  -webkit-transform: scale(${(props) => (props.isactive === true ? 1 : 0.35)});
+  transform: scale(${(props) => (props.isactive === true ? 1 : 0.35)});
+
+  -webkit-transition: all 0.325s cubic-bezier(0.05, 0.92, 0.37, 1.12);
+  transition: all 0.325s cubic-bezier(0.05, 0.92, 0.37, 1.12);
+
+  transform-origin: ${(props) => 2 + props.x}px
+    ${(props) => (props.y > 85 ? 22 : 0)}px;
+
   .triangle {
+    color: #bf5789;
     position: absolute;
     bottom: ${(props) => (props.y > 85 ? -5 : 20)}px;
     transform: ${(props) => (props.y > 85 ? "scaleY(-1)" : "scaleY(1)")};
