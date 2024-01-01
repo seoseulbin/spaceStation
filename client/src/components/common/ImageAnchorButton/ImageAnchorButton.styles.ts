@@ -25,6 +25,15 @@ export const AnchorButton = styled.div<CustomDivElement>`
   cursor: pointer;
   padding: 2px;
 
+  -webkit-transition: transform 0.2s ease-out;
+  transition: transform 0.2s ease-out;
+
+  &[data-dragging="DRAGGING"] {
+    -webkit-transform: scale(2);
+    transform: scale(2);
+    z-index: 11;
+  }
+
   &[data-disabled="disabled"] {
     visibility: hidden;
   }

@@ -5,6 +5,8 @@ import UrlPreview from "../UrlPreview/UrlPreview";
 import parseAPI from "./ImageAnchorButton.api";
 import { useEffect, useRef, useState } from "react";
 import { storage, storageKeys } from "@/global/storage";
+import { useSetRecoilState } from "recoil";
+import { isModalOpenAtom } from "@/Atoms/isModalOpenAtom";
 
 export function ImageAnchorButtonPopup({
   index,
@@ -13,6 +15,7 @@ export function ImageAnchorButtonPopup({
   onSuccess,
   toggleDialog,
   isOpen,
+  onDelete,
 }: {
   index: string;
   currentImage: string;
@@ -25,6 +28,7 @@ export function ImageAnchorButtonPopup({
   ) => void;
   toggleDialog: () => void;
   isOpen: boolean;
+  onDelete: (showImage: string | undefined, draggingTag: number | null) => void;
 }) {
   const [tagName, setTagName] = useState("");
   const [tagUrl, setTagUrl] = useState("");
@@ -35,6 +39,8 @@ export function ImageAnchorButtonPopup({
   const tagUrlRef = useRef<HTMLInputElement | null>(null);
 
   const tagNameMaxLength = 15; // 태그명 최대 글자 수
+
+  const setIsModalOpen = useSetRecoilState(isModalOpenAtom);
 
   useEffect(() => {
     const tagInfo = getTagInfo(currentImage);
@@ -83,11 +89,13 @@ export function ImageAnchorButtonPopup({
 
   const buttons = [
     {
-      name: "취소",
-      usage: "NEUTRAL",
+      name: "삭제",
+      usage: "ALERT",
       onClick: () => {
         storage.remove(storageKeys.tagInfo);
         toggleDialog();
+        setIsModalOpen(false);
+        onDelete(currentImage, parseInt(index));
       },
     },
     {
@@ -109,6 +117,7 @@ export function ImageAnchorButtonPopup({
         onSuccess(currentImage, currentTag, name, url);
         storage.remove(storageKeys.tagInfo);
         toggleDialog();
+        setIsModalOpen(false);
       },
     },
   ];
@@ -138,8 +147,14 @@ export function ImageAnchorButtonPopup({
         isOpen={isOpen}
         afterOpen={afterOpenDialog}
         beforeClose={beforeCloseDialog}
-        onBackgroundClick={toggleDialog}
-        onEscapeKeydown={toggleDialog}
+        onBackgroundClick={() => {
+          toggleDialog();
+          setIsModalOpen(false);
+        }}
+        onEscapeKeydown={() => {
+          toggleDialog();
+          setIsModalOpen(false);
+        }}
         opacity={opacity}
         backgroundProps={{ opacity }}
         children={

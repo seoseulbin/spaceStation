@@ -6,6 +6,15 @@ export function useTagButtonHandler() {
     undefined,
   );
 
+  const [isDragging, setIsDragging] = useState(false);
+
+  const [draggingTag, setDraggingTag] = useState<null | number>(null);
+
+  const [beforeTagPos, setBeforeTagPos] = useState<{
+    x: null | number;
+    y: null | number;
+  }>({ x: null, y: null });
+
   const [currentImage, setCurrentImage] = useState<
     | {
         url: string;
@@ -44,7 +53,10 @@ export function useTagButtonHandler() {
     setImgList((prev) => [...prev, newImage]);
   }
 
-  function addImageAnchor(showImage: string, event: React.MouseEvent) {
+  function addImageAnchor(
+    showImage: string,
+    event: React.MouseEvent | React.TouchEvent,
+  ) {
     const isCurrentImage = imgList?.find((item) => item.url === showImage);
     const maxAnchorCount = 5;
 
@@ -71,17 +83,35 @@ export function useTagButtonHandler() {
   }
 
   // 마우스 이벤트 좌표를 가져오는 함수
-  function getCurrentMousePos(event: React.MouseEvent) {
+  function getCurrentMousePos(event: React.MouseEvent | React.TouchEvent) {
     const containerRect = target?.getBoundingClientRect();
     if (containerRect) {
-      const x = event.clientX - containerRect.left;
-      const y = event.clientY - containerRect.top;
+      let x = 0;
+      let y = 0;
+
+      if (
+        event.type === "mousedown" ||
+        event.type === "mouseup" ||
+        event.type === "mousemove"
+      ) {
+        x = (event as React.MouseEvent).clientX - containerRect.left;
+        y = (event as React.MouseEvent).clientY - containerRect.top;
+      } else if (
+        event.type === "touchend" ||
+        event.type === "touchmove" ||
+        event.type === "touchstart"
+      ) {
+        const touchEvent = event as React.TouchEvent;
+        x = touchEvent.touches[0].clientX - containerRect.left;
+        y = touchEvent.touches[0].clientY - containerRect.top;
+      }
+
       const boxWidth = containerRect.width;
       const boxHeight = containerRect.height;
 
       const mousePosition = { x: 0, y: 0 };
-      mousePosition.x = x > 0 ? (x / boxWidth) * 100 : 0;
-      mousePosition.y = y > 0 ? (y / boxHeight) * 100 : 0;
+      mousePosition.x = (x / boxWidth) * 100;
+      mousePosition.y = (y / boxHeight) * 100;
       return mousePosition;
     }
   }
@@ -94,7 +124,13 @@ export function useTagButtonHandler() {
     const currentImageIndex = imgList?.findIndex(
       (item) => item.url === showImage,
     );
-    if (currentImageIndex !== -1) {
+    if (
+      currentImageIndex !== -1 &&
+      position.x < 100 &&
+      position.x > 0 &&
+      position.y < 100 &&
+      position.y > 0
+    ) {
       const newPosition = { x: position.x, y: position.y };
       const newInfo = { name: "", url: "" };
       const newArray = [...imgList];
@@ -106,15 +142,37 @@ export function useTagButtonHandler() {
     }
   }
 
+  // tag 위치를 업데이트하는 함수
+  function updateTagPosition(
+    showImage: string,
+    draggingTag: number,
+    position: { x: number; y: number },
+  ) {
+    const currentImageIndex = imgList?.findIndex(
+      (item) => item.url === showImage,
+    );
+    const newPosition = { x: position.x, y: position.y };
+
+    if (newPosition.x < 0) newPosition.x = 0;
+    if (newPosition.x > 100) newPosition.x = 100;
+    if (newPosition.y < 0) newPosition.y = 0;
+    if (newPosition.y > 100) newPosition.y = 100;
+
+    const newArray = [...imgList];
+    newArray[currentImageIndex].tagPosition[draggingTag].x = newPosition.x;
+    newArray[currentImageIndex].tagPosition[draggingTag].y = newPosition.y;
+    setImgList(() => newArray);
+  }
+
   // 태그 정보를 저장하는 함수
   function updateTagInfo(
-    currentImage: string | undefined,
+    showImage: string | undefined,
     index: string | undefined,
     name: string,
     url: string,
   ) {
     const newArray = [...imgList];
-    const imageIndex = imgList.findIndex((item) => item.url === currentImage);
+    const imageIndex = imgList.findIndex((item) => item.url === showImage);
     newArray[imageIndex].tagInfo[parseInt(index as string)].name = name;
     newArray[imageIndex].tagInfo[parseInt(index as string)].url = url;
     setImgList(() => newArray);
@@ -128,7 +186,51 @@ export function useTagButtonHandler() {
     return currentTagInfo;
   }
 
+  // 태그 마우스다운이벤트 발생 시 실행되는 함수
+  function startDragTag(event: React.MouseEvent | React.TouchEvent) {
+    const currentPos = getCurrentMousePos(event);
+
+    if (currentPos) setBeforeTagPos(currentPos);
+
+    //setIsDragging(true);
+    const tagIndex = event.currentTarget.getAttribute("title");
+
+    if (tagIndex) setDraggingTag(parseInt(tagIndex));
+  }
+
+  // tag mouseUp 이벤트 발생 시 실행되는 함수
+  function endDragTag() {
+    if (isDragging) setIsDragging(false);
+    if (draggingTag !== null) setDraggingTag(null);
+    if (beforeTagPos.x !== null) setBeforeTagPos({ x: null, y: null });
+  }
+
+  // tag 삭제하는 함수
+  function deleteTag(
+    showImage: string | undefined,
+    draggingTag: number | null,
+  ) {
+    console.log(showImage, draggingTag, imgList);
+    const currentImageInfo = currentImage;
+    const newArray = [...imgList];
+
+    const imageIndex = imgList.findIndex((item) => item.url === showImage);
+    if (currentImageInfo && draggingTag != null && showImage !== undefined) {
+      newArray[imageIndex].tagInfo.splice(draggingTag, 1);
+      newArray[imageIndex].tagPosition.splice(draggingTag, 1);
+
+      setCurrentImage({
+        ...currentImageInfo,
+        tagPosition: newArray[imageIndex].tagPosition,
+        tagInfo: newArray[imageIndex].tagInfo,
+      });
+      setImgList(() => newArray);
+    }
+    toast.success("태그를 삭제했습니다.");
+  }
+
   return {
+    target,
     setTarget,
     imgList,
     setImgList,
@@ -139,5 +241,13 @@ export function useTagButtonHandler() {
     getCurrentMousePos,
     updateTagInfo,
     getTagInfo,
+    isDragging,
+    setIsDragging,
+    startDragTag,
+    endDragTag,
+    updateTagPosition,
+    draggingTag,
+    beforeTagPos,
+    deleteTag,
   };
 }
