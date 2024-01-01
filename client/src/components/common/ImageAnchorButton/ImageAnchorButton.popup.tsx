@@ -15,6 +15,7 @@ export function ImageAnchorButtonPopup({
   onSuccess,
   toggleDialog,
   isOpen,
+  onDelete,
 }: {
   index: string;
   currentImage: string;
@@ -27,6 +28,7 @@ export function ImageAnchorButtonPopup({
   ) => void;
   toggleDialog: () => void;
   isOpen: boolean;
+  onDelete: (showImage: string | undefined, draggingTag: number | null) => void;
 }) {
   const [tagName, setTagName] = useState("");
   const [tagUrl, setTagUrl] = useState("");
@@ -87,12 +89,13 @@ export function ImageAnchorButtonPopup({
 
   const buttons = [
     {
-      name: "취소",
-      usage: "NEUTRAL",
+      name: "삭제",
+      usage: "ALERT",
       onClick: () => {
         storage.remove(storageKeys.tagInfo);
         toggleDialog();
         setIsModalOpen(false);
+        onDelete(currentImage, parseInt(index));
       },
     },
     {

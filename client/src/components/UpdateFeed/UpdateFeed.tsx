@@ -64,6 +64,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
     updateTagPosition,
     draggingTag,
     beforeTagPos,
+    deleteTag,
   } = useTagButtonHandler();
 
   // ImgTagButton 갱신을 위한 effect 훅
@@ -272,7 +273,6 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
         <S.ImageContainer
           ref={setTarget}
           onMouseUp={(event: React.MouseEvent) => {
-            console.log(isDragging, beforeTagPos, isModalOepn);
             if (!isDragging && beforeTagPos.x == null && !isModalOepn) {
               addImageAnchor(showImage, event);
             }
@@ -299,6 +299,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
                   getTagInfo={getTagInfo}
                   draggingTag={draggingTag}
                   isDragging={isDragging}
+                  onDelete={deleteTag}
                 />
               ))}
           </div>

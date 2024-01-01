@@ -16,6 +16,7 @@ export default function ImageAnchorButton({
   onTouchStart,
   draggingTag,
   isDragging,
+  onDelete,
 }: {
   x: number;
   y: number;
@@ -32,6 +33,7 @@ export default function ImageAnchorButton({
   onTouchStart: (e: React.TouchEvent) => void;
   draggingTag: null | number;
   isDragging: boolean;
+  onDelete: (showImage: string | undefined, draggingTag: number | null) => void;
 }) {
   const { toggleDialog, isOpen } = useCustomDialog();
   const setIsModalOpen = useSetRecoilState(isModalOpenAtom);
@@ -47,9 +49,7 @@ export default function ImageAnchorButton({
         }
         onMouseDown={onMouseDown}
         onTouchStart={onTouchStart}
-        onMouseUp={(event: React.MouseEvent) => {
-          //event.stopPropagation();
-          console.log("up", event);
+        onMouseUp={() => {
           if (!isDragging) {
             setIsModalOpen(true);
             toggleDialog();
@@ -65,6 +65,7 @@ export default function ImageAnchorButton({
         onSuccess={onSuccess}
         getTagInfo={getTagInfo}
         toggleDialog={toggleDialog}
+        onDelete={onDelete}
       />
     </>
   );

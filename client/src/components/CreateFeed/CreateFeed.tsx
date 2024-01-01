@@ -59,6 +59,7 @@ function ApiComponent() {
     updateTagPosition,
     draggingTag,
     beforeTagPos,
+    deleteTag,
   } = useTagButtonHandler();
 
   // ImgTagButton 갱신을 위한 effect 훅
@@ -230,17 +231,6 @@ function ApiComponent() {
         }}
         onMouseUp={() => {
           endDragTag();
-          // const dragEndTagPosition = getCurrentMousePos(event);
-          // console.log(target, dragEndTagPosition);
-          // if(event.target !== target &&
-          //   dragEndTagPosition !== undefined &&
-          //   (dragEndTagPosition.x < 0 ||
-          //   dragEndTagPosition.x > 100 ||
-          //   dragEndTagPosition.y < 0 ||
-          //   dragEndTagPosition.y > 100)) {
-          //     console.log("out of container");
-          //     deleteTag(showImage, draggingTag);
-          // }
         }}
         onTouchMove={(event: React.TouchEvent) => {
           event.preventDefault();
@@ -263,7 +253,6 @@ function ApiComponent() {
         <S.ImageContainer
           ref={setTarget}
           onMouseUp={(event: React.MouseEvent) => {
-            console.log(isDragging, beforeTagPos, isModalOepn);
             if (!isDragging && beforeTagPos.x == null && !isModalOepn) {
               addImageAnchor(showImage, event);
             }
@@ -290,6 +279,7 @@ function ApiComponent() {
                   getTagInfo={getTagInfo}
                   draggingTag={draggingTag}
                   isDragging={isDragging}
+                  onDelete={deleteTag}
                 />
               ))}
           </div>
