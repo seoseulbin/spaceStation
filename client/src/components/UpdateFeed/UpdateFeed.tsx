@@ -243,6 +243,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
           }
 
           if (isDragging) {
+            document.body.style.overflow = "hidden";
             const currentPosition = getCurrentMousePos(event);
             if (currentPosition && draggingTag != null) {
               updateTagPosition(showImage, draggingTag, currentPosition);
@@ -251,6 +252,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
         }}
         onMouseUp={() => {
           endDragTag();
+          document.body.style.overflow = "";
         }}
         onTouchMove={(event: React.TouchEvent) => {
           event.preventDefault();
@@ -260,6 +262,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
           }
 
           if (isDragging) {
+            document.body.style.overflow = "hidden";
             const currentPosition = getCurrentMousePos(event);
             if (currentPosition && draggingTag != null) {
               updateTagPosition(showImage, draggingTag, currentPosition);
@@ -268,6 +271,7 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
         }}
         onTouchEnd={() => {
           endDragTag();
+          document.body.style.overflow = "";
         }}
       >
         <S.ImageContainer
