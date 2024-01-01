@@ -29,8 +29,8 @@ export const AnchorButton = styled.div<CustomDivElement>`
   transition: transform 0.2s ease-out;
 
   &[data-dragging="DRAGGING"] {
-    -webkit-transform: scale(2);
-    transform: scale(2);
+    -webkit-transform: scale(3);
+    transform: scale(3);
     z-index: 11;
   }
 
