@@ -153,6 +153,11 @@ export function useTagButtonHandler() {
     );
     const newPosition = { x: position.x, y: position.y };
 
+    if (newPosition.x < 0) newPosition.x = 0;
+    if (newPosition.x > 100) newPosition.x = 100;
+    if (newPosition.y < 0) newPosition.y = 0;
+    if (newPosition.y > 100) newPosition.y = 100;
+
     const newArray = [...imgList];
     newArray[currentImageIndex].tagPosition[draggingTag].x = newPosition.x;
     newArray[currentImageIndex].tagPosition[draggingTag].y = newPosition.y;
@@ -200,6 +205,7 @@ export function useTagButtonHandler() {
     if (beforeTagPos.x !== null) setBeforeTagPos({ x: null, y: null });
   }
 
+  // tag 삭제하는 함수
   function deleteTag(
     showImage: string | undefined,
     draggingTag: number | null,
@@ -212,12 +218,13 @@ export function useTagButtonHandler() {
     if (currentImageInfo && draggingTag != null && showImage !== undefined) {
       newArray[imageIndex].tagInfo.splice(draggingTag, 1);
       newArray[imageIndex].tagPosition.splice(draggingTag, 1);
-      setImgList(() => newArray);
+
       setCurrentImage({
         ...currentImageInfo,
         tagPosition: newArray[imageIndex].tagPosition,
         tagInfo: newArray[imageIndex].tagInfo,
       });
+      setImgList(() => newArray);
     }
     toast.success("태그를 삭제했습니다.");
   }

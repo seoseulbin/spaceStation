@@ -248,20 +248,8 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
             }
           }
         }}
-        onMouseUp={(event: React.MouseEvent) => {
+        onMouseUp={() => {
           endDragTag();
-          console.log(event);
-          // console.log(target);
-          // const dragEndTagPosition = getCurrentMousePos(event);
-          // if(event.target !== target &&
-          //   dragEndTagPosition !== undefined &&
-          //   (dragEndTagPosition.x < 0 ||
-          //   dragEndTagPosition.x > 100 ||
-          //   dragEndTagPosition.y < 0 ||
-          //   dragEndTagPosition.y > 100)) {
-          //     console.log("out of container");
-          //     deleteTag(showImage, draggingTag);
-          // }
         }}
         onTouchMove={(event: React.TouchEvent) => {
           event.preventDefault();
@@ -277,9 +265,8 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
             }
           }
         }}
-        onTouchEnd={(event: React.TouchEvent) => {
+        onTouchEnd={() => {
           endDragTag();
-          console.log(event);
         }}
       >
         <S.ImageContainer

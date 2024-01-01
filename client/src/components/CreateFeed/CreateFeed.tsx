@@ -228,11 +228,10 @@ function ApiComponent() {
             }
           }
         }}
-        onMouseUp={(event: React.MouseEvent) => {
+        onMouseUp={() => {
           endDragTag();
-          console.log(event);
-          // console.log(target);
           // const dragEndTagPosition = getCurrentMousePos(event);
+          // console.log(target, dragEndTagPosition);
           // if(event.target !== target &&
           //   dragEndTagPosition !== undefined &&
           //   (dragEndTagPosition.x < 0 ||
@@ -257,9 +256,8 @@ function ApiComponent() {
             }
           }
         }}
-        onTouchEnd={(event: React.TouchEvent) => {
+        onTouchEnd={() => {
           endDragTag();
-          console.log(event);
         }}
       >
         <S.ImageContainer
