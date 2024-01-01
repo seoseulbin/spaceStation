@@ -5,7 +5,7 @@ import { useCustomDialog } from "../hooks/useCustomDialog.tsx";
 import KakaoMap from "./GeoLocation.kakaomap.tsx";
 import { storage, storageKeys } from "@/global/storage";
 import { useRecoilState } from "recoil";
-import { geoLocationAtom } from "../../Atoms/GeoLocationAtom";
+import { geoLocationAtom } from "../../../Atoms/GeoLocationAtom.ts";
 import toast from "react-hot-toast";
 import { IoIosPin } from "react-icons/io";
 
