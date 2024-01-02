@@ -1,48 +1,32 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
+interface TagPosition {
+  x: number | null;
+  y: number | null;
+}
+interface TagInfo {
+  name: string;
+  url: string;
+}
+interface Image {
+  url: string;
+  tagPosition: TagPosition[];
+  tagInfo: TagInfo[];
+}
+
 export function useTagButtonHandler() {
-  const [target, setTarget] = useState<HTMLDivElement | null | undefined>(
+  const [target, setTarget] = useState<HTMLDivElement | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [draggingTag, setDraggingTag] = useState<null | number>(null);
+  const [beforeTagPos, setBeforeTagPos] = useState<TagPosition>({
+    x: null,
+    y: null,
+  });
+  const [currentImage, setCurrentImage] = useState<Image | undefined>(
     undefined,
   );
-
-  const [isDragging, setIsDragging] = useState(false);
-
-  const [draggingTag, setDraggingTag] = useState<null | number>(null);
-
-  const [beforeTagPos, setBeforeTagPos] = useState<{
-    x: null | number;
-    y: null | number;
-  }>({ x: null, y: null });
-
-  const [currentImage, setCurrentImage] = useState<
-    | {
-        url: string;
-        tagPosition: {
-          x: number;
-          y: number;
-        }[];
-        tagInfo: {
-          name: string;
-          url: string;
-        }[];
-      }
-    | undefined
-  >(undefined);
-
-  const [imgList, setImgList] = useState<
-    {
-      url: string;
-      tagPosition: {
-        x: number;
-        y: number;
-      }[];
-      tagInfo: {
-        name: string;
-        url: string;
-      }[];
-    }[]
-  >([]);
+  const [imgList, setImgList] = useState<Image[]>([]);
 
   function addNewImage(item: string) {
     const newImage = {

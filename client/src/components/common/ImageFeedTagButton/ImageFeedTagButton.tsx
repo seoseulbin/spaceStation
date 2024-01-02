@@ -70,7 +70,7 @@ export default function ImageFeedTagButton({
       >
         <FiPlus className="plus" size="12" color="white" strokeWidth="3" />
         <S.PreveiwInfo
-          isactive={isActive}
+          data-active={isActive}
           x={x}
           y={y}
           length={currentImage.tagInfo[parseInt(index)].name.length}

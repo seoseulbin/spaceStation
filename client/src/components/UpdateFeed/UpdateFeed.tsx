@@ -292,15 +292,15 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
           )}
           <div>
             {currentImage?.tagPosition &&
-              currentImage.tagPosition.length > 0 &&
+              currentImage.tagPosition.length !== 0 &&
               currentImage.tagPosition.map((item, index) => (
                 <ImageAnchorButton
                   onMouseDown={startDragTag}
                   onTouchStart={startDragTag}
                   key={index}
                   index={String(index)}
-                  x={item.x}
-                  y={item.y}
+                  x={item.x !== null ? item.x : 0}
+                  y={item.y !== null ? item.y : 0}
                   onSuccess={updateTagInfo}
                   currentImage={currentImage.url}
                   getTagInfo={getTagInfo}
