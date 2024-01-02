@@ -190,7 +190,15 @@ export function useTagButtonHandler() {
   function startDragTag(event: React.MouseEvent | React.TouchEvent) {
     const currentPos = getCurrentMousePos(event);
 
-    if (currentPos) setBeforeTagPos(currentPos);
+    if (
+      currentPos &&
+      currentPos.x > 0 &&
+      currentPos.x < 100 &&
+      currentPos.y > 0 &&
+      currentPos.y < 100
+    ) {
+      setBeforeTagPos(currentPos);
+    }
 
     //setIsDragging(true);
     const tagIndex = event.currentTarget.getAttribute("title");

@@ -42,6 +42,10 @@ export const AnchorButton = styled.div<CustomDivElement>`
     position: relative;
     right: 0px;
     bottom: 3px;
+
+    & line {
+      pointer-events: none;
+    }
   }
 
   &:before {

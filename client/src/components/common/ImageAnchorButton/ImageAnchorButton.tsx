@@ -41,6 +41,7 @@ export default function ImageAnchorButton({
   return (
     <>
       <S.AnchorButton
+        className="imageTag"
         title={index}
         x={x}
         y={y}

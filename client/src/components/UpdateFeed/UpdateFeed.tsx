@@ -243,7 +243,6 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
           }
 
           if (isDragging) {
-            document.body.style.overflow = "hidden";
             const currentPosition = getCurrentMousePos(event);
             if (currentPosition && draggingTag != null) {
               updateTagPosition(showImage, draggingTag, currentPosition);
@@ -252,16 +251,20 @@ function ApiComponent({ feedId }: UpdateFeedProps) {
         }}
         onMouseUp={() => {
           endDragTag();
-          document.body.style.overflow = "";
         }}
         onTouchMove={(event: React.TouchEvent) => {
-          event.preventDefault();
+          const target = event.target as HTMLElement;
+          const className = target.getAttribute("class");
 
           if (beforeTagPos !== getCurrentMousePos(event)) {
             setIsDragging(true);
           }
 
-          if (isDragging) {
+          if (
+            isDragging &&
+            className &&
+            (className.includes("imageTag") || className.includes("plus"))
+          ) {
             document.body.style.overflow = "hidden";
             const currentPosition = getCurrentMousePos(event);
             if (currentPosition && draggingTag != null) {
