@@ -1,28 +1,25 @@
 import { PATH } from "@/global/constants";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { MdHome } from "react-icons/md";
-import { FaPlus } from "react-icons/fa6";
-import { CgProfile } from "react-icons/cg";
 import { Fragment } from "react";
 
 const items = [
   {
     path: PATH.root,
-    activeIcon: <MdHome size={25} />,
-    defaultIcon: <MdHome size={25} color={"gray"} />,
+    activeIcon: <img src="/main.png" />,
+    defaultIcon: <img src="/main.png" style={{ filter: "grayscale(1)" }} />,
     text: "메인",
   },
   {
     path: PATH.createFeed,
-    activeIcon: <FaPlus size={25} />,
-    defaultIcon: <FaPlus size={25} color={"gray"} />,
+    activeIcon: <img src="/upload.png" />,
+    defaultIcon: <img src="/upload.png" style={{ filter: "grayscale(1)" }} />,
     text: "업로드",
   },
   {
     path: PATH.profile,
-    activeIcon: <CgProfile size={25} />,
-    defaultIcon: <CgProfile size={25} color={"gray"} />,
+    activeIcon: <img src="/mypage.png" />,
+    defaultIcon: <img src="/mypage.png" style={{ filter: "grayscale(1)" }} />,
     text: "마이페이지",
   },
 ];
@@ -53,14 +50,13 @@ export default function Navbar() {
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.deepback};
   width: 100%;
-  height: 3rem;
+  height: 3.2rem;
   display: flex;
-  padding: 10px;
   justify-content: space-around;
   position: fixed;
   bottom: 0;
-  left: 0;
-  font-size: ${({ theme }) => theme.size.rg}px;
+  font-size: ${({ theme }) => theme.size.sm}px;
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
 `;
 
 const LinkWrrapper = styled.div<{ $isActive?: boolean }>`
@@ -70,6 +66,12 @@ const LinkWrrapper = styled.div<{ $isActive?: boolean }>`
   justify-content: center;
   width: 5rem;
   height: 100%;
-  gap: 0.125rem;
-  color: ${({ $isActive }) => ($isActive ? "black" : "gray")};
+  gap: 0.225rem;
+  color: ${({ $isActive }) =>
+    $isActive ? ({ theme }) => theme.colors.main : "gray"};
+
+  & img {
+    width: 15px;
+    width: 25px;
+  }
 `;

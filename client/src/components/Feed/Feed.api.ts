@@ -6,7 +6,7 @@ const instance = axios.create({
 });
 
 const feedAPI = {
-  async getFeeds({ cursor, limit }: { cursor: number; limit: number }) {
+  async getMainFeeds({ cursor, limit }: { cursor: number; limit: number }) {
     const { data } = await instance.get<FeedType[]>(
       `/?cursor=${cursor}&limit=${limit}`,
     );
@@ -14,26 +14,93 @@ const feedAPI = {
     return { data, nextCursor: cursor + limit };
   },
 
-  async getUserFeeds(props: { userId: string; cursor: number; limit: number }) {
+  async getProfileFeeds(props: {
+    userId: string;
+    cursor: number;
+    limit: number;
+  }) {
     const { userId, cursor, limit } = props;
     const { data } = await instance.get<FeedType[]>(
-      `/?userId=${userId}&cursor=${cursor}&limit=${limit}`,
+      `/profiles/${userId}?cursor=${cursor}&limit=${limit}`,
     );
 
     return { data, nextCursor: cursor + limit };
   },
 
   async getCategoryFeeds(props: {
-    category: string;
+    categoryId: string;
     cursor: number;
     limit: number;
   }) {
-    const { category, cursor, limit } = props;
+    const { categoryId, cursor, limit } = props;
     const { data } = await instance.get<FeedType[]>(
-      `/?category=${category}&cursor=${cursor}&limit=${limit}`,
+      `/categories/${categoryId}?cursor=${cursor}&limit=${limit}`,
     );
 
     return { data, nextCursor: cursor + limit };
+  },
+
+  async getMyBookmarkFeeds(props: { cursor: number; limit: number }) {
+    const { cursor, limit } = props;
+    const { data } = await instance.get<{ feedId: FeedType }[]>(
+      `/bookmarks/mine?cursor=${cursor}&limit=${limit}`,
+      {
+        withCredentials: true,
+      },
+    );
+
+    return { data: data.map((d) => d.feedId), nextCursor: cursor + limit };
+  },
+
+  async getFeedsSearchedByContent(props: {
+    query: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { query, cursor, limit } = props;
+    const { data } = await instance.get<FeedType[]>(
+      `/search/content/${query}?cursor=${cursor}&limit=${limit}`,
+    );
+
+    return { data, nextCursor: cursor + limit };
+  },
+
+  async getHashtagFeeds(props: {
+    hashtag: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { hashtag, cursor, limit } = props;
+    const { data } = await instance.get<FeedType[]>(
+      `/hashtag/${hashtag}?cursor=${cursor}&limit=${limit}`,
+    );
+
+    return { data, nextCursor: cursor + limit };
+  },
+
+  async getGeoLocationFeeds(props: {
+    geoLocationContent: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { geoLocationContent, cursor, limit } = props;
+    const { data } = await instance.get<FeedType[]>(
+      `/geoLocationContent/${geoLocationContent}?cursor=${cursor}&limit=${limit}`,
+    );
+
+    return { data, nextCursor: cursor + limit };
+  },
+
+  async deleteFeed(_id: string) {
+    try {
+      const response = await instance.delete(`/${_id}`, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      if (error instanceof Error) console.log(error.message);
+      else console.log(String(error));
+    }
   },
 };
 

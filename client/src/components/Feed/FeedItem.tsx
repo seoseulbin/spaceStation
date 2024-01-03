@@ -4,9 +4,13 @@ import "slick-carousel/slick/slick-theme.css";
 import * as S from "./Feed.styles";
 import { Fragment, useState } from "react";
 import FeedHeader from "./FeedHeader/FeedHeader";
-import Comment from "./Comments/Comments";
+import CommentContainer from "./Comments/CommentContainer";
 import Like from "./Like/Like";
+import Bookmark from "./Bookmark/Bookmark";
 import ImageFeedTagButton from "../common/ImageFeedTagButton/ImageFeedTagButton";
+import { Link, NavLink } from "react-router-dom";
+import { IoIosPin } from "react-icons/io";
+import { PATH } from "@/global/constants";
 
 const sliderSettings = {
   dots: true,
@@ -31,7 +35,7 @@ export default function FeedItem(feed: FeedType) {
         <S.CustomSlider {...sliderSettings}>
           {feed.imgUrls.map((imgUrl, i) => (
             <Fragment key={`${imgUrl.url} + ${i}`}>
-              <S.ImageSquareFrame>
+              <S.ImageSquareFrame imgurl={imgUrl.url}>
                 <img src={imgUrl.url} alt={"피드 이미지"} />
                 {imgUrl &&
                   imgUrl.tagPosition?.map((item, index) => (
@@ -47,29 +51,59 @@ export default function FeedItem(feed: FeedType) {
             </Fragment>
           ))}
         </S.CustomSlider>
-        <Like feedId={feed._id} />
 
-        <S.CommentContainer
-          key={feed._id}
-          onClick={() => setIsCommentModalOpen(true)}
-        >
-          댓글
-        </S.CommentContainer>
+        <S.ButtonContainer>
+          <S.ButtonLeftDiv>
+            <Like feedId={feed._id} />
+          </S.ButtonLeftDiv>
+          <S.ButtonRightDiv>
+            <S.CommentContainer
+              key={feed._id}
+              onClick={() => setIsCommentModalOpen(true)}
+            />
+            <Bookmark feedId={feed._id} />
+          </S.ButtonRightDiv>
+        </S.ButtonContainer>
 
         {isCommentModalOpen && (
-          <Comment
+          <CommentContainer
             feedId={feed._id}
             feedUser={feed.userId}
             onClickClose={() => setIsCommentModalOpen(false)}
           />
         )}
-
+        {feed.geoLocation?.content && (
+          <NavLink to={PATH.geoLocationFeedOverview(feed.geoLocation.content)}>
+            <S.GeoLocationContainer>
+              <div>
+                <IoIosPin size={18} />
+                {feed.geoLocation.content}
+              </div>
+            </S.GeoLocationContainer>
+          </NavLink>
+        )}
         <S.TextContainer>
-          {feed.content.length < 60 || more ? (
-            <>{feed.content}</>
+          {(feed.content.length < 60 &&
+            feed.content.split("\n").length === 1) ||
+          more ? (
+            <>
+              {feed.content}
+              <br />
+              {feed.hashtag?.map((tag, index) => {
+                return (
+                  <Link
+                    key={`${feed._id}_${index}`}
+                    to={PATH.hashtagFeedOverview(tag.slice(1))}
+                  >
+                    {tag}
+                  </Link>
+                );
+              })}
+            </>
           ) : (
             <>
-              {feed.content.slice(0, 60)} ...{" "}
+              {feed.content.split("\n")[0].slice(0, 60)}
+              ...{" "}
               <S.MoreReadButton onClick={() => setMore((prev) => !prev)}>
                 더보기
               </S.MoreReadButton>

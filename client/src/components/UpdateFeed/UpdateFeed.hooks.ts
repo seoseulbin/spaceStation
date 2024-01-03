@@ -6,25 +6,30 @@ import { AxiosError } from "axios";
 import { UpdateFeedType } from "./UpdateFeed.type";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "@/global/constants";
-/**
- * 샘플 훅
- */
+import { useRecoilState } from "recoil";
+import { loadingAtom } from "../common/Loading/EntireLoading";
+
 export const useUpdateFeed = (_id: string) => {
+  const [isLoading, setisLoading] = useRecoilState(loadingAtom);
+
   const navigate = useNavigate();
 
   const { data: feed } = useSuspenseQuery<UpdateFeedType, Error>({
-    queryKey: [queryKeys.feed, _id],
+    queryKey: [queryKeys.feedMain, _id],
     queryFn: () => feedAPI.getFeed(_id),
   });
 
   const invalidateFeedQuery = () => {
     queryClient.invalidateQueries({
-      queryKey: [queryKeys.feed],
+      queryKey: [queryKeys.feedMain],
     });
   };
 
   const updateFeed = useMutation({
     mutationFn: feedAPI.updateFeed,
+    onMutate: () => {
+      setisLoading(!isLoading);
+    },
     onSuccess: () => {
       toast.success("피드가 수정되었습니다.");
       invalidateFeedQuery();
@@ -32,8 +37,11 @@ export const useUpdateFeed = (_id: string) => {
     },
     onError: (err) => {
       toast.error(
-        err instanceof AxiosError ? "정보가 부족합니다." : "unknown error",
+        err instanceof AxiosError ? err.response?.data.error : "unknown error",
       );
+    },
+    onSettled: () => {
+      setisLoading(!isLoading);
     },
   }).mutateAsync;
 

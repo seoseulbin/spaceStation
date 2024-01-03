@@ -4,8 +4,8 @@ export type UpdateFeedType = {
   imgUrls: Array<{
     url: string;
     tagPosition: Array<{
-      x: number;
-      y: number;
+      x: number | null;
+      y: number | null;
     }>;
     tagInfo: Array<{
       name: string;
@@ -13,4 +13,12 @@ export type UpdateFeedType = {
     }>;
   }>;
   content: string;
+  hashtag: string[];
+  geoLocation: {
+    content: string;
+    position: {
+      lat: number;
+      lng: number;
+    };
+  };
 };

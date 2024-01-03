@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom";
 import { PATH } from "@/global/constants";
 import profileSettingAPI from "../Profile/Profile.Setting.api";
 import { storage, storageKeys } from "@/global/storage";
+import * as S from "./ApiErrorFallback.styles";
 
 export default function ApiErrorFallback({
   error,
@@ -20,8 +21,11 @@ export default function ApiErrorFallback({
   return (
     <>
       {/* TODO: 스타일링 */}
-      <div>요청에 실패했습니다.</div>
-      <button onClick={() => resetErrorBoundary()}>재시도</button>
+      <S.Container>
+        <S.RequestFailedImg src="/requestFail.png" />
+        요청에 실패했습니다.
+        <button onClick={() => resetErrorBoundary()}>재시도</button>
+      </S.Container>
     </>
   );
 }

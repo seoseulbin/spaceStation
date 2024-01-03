@@ -8,6 +8,8 @@ const colors = {
   textDisable: "#9e9e9e",
   background: "#FFFCF8",
   deepback: "#f9f1e9",
+  highlight: "#FFC469",
+  contextBorder: "#b4b4b4",
 };
 
 const size = {

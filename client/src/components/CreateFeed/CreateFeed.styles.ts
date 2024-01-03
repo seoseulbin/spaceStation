@@ -1,37 +1,39 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background-color: white;
   font-size: ${({ theme }) => theme.size.md}px;
-  max-width: calc(${({ theme }) => theme.size.maxWidth}px - 10px);
-  height: 100%;
+  max-width: ${({ theme }) => theme.size.maxWidth}px;
   margin: 0 auto;
-  border: 1px solid #e7e7e7;
+  border: 1px solid ${({ theme }) => theme.colors.background};
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const ImageContainer = styled.div`
   width: 350px;
-  height: 300px;
-  border: 1px solid #b4b4b4;
+  height: 350px;
+  border: 1px solid ${({ theme }) => theme.colors.contextBorder};
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
   margin-bottom: 15px;
   position: relative;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const FeedImage = styled.img`
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  object-position: center;
 `;
 
 export const FeedImageEmpty = styled.div`
   font-weight: 600;
-  color: #b4b4b4;
+  color: ${({ theme }) => theme.colors.textDisable};
 `;
 
 export const ImagePreveiwContainer = styled.form`
@@ -52,15 +54,14 @@ export const InputImageButton = styled.div`
   align-items: center;
   width: 50px;
   height: 50px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid ${({ theme }) => theme.colors.deepback};
   border-radius: 3px;
-  background-color: #f0f0f0;
   margin-right: 15px;
+  background-color: ${({ theme }) => theme.colors.deepback};
 `;
 
 export const ImagePreviewWrapper = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 80px;
   overflow: auto;
@@ -74,16 +75,32 @@ export const ImagePreviewList = styled.div`
 export const ImagePreview = styled.img`
   width: 75px;
   height: 75px;
+  object-fit: contain;
+  object-position: center;
 `;
 
 export const ImageDeleteButton = styled.button`
   position: absolute;
-  right: 0;
+  right: -4px;
+  top: -2px;
+  padding: 0;
   width: 20px;
+  height: 20px;
   appearance: none;
+  border-radius: 50%;
   border: none;
-  background-color: transparent;
+  background-color: ${({ theme }) => theme.colors.point};
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    color: #fff;
+  }
 `;
 
 export const TextareaContainer = styled.div`
@@ -100,7 +117,7 @@ export const Label = styled.label`
 export const Textarea = styled.textarea`
   width: 350px;
   height: 100px;
-  border: 1px solid #b4b4b4;
+  border: 1px solid ${({ theme }) => theme.colors.contextBorder};
 `;
 
 export const CategoryContainer = styled.div`
@@ -116,8 +133,13 @@ export const CategoryWrapper = styled.div`
   margin-top: 5px;
 `;
 
-export const CategoryItem = styled.div<{ $isActive: boolean }>`
-  background-color: ${(props) => (props.$isActive ? "#9c9c9c" : "#d9d9d9")};
+export const CategoryItem = styled.div<{
+  $isActive: boolean;
+  $fontColor: string;
+}>`
+  color: ${(props) => (props.$isActive ? "white" : "black")};
+  background-color: ${(props) =>
+    props.$isActive ? props.$fontColor : "#F9F1E9"};
   padding: 15px;
   text-align: center;
   border-radius: 5px;
@@ -126,4 +148,14 @@ export const CategoryItem = styled.div<{ $isActive: boolean }>`
   &:active {
     transform: scale(1.1);
   }
+`;
+
+export const MapContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-items: flex-start;
+  width: 350px;
+  padding-bottom: 20px;
+  gap: 8px;
 `;

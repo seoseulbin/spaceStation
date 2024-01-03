@@ -4,6 +4,7 @@ import { FollowType } from "./Follow.type";
 import followAPI from "./Follow.api";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+
 const localUserData = localStorage.getItem("currentUser");
 
 /**
@@ -25,7 +26,7 @@ export const useFollow = (userid: string) => {
 
   const invalidateFollowQuery = () => {
     queryClient.invalidateQueries({
-      queryKey: [queryKeys.follow],
+      queryKey: [queryKeys.follow, userid],
     });
   };
 
@@ -33,7 +34,9 @@ export const useFollow = (userid: string) => {
     mutationFn: followAPI.deleteFollow,
     onSuccess: invalidateFollowQuery,
     onError: (err) => {
-      toast.error(err instanceof AxiosError ? err.message : "unknown error");
+      toast.error(
+        err instanceof AxiosError ? err.response?.data.error : "unknown error",
+      );
     },
   }).mutateAsync;
 
@@ -41,7 +44,9 @@ export const useFollow = (userid: string) => {
     mutationFn: followAPI.postFollow,
     onSuccess: invalidateFollowQuery,
     onError: (err) => {
-      toast.error(err instanceof AxiosError ? err.message : "unknown error");
+      toast.error(
+        err instanceof AxiosError ? err.response?.data.error : "unknown error",
+      );
     },
   }).mutateAsync;
 

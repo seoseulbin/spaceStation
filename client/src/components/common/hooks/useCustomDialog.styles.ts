@@ -116,6 +116,7 @@ export const ActionSheetLayoutStyle = styled.div`
     max-width: ${({ theme }) => theme.size.maxWidth}px;
     font-size: ${({ theme }) => theme.size.lg}px;
     padding: ${({ theme }) => theme.size.md}px ${({ theme }) => theme.size.lg}px;
+    color: ${({ theme }) => theme.colors.textPrimary};
 
     &:hover {
       background-color: #f5f5f5;
@@ -151,12 +152,14 @@ export const ConfirmPopup = Modal.styled`
   transition : all 0.375s 0.025s cubic-bezier(0.67, 0.03, 0.29, 1.13);
   position: relative;
   border-radius: 8px;
+  overflow: auto;
 `;
 
 export const ConfirmPopupLayoutStyle = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-height: 90vh;
 
   & header {
     display: flex;
@@ -170,9 +173,17 @@ export const ConfirmPopupLayoutStyle = styled.div`
       font-weight: bold;
       flex-grow: 1;
       text-align: center;
+      word-wrap: break-word;
+      word-break: break-all;
+      padding: 0 0.5em;
+
+      & em {
+        color: ${({ theme }) => theme.colors.sub};
+        font-style: italic;
+      }
     }
   }
-  & div {
+  & > div {
     padding: 1em;
     display: flex;
     flex-direction: column;
@@ -182,6 +193,7 @@ export const ConfirmPopupLayoutStyle = styled.div`
       display: flex;
       flex-direction: column;
       gap: 8px;
+      width: 100%;
 
       & label {
         font-size: ${({ theme }) => theme.size.sm}px;
@@ -200,6 +212,15 @@ export const ConfirmPopupLayoutStyle = styled.div`
           border-color: ${({ theme }) => theme.colors.main};
         }
       }
+      .input-w-button {
+        display: flex;
+        gap: ${({ theme }) => theme.size.sm / 2}px;
+
+        & input {
+          flex: 1 0 0px;
+          width: 100%;
+        }
+      }
     }
   }
   & footer {
@@ -208,43 +229,51 @@ export const ConfirmPopupLayoutStyle = styled.div`
     align-items: center;
     justify-content: center;
     gap: 0.75em;
+    position: sticky;
+    bottom: 0;
+    background-color: #fff;
+  }
 
-    & button {
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      text-align: center;
-      font-size: ${({ theme }) => theme.size.md}px;
-      padding: ${({ theme }) => theme.size.rg}px
-        ${({ theme }) => theme.size.lg}px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      flex-shrink: 0;
+  & button {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    font-size: ${({ theme }) => theme.size.md}px;
+    padding: ${({ theme }) => theme.size.rg}px ${({ theme }) => theme.size.lg}px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+    line-height: 1;
+    color: ${({ theme }) => theme.colors.textPrimary};
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
+
+    &:hover {
+      filter: brightness(0.95);
+    }
+    &[name="NEUTRAL"] {
+      flex-shrink: 1;
+      color: ${({ theme }) => theme.colors.textPrimary};
+    }
+    &[name="SUBMIT"] {
+      background-color: ${({ theme }) => theme.colors.main};
+      color: #fff;
 
       &:hover {
-        filter: brightness(0.95);
+        filter: brightness(0.9);
       }
-      &[name="NEUTRAL"] {
-        flex-shrink: 1;
-        color: ${({ theme }) => theme.colors.textPrimary};
-      }
-      &[name="SUBMIT"] {
-        background-color: ${({ theme }) => theme.colors.main};
-        color: #fff;
+    }
+    &[name="ALERT"] {
+      background-color: red;
+      color: #fff;
 
-        &:hover {
-          filter: brightness(0.9);
-        }
-      }
-      &[name="ALERT"] {
-        background-color: red;
-        color: #fff;
-
-        &:hover {
-          filter: brightness(0.9);
-        }
+      &:hover {
+        filter: brightness(0.9);
       }
     }
   }

@@ -3,8 +3,8 @@ export type CreateFeedType = {
   imgUrls: {
     url: string;
     tagPosition: {
-      x: number;
-      y: number;
+      x: number | null;
+      y: number | null;
     }[];
     tagInfo: {
       name: string;
@@ -12,4 +12,12 @@ export type CreateFeedType = {
     }[];
   }[];
   content: string;
+  hashtag: string;
+  geoLocation: {
+    content: string;
+    position: {
+      lat: number;
+      lng: number;
+    };
+  };
 };

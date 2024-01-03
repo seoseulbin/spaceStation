@@ -9,6 +9,13 @@ import Header from "../Header/Header";
 import ApiBoundary from "../common/ApiBoundary";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
+import GeoLocation from "../common/GeoLocation/GeoLocation";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  geoLocationAtom,
+  geoLocationMarkerAtom,
+} from "@/Atoms/GeoLocationAtom";
+import { isModalOpenAtom } from "@/Atoms/isModalOpenAtom";
 
 export default function CreateFeed() {
   return (
@@ -22,21 +29,37 @@ function ApiComponent() {
   const { categorys } = useCategory();
   const { createFeed } = useCreateFeed();
 
+  const [imageFiles, setImageFiles] = useState<(File | undefined)[]>([]); //cloudinary 파일 변환을 위한 상태
   const [showImage, setShowImage] = useState<string>(""); //대표 이미지
   const [images, setImages] = useState<string[]>([]); // 피드 이미지 배열
   const [contents, setContents] = useState<string>(""); // 컨텐츠 내용
   const [category, setCategory] = useState<string>(""); // 선택된 카테고리 아이디
   const [activeCategory, setActiveCategory] = useState<string | null>(null); // 활성화된 카테고리 검증
+  const [hashtag, setHashtag] = useState<string>(""); // 해시태그
+
+  const [geoLocation, setGeoLocation] = useRecoilState(geoLocationAtom);
+  const setGeoLocationMarker = useSetRecoilState(geoLocationMarkerAtom);
+  const isModalOepn = useRecoilValue(isModalOpenAtom);
 
   const {
     setTarget,
     imgList,
+    setImgList,
     currentImage,
     setCurrentImage,
     addNewImage,
     addImageAnchor,
     updateTagInfo,
     getTagInfo,
+    startDragTag,
+    endDragTag,
+    isDragging,
+    setIsDragging,
+    getCurrentMousePos,
+    updateTagPosition,
+    draggingTag,
+    beforeTagPos,
+    deleteTag,
   } = useTagButtonHandler();
 
   // ImgTagButton 갱신을 위한 effect 훅
@@ -44,6 +67,43 @@ function ApiComponent() {
     setCurrentImage(imgList.find((item) => item.url === showImage));
   }, [imgList, setCurrentImage, showImage]);
 
+  // 최초 진입 시 초기화
+  useEffect(() => {
+    const initGeoLocation = {
+      content: "",
+      position: {
+        lat: 0,
+        lng: 0,
+      },
+    };
+
+    setGeoLocation(initGeoLocation);
+    setGeoLocationMarker(initGeoLocation);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function fontColorSet(category: string) {
+    switch (category) {
+      case "집":
+        return "#765E47";
+      case "카페":
+        return "#E0756A";
+      case "회사":
+        return "#81B2CC";
+      case "학원":
+        return "#ACCC71";
+      case "학교":
+        return "#FFC469";
+      case "회의실":
+        return "#FE87CE";
+      case "유치원":
+        return "#D089DB";
+      case "서점":
+        return "#6D8DFF";
+      default:
+        return "white";
+    }
+  }
   /**
    * cloudinary 이미지 저장 함수
    */
@@ -80,12 +140,12 @@ function ApiComponent() {
       if (!e.target.files?.[0]) {
         throw new Error("이미지 파일이 없습니다.");
       }
-      //TODO:추후 업로드 버튼을 눌렀을 시 cloudinary에 이미지가 저장되도록 변경 예정
-      const uploaded = await imageUploader(e.target.files[0]);
+      const fileUrl = URL.createObjectURL(e.target.files[0]);
 
-      setImages((arr) => [...arr, uploaded.url]);
-      setShowImage(uploaded.url);
-      addNewImage(uploaded.url); // useTagButtonHandler에 image 추가
+      setImageFiles((arr) => [...arr, e.target.files?.[0]]); // cloudinary 파일 변환을 위한 상태
+      setImages((arr) => [...arr, fileUrl]);
+      setShowImage(fileUrl);
+      addNewImage(fileUrl); // useTagButtonHandler에 image 추가
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
       else console.log(String(error));
@@ -97,17 +157,47 @@ function ApiComponent() {
    */
   const onClickPreviewDeleteBtn = async (
     e: React.MouseEvent<HTMLButtonElement>,
+    index: number,
   ) => {
     e.preventDefault();
-    const previousSibling = e.currentTarget.previousSibling;
 
-    //if문은 타입 확인 && 값이 존재하는 지
-    if (previousSibling && previousSibling instanceof HTMLImageElement) {
-      const imageUrl = previousSibling.getAttribute("src");
-      //TODO: cloudinary 이미지 삭제
-      setShowImage("");
-      setImages((images) => images.filter((image) => image !== imageUrl));
-    }
+    setShowImage("");
+    setImageFiles((images) => {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      return newImages;
+    });
+    setImages((images) => {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      return newImages;
+    });
+    setImgList((images) => {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      return newImages;
+    });
+  };
+
+  const onClickUploadFeedBtn = async () => {
+    const list = await Promise.all(
+      //cloudinary url 받아오기
+      imageFiles.map(async (image) => {
+        if (image) {
+          const uploaded = await imageUploader(image);
+          return uploaded.url;
+        }
+      }),
+    );
+
+    const result = imgList.map((image, idx) => ({ ...image, url: list[idx] })); // createObjectURL을 cloudinary url로 변경
+    await createFeed({
+      category: category,
+      content: contents,
+      imgUrls: result,
+      hashtag: hashtag,
+      geoLocation: geoLocation,
+    });
   };
 
   return (
@@ -117,42 +207,86 @@ function ApiComponent() {
         headerTitle="게시글 업로드"
         isFunctionAcitve={true}
         functionIconType={"upload"}
-        onClickFunction={async () => {
-          console.log(imgList);
-          await createFeed({
-            category: category,
-            content: contents,
-            imgUrls: imgList, // 중요 : imgList 로 변경됨
-          });
+        onClickFunction={() => {
+          onClickUploadFeedBtn();
         }}
       />
-      <S.Container>
+      <S.Container
+        onMouseMove={(event: React.MouseEvent) => {
+          event.preventDefault();
+
+          if (
+            beforeTagPos.x !== null &&
+            beforeTagPos !== getCurrentMousePos(event)
+          ) {
+            setIsDragging(true);
+          }
+
+          if (isDragging) {
+            const currentPosition = getCurrentMousePos(event);
+            if (currentPosition && draggingTag != null) {
+              updateTagPosition(showImage, draggingTag, currentPosition);
+            }
+          }
+        }}
+        onMouseUp={() => {
+          endDragTag();
+        }}
+        onTouchMove={(event: React.TouchEvent) => {
+          const target = event.target as HTMLElement;
+          const className = target.getAttribute("class");
+
+          if (beforeTagPos !== getCurrentMousePos(event)) {
+            setIsDragging(true);
+          }
+
+          if (
+            isDragging &&
+            className &&
+            (className.includes("imageTag") || className.includes("plus"))
+          ) {
+            document.body.style.overflow = "hidden";
+            const currentPosition = getCurrentMousePos(event);
+            if (currentPosition && draggingTag != null) {
+              updateTagPosition(showImage, draggingTag, currentPosition);
+            }
+          }
+        }}
+        onTouchEnd={() => {
+          endDragTag();
+          document.body.style.overflow = "";
+        }}
+      >
         <S.ImageContainer
           ref={setTarget}
-          onClick={(event: React.MouseEvent) =>
-            addImageAnchor(showImage, event)
-          }
+          onMouseUp={(event: React.MouseEvent) => {
+            if (!isDragging && beforeTagPos.x == null && !isModalOepn) {
+              addImageAnchor(showImage, event);
+            }
+          }}
         >
-          {showImage != "" ? (
+          {showImage !== "" ? (
             <S.FeedImage src={showImage} alt="피드 이미지" />
           ) : (
             <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
           )}
-          <div
-            onClick={(e: React.MouseEvent) => {
-              e.stopPropagation();
-            }}
-          >
-            {currentImage &&
+          <div>
+            {currentImage?.tagPosition &&
+              currentImage.tagPosition.length !== 0 &&
               currentImage.tagPosition.map((item, index) => (
                 <ImageAnchorButton
+                  onMouseDown={startDragTag}
+                  onTouchStart={startDragTag}
                   key={index}
                   index={String(index)}
-                  x={item.x}
-                  y={item.y}
+                  x={item.x !== null ? item.x : 0}
+                  y={item.y !== null ? item.y : 0}
                   onSuccess={updateTagInfo}
                   currentImage={currentImage.url}
                   getTagInfo={getTagInfo}
+                  draggingTag={draggingTag}
+                  isDragging={isDragging}
+                  onDelete={deleteTag}
                 />
               ))}
           </div>
@@ -179,8 +313,10 @@ function ApiComponent() {
                       setShowImage(e.currentTarget.src);
                     }}
                   />
-                  <S.ImageDeleteButton onClick={onClickPreviewDeleteBtn}>
-                    <GoX color="gray" size="14" />
+                  <S.ImageDeleteButton
+                    onClick={(e) => onClickPreviewDeleteBtn(e, index)}
+                  >
+                    <GoX color="white" size="16" strokeWidth="2" />
                   </S.ImageDeleteButton>
                 </S.ImagePreviewList>
               );
@@ -204,6 +340,7 @@ function ApiComponent() {
                 <S.CategoryItem
                   key={item._id}
                   $isActive={item._id === activeCategory ? true : false}
+                  $fontColor={fontColorSet(item.category)}
                   onClick={() => {
                     setActiveCategory((prev) =>
                       prev === item._id ? null : item._id,
@@ -217,6 +354,19 @@ function ApiComponent() {
             })}
           </S.CategoryWrapper>
         </S.CategoryContainer>
+        <S.TextareaContainer>
+          <S.Label htmlFor="feedHashtag">#해시태그</S.Label>
+          <S.Textarea
+            id="feedHashtag"
+            onChange={(e) => {
+              setHashtag(e.target.value);
+            }}
+            placeholder="'#' 태그를 꼭 붙여주세요 ⸜( ˙ ˘ ˙)⸝♡"
+          ></S.Textarea>
+        </S.TextareaContainer>
+        <S.MapContainer>
+          <GeoLocation />
+        </S.MapContainer>
       </S.Container>
     </>
   );

@@ -15,6 +15,19 @@ const userAPI = {
       withCredentials: true,
     });
   },
+
+  async getSearchUsers(props: {
+    query: string;
+    cursor: number;
+    limit: number;
+  }) {
+    const { query, cursor, limit } = props;
+    const { data } = await axiosInstance.get<UserType[]>(
+      `/users/search/${query}?cursor=${cursor}&limit=${limit}`,
+    );
+
+    return { data, nextCursor: cursor + limit };
+  },
 };
 
 export default userAPI;

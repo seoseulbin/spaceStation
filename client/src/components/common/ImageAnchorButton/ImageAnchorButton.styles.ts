@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 
 type CustomDivProps = {
@@ -12,36 +12,40 @@ type CustomDivElement = Omit<
 > &
   CustomDivProps;
 
-const scaleAnimation = keyframes`
-  0% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-  50% {
-    -webkit-transform: scale(0.85);
-    transform: scale(0.85);
-  }
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-`;
-
 export const AnchorButton = styled.div<CustomDivElement>`
   position: absolute;
   left: ${(props) => props.x}%;
   top: ${(props) => props.y}%;
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
   margin-top: -8px;
   margin-left: -8px;
-  background-color: ${({ theme }) => theme.colors.main};
-  opacity: 0.9;
+  background-color: #bf5789;
   border-radius: 20px;
   cursor: pointer;
+  padding: 2px;
+
+  -webkit-transition: transform 0.2s ease-out;
+  transition: transform 0.2s ease-out;
+
+  &[data-dragging="DRAGGING"] {
+    -webkit-transform: scale(3);
+    transform: scale(3);
+    z-index: 11;
+  }
 
   &[data-disabled="disabled"] {
     visibility: hidden;
+  }
+
+  .plus {
+    position: relative;
+    right: 0px;
+    bottom: 3px;
+    pointer-events: none;
+    & line {
+      pointer-events: none;
+    }
   }
 
   &:before {
@@ -49,14 +53,56 @@ export const AnchorButton = styled.div<CustomDivElement>`
     display: block;
     width: 48px;
     height: 48px;
-    background-color: ${({ theme }) => theme.colors.main};
+    background-color: transparent;
     opacity: 0.3;
     border-radius: 40px;
     top: -16px;
     left: -16px;
-    /* transform: translate(-10px, -10px);*/
-    -webkit-animation: ${scaleAnimation} 1.75s ease-in-out infinite;
-    animation: ${scaleAnimation} 1.75s ease-in-out infinite;
     position: absolute;
+  }
+`;
+
+export const PreveiwInfo = styled.div<{
+  x: number;
+  y: number;
+  length: number;
+  "data-active": boolean;
+}>`
+  position: relative;
+  right: ${(props) => props.x}px;
+  bottom: ${(props) => (props.y > 85 ? 50 : -6)}px;
+  width: ${(props) => (props.length * 15 <= 100 ? 100 : props.length * 15)}px;
+  padding: 5px;
+  padding-top: 2px;
+
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #bf5789;
+  color: white;
+  z-index: 30;
+
+  pointer-events: ${(props) =>
+    props["data-active"] === true ? "auto" : "none"};
+  opacity: ${(props) => (props["data-active"] === true ? 1 : 0)};
+
+  -webkit-transform: scale(
+    ${(props) => (props["data-active"] === true ? 1 : 0.35)}
+  );
+  transform: scale(${(props) => (props["data-active"] === true ? 1 : 0.35)});
+
+  -webkit-transition: all 0.325s cubic-bezier(0.05, 0.92, 0.37, 1.12);
+  transition: all 0.325s cubic-bezier(0.05, 0.92, 0.37, 1.12);
+
+  transform-origin: ${(props) => 2 + props.x}px
+    ${(props) => (props.y > 85 ? 22 : 0)}px;
+
+  .triangle {
+    color: #bf5789;
+    position: absolute;
+    bottom: ${(props) => (props.y > 85 ? -5 : 20)}px;
+    transform: ${(props) => (props.y > 85 ? "scaleY(-1)" : "scaleY(1)")};
+    left: ${(props) => 2 + props.x}px;
   }
 `;

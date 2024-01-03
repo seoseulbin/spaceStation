@@ -9,9 +9,8 @@ export const Container = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-
-  box-shadow: 0 2px 3px 1px gray;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.background};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.deepback};
   position: sticky;
   top: 0;
   z-index: 29;
@@ -37,6 +36,13 @@ export const HeaderTitleDiv = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 20px;
+  font-weight: 600;
+
+  & img:first-child {
+    margin-right: 5px;
+    width: 32px;
+    margin: 0px 8px 2px 0px;
+  }
 `;
 
 export const ContainerRightDiv = styled.div`

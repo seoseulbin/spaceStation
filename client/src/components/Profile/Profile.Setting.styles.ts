@@ -6,8 +6,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
 
   & > div:nth-child(1) {
     padding: 12px;
@@ -18,17 +18,21 @@ export const ListItem = styled.div`
   height: auto;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #dedede;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  padding: ${({ theme }) => theme.size.sm / 2}px 0;
 
   & > svg {
     position: absolute;
     pointer-events: none;
-    left: 1em;
+    left: 1.5em;
   }
 
   & > a {
     width: 100%;
     max-width: 100%;
+    text-align: left;
+    padding-left: 3.5em;
   }
 
   &.withdraw * {

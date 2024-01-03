@@ -23,6 +23,8 @@ function ApiComponent({ userId }: { userId: string }) {
   const [followState, setIsFollowState] = useState(false);
   const localUserData = localStorage.getItem("currentUser");
   const navigate = useNavigate();
+  const isCurrentUser =
+    localUserData && JSON.parse(localUserData).userId === userId;
 
   const { follows } = useFollow(userId);
   const { user } = useUser(userId);
@@ -54,19 +56,18 @@ function ApiComponent({ userId }: { userId: string }) {
             <FollowModal
               followList={followState ? follows?.follower : follows?.following}
               followState={followState}
+              onClickCallback={() => toggleDialog()}
             />
           </BasicModalLayout>
         }
-      ></M.BasicModal>
+      />
 
       <Header
         backArrow={true}
-        headerTitle={user.nickname}
-        isFunctionAcitve={
-          localUserData && JSON.parse(localUserData).userId === userId
-            ? true
-            : false
+        headerTitle={
+          isCurrentUser ? JSON.parse(localUserData).nickname : user.nickname
         }
+        isFunctionAcitve={isCurrentUser ? true : false}
         functionIconType={"setting"}
         onClickFunction={handleHeaderNavigate}
       />

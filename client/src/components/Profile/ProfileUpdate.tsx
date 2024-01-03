@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ApiBoundary from "../common/ApiBoundary";
 import Header from "../Header/Header";
+import { storage } from "@/global/storage";
 
 type Props = {
   userInfo: { userId: string; nickname: string };
@@ -89,22 +90,22 @@ function ApiComponent({ userInfo: { userId, nickname } }: Props) {
 
       const updateData: UpdateProfileData = {
         nickname: newNickname,
-        profileImgUrl: uploadedUrl
-          ? uploadedUrl
-          : "/profile_default_image.jpeg",
+        profileImgUrl: uploadedUrl ? uploadedUrl : "/default1.png",
       };
-
+      storage.set("currentUser", { userId, nickname: newNickname });
       // 프로필 업데이트 요청
-      await putUser(updateData);
+      if (newNickname != "") {
+        await putUser(updateData);
+        storage.set("currentUser", { userId, nickname: newNickname });
 
-      // 성공적으로 업데이트되면 다시 사용자 정보를 가져오기
-      toast.success("프로필 업데이트 성공");
-
-      setTimeout(() => {
-        navigate("/profile");
-      }, 400);
+        // 성공적으로 업데이트되면 다시 사용자 정보를 가져오기
+        toast.success("프로필 업데이트 성공");
+        setTimeout(() => {
+          navigate("/profile");
+        }, 400);
+      } else toast.error("닉네임을 입력해주세요");
     } catch (error) {
-      console.error("Error updating profile:", error);
+      throw new Error(`Error updating profile: ${error}`);
     }
   };
 
@@ -133,6 +134,7 @@ function ApiComponent({ userInfo: { userId, nickname } }: Props) {
         />
         <S.UpdateInput
           value={newNickname}
+          maxLength={12}
           onChange={handleNicknameChange}
           placeholder="닉네임을 입력하세요"
         />

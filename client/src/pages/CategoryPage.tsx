@@ -1,14 +1,16 @@
-import CategoryFeed from "@/components/Feed/CategoryFeed";
-import Navbar from "@/components/Navbar/Navbar";
+import Category from "@/components/Feed/Category/Category";
+import CategoryFeed from "@/components/Feed/CategoryFeeds/CategoryFeedOverview";
+import MainHeader from "@/components/Header/MainHeader";
 import { useParams } from "react-router-dom";
 
 export default function CategoryPage() {
-  const params = useParams();
+  const { categoryId } = useParams();
 
   return (
     <>
-      {params.id && <CategoryFeed category={params.id} />}
-      <Navbar />
+      <MainHeader />
+      <Category categoryId={categoryId!} />
+      <CategoryFeed categoryId={categoryId!} />
     </>
   );
 }
