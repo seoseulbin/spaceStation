@@ -10,11 +10,12 @@ import ApiBoundary from "../common/ApiBoundary";
 import { useTagButtonHandler } from "../common/hooks/useTagButtonHandler";
 import ImageAnchorButton from "../common/ImageAnchorButton/ImageAnchorButton";
 import GeoLocation from "../common/GeoLocation/GeoLocation";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   geoLocationAtom,
   geoLocationMarkerAtom,
-} from "../Atoms/GeoLocationAtom";
+} from "@/Atoms/GeoLocationAtom";
+import { isModalOpenAtom } from "@/Atoms/isModalOpenAtom";
 
 export default function CreateFeed() {
   return (
@@ -38,6 +39,7 @@ function ApiComponent() {
 
   const [geoLocation, setGeoLocation] = useRecoilState(geoLocationAtom);
   const setGeoLocationMarker = useSetRecoilState(geoLocationMarkerAtom);
+  const isModalOepn = useRecoilValue(isModalOpenAtom);
 
   const {
     setTarget,
@@ -49,6 +51,15 @@ function ApiComponent() {
     addImageAnchor,
     updateTagInfo,
     getTagInfo,
+    startDragTag,
+    endDragTag,
+    isDragging,
+    setIsDragging,
+    getCurrentMousePos,
+    updateTagPosition,
+    draggingTag,
+    beforeTagPos,
+    deleteTag,
   } = useTagButtonHandler();
 
   // ImgTagButton 갱신을 위한 effect 훅
@@ -190,33 +201,82 @@ function ApiComponent() {
           onClickUploadFeedBtn();
         }}
       />
-      <S.Container>
+      <S.Container
+        onMouseMove={(event: React.MouseEvent) => {
+          event.preventDefault();
+
+          if (
+            beforeTagPos.x !== null &&
+            beforeTagPos !== getCurrentMousePos(event)
+          ) {
+            setIsDragging(true);
+          }
+
+          if (isDragging) {
+            const currentPosition = getCurrentMousePos(event);
+            if (currentPosition && draggingTag != null) {
+              updateTagPosition(showImage, draggingTag, currentPosition);
+            }
+          }
+        }}
+        onMouseUp={() => {
+          endDragTag();
+        }}
+        onTouchMove={(event: React.TouchEvent) => {
+          const target = event.target as HTMLElement;
+          const className = target.getAttribute("class");
+
+          if (beforeTagPos !== getCurrentMousePos(event)) {
+            setIsDragging(true);
+          }
+
+          if (
+            isDragging &&
+            className &&
+            (className.includes("imageTag") || className.includes("plus"))
+          ) {
+            document.body.style.overflow = "hidden";
+            const currentPosition = getCurrentMousePos(event);
+            if (currentPosition && draggingTag != null) {
+              updateTagPosition(showImage, draggingTag, currentPosition);
+            }
+          }
+        }}
+        onTouchEnd={() => {
+          endDragTag();
+          document.body.style.overflow = "";
+        }}
+      >
         <S.ImageContainer
           ref={setTarget}
-          onClick={(event: React.MouseEvent) =>
-            addImageAnchor(showImage, event)
-          }
+          onMouseUp={(event: React.MouseEvent) => {
+            if (!isDragging && beforeTagPos.x == null && !isModalOepn) {
+              addImageAnchor(showImage, event);
+            }
+          }}
         >
           {showImage !== "" ? (
             <S.FeedImage src={showImage} alt="피드 이미지" />
           ) : (
             <S.FeedImageEmpty>사진을 넣어주세요</S.FeedImageEmpty>
           )}
-          <div
-            onClick={(e: React.MouseEvent) => {
-              e.stopPropagation();
-            }}
-          >
-            {currentImage &&
+          <div>
+            {currentImage?.tagPosition &&
+              currentImage.tagPosition.length !== 0 &&
               currentImage.tagPosition.map((item, index) => (
                 <ImageAnchorButton
+                  onMouseDown={startDragTag}
+                  onTouchStart={startDragTag}
                   key={index}
                   index={String(index)}
-                  x={item.x}
-                  y={item.y}
+                  x={item.x !== null ? item.x : 0}
+                  y={item.y !== null ? item.y : 0}
                   onSuccess={updateTagInfo}
                   currentImage={currentImage.url}
                   getTagInfo={getTagInfo}
+                  draggingTag={draggingTag}
+                  isDragging={isDragging}
+                  onDelete={deleteTag}
                 />
               ))}
           </div>

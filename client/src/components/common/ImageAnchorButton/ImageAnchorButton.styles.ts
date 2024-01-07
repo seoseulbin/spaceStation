@@ -25,6 +25,15 @@ export const AnchorButton = styled.div<CustomDivElement>`
   cursor: pointer;
   padding: 2px;
 
+  -webkit-transition: transform 0.2s ease-out;
+  transition: transform 0.2s ease-out;
+
+  &[data-dragging="DRAGGING"] {
+    -webkit-transform: scale(3);
+    transform: scale(3);
+    z-index: 11;
+  }
+
   &[data-disabled="disabled"] {
     visibility: hidden;
   }
@@ -33,6 +42,10 @@ export const AnchorButton = styled.div<CustomDivElement>`
     position: relative;
     right: 0px;
     bottom: 3px;
+    pointer-events: none;
+    & line {
+      pointer-events: none;
+    }
   }
 
   &:before {
@@ -53,7 +66,7 @@ export const PreveiwInfo = styled.div<{
   x: number;
   y: number;
   length: number;
-  isactive: boolean;
+  "data-active": boolean;
 }>`
   position: relative;
   right: ${(props) => props.x}px;
@@ -70,11 +83,14 @@ export const PreveiwInfo = styled.div<{
   color: white;
   z-index: 30;
 
-  pointer-events: ${(props) => (props.isactive === true ? "auto" : "none")};
-  opacity: ${(props) => (props.isactive === true ? 1 : 0)};
+  pointer-events: ${(props) =>
+    props["data-active"] === true ? "auto" : "none"};
+  opacity: ${(props) => (props["data-active"] === true ? 1 : 0)};
 
-  -webkit-transform: scale(${(props) => (props.isactive === true ? 1 : 0.35)});
-  transform: scale(${(props) => (props.isactive === true ? 1 : 0.35)});
+  -webkit-transform: scale(
+    ${(props) => (props["data-active"] === true ? 1 : 0.35)}
+  );
+  transform: scale(${(props) => (props["data-active"] === true ? 1 : 0.35)});
 
   -webkit-transition: all 0.325s cubic-bezier(0.05, 0.92, 0.37, 1.12);
   transition: all 0.325s cubic-bezier(0.05, 0.92, 0.37, 1.12);

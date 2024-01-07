@@ -1,7 +1,7 @@
 import {
   geoLocationAtom,
   geoLocationMarkerAtom,
-} from "@/components/Atoms/GeoLocationAtom";
+} from "@/Atoms/GeoLocationAtom";
 import { storage, storageKeys } from "@/global/storage";
 import { GeoLocationType } from "@/global/types/GeoLocation";
 import { useEffect, useRef, useState } from "react";

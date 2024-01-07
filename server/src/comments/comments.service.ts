@@ -46,6 +46,10 @@ const commentService = {
     // 지우는 대상을 찾아내서
     const deletedComment = await CommentModel.findById(commentId).lean();
 
+    const ReplyComment = await CommentModel.find({
+      parentCommentId: deletedComment?._id,
+    }).lean();
+
     //존재를 하고, parentCommentId가 null이면 = 최상단이면
     if (deletedComment && deletedComment.parentCommentId === null) {
       // 댓글들의 parentCommentId 중에서 deletedComment의 댓글이랑 같으면 댓글 지우고
@@ -53,7 +57,7 @@ const commentService = {
 
       // // 그 댓글 안에 있는 좋아요까지 지우기
       await CommentLikeModel.deleteMany({
-        parentCommentId: deletedComment._id,
+        commentId: ReplyComment,
       });
     }
 

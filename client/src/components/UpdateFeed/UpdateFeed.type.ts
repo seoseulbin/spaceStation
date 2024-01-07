@@ -4,8 +4,8 @@ export type UpdateFeedType = {
   imgUrls: Array<{
     url: string;
     tagPosition: Array<{
-      x: number;
-      y: number;
+      x: number | null;
+      y: number | null;
     }>;
     tagInfo: Array<{
       name: string;
