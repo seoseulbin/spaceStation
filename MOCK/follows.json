@@ -1,0 +1,415 @@
+[{
+  "_id": {
+    "$oid": "658e76e6ccefa411104f3071"
+  },
+  "following": {
+    "$oid": "658e76a2ccefa411104f2fe8"
+  },
+  "follower": {
+    "$oid": "658e76d0ccefa411104f303d"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e76eaccefa411104f308c"
+  },
+  "following": {
+    "$oid": "658e76a2ccefa411104f2fe8"
+  },
+  "follower": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e76ebccefa411104f3092"
+  },
+  "following": {
+    "$oid": "658e76d0ccefa411104f303d"
+  },
+  "follower": {
+    "$oid": "658e76a2ccefa411104f2fe8"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e76f2ccefa411104f30c1"
+  },
+  "following": {
+    "$oid": "658e76d0ccefa411104f303d"
+  },
+  "follower": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e76f5ccefa411104f30d5"
+  },
+  "following": {
+    "$oid": "658e76a2ccefa411104f2fe8"
+  },
+  "follower": {
+    "$oid": "658e76e5ccefa411104f3068"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e7716ccefa411104f3144"
+  },
+  "following": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "follower": {
+    "$oid": "658e76a2ccefa411104f2fe8"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e7719ccefa411104f3156"
+  },
+  "following": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "follower": {
+    "$oid": "658e76d0ccefa411104f303d"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e7738ccefa411104f31af"
+  },
+  "following": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "follower": {
+    "$oid": "658e76e5ccefa411104f3068"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e78e3ccefa411104f35a5"
+  },
+  "following": {
+    "$oid": "658e76d0ccefa411104f303d"
+  },
+  "follower": {
+    "$oid": "658e76e5ccefa411104f3068"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e8bb9ccefa411104f5362"
+  },
+  "following": {
+    "$oid": "658e76e5ccefa411104f3068"
+  },
+  "follower": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "deletedAt": {
+    "$date": "2024-01-06T16:11:26.618Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e8bc1ccefa411104f537d"
+  },
+  "following": {
+    "$oid": "658e76e5ccefa411104f3068"
+  },
+  "follower": {
+    "$oid": "658e76d0ccefa411104f303d"
+  },
+  "deletedAt": {
+    "$date": "2023-12-29T16:15:41.985Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e8de6ccefa411104f5e60"
+  },
+  "following": {
+    "$oid": "658e8c7fccefa411104f5614"
+  },
+  "follower": {
+    "$oid": "658e76d0ccefa411104f303d"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e8de7ccefa411104f5e6c"
+  },
+  "following": {
+    "$oid": "658e8c7fccefa411104f5614"
+  },
+  "follower": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e8e00ccefa411104f5ed8"
+  },
+  "following": {
+    "$oid": "658e76d0ccefa411104f303d"
+  },
+  "follower": {
+    "$oid": "658e8c7fccefa411104f5614"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e8f782fdfb0e1ea3f547d"
+  },
+  "following": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "follower": {
+    "$oid": "658e8c7fccefa411104f5614"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e90242fdfb0e1ea3f5942"
+  },
+  "following": {
+    "$oid": "658e76e5ccefa411104f3068"
+  },
+  "follower": {
+    "$oid": "658e8c7fccefa411104f5614"
+  },
+  "deletedAt": {
+    "$date": "2024-01-06T16:25:34.792Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658eb6ec109411649b7e52cd"
+  },
+  "following": {
+    "$oid": "658eb5f6109411649b7e51b2"
+  },
+  "follower": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658eccd6109411649b7e5f6a"
+  },
+  "following": {
+    "$oid": "658e76a2ccefa411104f2fe8"
+  },
+  "follower": {
+    "$oid": "658ec25f109411649b7e5820"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658ece0d109411649b7e6232"
+  },
+  "following": {
+    "$oid": "658e76d0ccefa411104f303d"
+  },
+  "follower": {
+    "$oid": "658ec25f109411649b7e5820"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658ed7eb109411649b7e6f0f"
+  },
+  "following": {
+    "$oid": "658e76a2ccefa411104f2fe8"
+  },
+  "follower": {
+    "$oid": "658e8c7fccefa411104f5614"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658ed9c3109411649b7e732c"
+  },
+  "following": {
+    "$oid": "658e76e5ccefa411104f3068"
+  },
+  "follower": {
+    "$oid": "658ec25f109411649b7e5820"
+  },
+  "deletedAt": {
+    "$date": "2023-12-29T16:15:16.641Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658eda06109411649b7e73c1"
+  },
+  "following": {
+    "$oid": "658e76e5ccefa411104f3068"
+  },
+  "follower": {
+    "$oid": "658e76a2ccefa411104f2fe8"
+  },
+  "deletedAt": {
+    "$date": "2023-12-30T05:48:28.943Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658edc37109411649b7e7a21"
+  },
+  "following": {
+    "$oid": "658edc35109411649b7e7a07"
+  },
+  "follower": {
+    "$oid": "658e76e5ccefa411104f3068"
+  },
+  "deletedAt": {
+    "$date": "2023-12-29T14:52:28.798Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658f2e0e109411649b7e9f47"
+  },
+  "following": {
+    "$oid": "658f2df4109411649b7e9ee3"
+  },
+  "follower": {
+    "$oid": "658e76d0ccefa411104f303d"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658f919c5058097fdec01591"
+  },
+  "following": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "follower": {
+    "$oid": "658ec25f109411649b7e5820"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658f91b35058097fdec015bc"
+  },
+  "following": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "follower": {
+    "$oid": "658eb5f6109411649b7e51b2"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658fb51b5058097fdec02137"
+  },
+  "following": {
+    "$oid": "658e76d0ccefa411104f303d"
+  },
+  "follower": {
+    "$oid": "658e8c8b0f7a566fb2523921"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658fb52f5058097fdec021c1"
+  },
+  "following": {
+    "$oid": "658e76a2ccefa411104f2fe8"
+  },
+  "follower": {
+    "$oid": "658e8c8b0f7a566fb2523921"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658fb5485058097fdec022cc"
+  },
+  "following": {
+    "$oid": "658e8c7fccefa411104f5614"
+  },
+  "follower": {
+    "$oid": "658e8c8b0f7a566fb2523921"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658fc8ce5058097fdec03f70"
+  },
+  "following": {
+    "$oid": "658fc6ba5058097fdec03709"
+  },
+  "follower": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65952aca5058097fdec08e52"
+  },
+  "following": {
+    "$oid": "659527a85058097fdec08bcb"
+  },
+  "follower": {
+    "$oid": "658e8c8b0f7a566fb2523921"
+  },
+  "deletedAt": null,
+  "__v": 0
+}]

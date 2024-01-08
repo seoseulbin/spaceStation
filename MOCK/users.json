@@ -1,0 +1,162 @@
+[{
+  "_id": {
+    "$oid": "658e76a2ccefa411104f2fe8"
+  },
+  "nickname": "쏘쏘",
+  "snsId": "3228134055",
+  "profileImgUrl": "http://res.cloudinary.com/dkhie260t/image/upload/v1703905466/e6gigo2apyqdwtiyu4fz.jpg",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e76afccefa411104f3003"
+  },
+  "nickname": "포뇨",
+  "snsId": "3233419423",
+  "profileImgUrl": "http://res.cloudinary.com/dkhie260t/image/upload/v1703836036/ml5twzoukxuxyb3lxkba.jpg",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e76d0ccefa411104f303d"
+  },
+  "nickname": "멋진명준",
+  "snsId": "3221581180",
+  "profileImgUrl": "/default1.png",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e76e5ccefa411104f3068"
+  },
+  "nickname": "제이팍",
+  "snsId": "3233430669",
+  "profileImgUrl": "http://res.cloudinary.com/dkhie260t/image/upload/v1703915088/csi1iwzuqhko0smbaxqj.jpg",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e8c7fccefa411104f5614"
+  },
+  "nickname": "모코코",
+  "snsId": "3231614206",
+  "profileImgUrl": "http://res.cloudinary.com/dkhie260t/image/upload/v1703841108/idsjs75hsrbnybhzjdbe.jpg",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e8c8b0f7a566fb2523921"
+  },
+  "nickname": "열정적인도르마무",
+  "snsId": "3228425593",
+  "profileImgUrl": "/default1.png",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658e941d109411649b7e4efa"
+  },
+  "nickname": "빙빙도는현지",
+  "snsId": "3245804752",
+  "profileImgUrl": "/default1.png",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658eb5f6109411649b7e51b2"
+  },
+  "nickname": "신비로운호랑이",
+  "snsId": "3246979023",
+  "profileImgUrl": "/default1.png",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658ec25f109411649b7e5820"
+  },
+  "nickname": "멋진사람",
+  "snsId": "3247051093",
+  "profileImgUrl": "http://res.cloudinary.com/dkhie260t/image/upload/v1703854765/svws0laoy7f0zbpkvafi.png",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658edc35109411649b7e7a07"
+  },
+  "nickname": "재빠른명준",
+  "snsId": "3247187160",
+  "profileImgUrl": "/default1.png",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658f2df4109411649b7e9ee3"
+  },
+  "nickname": "안쓰러운명준",
+  "snsId": "3247344868",
+  "profileImgUrl": "/default1.png",
+  "deletedAt": {
+    "$date": "2023-12-29T20:38:21.021Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658f524e109411649b7ea14b"
+  },
+  "nickname": "호랑호랑이",
+  "snsId": "3245805643",
+  "profileImgUrl": "http://res.cloudinary.com/dkhie260t/image/upload/v1703891607/tbvdgw1vday40ixml2oe.jpg",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658fc6ba5058097fdec03709"
+  },
+  "nickname": "신비로운현지",
+  "snsId": "3248017928",
+  "profileImgUrl": "/default1.png",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "658fc7985058097fdec03a48"
+  },
+  "nickname": "재빠른도르마무",
+  "snsId": "3248023462",
+  "profileImgUrl": "http://res.cloudinary.com/dkhie260t/image/upload/v1703921597/tywgfbx4irrvqctxjnf9.jpg",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6590d06e5058097fdec0609c"
+  },
+  "nickname": "빛나는사자",
+  "snsId": "3249002407",
+  "profileImgUrl": "/default2.png",
+  "deletedAt": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "659527a85058097fdec08bcb"
+  },
+  "nickname": "안쓰러운고양이",
+  "snsId": "3255021535",
+  "profileImgUrl": "http://res.cloudinary.com/dkhie260t/image/upload/v1704274625/po0l2m4wzzgssmzfsnfq.png",
+  "deletedAt": null,
+  "__v": 0
+}]
