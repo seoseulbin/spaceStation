@@ -14,3 +14,17 @@
 | Remove | 코드(파일) 의 삭제가 있을 때. "Clean", "Eliminate" 를 사용하기도 함| 
 
 https://velog.io/@msung99/Git-Commit-Message-Convension
+
+# Member
+* 오강산
+* 김지훈
+* 고명준
+* 서슬빈
+* 정현지
+* 홍소현
+
+# stack
+* everyone full stack
+
+# distribute site
+* http://kdt-sw-7-team03.elicecoding.com/
