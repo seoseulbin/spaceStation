@@ -23,7 +23,7 @@ https://velog.io/@msung99/Git-Commit-Message-Convension
 * 정현지
 * 홍소현
 
-# stack
+# role
 * everyone full stack
 
 # distribute site
